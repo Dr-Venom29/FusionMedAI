@@ -12,6 +12,7 @@ The APTOS 2019 dataset was released by the Asia Pacific Tele-Ophthalmology Socie
 A sample fundus photograph from the training partition is shown below:
 
 ![Sample Fundus Image](images/sample_fundus_image.png)
+
 *Figure 3.1: Resized sample retinal fundus photograph showing circular eye structure and vascular pathways.*
 
 ### 2. Dataset Characteristics
@@ -37,6 +38,7 @@ Each image in the training set is annotated by medical experts with a single int
 The highly imbalanced distribution of severity classes is visually represented below:
 
 ![Class Distribution Chart](images/class_distribution.png)
+
 Figure 3.2. Distribution of diabetic retinopathy severity classes in the APTOS 2019 dataset. The dataset exhibits substantial class imbalance, with No DR accounting for nearly half of all training samples, whereas Severe NPDR represents the smallest category.
 
 The observed imbalance indicates that standard training may bias the model toward majority classes. Consequently, class weighting and data augmentation strategies will be investigated in later stages of the study.
