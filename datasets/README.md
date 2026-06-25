@@ -1,310 +1,151 @@
-# FusionMedAI Dataset Verification
+# FusionMedAI Datasets
 
-## Purpose
+This directory contains the datasets used in FusionMedAI for diabetes risk prediction across multiple modalities (retinal images, foot ulcer images, and clinical tabular data).
 
-This document verifies the datasets used in FusionMedAI and records important information regarding dataset characteristics, labels, licensing, and suitability for the proposed research.
+## Folder Structure
+
+```text
+datasets/
+├── raw/
+│   └── aptos2019/
+│       ├── train_images/
+│       ├── test_images/
+│       ├── train.csv
+│       ├── test.csv
+│       └── sample_submission.csv
+├── processed/
+├── interim/
+└── metadata/
+```
+
+---
+
+# Dataset Setup
+
+This project does not include the datasets due to licensing and size restrictions.
+
+## APTOS 2019
+
+1. Download the dataset from Kaggle:
+   https://www.kaggle.com/competitions/aptos2019-blindness-detection
+
+2. Extract it into:
+
+```
+datasets/raw/aptos2019/
+```
+
+The directory should look like:
+
+```
+datasets/
+└── raw/
+    └── aptos2019/
+        ├── train_images/
+        ├── test_images/
+        ├── train.csv
+        ├── test.csv
+        └── sample_submission.csv
+```
+
+3. Verify the dataset:
+
+```bash
+python src/data/verify_dataset.py
+```
+
+4. Generate metadata:
+
+```bash
+python src/data/generate_metadata.py
+```
 
 ---
 
 # Dataset 1: APTOS 2019 Blindness Detection
 
-## Overview
-
+### Overview
 APTOS 2019 is a publicly available diabetic retinopathy dataset consisting of retinal fundus images collected from diabetic patients.
 
-## Intended Use
+### Purpose
+Diabetic Retinopathy Severity Classification
 
-### Retinal Risk Assessment Module
+### Dataset Statistics
+- **Dataset Version:** v1
+- **Total Images:** 3,662 Training, 1,928 Testing
+- **Image Format:** PNG
 
-Tasks:
+### Download Source
+- **Link:** [Kaggle Competition](https://www.kaggle.com/competitions/aptos2019-blindness-detection)
 
-- Diabetic Retinopathy Detection
-- Retinopathy Severity Prediction
-- Grad-CAM Explainability
-- Confidence Estimation
-- Uncertainty Estimation
-
-## Dataset Details
-
-| Attribute | Value |
-|------------|---------|
-| Dataset Name | APTOS 2019 Blindness Detection |
-| Modality | Retinal Fundus Images |
-| Data Type | Image |
-| Image Count | 3,662 Images |
-| Resolution | Variable |
-| Source | Kaggle |
-| License | Competition Dataset (Research/Educational Use) |
-
-## Labels
-
+### Labels
 | Label | Severity |
-|---------|----------|
-| 0 | No DR |
-| 1 | Mild DR |
-| 2 | Moderate DR |
-| 3 | Severe DR |
-| 4 | Proliferative DR |
+|-------|----------|
+| 0     | No DR |
+| 1     | Mild DR |
+| 2     | Moderate DR |
+| 3     | Severe DR |
+| 4     | Proliferative DR |
 
-## Verification Checklist
-
-- [ ] Dataset Downloaded
-- [ ] Image Count Verified
-- [ ] Labels Verified
-- [ ] Class Distribution Analyzed
-- [ ] Train / Validation / Test Split Created
-- [ ] Data Leakage Checked
-
-## Download Link
-
-https://www.kaggle.com/competitions/aptos2019-blindness-detection
+### License
+According to Kaggle Competition Terms (Research/Educational Use)
 
 ---
 
 # Dataset 2: DFUC (Diabetic Foot Ulcer Challenge Dataset)
 
-## Overview
-
+### Overview
 DFUC is a diabetic foot ulcer image dataset used for ulcer detection, localization, segmentation, and severity assessment.
 
-## Intended Use
+### Dataset Statistics
+- **Approximate Image Count:** ~4,000+ Images
 
-### Foot Risk Assessment Module
+### Download Source
+- **Link:** [DFUC Challenge Website](https://dfu-challenge.github.io)
 
-Tasks:
-
-- Foot Ulcer Detection
-- Foot Ulcer Severity Prediction
-- Grad-CAM Explainability
-- Confidence Estimation
-- Uncertainty Estimation
-
-## Dataset Details
-
-| Attribute | Value |
-|------------|---------|
-| Dataset Name | DFUC |
-| Modality | Foot Ulcer Images |
-| Data Type | Image |
-| Approximate Image Count | ~4,000+ Images |
-| Source | DFUC Challenge |
-| License | Research Use |
-
-## Classes
-
-Depending on task:
-
-- Ulcer Present
-- Ulcer Absent
-
-or
-
+### Classes
+Depending on the specific task:
+- Ulcer Present / Ulcer Absent
 - Severity Categories
 
-(To be verified after download)
-
-## Verification Checklist
-
-- [ ] Dataset Downloaded
-- [ ] Image Count Verified
-- [ ] Class Labels Verified
-- [ ] Class Distribution Analyzed
-- [ ] Train / Validation / Test Split Created
-- [ ] Data Leakage Checked
-
-## Download Link
-
-https://dfu-challenge.github.io
+### License
+Research Use
 
 ---
 
 # Dataset 3: PIMA Indians Diabetes Dataset
 
-## Overview
-
+### Overview
 PIMA is a structured clinical dataset used for diabetes prediction based on diagnostic measurements.
 
-## Intended Use
+### Dataset Statistics
+- **Sample Count:** 768 Patients
+- **Features:** 8 Clinical Features:
+  1. Pregnancies
+  2. Glucose
+  3. Blood Pressure
+  4. Skin Thickness
+  5. Insulin
+  6. BMI
+  7. Diabetes Pedigree Function
+  8. Age
 
-### Clinical Risk Assessment Module
+### Download Source
+- **Link:** [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Pima+Indians+Diabetes)
 
-Tasks:
-
-- Clinical Diabetes Risk Prediction
-- SHAP Explainability
-- Confidence Estimation
-- Uncertainty Estimation
-
-## Dataset Details
-
-| Attribute | Value |
-|------------|---------|
-| Dataset Name | PIMA Indians Diabetes Dataset |
-| Modality | Clinical Tabular Data |
-| Data Type | Structured Data |
-| Sample Count | 768 Patients |
-| Features | 8 Clinical Features |
-| Source | UCI Machine Learning Repository |
-| License | Open Research Dataset |
-
-## Features
-
-1. Pregnancies
-2. Glucose
-3. Blood Pressure
-4. Skin Thickness
-5. Insulin
-6. BMI
-7. Diabetes Pedigree Function
-8. Age
-
-## Target Labels
-
+### Target Labels
 | Label | Meaning |
-|---------|----------|
-| 0 | Non-Diabetic |
-| 1 | Diabetic |
+|-------|----------|
+| 0     | Non-Diabetic |
+| 1     | Diabetic |
 
-## Missing Values
-
-Known Issue:
-
-Several features contain zero values that represent missing measurements.
-
-Affected Features:
-
+### Missing Values (Known Issues)
+Several features contain zero values that represent missing measurements. These include:
 - Glucose
 - Blood Pressure
 - Skin Thickness
 - Insulin
 - BMI
 
-Missing-value handling strategy must be documented during preprocessing.
-
-## Verification Checklist
-
-- [ ] Dataset Downloaded
-- [ ] Feature Definitions Verified
-- [ ] Missing Values Analyzed
-- [ ] Data Cleaning Performed
-- [ ] Train / Validation / Test Split Created
-- [ ] Data Leakage Checked
-
-## Download Link
-
-https://archive.ics.uci.edu/ml/datasets/Pima+Indians+Diabetes
-
----
-
-# Dataset Alignment Statement
-
-## Important Research Assumption
-
-FusionMedAI does **NOT** perform patient-level multimodal learning.
-
-Datasets are independent and originate from different patient populations.
-
-Each modality-specific model is trained independently:
-
-```text
-APTOS
-→ Retinal Risk
-
-DFUC
-→ Foot Risk
-
-PIMA
-→ Clinical Risk
-```
-
-ACARA-U performs **decision-level aggregation** using:
-
-- Risk Scores
-- Confidence Scores
-- Reliability Scores
-- Uncertainty Scores
-
-No raw patient features are fused across datasets.
-
----
-
-# Dataset Risks
-
-## Risk 1: Independent Datasets
-
-Issue:
-
-Datasets do not contain the same patients.
-
-Mitigation:
-
-Decision-level aggregation through ACARA-U.
-
----
-
-## Risk 2: Class Imbalance
-
-Issue:
-
-Certain classes may have significantly fewer samples.
-
-Mitigation:
-
-- Class weighting
-- Data augmentation
-- Stratified splitting
-
----
-
-## Risk 3: Domain Shift
-
-Issue:
-
-Data distributions may differ across datasets.
-
-Mitigation:
-
-- OOD Detection Module
-- Calibration Engine
-- Reliability Learning
-
----
-
-## Risk 4: Low-Quality Inputs
-
-Issue:
-
-Blurred images, poor contrast, incomplete reports.
-
-Mitigation:
-
-- Data Quality Assessment Module
-- Quality Score Computation
-
----
-
-# Dataset Status
-
-| Dataset | Status |
-|----------|----------|
-| APTOS 2019 | Pending Download |
-| DFUC | Pending Download |
-| PIMA | Pending Download |
-
----
-
-# Notes
-
-Before implementation:
-
-- Verify exact DFUC version (2020 / 2021 / 2022)
-- Verify licensing requirements
-- Verify image counts after download
-- Document train/validation/test splits
-- Document preprocessing pipeline
-
----
-
-**Last Updated:** YYYY-MM-DD
-**Project:** FusionMedAI
-**Version:** Dataset Verification v1
+### License
+Open Research Dataset

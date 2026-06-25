@@ -1,0 +1,32 @@
+==========================================
+APTOS DATASET VERIFICATION
+==========================================
+
+CSV
+------------------------
+Train CSV            PASS
+Test CSV             PASS
+
+Folders
+------------------------
+Train Images         PASS
+Test Images          PASS
+
+Integrity
+------------------------
+CSV Rows             3662
+Images               3662
+Missing Images       0
+Duplicate IDs        0
+Corrupted Images     0
+
+Labels
+------------------------
+Missing Labels       0
+Invalid Labels       0
+
+Overall Status
+
+PASS
+
+Verification completed in 30.60 seconds

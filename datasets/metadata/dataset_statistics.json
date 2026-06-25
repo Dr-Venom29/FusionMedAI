@@ -1,0 +1,25 @@
+{
+  "dataset": "APTOS2019",
+  "training_images": 3662,
+  "testing_images": 1928,
+  "num_classes": 5,
+  "labels": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "verification_passed": true,
+  "image_format": "PNG",
+  "average_width": 2015,
+  "average_height": 1527,
+  "min_width": 474,
+  "max_width": 4288,
+  "min_height": 358,
+  "max_height": 2848,
+  "average_filesize_kb": 2294.22,
+  "minimum_filesize_kb": 217,
+  "maximum_filesize_kb": 7494,
+  "average_aspect_ratio": 1.28
+}

@@ -1,0 +1,23 @@
+{
+  "dataset": "APTOS2019",
+  "verification_date": "2026-06-26",
+  "csv_rows": 3662,
+  "train_images": 3662,
+  "test_images": 1928,
+  "missing_images": 0,
+  "duplicate_ids": 0,
+  "duplicate_filenames": 0,
+  "missing_labels": 0,
+  "invalid_labels": 0,
+  "corrupted_images": 0,
+  "rgb_images": 3662,
+  "verification_passed": true,
+  "image_statistics": {
+    "min_width": 474,
+    "max_width": 4288,
+    "min_height": 358,
+    "max_height": 2848,
+    "mean_width": 2015.18,
+    "mean_height": 1526.83
+  }
+}
