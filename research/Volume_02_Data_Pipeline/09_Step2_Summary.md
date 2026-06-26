@@ -18,15 +18,6 @@ graph TD
     Transforms --> Dataloader["DataLoader (Mini-batching, Shuffling)"]
     Dataloader --> Verification["E2E Automated Verification Suite"]
     Verification --> Model["Downstream Deep Learning Model (Step 3)"]
-    
-    style Raw fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
-    style Validation fill:#efebe9,stroke:#4e342e,stroke-width:2px;
-    style Split fill:#efebe9,stroke:#4e342e,stroke-width:2px;
-    style Dataset fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
-    style Transforms fill:#fff9c4,stroke:#fbc02d,stroke-width:2px;
-    style Dataloader fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
-    style Verification fill:#fbe9e7,stroke:#bf360c,stroke-width:2px;
-    style Model fill:#d1c4e9,stroke:#5e35b1,stroke-width:2px;
 ```
 
 ## Key Outcomes

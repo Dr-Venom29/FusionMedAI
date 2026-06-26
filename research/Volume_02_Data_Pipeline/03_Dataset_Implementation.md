@@ -29,14 +29,6 @@ graph TD
     Read --> Convert["convert('RGB')"]
     Convert --> Trans["Apply Transforms"]
     Trans --> Return["Return Tensor Tuple: (image, label)"]
-    
-    style CSV fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
-    style ID fill:#efebe9,stroke:#4e342e,stroke-width:2px;
-    style Resolve fill:#efebe9,stroke:#4e342e,stroke-width:2px;
-    style Read fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
-    style Convert fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
-    style Trans fill:#fff9c4,stroke:#fbc02d,stroke-width:2px;
-    style Return fill:#fbe9e7,stroke:#bf360c,stroke-width:2px;
 ```
 
 ## Single Responsibility Principle

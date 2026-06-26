@@ -13,13 +13,6 @@ graph TD
     Transforms --> Dataset
     Dataset --> Dataloader["DataLoader (dataloader.py)"]
     Dataloader --> Verify["verify_pipeline.py"]
-    
-    style Config fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
-    style Split fill:#efebe9,stroke:#4e342e,stroke-width:2px;
-    style Transforms fill:#efebe9,stroke:#4e342e,stroke-width:2px;
-    style Dataset fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
-    style Dataloader fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
-    style Verify fill:#fbe9e7,stroke:#bf360c,stroke-width:2px;
 ```
 
 ## Architectural Design Decisions & Rationale

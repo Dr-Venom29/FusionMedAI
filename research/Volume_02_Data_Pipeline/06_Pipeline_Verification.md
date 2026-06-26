@@ -25,17 +25,6 @@ graph TD
     BatchShape --> Labels["8. Label Bounds & Data Types Verification"]
     Labels --> FullIter["9. Full Dataset Epoch Iteration Test"]
     FullIter --> PASS["Pipeline Verification SUCCESS (PASS)"]
-    
-    style CSV fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
-    style Splits fill:#efebe9,stroke:#4e342e,stroke-width:2px;
-    style Ratios fill:#efebe9,stroke:#4e342e,stroke-width:2px;
-    style Dataset fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
-    style LoadImg fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
-    style Dataloader fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
-    style BatchShape fill:#fbe9e7,stroke:#bf360c,stroke-width:2px;
-    style Labels fill:#fbe9e7,stroke:#bf360c,stroke-width:2px;
-    style FullIter fill:#d1c4e9,stroke:#5e35b1,stroke-width:2px;
-    style PASS fill:#e8f5e9,stroke:#1b5e20,stroke-width:3px;
 ```
 
 ## Verification Checklist

@@ -10,13 +10,6 @@ graph TD
     Transforms --> Dataloader["DataLoader (Batching, Shuffle, Multi-process)"]
     Dataloader --> Batch["Batch Tensor (32, 3, 224, 224)"]
     Batch --> GPU["GPU Memory"]
-    
-    style CSV fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
-    style Dataset fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
-    style Transforms fill:#fff9c4,stroke:#fbc02d,stroke-width:2px;
-    style Dataloader fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
-    style Batch fill:#fbe9e7,stroke:#bf360c,stroke-width:2px;
-    style GPU fill:#d1c4e9,stroke:#5e35b1,stroke-width:2px;
 ```
 
 The function `create_dataloaders()` handles the initialization of all three dataloaders in a single, centralized call, exposing a consistent interface:
