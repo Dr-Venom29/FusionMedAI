@@ -16,15 +16,23 @@ A sample fundus photograph from the training partition is shown below:
 *Figure 3.1: Resized sample retinal fundus photograph showing circular eye structure and vascular pathways.*
 
 ### 2. Dataset Characteristics
-- **Total Training Samples**: 3,662 Images
-- **Total Testing Samples**: 1,928 Images
-- **Image Format**: PNG (Portable Network Graphics)
-- **Resolution**: Highly variable, ranging from small resolutions (minimum width: 474 pixels, minimum height: 358 pixels) to high-definition scans (maximum width: 4,288 pixels, maximum height: 2,848 pixels).
-- **Average Width**: 2,015 pixels
-- **Average Height**: 1,527 pixels
-- **Average File Size**: 2,294.22 KB (~2.24 MB)
+To summarize the properties of the APTOS 2019 dataset, the table below outlines the primary image metrics:
 
-### 3. Label Definitions and Quantitative Distribution
+| Property | Value |
+| :--- | :--- |
+| **Train Images** | 3,662 |
+| **Test Images** | 1,928 |
+| **Classes** | 5 |
+| **Image Format** | PNG |
+| **Mean Width** | 2,015 px |
+| **Mean Height** | 1,527 px |
+| **Average Filesize** | 2,294.22 KB (~2.24 MB) |
+| **Resolution Range** | $474 \times 358$ to $4288 \times 2848$ px |
+
+### 3. Dataset Challenges
+The APTOS dataset presents several practical challenges for deep learning. Images originate from different acquisition devices and clinical environments, resulting in substantial variability in resolution, illumination, contrast, focus, field-of-view, and image quality. These characteristics increase the complexity of preprocessing and motivate the need for robust verification, metadata generation, and standardized preprocessing pipelines.
+
+### 4. Label Definitions and Quantitative Distribution
 Each image in the training set is annotated by medical experts with a single integer corresponding to the severity of diabetic retinopathy:
 
 | Label | Severity Level | Clinical Meaning | Sample Count | Percentage |
@@ -39,24 +47,24 @@ The highly imbalanced distribution of severity classes is visually represented b
 
 ![Class Distribution Chart](images/class_distribution.png)
 
-Figure 3.2. Distribution of diabetic retinopathy severity classes in the APTOS 2019 dataset. The dataset exhibits substantial class imbalance, with No DR accounting for nearly half of all training samples, whereas Severe NPDR represents the smallest category.
+*Figure 3.2. Distribution of diabetic retinopathy severity classes in the APTOS 2019 dataset. The dataset exhibits substantial class imbalance, with No DR accounting for nearly half of all training samples, whereas Severe NPDR represents the smallest category.*
 
-The observed imbalance indicates that standard training may bias the model toward majority classes. Consequently, class weighting and data augmentation strategies will be investigated in later stages of the study.
+The observed imbalance indicates that standard training may bias the model toward majority classes. Consequently, class weighting and data augmentation strategies will be investigated in later stages of the study. These characteristics directly influence resizing, augmentation, normalization, sampling, and class balancing, which connects directly to the preprocessing stages in Step 2.
 
-### 4. Suitability for DR Classification
-APTOS 2019 is highly suitable because it represents a "real-world" clinical distribution. The images were collected from multiple clinics under varying lighting conditions, camera equipment, and resolutions. This clinical variety forces models to learn robust features (such as exudates, microaneurysms, and hemorrhages) rather than overfitting to specific camera models or sensor noise.
+### 5. Suitability for DR Classification
+APTOS 2019 is highly suitable because it represents a "real-world" clinical distribution. The images were collected from multiple clinics under varying lighting conditions, camera equipment, and resolutions. This clinical variety encourages models to learn robust features (such as exudates, microaneurysms, and hemorrhages) rather than overfitting to specific camera models or sensor noise.
 
-### 5. Advantages
+### 6. Advantages
 - Large public dataset containing over 5,500 expert-graded fundus images in total.
 - Rich in clinical variation (noise, illumination, camera focus), mimicking real-world deployment challenges.
 - Explicitly graded into all 5 international clinical severity classes, allowing multi-class classification rather than simple binary detection.
 
-### 6. Limitations
+### 7. Limitations
 - Highly imbalanced class distribution, with class 0 (No DR) accounting for nearly half the dataset, and class 3 (Severe) accounting for only 5.27%.
 - Inconsistent aspect ratios and resolutions, requiring advanced resizing, cropping, and color normalization during preprocessing.
 - Training labels are provided, but test set labels are held private by the competition organizers (used only for remote submissions).
 
-### 7. Licensing
+### 8. Licensing
 Available under the Kaggle Competition Terms for educational and research purposes.
 
 ---
@@ -75,10 +83,29 @@ The IDRiD dataset (Porwal et al., 2018) is a publicly available clinical benchma
 Grades diabetic retinopathy severity using the same 5-class international scale (0 to 4). Additionally, it provides annotations for diabetic macular edema (DME) risk levels (0 to 2) and pixel-level segmentations for key lesions (microaneurysms, hemorrhages, hard exudates, and soft exudates).
 
 ### 4. Suitability, Advantages, and Limitations
-- **Suitability**: Serves as a perfect external validation set or cross-dataset training benchmark due to its clinical grading.
+- **Suitability**: Serves as a suitable external validation dataset or cross-dataset training benchmark due to its clinical grading. Because APTOS and IDRiD originate from different clinical environments, cross-dataset evaluation also introduces a domain-shift scenario, which later motivates the proposed Out-of-Distribution (OOD) detection module.
 - **Advantages**: Provides precise pixel-level annotations for key pathological lesions, allowing models to learn explainable features (e.g., segmenting exudates to justify a severity score).
 - **Limitations**: Much smaller sample size (516 images) compared to APTOS, making it less suitable as a standalone training set for deep architectures from scratch.
 - **Licensing**: Available for research and academic purposes under the IDRiD database terms.
+
+---
+
+## Dataset Comparison and Selection Rationale
+
+To contextualize the dataset choices, the table below compares the key properties of public retinal fundus datasets:
+
+| Dataset | Images | Classes | Resolution | Lesion Masks | Licensing |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **EyePACS** | ~88,000 | 5 | Variable | No | Non-commercial |
+| **APTOS 2019** | 3,662 (Train) | 5 | Variable | No | Non-commercial |
+| **IDRiD** | 516 | 5 | Fixed | Yes | Research-only |
+| **Messidor** | 1,200 | 4 | Fixed | No | Research-only |
+
+Although several public retinal datasets are available, APTOS 2019 was selected as the primary training and validation dataset due to:
+- **Balanced Dataset Size**: Large enough (~3,662 training images) to support training deep convolutional and transformer backbones, yet small enough to allow rapid local verification and iterative experimentation.
+- **Five-Class Severity Labels**: Matches the international clinical standard, supporting multi-class severity assessment.
+- **Active Benchmark & Community Adoption**: Served as a key competition benchmark, allowing comparison with published literature.
+- **Public Accessibility & Suitable Licensing**: Readily available under terms suited for research and academic development.
 
 ---
 
@@ -86,10 +113,42 @@ Grades diabetic retinopathy severity using the same 5-class international scale 
 
 1. **Dataset Volume**: APTOS contains 3,662 labeled training samples, which is nearly **9 times larger** than IDRiD's 413 training samples. Deep learning models require significant data volume to learn generalized features before fine-tuning on smaller clinical datasets.
 2. **Clinical Diversity**: APTOS is compiled from multiple screening sites with varying cameras and resolutions. IDRiD, on the other hand, was captured using a single camera model at a single clinic. Starting with the more diverse APTOS dataset prevents the model from developing early biases towards specific image characteristics.
-3. **Pipeline Stress-Testing**: The high variability in APTOS's image dimensions (ranging from 474px to 4288px) and aspect ratios serves as a much better test for the automated verification and preprocessing pipelines compared to the uniform resolutions of IDRiD.
+3. **Pipeline Stress-Testing**: The high variability in APTOS's image dimensions (ranging from 474px to 4288px) and aspect ratios provides a more challenging benchmark for the automated verification and preprocessing pipelines compared to the uniform resolutions of IDRiD.
+
+---
+
+## Evaluation Workflow
+
+The following flowchart shows how APTOS and IDRiD are utilized across training, verification, and external validation:
+
+```
+APTOS
+  │
+  ▼
+Verification
+  │
+  ▼
+Metadata
+  │
+  ▼
+Split
+  │
+  ▼
+Training
+  │
+  ▼
+Validation
+  │
+  ▼
+[Later]
+IDRiD
+  │
+  ▼
+External Validation
+```
 
 ---
 
 ## References
 - Porwal, P., Pachade, S., Kamble, R., Kokare, M., Deshmukh, S., Giancardo, L., & Meriaudeau, F. (2018). Indian Diabetic Retinopathy Image Dataset (IDRiD): A database for diabetic retinopathy screening research. *Scientific Data*, 5(1), 1-14.
-- Asia Pacific Tele-Ophthalmology Society (APTOS). (2019). *APTOS 2019 Blindness Detection Kaggle Competition*. Retrieved from https://www.kaggle.com/competitions/aptos2019-blindness-detection
+- Kaggle. (2019). *APTOS 2019 Blindness Detection*. Asia Pacific Tele-Ophthalmology Society (APTOS). https://www.kaggle.com/c/aptos2019-blindness-detection

@@ -1,11 +1,11 @@
 # Chapter 8: Reproducibility
 
-This chapter outlines the strategies and step-by-step instructions implemented in the FusionMedAI project to guarantee reproducibility across different computing environments.
+This chapter outlines the strategies and step-by-step instructions implemented in the FusionMedAI project to address reproducibility challenges across different computing environments.
 
 ---
 
 ## Why Reproducibility Matters in AI Research
-Reproducibility is a cornerstone of scientific research (Gundersen & Kjensmo, 2018). In deep learning and computer vision, studies are frequently plagued by "reproducibility crises" where models fail to achieve published accuracies when trained on other machines. This is often caused by:
+Reproducibility is a cornerstone of scientific research (Gundersen & Kjensmo, 2018; Pineau et al., 2021). In deep learning and computer vision, studies are frequently plagued by reproducibility challenges where models fail to achieve published metrics when trained on other machines. This is often caused by:
 - Unrecorded dataset modifications.
 - Random initialization drift (lack of fixed seeds).
 - Undocumented preprocessing steps.
@@ -18,26 +18,86 @@ Ensuring absolute reproducibility is critical for medical AI to verify clinical 
 ## Reproducibility Framework
 
 ### 1. Fixed Random Seed
-- The project configures a global random seed (`SEED = 42`) in [src/config.py](file:///d:/FusionMedAI/src/config.py). 
-- In the verification script, setting the random seed ensures that the 100 images sampled for verifying image attributes are identical across every run. This ensures that any warnings or checks can be reproduced exactly.
+- The project defines a global random seed (`SEED = 42`) within `src/config.py`. Although Step 1 itself contains no stochastic operations, defining a fixed seed establishes a reproducible foundation for subsequent stages such as stratified dataset splitting, data augmentation, and model training. Maintaining a centralized seed ensures consistent experimental behavior across the entire pipeline.
 
 ### 2. Centralized Configuration
-- All paths, class definitions, and hyperparameters are declared in [src/config.py](file:///d:/FusionMedAI/src/config.py). This prevents developers from introducing hardcoded paths or parameters in individual scripts, keeping the configuration consistent.
+- All paths, class definitions, and hyperparameters are declared in `src/config.py`. This prevents developers from introducing hardcoded paths or parameters in individual scripts, keeping the configuration consistent.
 
 ### 3. Immutable Raw Dataset
 - The `datasets/raw/` folder is treated as read-only. Scripts are blocked from writing to or modifying files in this directory. If a file is corrupted, it is logged in the metadata directory, keeping the raw dataset unmodified.
 
-### 4. Automated Verification
-- Running `verify_dataset.py` validates the dataset integrity and saves the results. This automated step replaces manual ad-hoc checks, providing an auditable proof of dataset health.
+### 4. Deterministic Dataset Splitting
+- The dataset splitting procedure employs `train_test_split()` with `random_state=42` and stratified sampling. Consequently, repeated executions generate identical training, validation, and testing partitions while preserving class distributions.
 
-### 5. Automated Metadata Generation
-- `generate_metadata.py` programmatically creates the metadata files (`train_metadata.csv`, `dataset_statistics.json`, etc.). By automating metadata creation, the dataset parameters remain consistent between runs.
+### 5. Automated Validation & Metadata
+- Every stage contains dedicated verification scripts before progression to the next stage, reducing debugging complexity. `verify_dataset.py` validates the dataset integrity and saves the results, while `generate_metadata.py` programmatically creates the metadata files (`train_metadata.csv`, `dataset_statistics.json`, etc.). By automating metadata creation, the dataset parameters remain consistent between runs.
 
-### 6. Git Strategy
-- Large binary files (such as raw and processed images) are excluded from version control using `.gitignore`. However, configuration scripts, verification modules, and metadata summaries are committed, allowing researchers to track changes to the dataset's characteristics.
+### 6. Project Version Control
+- Each completed milestone is preserved using Git commits and semantic version tags (e.g., `v0.1.0`). This enables researchers to reproduce experiments from any historical project state. Source code, documentation, and lightweight metadata files may be version-controlled, whereas large raw datasets, processed images, checkpoints, and experimental outputs are excluded through `.gitignore`.
 
-### 7. Consistent Folder Structure
+### 7. Environment Reproducibility
+- Python package versions are fixed through the project requirements file (`requirements.txt`) to reduce inconsistencies caused by dependency updates.
+
+### 8. Consistent Folder Structure
 - Enforcing a standardized directory structure (`raw/`, `interim/`, `processed/`, `metadata/`) ensures that scripts can find and write files to the correct locations regardless of the host machine.
+
+---
+
+## Reproducibility Framework Summary
+
+| Component | Reproducibility Mechanism |
+| :--- | :--- |
+| **Paths** | Centralized configuration in `src/config.py` |
+| **Randomness** | Fixed global `SEED = 42` |
+| **Dataset** | Immutable raw directories |
+| **Splits** | Stratified splits with fixed `random_state = 42` |
+| **Verification** | Automated verification scripts |
+| **Metadata** | Deterministic metadata generation |
+| **Versioning** | Git commits and semantic tags |
+| **Dependencies** | Locked package versions in `requirements.txt` |
+
+---
+
+## Computational Environment
+To ensure full experimental comparability, all runs were conducted within the standardized local development environment outlined in the table below:
+
+| Component | Value |
+| :--- | :--- |
+| **Python Version** | 3.12 |
+| **PyTorch Version** | 2.4 |
+| **Torchvision Version** | 0.19 |
+| **CUDA Version** | 12.4 (where GPU acceleration is available) |
+| **Operating System** | Windows 11 (Development/Verification) |
+| **Hardware Environment** | Local workstation with multithreaded CPU support |
+
+---
+
+## Reproduction Workflow
+
+The flowchart below illustrates the sequence of steps required to reproduce the dataset preparation pipeline:
+
+```
+Clone Repository
+       │
+       ▼
+Install Dependencies
+       │
+       ▼
+Download Dataset
+       │
+       ▼
+ Verify Dataset
+       │
+       ▼
+Generate Metadata
+       │
+       ▼
+  Ready for EDA
+       │
+       ▼
+Ready for Training
+```
+*Figure 8.1: Pipeline reproduction workflow.*
 
 ---
 
@@ -57,17 +117,12 @@ Create a virtual environment and install the dependencies listed in `requirement
 ```bash
 python -m venv venv
 source venv/bin/activate  # On Windows, use: venv\Scripts\activate
-pip install -r requirements.txt
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
 
 ### Step 3: Set Up the Directory Structure
-Create the required directory layout (if not already present):
-```bash
-mkdir -p datasets/raw/aptos2019
-mkdir -p datasets/interim
-mkdir -p datasets/processed
-mkdir -p datasets/metadata
-```
+Create the following directories if they do not already exist: `datasets/raw/aptos2019`, `datasets/interim`, `datasets/processed`, and `datasets/metadata`.
 
 ### Step 4: Download and Place the Dataset
 1. Download the APTOS 2019 Blindness Detection dataset from Kaggle:
@@ -84,15 +139,15 @@ Run the verification script to audit the dataset and check for errors:
 ```bash
 python src/data/verify_dataset.py
 ```
-This script will verify files, check image modes, verify labels, and generate the following reports:
-- `datasets/metadata/verification_report.json`
-- `datasets/metadata/verification.log`
-- `datasets/metadata/image_sizes.csv`
-- `datasets/metadata/missing_images.csv`
-- `datasets/metadata/corrupted_images.csv`
-- `datasets/metadata/duplicate_ids.csv`
-- `datasets/metadata/missing_test_images.csv`
-- `datasets/metadata/duplicate_test_ids.csv`
+This script will verify files, check image modes, verify labels, and generate the following reports in `datasets/metadata/`:
+- `verification_report.json`
+- `verification.log`
+- `image_sizes.csv`
+- `missing_images.csv`
+- `corrupted_images.csv`
+- `duplicate_ids.csv`
+- `missing_test_images.csv`
+- `duplicate_test_ids.csv`
 
 ### Step 6: Generate Dataset Metadata
 Run the metadata generation script to create the files required for training:
@@ -100,15 +155,16 @@ Run the metadata generation script to create the files required for training:
 python src/data/generate_metadata.py
 ```
 This script will produce:
-- `datasets/metadata/train_metadata.csv`
-- `datasets/metadata/class_distribution.csv`
-- `datasets/metadata/dataset_statistics.json`
-- `datasets/metadata/image_statistics.csv`
-- `datasets/metadata/quality_statistics.csv`
+- `train_metadata.csv`
+- `class_distribution.csv`
+- `dataset_statistics.json`
+- `image_statistics.csv`
+- `quality_statistics.csv`
 
-Following these steps will produce identical files, checksums, and verification metrics, confirming the reproducibility of Step 1.
+Following these steps will reproduce identical metadata files, verification reports, dataset statistics, and dataset split results (when deterministic procedures are used).
 
 ---
 
 ## References
 - Gundersen, O. E., & Kjensmo, S. (2018). State of the art: Reproducibility in artificial intelligence. *AAAI Conference on Artificial Intelligence*, 32(1), 1644-1651.
+- Pineau, J., Vincent-Lamarre, P., Sinha, K., Larochelle, H., Vincent, E., Shelhamer, A., ... & Ke, N. R. (2021). Improving reproducibility in machine learning research. *Journal of Machine Learning Research*, 22(156), 1-21.

@@ -6,30 +6,63 @@ This chapter documents the limitations of the current dataset preparation phase 
 
 ## Documented Limitations
 
-### 1. Only APTOS 2019 Prepared
-- *Limitation*: Only the APTOS 2019 dataset has been verified and prepared. Other datasets (such as IDRiD for fundus photography, DFUC for foot ulcers, and PIMA for clinical tabular data) have not yet been integrated.
-- *Reason for Deferral*: Focusing on a single dataset allows us to build, test, and refine the verification and metadata pipelines before extending them to other modalities.
+### 1. Only APTOS 2019 Integrated
+- **Limitation**: The dataset preparation pipeline has been validated only on the APTOS 2019 dataset. Generalization across multiple retinal datasets (e.g., IDRiD, Messidor-2, DDR, DeepDRiD) has not yet been evaluated.
+- **Reason for Deferral**: Focusing on a single dataset first allows us to build, test, and refine the verification and metadata pipelines before extending them to other clinical modalities.
 
-### 2. No Image Preprocessing
-- *Limitation*: No image resizing, cropping, aspect ratio padding, or normalization has been applied to the raw fundus images.
-- *Reason for Deferral*: Preprocessing parameters (such as the target image resolution or normalization means/stds) must be decided based on findings from the Exploratory Data Analysis (EDA) in Step 2.
+### 2. No External Validation Dataset
+- **Limitation**: No external dataset (such as IDRiD) has been integrated for cross-dataset validation.
+- **Reason for Deferral**: External validation represents a subsequent evaluation milestone. First, a reliable internal training, validation, and testing partition scheme must be established.
 
-### 3. No Data Augmentation
-- *Limitation*: No augmentations (e.g., horizontal/vertical flips, rotations, color jitter, CLAHE) have been configured.
-- *Reason for Deferral*: Augmentation strategies are closely tied to model training and must be configured inside the training script (`train.py`) to run on the GPU, avoiding unnecessary disk overhead.
+### 3. Advanced Retinal Image Enhancement Not Yet Applied
+- **Limitation**: Advanced clinical enhancements (such as Ben Graham's processing, circular cropping, contrast-limited adaptive histogram equalization (CLAHE), or illumination correction) have not yet been applied to the fundus photographs.
+- **Reason for Deferral**: While basic resizing and normalization are applied, advanced enhancement will be evaluated as an experimental variable during model optimization to determine its impact on class separation.
 
-### 4. No Image Quality Enhancement
-- *Limitation*: No fundus image quality enhancement (such as Ben Graham's processing or circular cropping to remove black borders) has been applied.
-- *Reason for Deferral*: Fundus preprocessing is a specialized task. Implementing it now would mix dataset ingestion with image preprocessing, violating the Separation of Concerns principle.
+### 4. Image Augmentation Parameters Not Yet Optimized
+- **Limitation**: The project includes a configurable augmentation pipeline. However, augmentation parameters have not yet been optimized experimentally.
+- **Reason for Deferral**: Augmentation policies (rotation angles, jitter scales) must be tuned during model training rather than dataset ingestion, ensuring they can be evaluated against model convergence rates.
 
-### 5. No Train/Validation/Test Splitting
-- *Limitation*: A stratified split (e.g., 80% train, 10% validation, 10% test) has not yet been created.
-- *Reason for Deferral*: Splitting requires loading the class distribution to perform stratified sampling. This step is deferred to the preprocessing phase in Step 3 to ensure splits are generated and recorded programmatically.
+### 5. ImageNet Normalization Statistics Used
+- **Limitation**: Image normalization currently uses ImageNet channel mean ($\mu=[0.485, 0.456, 0.406]$) and standard deviation ($\sigma=[0.229, 0.224, 0.225]$) parameters instead of dataset-specific retinal statistics.
+- **Reason for Deferral**: Pretrained weights (ImageNet-pretrained backbones) expect ImageNet-normalized inputs during early model training. Computing custom retinal statistics is deferred to later optimization stages.
 
-### 6. No Model Training or Evaluation
-- *Limitation*: No neural networks have been developed, trained, or evaluated.
-- *Reason for Deferral*: Training requires a verified dataset, stratified splits, and defined preprocessing steps. Developing models before establishing these components risks training on corrupted data or introducing data leakage.
+### 6. No Patient-Level Split Guarantee
+- **Limitation**: Since the APTOS 2019 dataset does not include explicit patient identifiers, patient-level separation cannot be guaranteed. Splitting is performed at the image level.
+- **Reason for Deferral**: This is a structural limitation of the public source metadata. Future work using dataset sources with patient IDs will enforce patient-level disjointness to prevent potential intra-patient data leakage.
 
-### 7. Verification Confirms Structural Integrity, Not Clinical Correctness
-- *Limitation*: The verification script checks structural parameters (e.g., checking if the label is an integer between 0 and 4). It cannot verify the clinical accuracy of the labels assigned by human graders.
-- *Reason for Deferral*: Clinical validation is outside the scope of automated data pipelines. We assume the annotations in the public dataset are correct and focus on ensuring their structural integrity.
+### 7. No Model Training or Evaluation
+- **Limitation**: No neural networks have been developed, trained, or evaluated.
+- **Reason for Deferral**: Training requires a verified dataset, stratified splits, and defined preprocessing steps. Developing models before establishing these components risks training on corrupted data or introducing data leakage.
+
+### 8. No Explainability
+- **Limitation**: Grad-CAM and other explainability techniques have not yet been integrated.
+- **Reason for Deferral**: Interpretability checks are applied post-training to validate clinical decision boundaries.
+
+### 9. No Calibration
+- **Limitation**: Model calibration and uncertainty estimation are not implemented.
+- **Reason for Deferral**: Calibration and uncertainty quantification (such as temperature scaling or conformal prediction) are introduced after establishing baseline model training.
+
+### 10. No Out-of-Distribution (OOD) Detection
+- **Limitation**: Images are assumed to originate from the APTOS distribution. Distribution shift and out-of-distribution detection are not addressed in this phase.
+- **Reason for Deferral**: OOD detection and cross-dataset shift checks are deferred to subsequent development volumes to isolate baseline model development from robustness testing.
+
+### 11. Clinical Annotation Uncertainty and Label Noise
+- **Limitation**: The annotations in public clinical datasets are subject to grader-dependent label noise and inter-grader variability. Automated verification validates label boundaries but cannot identify or correct clinical misclassifications.
+- **Reason for Deferral**: Clinical validation is outside the scope of automated dataset pipelines. We assume the annotations in the public dataset are correct and focus on ensuring their structural integrity.
+
+### 12. Camera and Acquisition Device Variability
+- **Limitation**: Images in the dataset originate from different acquisition devices, clinical environments, and camera models, resulting in high variability in contrast, illumination, resolution, and field of view.
+- **Reason for Deferral**: Preprocessing (resizing, normalization) helps mitigate this variability, but advanced domain standardization techniques are deferred to model optimization.
+
+### 13. Cross-Dataset Domain Shift
+- **Limitation**: APTOS images represent a different clinical cohort than IDRiD or other external datasets, introducing domain-shift scenarios.
+- **Reason for Deferral**: Cross-dataset shift and out-of-distribution (OOD) checks are deferred to subsequent development volumes to isolate baseline model development from robustness testing.
+
+### 14. Unknown Patient Overlap in Shared Splits
+- **Limitation**: Because the APTOS 2019 dataset does not include explicit patient identifiers, patient-level separation cannot be guaranteed. Splitting is performed at the image level, introducing a risk of intra-patient data leakage if a single patient has images in both training and validation sets.
+- **Reason for Deferral**: This is a structural limitation of the public source metadata. Future work using dataset sources with patient IDs will enforce patient-level disjointness to prevent potential intra-patient data leakage.
+
+---
+
+## Conclusion
+The limitations identified in this chapter are intentionally deferred to maintain modularity. Dataset preparation establishes a reliable foundation upon which preprocessing, training, calibration, explainability, uncertainty estimation, and multimodal fusion will be developed in subsequent phases of FusionMedAI.
