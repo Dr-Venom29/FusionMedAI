@@ -7,7 +7,7 @@ The primary objective of this phase is to establish a **fully reproducible, auto
 
 - **Ensure Data Integrity**: Provide programmatic verification that all local raw files are complete, uncorrupted, and perfectly synchronized with their corresponding tabular index records.
 - **Eliminate Corrupted Samples**: Detect and flag unopenable or truncated image files that would otherwise cause batch load crashes or training instability during PyTorch model training.
-- **Produce Reusable Metadata**: Generate detailed, machine-readable metadata summaries (resolutions, file sizes, class proportions) that can be loaded efficiently by Exploratory Data Analysis (EDA) notebooks, custom PyTorch Dataset classes, and evaluation pipelines.
+- **Produce Reusable Metadata**: Produce metadata that supports downstream exploratory data analysis, preprocessing optimization, quality assessment, and reproducible model development.
 - **Improve Experiment Reproducibility**: Enforce complete reproducibility across multiple development environments by centralizing all hyperparameters, directory paths, and random seeds within a single configuration script.
 - **Standardize Project Organization**: Establish a structured directory layout that separates immutable raw clinical data from transient preprocessed data, metadata reports, and experimental outputs.
 - **Prepare Datasets for Downstream Preprocessing and Training**: Verify that all dataset statistics, file extensions, and color channels (RGB) are compatible with commonly used transfer-learning architectures such as EfficientNet, ConvNeXt, ResNet, and Vision Transformers.

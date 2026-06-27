@@ -31,6 +31,17 @@ graph TD
     Trans --> Return["Return Tensor Tuple: (image, label)"]
 ```
 
+## Dataset Lifecycle
+The sequential progression of data from disk representation to tensor format is defined by the following stages:
+```mermaid
+graph TD
+    CSV["CSV Split (Disk)"] --> Dataset["RetinaDataset (CPU RAM index)"]
+    Dataset --> Transforms["torchvision.transforms (PIL in CPU memory)"]
+    Transforms --> DataLoader["DataLoader batch collation (CPU pinned RAM)"]
+    DataLoader --> GPU["GPU Transfer (VRAM memory buffers)"]
+    GPU --> Model["Model Ingestion (CNN Training Step)"]
+```
+
 ## Single Responsibility Principle
 The implementation adheres strictly to the Single Responsibility Principle:
 - **Responsibility**: Load a single raw image file from disk, convert it to standard RGB format, read the corresponding integer diagnosis label from the dataframe row, apply standard torchvision transforms, and return exactly `(image, label)`.

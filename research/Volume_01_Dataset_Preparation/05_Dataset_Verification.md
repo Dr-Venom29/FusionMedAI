@@ -144,7 +144,7 @@ verify_dataset.py
 6. **`invalid_labels.csv`**:
    - Records any patient IDs containing invalid clinical labels or missing cells.
 
-Because every verification artifact is stored permanently, future researchers can reproduce the exact verification state without rescanning the dataset.
+Because every verification artifact is stored permanently, future researchers can reproduce the exact verification state without rescanning the dataset. The verification artifacts generated in this phase are subsequently consumed by the EDA pipeline to compute descriptive statistics without repeatedly validating the dataset.
 
 ---
 

@@ -13,6 +13,8 @@ While model architectures continue to advance, the clinical utility of any deep 
 
 Although many studies propose deep learning models for diabetic retinopathy classification, relatively few describe reproducible dataset engineering pipelines that include automated verification, metadata generation, and integrity validation prior to model development. This work addresses that gap by introducing a structured and reproducible dataset preparation workflow within FusionMedAI.
 
+Unlike conventional dataset preparation workflows that terminate after integrity verification, the FusionMedAI pipeline continues with quantitative exploratory analysis, image quality assessment, duplicate auditing, preprocessing optimization, and reproducible model development. Consequently, dataset preparation serves not only as a validation stage but also as the foundation for all subsequent experimental decisions.
+
 ## Dataset Preparation Challenges
 Proper dataset preparation in medical AI requires overcoming several engineering challenges:
 - **Preventing Data Leakage**: Inconsistencies between metadata indexes and local storage directories can cause patient sample overlaps between training and evaluation splits, leading to contaminated validations and overoptimistic performance metrics.

@@ -120,22 +120,24 @@ Experiments
 The pre-generated metadata is reused across multiple stages of the FusionMedAI pipeline:
 
 ```
-       datasets/metadata/
-               │
-  ┌────────────┼────────────┬────────────┐
-  ▼            ▼            ▼            ▼
-EDA Notebooks   PyTorch      Loss Function  CI/CD Auditing
-               Dataset Class   Weighting
+                          datasets/metadata/
+                                   │
+      ┌────────────┬───────────────┼───────────────┬────────────┐
+      ▼            ▼               ▼               ▼            ▼
+EDA & Quality   PyTorch      Loss Function   Preprocessing    CI/CD
+  Analysis      Dataset        Weighting    Recommendation   Auditing
 ```
 *Figure 6.3: Downstream modules consuming generated metadata.*
 
-1. **Exploratory Data Analysis (EDA)**:
-   - EDA notebooks load `image_statistics.csv` and `class_distribution.csv` directly to plot distributions, verify aspect ratios, and analyze outlier dimensions, reducing computational overhead.
+1. **Exploratory Data & Quality Analysis**:
+   - EDA pipelines load `image_statistics.csv` and `class_distribution.csv` directly to plot distributions, verify aspect ratios, and analyze outlier dimensions, reducing computational overhead. This is consumed by quality modules to compute continuous Quality Scores ($Q$) and flag dark, bright, or blurry outliers.
 2. **PyTorch Dataset Class**:
    - The custom dataset class loads `train_metadata.csv` to read target labels and image filenames. This avoids performing expensive directory scans or reading image files on-the-fly during training.
 3. **Training & Loss Optimization**:
    - Training scripts load `class_distribution.csv` to compute class-weight arrays, balancing the training loss to prevent the network from ignoring minority classes (e.g., Severe DR).
-4. **Experiments Log & Reporting**:
+4. **Preprocessing Recommendation Engine**:
+   - Analyzes the statistical distribution of spatial dimensions and color channel statistics to establish candidate resizing resolutions, normalizations, and augmentation parameters.
+5. **Experiments Log & Reporting**:
    - Experiment managers (like MLflow or TensorBoard) read `dataset_statistics.json` to log hyperparameters and dataset attributes, establishing a solid audit trail for research publication.
 
 ---

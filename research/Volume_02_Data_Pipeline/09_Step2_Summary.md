@@ -17,7 +17,7 @@ graph TD
     Dataset --> Transforms["Standard Preprocessing & Augmentations"]
     Transforms --> Dataloader["DataLoader (Mini-batching, Shuffling)"]
     Dataloader --> Verification["E2E Automated Verification Suite"]
-    Verification --> Model["Downstream Deep Learning Model (Step 3)"]
+    Verification --> Model["Downstream Preprocessing & Baseline CNN (Step 4 & 5)"]
 ```
 
 ## Key Outcomes
@@ -57,8 +57,10 @@ We executed the end-to-end verification script and confirmed that all checks pas
 - CSV validation, split integrity, class distribution, dataset length, image loading, batch shapes, and full iteration tests have been verified.
 - No data leakage or loading failures were detected during verification.
 
-## Readiness for Step 3 (Model Development)
-The project now provides all infrastructure required to begin model development, including reliable data loading, standardized preprocessing, deterministic evaluation, and reproducible experimentation.
+## Readiness for Image Preprocessing and Baseline CNN Development
+The project now provides all infrastructure required to begin preprocessing optimization and model development, including reliable data loading, standardized preprocessing, deterministic evaluation, and reproducible experimentation.
 - Stable, shuffled training batches of shape `(32, 3, 224, 224)` and deterministic validation and test batches are fully configured.
 - Tensors are loaded onto CPU memory by default, matching PyTorch best practices.
 - Parameters for learning rates, batch sizes, worker counts, and device selections are centralized in `src/config.py`, allowing easy model experimentation.
+
+The validated pipeline developed in this phase was subsequently used to generate the quantitative analyses presented in the Exploratory Data Analysis phase, confirming its correctness under practical experimental workloads.

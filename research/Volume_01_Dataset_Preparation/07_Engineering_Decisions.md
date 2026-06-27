@@ -56,6 +56,11 @@ This chapter documents the key technical decisions, trade-offs, and software eng
   - Scripts are easily executed from the terminal, making them ready for automated CI/CD pipelines, automated testing, and cloud GPU environments.
 - **Trade-off**: Lacks the interactive, cell-by-cell visualization interface of Jupyter Notebooks during active code development.
 
+### 8. Why Metadata Before EDA?
+- **Decision**: Precalculate all image properties (width, height, file size, aspect ratio) and save them to CSV and JSON files in `datasets/metadata/` before running Exploratory Data Analysis.
+- **Engineering Rationale**: Pre-generating metadata enables statistical analysis without repeatedly decoding high-resolution retinal images, reducing execution time while ensuring consistent descriptive statistics across multiple experiments. This mirrors the engineering style of Volume 3.
+- **Trade-off**: Requires running metadata generation as a separate preliminary step before any analysis or plotting scripts can execute.
+
 ---
 
 ## Software Architecture Patterns

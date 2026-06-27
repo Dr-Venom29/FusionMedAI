@@ -6,7 +6,7 @@ This chapter summarizes the objectives achieved, files generated, engineering co
 
 ## Objectives Achieved
 
-The project has successfully completed both the **Dataset Preparation** (Step 1) and **Data Pipeline** (Step 2) phases of the FusionMedAI project:
+The project has successfully completed the Dataset Preparation (Step 1), Data Pipeline (Step 2), and Exploratory Data Analysis (Step 3) phases of the FusionMedAI framework:
 - **Verified Directory Structure**: Established a standardized folder layout separating raw clinical data from processed arrays and metadata reports.
 - **Formulated Centralized Configuration**: Centralized paths, seeds, image size, and DataLoader settings in `src/config.py`.
 - **Automated Data Quality Audits**: Developed verification scripts validating file existence, duplicate records, and formats.
@@ -15,6 +15,7 @@ The project has successfully completed both the **Dataset Preparation** (Step 1)
 - **Modular Dataset & Transform Implementations**: Created a reusable `RetinaDataset` with custom torchvision augmentations.
 - **Configurable Dataloaders with Safety Shields**: Built memory-pinned PyTorch loaders with Windows-specific worker fallback policies.
 - **Independent Validation Modules**: Implemented five independent verification modules (`verify_dataset.py`, `verify_dataset_class.py`, `verify_transforms.py`, `verify_dataloader.py`, `verify_pipeline.py`) to validate each stage.
+- **Automated Exploratory Data Analysis (Step 3)**: Developed a concurrent statistics extraction and plotting pipeline, delivering 14 publication-grade figures, a summary dashboard, custom RGB channel profiling, an automated Jupyter Notebook, duplicate auditing (detecting 134 duplicate pairs), quality score ($Q$) assessments, preprocessing recommendations, dataset fingerprinting, and execution manifests.
 
 ---
 
@@ -97,8 +98,8 @@ Training Ready
 
 ---
 
-## Readiness for Model Development
-After completion of Steps 1 and 2, the project is now ready for neural network development. The dataset has been verified, stratified, wrapped in reusable PyTorch Dataset classes, connected to deterministic preprocessing pipelines, and validated through end-to-end integration tests. The subsequent phase focuses on CNN architecture selection, optimization, loss functions, explainability, uncertainty estimation, and model evaluation.
+## Readiness for Image Preprocessing and Baseline Model Development
+After completion of Steps 1, 2, and 3, the project is now ready for Step 4 (Image Preprocessing) and baseline model development. The dataset has been verified, stratified, wrapped in reusable PyTorch Dataset classes, profiled quantitatively, and audited for data quality. The preprocessing recommendations and Quality Scores ($Q$) serve as the foundation for the subsequent experimental phase.
 
 ---
 
@@ -107,7 +108,10 @@ After completion of Steps 1 and 2, the project is now ready for neural network d
 The flowchart below maps the research roadmap for the subsequent step (Model Development):
 
 ```
-Next Phase (Step 3)
+Next Phase (Step 4 & 5)
+      │
+      ▼
+Preprocessing
       │
       ▼
  EfficientNet
@@ -130,4 +134,4 @@ Next Phase (Step 3)
       ▼
    ACARA-U
 ```
-*Figure 10.2: Model development and post-training roadmap.*
+*Figure 10.2: Preprocessing, model development, and post-training roadmap.*

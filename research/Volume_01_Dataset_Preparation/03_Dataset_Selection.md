@@ -49,7 +49,7 @@ The highly imbalanced distribution of severity classes is visually represented b
 
 *Figure 3.2. Distribution of diabetic retinopathy severity classes in the APTOS 2019 dataset. The dataset exhibits substantial class imbalance, with No DR accounting for nearly half of all training samples, whereas Severe NPDR represents the smallest category.*
 
-The observed imbalance indicates that standard training may bias the model toward majority classes. Consequently, class weighting and data augmentation strategies will be investigated in later stages of the study. These characteristics directly influence resizing, augmentation, normalization, sampling, and class balancing, which connects directly to the preprocessing stages in Step 2.
+The observed imbalance indicates that standard training may bias the model toward majority classes. Consequently, class weighting and data augmentation strategies will be investigated in later stages of the study. These characteristics directly influence resizing, augmentation, normalization, sampling, and class balancing, which connects directly to the preprocessing, exploratory analysis, and model development stages.
 
 ### 5. Suitability for DR Classification
 APTOS 2019 is highly suitable because it represents a "real-world" clinical distribution. The images were collected from multiple clinics under varying lighting conditions, camera equipment, and resolutions. This clinical variety encourages models to learn robust features (such as exudates, microaneurysms, and hemorrhages) rather than overfitting to specific camera models or sensor noise.

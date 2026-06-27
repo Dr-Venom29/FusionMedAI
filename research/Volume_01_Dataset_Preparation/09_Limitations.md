@@ -7,7 +7,7 @@ This chapter documents the limitations of the current dataset preparation phase 
 ## Documented Limitations
 
 ### 1. Only APTOS 2019 Integrated
-- **Limitation**: The dataset preparation pipeline has been validated only on the APTOS 2019 dataset. Generalization across multiple retinal datasets (e.g., IDRiD, Messidor-2, DDR, DeepDRiD) has not yet been evaluated.
+- **Limitation**: The dataset preparation pipeline has been validated only on the APTOS 2019 dataset. Statistical observations are limited to the APTOS 2019 dataset, and dataset-specific preprocessing recommendations may require recalibration when applied to external retinal datasets.
 - **Reason for Deferral**: Focusing on a single dataset first allows us to build, test, and refine the verification and metadata pipelines before extending them to other clinical modalities.
 
 ### 2. No External Validation Dataset

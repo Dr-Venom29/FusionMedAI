@@ -106,3 +106,41 @@ MODEL_NAME = "efficientnet_b0"
 LEARNING_RATE = 1e-4
 
 WEIGHT_DECAY = 1e-4
+
+# ==========================
+# Phase 3 Directories & Files
+# ==========================
+
+RESULTS_DIR = PROJECT_ROOT / "results"
+REPORTS_DIR = PROJECT_ROOT / "reports"
+NOTEBOOKS_DIR = PROJECT_ROOT / "notebooks"
+RESEARCH_DIR = PROJECT_ROOT / "research"
+
+# Retina-specific paths
+RETINA_NOTEBOOKS_DIR = NOTEBOOKS_DIR / "retina"
+RETINA_RESULTS_DIR = RESULTS_DIR / "retina"
+RETINA_FIGURES_DIR = RETINA_RESULTS_DIR / "figures"
+RETINA_RESEARCH_DIR = RESEARCH_DIR / "Volume_03_Exploratory_Data_Analysis"
+
+# Metadata additions
+IMAGE_STATISTICS_CSV = METADATA_DIR / "image_statistics.csv"
+EDA_STATISTICS_CSV = METADATA_DIR / "eda_statistics.csv"
+EDA_STATISTICS_PARQUET = METADATA_DIR / "eda_statistics.parquet"
+EDA_SUMMARY_JSON = METADATA_DIR / "eda_summary.json"
+PREPROCESSING_RECOMMENDATIONS_JSON = METADATA_DIR / "preprocessing_recommendations.json"
+
+# Quality Outlier CSV Paths
+DARK_IMAGES_CSV = METADATA_DIR / "dark_images.csv"
+BRIGHT_IMAGES_CSV = METADATA_DIR / "bright_images.csv"
+BLURRY_IMAGES_CSV = METADATA_DIR / "blurry_images.csv"
+SMALL_IMAGES_CSV = METADATA_DIR / "small_images.csv"
+LARGE_IMAGES_CSV = METADATA_DIR / "large_images.csv"
+
+# ==========================
+# Phase 3 EDA Parameters
+# ==========================
+EDA_VERSION = "1.0.0"
+FIGURE_DPI = 300
+FIGURE_FORMATS = ["png", "svg"]
+OUTLIER_PERCENTILE = 0.05
+MAX_ANALYSIS_DIM = 512

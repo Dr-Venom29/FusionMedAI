@@ -39,6 +39,8 @@ Let $p_i$ denote the proportion of class $i$ in the original dataset. Stratified
 $$p_i^{train} \approx p_i^{val} \approx p_i^{test} \approx p_i$$
 for every class $i \in \{0, 1, 2, 3, 4\}$, subject only to integer rounding constraints.
 
+Class imbalance is intentionally preserved during splitting to ensure that the validation and test sets reflect the true clinical distribution. Class balancing techniques are introduced later during model training through sampling strategies or loss-function modifications rather than by altering evaluation datasets.
+
 ## Two-Stage 80/10/10 Split
 A standard split ratio of **80% Train / 10% Validation / 10% Test** is implemented in a two-stage process using scikit-learn's `train_test_split`:
 

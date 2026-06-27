@@ -41,6 +41,9 @@ Ensuring absolute reproducibility is critical for medical AI to verify clinical 
 ### 8. Consistent Folder Structure
 - Enforcing a standardized directory structure (`raw/`, `interim/`, `processed/`, `metadata/`) ensures that scripts can find and write files to the correct locations regardless of the host machine.
 
+### 9. Extended Reproducibility in Downstream Chapters
+- Building upon this baseline, Step 3 (EDA) incorporates extended reproducibility controls, including a deterministic dataset reproducibility fingerprint (SHA-256), automated execution manifests (`manifest.json`) logging execution times and environmental package versions (Python, OpenCV), and version-controlled engineering reports to document all experimental configurations.
+
 ---
 
 ## Reproducibility Framework Summary
@@ -55,6 +58,8 @@ Ensuring absolute reproducibility is critical for medical AI to verify clinical 
 | **Metadata** | Deterministic metadata generation |
 | **Versioning** | Git commits and semantic tags |
 | **Dependencies** | Locked package versions in `requirements.txt` |
+| **Fingerprint** | Dataset reproducibility SHA-256 fingerprinting |
+| **Manifests** | Execution manifests (`manifest.json`) logging runtimes and environments |
 
 ---
 

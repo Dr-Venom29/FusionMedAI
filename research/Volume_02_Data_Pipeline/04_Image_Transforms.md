@@ -76,6 +76,8 @@ $$x_{norm} = \frac{x - \mu}{\sigma}$$
 - **Rationale**: Since the model will initialize with ImageNet-pretrained weights (e.g., EfficientNet-B0), using the pretrained statistics matches the distribution of the features the network has already learned.
 - **Wording Refinement**: These statistics are currently adopted to maintain compatibility with ImageNet-pretrained weights. Dataset-specific normalization statistics may be computed and substituted in future experiments.
 
+The preprocessing configuration presented here represents the baseline transform pipeline. Subsequent EDA findings may recommend adjustments to resizing strategy, normalization statistics, augmentation strength, or preprocessing order based on observed dataset characteristics.
+
 ## Implementation Characteristics
 The transform module provides:
 - **Separate pipelines for training and evaluation**: Ensuring safe benchmarks.

@@ -37,6 +37,11 @@ The implemented data pipeline satisfies the functional requirements of the curre
 - **Impact**: Repeated disk I/O increases training time.
 - **Future Work**: Evaluate RAM caching, SSD caching, or WebDataset/Tensor storage formats for larger datasets.
 
+## 8. Baseline Preprocessing Only
+- **Limitation**: The transform pipeline intentionally uses conservative preprocessing parameters.
+- **Impact**: While it forms a solid baseline, it does not incorporate advanced, dataset-specific preprocessing steps.
+- **Future Work**: More advanced preprocessing strategies, informed by quantitative EDA findings (such as circular cropping, resizing aspect-ratio adjustments, and custom channel normalization), will be evaluated during later experimental stages.
+
 ---
 
 ## Conclusion

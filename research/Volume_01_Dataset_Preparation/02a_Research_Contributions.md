@@ -22,6 +22,9 @@ This work introduces several key methodological and engineering contributions to
 6. **Scalable Multi-Modal Design**:
    Establishes clean directory structures and configuration conventions that easily scale to support additional medical datasets (e.g. IDRiD, DFUC, PIMA) without changing core pipeline logic.
 
+7. **Quantitative Exploratory Analysis Framework**:
+   Developed an automated EDA framework that computes spatial statistics, RGB distributions, image quality metrics, duplicate analysis, preprocessing recommendations, and reproducible research reports.
+
 ---
 
 ## Novelty and Research Value

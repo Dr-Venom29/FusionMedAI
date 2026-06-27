@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "eda_version": "1.0.0",
+  "phase": "EDA",
+  "dataset": "APTOS2019",
+  "dataset_fingerprint": "df102971518b36519862bbfb8b1afc601fd2ba27e6c2b2371d3c3ff77b443593",
+  "total_training_images": 3662,
+  "missing_images": 0,
+  "corrupted_images": 0,
+  "invalid_channel_images": 0,
+  "quality_metrics": {
+    "dark_images_percentage": 5.0246,
+    "bright_images_percentage": 5.0246,
+    "blurry_images_percentage": 5.0246
+  },
+  "rgb_mean": [
+    0.421598,
+    0.223786,
+    0.072202
+  ],
+  "rgb_std": [
+    0.276549,
+    0.150057,
+    0.08049
+  ],
+  "class_rgb_statistics": {
+    "Class_0": {
+      "mean": [
+        0.416368,
+        0.222873,
+        0.068884
+      ],
+      "std": [
+        0.292754,
+        0.159137,
+        0.087143
+      ]
+    },
+    "Class_1": {
+      "mean": [
+        0.452164,
+        0.222137,
+        0.059349
+      ],
+      "std": [
+        0.249443,
+        0.129467,
+        0.056948
+      ]
+    },
+    "Class_2": {
+      "mean": [
+        0.429409,
+        0.227916,
+        0.081488
+      ],
+      "std": [
+        0.260751,
+        0.141538,
+        0.075325
+      ]
+    },
+    "Class_3": {
+      "mean": [
+        0.397003,
+        0.219236,
+        0.081376
+      ],
+      "std": [
+        0.246883,
+        0.138934,
+        0.071396
+      ]
+    },
+    "Class_4": {
+      "mean": [
+        0.411181,
+        0.221699,
+        0.075962
+      ],
+      "std": [
+        0.250298,
+        0.139111,
+        0.072566
+      ]
+    }
+  },
+  "class_imbalance": {
+    "imbalance_ratio": 9.3523,
+    "majority_class_count": 1805,
+    "minority_class_count": 193,
+    "recommended_loss_function": "WeightedCrossEntropyLoss"
+  },
+  "thresholds": {
+    "brightness_5pct": 37.782003,
+    "brightness_95pct": 92.419779,
+    "blur_5pct": 24.368078,
+    "filesize_5pct": 319.0,
+    "filesize_95pct": 5525.9
+  },
+  "environment": {
+    "python_version": "3.12.2",
+    "numpy_version": "2.2.6",
+    "pandas_version": "2.2.2",
+    "opencv_version": "4.13.0"
+  },
+  "execution_time_seconds": 77.27
+}

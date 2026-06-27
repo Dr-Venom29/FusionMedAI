@@ -77,6 +77,10 @@ graph TD
 - **Decision**: Use ImageNet mean and standard deviation during early development.
 - **Reasoning**: The initial model uses ImageNet-pretrained weights. Dataset-specific normalization statistics will be computed later and evaluated as part of model optimization.
 
+### 16. Why Lazy Loading instead of Dataset Caching?
+- **Decision**: Force lazy image loading inside `RetinaDataset` instead of pre-caching decoded image arrays in RAM.
+- **Reasoning**: Lazy loading guarantees that RAM usage stays constant regardless of dataset size. Large datasets remain feasible on typical development hardware. Caching can be evaluated later as an optimization rather than a baseline assumption, avoiding early memory exhaustion.
+
 ---
 
 ## Computational Complexity & Memory Analysis

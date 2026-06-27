@@ -135,6 +135,13 @@ ALL PIPELINE CHECKS PASSED
 ## Throughput Interpretation
 Because verification was executed with `num_workers=0` on a Windows development environment, these throughput values should be interpreted only as functional verification metrics rather than performance benchmarks. Actual training throughput is expected to improve substantially when using multiple workers and GPU acceleration.
 
+## Verification Coverage
+The automated verification framework guarantees coverage across four primary dimensions:
+- **Functional Correctness**: Confirms class distribution percentages, label value boundaries ($[0,4]$), and tensor data types (`torch.int64` labels, `torch.float32` images).
+- **Structural Integrity**: Audits folder organization, checks split CSV schemas, and validates full file disjointness to guarantee zero data leakage.
+- **Integration Testing**: Executes the full path from raw disk files through PIL decoding, color channel conversion, augmentation transformations, collation, and DataLoader iterations.
+- **Regression Testing**: Serves as a repeatable audit suite that can be re-run after changes to configuration, augmentation schedules, or backend libraries to prevent pipeline drift.
+
 ---
 
 ## References

@@ -30,6 +30,9 @@ Datasets load samples individually. The dataloader fetches $N$ samples (where $N
 
 Batching enables efficient parallel computation on modern CPUs and GPUs by processing multiple images simultaneously instead of one sample at a time. Mini-batch training also provides more stable gradient estimates than purely stochastic updates.
 
+## Collation Strategy
+Since each sample contains a fixed-size RGB image and a scalar label, the default PyTorch collation mechanism is sufficient. Custom collation becomes necessary only for variable-sized inputs or multimodal data.
+
 ### DataLoader Output
 - **Image Tensor**: $(B, 3, 224, 224)$ float32 tensor representing the normalized image batch.
 - **Label Tensor**: $(B,)$ int64 tensor representing the disease severity labels.
