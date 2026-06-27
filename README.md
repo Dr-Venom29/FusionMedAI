@@ -10,15 +10,14 @@ The primary architecture utilizes **ACARA-U Fusion** (Attention-driven Clinical 
 
 ## ✨ Current Features
 
-- Automated dataset verification
-- Metadata generation
-- Stratified train/validation/test splitting
-- Custom PyTorch Dataset
-- Training/validation/test transform pipelines
-- Configurable DataLoader
-- End-to-end pipeline verification
-- Centralized configuration
-- Research documentation
+- Automated dataset verification and metadata generation
+- Stratified train/validation/test splitting (80/10/10)
+- Custom PyTorch Dataset and transforms with configurable DataLoader
+- End-to-end pipeline and integration verification
+- Automated Exploratory Data Analysis (EDA) & RGB channel profiling
+- Continuous Image Quality Assessment (Quality Score Q)
+- Dataset duplicate audit & SHA-256 fingerprinting
+- Centralized configuration and research logs
 
 ---
 
@@ -52,9 +51,10 @@ Implemented:
 - ✔ Image Transforms
 - ✔ DataLoader
 - ✔ End-to-End Verification
+- ✔ Exploratory Data Analysis (EDA) & Quality Audit
 
 In Progress:
-- 🔄 Retina Model Development
+- 🔄 Image Preprocessing & Baseline CNN Development
 
 ---
 
@@ -64,9 +64,10 @@ In Progress:
 |---------|--------|
 | v0.1.0 | Dataset Preparation ✅ |
 | v0.2.0 | Data Pipeline ✅ |
-| v0.3.0 | Model Development 🔄 |
-| v0.4.0 | Training & Evaluation |
-| v0.5.0 | Explainability |
+| v0.3.0 | Exploratory Data Analysis ✅ |
+| v0.4.0 | Preprocessing & CNN Development 🔄 |
+| v0.5.0 | Training & Evaluation |
+| v0.6.0 | Explainability |
 | v1.0.0 | Retina Module |
 
 ---
@@ -89,7 +90,9 @@ The framework is organized into specialized domain modules. The current status o
 - [x] **Dataset Preparation**: Completed data integrity checks, resolution-imbalance analysis, and automated metadata generation.
 - [x] **Data Pipeline**: Implemented reproducible stratified 80/10/10 split, lazy-loading `RetinaDataset` subclass, validation/training image transformations, and multi-process `DataLoader`.
 - [x] **Verification Framework**: Configured a rigorous unit and integration verification suite validating dataset integrity, lazy image loading, and zero data leakage.
-- [ ] **Model Development**: Setup model backbone architecture.
+- [x] **Exploratory Data Analysis (EDA)**: Completed colorimetric RGB profiling, image quality assessment (Continuous Quality Score $Q$), duplicate auditing (detecting 134 pairs), and publication-ready report compilations.
+- [ ] **Image Preprocessing**: Pre-generate optimized cropped and padded images based on EDA recommendations.
+- [ ] **Model Development**: Setup model backbone architecture and baseline configurations.
 - [ ] **Training**: Configure training scripts, loss functions, and optimization policies.
 - [ ] **Explainability**: Integrate XAI visualizations.
 - [ ] **Evaluation**: Document validation and external testing metrics.
@@ -105,9 +108,15 @@ FusionMedAI/
 │   ├── interim/              # Generated diagnostic reports & logs
 │   └── processed/            # Final versioned data splits
 ├── docs/                     # Architectural diagrams & specifications
+├── notebooks/                # Academic Jupyter notebooks
+│   └── retina/
+│       ├── eda.ipynb         # Interactive dataset exploratory analysis
+│       ├── extract_stats.py  # Concurrent statistical feature extractor
+│       └── run_eda_analysis.py # Automated EDA & report generation engine
 ├── research/                 # Academic notebooks & clinical engineering logs
 │   ├── Volume_01_Dataset_Preparation/  # Raw audits, checks, and metadata logic
-│   └── Volume_02_Data_Pipeline/        # Data flow, complexities, and pipeline decisions
+│   ├── Volume_02_Data_Pipeline/        # Data flow, complexities, and pipeline decisions
+│   └── Volume_03_Exploratory_Data_Analysis/ # Spatial, RGB, quality, and duplicate analysis
 ├── src/                      # Production source codebase
 │   ├── config.py             # Centralized pipeline configuration
 │   └── data/                 # Data loading, transforms, and splits
@@ -132,15 +141,16 @@ FusionMedAI/
 Each engineering phase is documented in detail:
 - **Volume 01 — Dataset Preparation** (located at [research/Volume_01_Dataset_Preparation/](research/Volume_01_Dataset_Preparation/))
 - **Volume 02 — Data Pipeline** (located at [research/Volume_02_Data_Pipeline/](research/Volume_02_Data_Pipeline/))
+- **Volume 03 — Exploratory Data Analysis** (located at [research/Volume_03_Exploratory_Data_Analysis/](research/Volume_03_Exploratory_Data_Analysis/))
 
 Each volume contains:
-- Introduction
-- Design decisions
-- Engineering rationale
-- Algorithms
-- Verification methodology
-- Limitations
-- Summary
+- Introduction & background
+- Objectives & contributions
+- Technical design decisions & trade-offs
+- Verification methodology & coverage
+- Multi-dimensional figures and dashboards (for Volume 3)
+- Research limitations & mitigations
+- Concluding roadmaps
 
 ---
 
@@ -198,9 +208,12 @@ python src/data/split_dataset.py
 
 # Step 4: Execute end-to-end pipeline verification
 python src/data/verify_pipeline.py
+
+# Step 5: Run Exploratory Data Analysis & report generation
+python -m notebooks.retina.run_eda_analysis
 ```
 
-All verification steps must output `PASS` before proceeding to training.
+All verification and analysis steps must run successfully before proceeding to model preprocessing and training.
 
 ---
 
@@ -208,9 +221,10 @@ All verification steps must output `PASS` before proceeding to training.
 
 - **v0.1.0 (Dataset Preparation)**: Completed raw audit, metadata generation, and resolution scanning. ✅
 - **v0.2.0 (Data Pipeline)**: Completed stratified split, lazy loading, transforms, and E2E verification. ✅
-- **v0.3.0 (Retina Model Development)**: Build Deep Learning backbones (timm models) and define training parameters.
-- **v0.4.0 (Retina Training & Evaluation)**: Complete optimization, validation benchmarks, and external testing.
-- **v0.5.0 (Retina Explainability)**: Integrate post-hoc visual explanations.
+- **v0.3.0 (Exploratory Data Analysis)**: Completed concurrent stats extraction, RGB profiling, duplicate audit, quality scoring, and automated reports. ✅
+- **v0.4.0 (Retina Preprocessing & CNN Development)**: Pre-generate optimized dataset splits and build timm backbone CNN models. 🔄
+- **v0.5.0 (Retina Training & Evaluation)**: Complete optimization, validation benchmarks, and external testing.
+- **v0.6.0 (Retina Explainability)**: Integrate post-hoc visual explanations.
 - **v1.0.0 (Retina Module Complete)**: Fully release verified, explainable Diabetic Retinopathy module.
 - **v2.0.0 (Foot Ulcer Module Complete)**: Integrate wound segmentation models.
 - **v3.0.0 (Clinical Module Complete)**: Integrate EHR structured features and classification networks.
