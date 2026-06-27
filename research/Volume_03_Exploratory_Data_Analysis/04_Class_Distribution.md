@@ -67,6 +67,10 @@ Where $p_t$ is the model's estimated probability for the correct class, and $\ga
 ### 3. Data-Level Balancing Techniques
 Data-level balancing techniques such as weighted random sampling and minority-class oversampling will also be evaluated during model training and compared with algorithm-level loss weighting to resolve the distribution skewness.
 
-Refer to the figures copied to the research volume:
-- [Class Distribution Visualization](images/Fig_03_01_class_distribution.png): Figure 3.1 illustrates the pronounced class imbalance.
-- [Staged Sample Grid (5x5)](images/Fig_03_02_sample_images.png): Figure 3.2 provides representative retinal appearances across all disease stages.
+### Visual Artifacts and Grids
+
+![Class Distribution Visualization](images/Fig_03_01_class_distribution.png)
+*Figure 4.1: Distribution of severity classes showing significant majority bias.*
+
+![Staged Sample Grid (5x5)](images/Fig_03_02_sample_images.png)
+*Figure 4.2: 5x5 Grid showing representative samples for each severity class (0-4).*

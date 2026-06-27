@@ -65,8 +65,16 @@ During subsequent model development and training, this quality score can be used
 - **Quality-Aware Gradient Weighting**: Images with lower quality scores may be assigned reduced sampling weights or excluded during sensitivity analyses, while higher-quality images may be prioritized for model training.
 - **Explainability Validation**: Quality scores will be cross-referenced with Grad-CAM activation maps to verify that classification models do not focus on illumination artifacts or blurred peripheral margins.
 
-Refer to the figures copied to the research volume:
-- [Grayscale Brightness Distribution](images/Fig_03_07_brightness_histogram.png)
-- [Laplacian Sharpness Distribution](images/Fig_03_08_blur_histogram.png)
-- [Class-wise Brightness and Sharpness Boxplots](images/Fig_03_11_classwise_brightness.png)
-- [Quality Examples and Outlier Cases Grid](images/Fig_03_13_quality_examples.png): Figure 3.13 illustrates representative examples of each quality category identified by the automated auditing pipeline.
+### Visual Quality Distributions
+
+![Grayscale Brightness Distribution](images/Fig_03_07_brightness_histogram.png)
+*Figure 6.1: Distribution of average image brightness values.*
+
+![Laplacian Sharpness Distribution](images/Fig_03_08_blur_histogram.png)
+*Figure 6.2: Distribution of Laplacian variance scores.*
+
+![Class-wise Brightness and Sharpness Boxplots](images/Fig_03_11_classwise_brightness.png)
+*Figure 6.3: Boxplots of brightness and sharpness across different severity stages.*
+
+![Quality Examples and Outlier Cases Grid](images/Fig_03_13_quality_examples.png)
+*Figure 6.4: Examples of dark, bright, blurry, and normal quality retinal scans.*

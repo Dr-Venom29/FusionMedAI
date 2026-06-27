@@ -88,6 +88,11 @@ graph TD
 ```
 *Figure 9.1: Phase 3 pipeline data flow.*
 
+### EDA Summary Dashboard
+
+![EDA Summary Dashboard](images/Fig_03_14_summary_dashboard.png)
+*Figure 9.2: Comprehensive Exploratory Data Analysis (EDA) summary dashboard.*
+
 ---
 
 ## Readiness for Step 4

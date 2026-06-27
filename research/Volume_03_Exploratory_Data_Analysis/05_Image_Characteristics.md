@@ -53,10 +53,22 @@ To evaluate whether disease progression causes colorimetric shifts, channel stat
 
 The class-wise color analysis shows that only modest variations in channel statistics are observed across disease stages, suggesting that diabetic retinopathy progression is associated more strongly with localized pathological lesions than with global color distribution changes.
 
-Refer to the figures copied to the research volume:
-- [Resolution Histogram Analysis](images/Fig_03_03_resolution_histogram.png): Figures 3.3–3.6 demonstrate the large variability in spatial dimensions.
-- [Resolution Scatter Plot](images/Fig_03_04_resolution_scatter.png)
-- [Aspect Ratio Boxplot](images/Fig_03_05_aspect_ratio_histogram.png)
-- [File Size Histogram](images/Fig_03_06_filesize_histogram.png)
-- [Overlay of RGB Channel Histograms](images/Fig_03_09_rgb_histogram.png): Figure 3.9 confirms the stable RGB distribution across the dataset.
-- [Class-wise Resolution and File Size Metrics](images/Fig_03_12_classwise_resolution.png)
+### Visual Artifacts and Histograms
+
+![Resolution Histogram Analysis](images/Fig_03_03_resolution_histogram.png)
+*Figure 5.1: Distribution of raw image widths and heights.*
+
+![Resolution Scatter Plot](images/Fig_03_04_resolution_scatter.png)
+*Figure 5.2: Scatter plot of image dimensions showing distinct camera resolution clusters.*
+
+![Aspect Ratio Boxplot](images/Fig_03_05_aspect_ratio_histogram.png)
+*Figure 5.3: Histogram of aspect ratios centering around 4:3 (1.33).*
+
+![File Size Histogram](images/Fig_03_06_filesize_histogram.png)
+*Figure 5.4: Histogram of file sizes showing variation from 50KB to >8MB.*
+
+![Overlay of RGB Channel Histograms](images/Fig_03_09_rgb_histogram.png)
+*Figure 5.5: Log-scale pixel intensity histograms for R, G, and B channels.*
+
+![Class-wise Resolution and File Size Metrics](images/Fig_03_12_classwise_resolution.png)
+*Figure 5.6: Class-wise distribution of image resolutions and file sizes.*
