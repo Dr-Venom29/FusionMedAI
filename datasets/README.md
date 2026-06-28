@@ -4,19 +4,23 @@ This directory contains the datasets used in FusionMedAI for diabetes risk predi
 
 ## Folder Structure
 
-```text
+```directory
 datasets/
 ├── raw/
 │   └── aptos2019/
-│       ├── train_images/
-│       ├── test_images/
-│       ├── train.csv
-│       ├── test.csv
-│       └── sample_submission.csv
-├── processed/
-├── interim/
-└── metadata/
+├── interim/          # Intermediate files generated during preprocessing
+├── processed/        # Versioned train/val/test splits
+├── metadata/         # Generated metadata and statistics
+└── README.md
 ```
+
+## Dataset Overview
+
+| Module | Dataset | Purpose |
+| :--- | :--- | :--- |
+| **Retina** | APTOS 2019 | Diabetic Retinopathy Classification |
+| **Foot Ulcer** | DFUC | Wound Detection & Staging |
+| **Clinical** | PIMA | Tabular Diabetes Risk Prediction |
 
 ---
 
@@ -30,39 +34,38 @@ This project does not include the datasets due to licensing and size restriction
    https://www.kaggle.com/competitions/aptos2019-blindness-detection
 
 2. Extract it into:
+   `datasets/raw/aptos2019/`
 
-```
-datasets/raw/aptos2019/
-```
-
-The directory should look like:
-
-```
-datasets/
-└── raw/
-    └── aptos2019/
-        ├── train_images/
-        ├── test_images/
-        ├── train.csv
-        ├── test.csv
-        └── sample_submission.csv
-```
-
-3. Verify the dataset:
+3. Run the pipeline setup and verification scripts:
 
 ```bash
+# Step 1: Verify raw dataset integrity
 python src/data/verify_dataset.py
-```
 
-4. Generate metadata:
-
-```bash
+# Step 2: Generate dataset metadata and statistics
 python src/data/generate_metadata.py
+
+# Step 3: Create stratified dataset splits (80/10/10)
+python src/data/split_dataset.py
+
+# Step 4: Verify complete end-to-end data pipeline
+python src/data/verify_pipeline.py
 ```
+
+## Current Status
+
+The APTOS 2019 dataset has completed:
+- Dataset verification
+- Metadata generation
+- Stratified train/validation/test splitting
+- Exploratory Data Analysis (EDA)
+- Baseline framework validation
+
+The dataset is now ready for baseline model training.
 
 ---
 
-# Dataset 1: APTOS 2019 Blindness Detection
+# Retina Module Dataset: APTOS 2019 Blindness Detection
 
 ### Overview
 APTOS 2019 is a publicly available diabetic retinopathy dataset consisting of retinal fundus images collected from diabetic patients.
@@ -92,7 +95,7 @@ According to Kaggle Competition Terms (Research/Educational Use)
 
 ---
 
-# Dataset 2: DFUC (Diabetic Foot Ulcer Challenge Dataset)
+# Foot Ulcer Module Dataset: DFUC (Diabetic Foot Ulcer Challenge)
 
 ### Overview
 DFUC is a diabetic foot ulcer image dataset used for ulcer detection, localization, segmentation, and severity assessment.
@@ -113,7 +116,7 @@ Research Use
 
 ---
 
-# Dataset 3: PIMA Indians Diabetes Dataset
+# Clinical Module Dataset: PIMA Indians Diabetes Dataset
 
 ### Overview
 PIMA is a structured clinical dataset used for diabetes prediction based on diagnostic measurements.
@@ -149,3 +152,15 @@ Several features contain zero values that represent missing measurements. These 
 
 ### License
 Open Research Dataset
+
+---
+
+## Future Datasets
+
+Additional external validation datasets (e.g., IDRiD, Messidor) may be incorporated in future research phases for evaluating model generalization.
+
+## Dataset Notice
+
+FusionMedAI does not redistribute any third-party datasets.
+
+Users are responsible for downloading each dataset from its official source and complying with the respective licensing terms.

@@ -283,22 +283,6 @@ The framework is now ready for full-scale GPU training and experimental evaluati
 - **v2.0.0 (Foot Ulcer Module Complete)**: Integrate wound segmentation models.
 - **v3.0.0 (Clinical Module Complete)**: Integrate EHR structured features and classification networks.
 - **v4.0.0 (FusionMedAI Complete)**: Release unified multi-modal ACARA-U Fusion model.
-
----
-
-## 📄 Citation
-
-```bibtex
-@misc{FusionMedAI2026,
-  title={FusionMedAI: Attention-driven Clinical and Retinal Analysis with Uncertainty Estimation},
-  author={Shashank Reddy},
-  year={2026},
-  note={Manuscript in preparation}
-}
-```
-
----
-
 ## ⚖️ License
 
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
