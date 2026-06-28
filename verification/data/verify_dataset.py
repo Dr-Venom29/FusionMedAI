@@ -12,6 +12,9 @@ sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 from src.config import (
     METADATA_DIR,
+    METADATA_VALIDATION_DIR,
+    METADATA_STATISTICS_DIR,
+    PROJECT_ROOT,
     TRAIN_CSV,
     TEST_CSV,
     TRAIN_IMAGES,
@@ -22,7 +25,9 @@ from src.config import (
 def main():
     start_time = time.time()
     
-    METADATA_DIR.mkdir(parents=True, exist_ok=True)
+    METADATA_VALIDATION_DIR.mkdir(parents=True, exist_ok=True)
+    METADATA_STATISTICS_DIR.mkdir(parents=True, exist_ok=True)
+    (PROJECT_ROOT / "logs").mkdir(parents=True, exist_ok=True)
     
     train_csv_path = TRAIN_CSV
     test_csv_path = TEST_CSV
@@ -232,28 +237,28 @@ def main():
         
     # Write CSV output files
     df_missing = pd.DataFrame(missing_images_list, columns=["id_code"])
-    df_missing.to_csv(METADATA_DIR / "missing_images.csv", index=False)
+    df_missing.to_csv(METADATA_VALIDATION_DIR / "missing_images.csv", index=False)
     
     df_corrupted = pd.DataFrame(corrupted_images_list, columns=["filename"])
-    df_corrupted.to_csv(METADATA_DIR / "corrupted_images.csv", index=False)
+    df_corrupted.to_csv(METADATA_VALIDATION_DIR / "corrupted_images.csv", index=False)
     
     df_duplicates = pd.DataFrame(duplicate_ids_list, columns=["id_code"])
-    df_duplicates.to_csv(METADATA_DIR / "duplicate_ids.csv", index=False)
+    df_duplicates.to_csv(METADATA_VALIDATION_DIR / "duplicate_ids.csv", index=False)
     
     df_invalid = pd.DataFrame(invalid_labels_list, columns=["id_code", "invalid_label"])
-    df_invalid.to_csv(METADATA_DIR / "invalid_labels.csv", index=False)
+    df_invalid.to_csv(METADATA_VALIDATION_DIR / "invalid_labels.csv", index=False)
     
     df_sizes = pd.DataFrame(image_sizes)
     if df_sizes.empty:
         df_sizes = pd.DataFrame(columns=["filename", "width", "height"])
-    df_sizes.to_csv(METADATA_DIR / "image_sizes.csv", index=False)
+    df_sizes.to_csv(METADATA_STATISTICS_DIR / "image_sizes.csv", index=False)
     
     # Save test set diagnostic files if issues exist
     df_test_missing = pd.DataFrame(test_missing_images_list, columns=["id_code"])
-    df_test_missing.to_csv(METADATA_DIR / "missing_test_images.csv", index=False)
+    df_test_missing.to_csv(METADATA_VALIDATION_DIR / "missing_test_images.csv", index=False)
     
     df_test_duplicates = pd.DataFrame(test_duplicate_ids_list, columns=["id_code"])
-    df_test_duplicates.to_csv(METADATA_DIR / "duplicate_test_ids.csv", index=False)
+    df_test_duplicates.to_csv(METADATA_VALIDATION_DIR / "duplicate_test_ids.csv", index=False)
     
     # Calculate image statistics
     min_width = max_width = min_height = max_height = 0
@@ -308,7 +313,7 @@ def main():
     log_print(f"Verification completed in {elapsed_time:.2f} seconds")
     
     # Save log file
-    with open(METADATA_DIR / "verification.log", "w") as log_file:
+    with open(PROJECT_ROOT / "logs" / "verification.log", "w") as log_file:
         log_file.write("\n".join(log_lines) + "\n")
         
     # JSON Report
@@ -336,7 +341,7 @@ def main():
         }
     }
     
-    with open(METADATA_DIR / "verification_report.json", "w") as f:
+    with open(METADATA_VALIDATION_DIR / "verification_report.json", "w") as f:
         json.dump(report_data, f, indent=2)
         
     if not verification_passed:

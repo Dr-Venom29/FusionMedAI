@@ -8,6 +8,9 @@ sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 from src.config import (
     METADATA_DIR,
+    METADATA_QUALITY_DIR,
+    METADATA_VALIDATION_DIR,
+    METADATA_STATISTICS_DIR,
     TRAIN_CSV,
     TEST_CSV,
     TRAIN_IMAGES,
@@ -26,7 +29,7 @@ def main():
     expected_rows = len(df_train)
     
     # Load image sizes precomputed in Step 1.3
-    image_sizes_path = METADATA_DIR / "image_sizes.csv"
+    image_sizes_path = METADATA_STATISTICS_DIR / "image_sizes.csv"
     if not image_sizes_path.exists():
         print(f"Error: image_sizes.csv not found at {image_sizes_path}. Run verify_dataset.py first.")
         return 1
@@ -34,7 +37,7 @@ def main():
     df_sizes = pd.read_csv(image_sizes_path)
     
     # Load verification report
-    verification_report_path = METADATA_DIR / "verification_report.json"
+    verification_report_path = METADATA_VALIDATION_DIR / "verification_report.json"
     if not verification_report_path.exists():
         print(f"Error: verification_report.json not found at {verification_report_path}. Run verify_dataset.py first.")
         return 1
@@ -73,7 +76,7 @@ def main():
         "aspect_ratio": df_merged["aspect_ratio"],
         "filesize_kb": df_merged["filesize_kb"]
     })
-    train_metadata_csv = METADATA_DIR / "train_metadata.csv"
+    train_metadata_csv = METADATA_STATISTICS_DIR / "train_metadata.csv"
     df_train_metadata.to_csv(train_metadata_csv, index=False)
     
     # -------------------------------------------------------------
@@ -85,7 +88,7 @@ def main():
     dist["Severity"] = dist["Label"].map(severity_mapping)
     # Reorder columns to Label, Severity, Count
     dist = dist[["Label", "Severity", "Count"]]
-    class_dist_csv = METADATA_DIR / "class_distribution.csv"
+    class_dist_csv = METADATA_STATISTICS_DIR / "class_distribution.csv"
     dist.to_csv(class_dist_csv, index=False)
     
     # -------------------------------------------------------------
@@ -118,7 +121,7 @@ def main():
         "average_aspect_ratio": round(avg_aspect_ratio, 2)
     }
     
-    dataset_stats_json = METADATA_DIR / "dataset_statistics.json"
+    dataset_stats_json = METADATA_STATISTICS_DIR / "dataset_statistics.json"
     with open(dataset_stats_json, "w") as f:
         json.dump(dataset_stats, f, indent=2)
         
@@ -135,7 +138,7 @@ def main():
         "aspect_ratio": df_merged["aspect_ratio"],
         "filesize_kb": df_merged["filesize_kb"]
     })
-    image_stats_csv = METADATA_DIR / "image_statistics.csv"
+    image_stats_csv = METADATA_STATISTICS_DIR / "image_statistics.csv"
     df_image_statistics.to_csv(image_stats_csv, index=False)
     
     # -------------------------------------------------------------
@@ -161,7 +164,7 @@ def main():
             round(avg_filesize_kb, 2)
         ]
     })
-    quality_stats_csv = METADATA_DIR / "quality_statistics.csv"
+    quality_stats_csv = METADATA_QUALITY_DIR / "quality_statistics.csv"
     df_quality_stats.to_csv(quality_stats_csv, index=False)
     
     # -------------------------------------------------------------

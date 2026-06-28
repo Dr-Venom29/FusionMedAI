@@ -61,7 +61,7 @@ The outcomes of this phase serve as the essential input for all subsequent stage
 - **Data Splitting & Preprocessing**: Utilizes validated image paths and identifiers to split the dataset into disjoint, stratified partitions while preventing split overlap.
 - **Model Development**: Leverages the centralized configuration definitions to feed verified image tensors into deep neural networks.
 
-Collectively, these stages transform raw clinical images into a verified, reproducible, and research-ready dataset that serves as the foundation for subsequent preprocessing, model development, explainability, calibration, uncertainty estimation, and multimodal risk aggregation within the FusionMedAI framework.
+Collectively, these stages transform raw clinical images into a verified, reproducible, and research-ready dataset that serves as the foundation for the completed data pipeline (Step 2), exploratory data analysis (Step 3), baseline model framework (Step 4), and subsequent baseline training and experimentation.
 
 ---
 

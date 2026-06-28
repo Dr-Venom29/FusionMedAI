@@ -33,3 +33,9 @@
 ## External Domain Generalization
 - **Limitation**: The statistics and normalizations calculated in this phase are derived entirely from the APTOS 2019 training cohort. Differences in imaging devices, illumination conditions, acquisition protocols, and patient populations may alter image distributions. Applying these parameters to other cohorts (such as Messidor or IDRiD) without adjustment may lead to domain shifts that impair model generalization.
 - **Mitigation**: Domain adaptation techniques or standard ImageNet normalizations will be evaluated to ensure generalization to external datasets.
+
+---
+
+## Baseline Validation Only
+- **Limitation**: Current EDA recommendations have only been applied to the baseline EfficientNet-B0 implementation.
+- **Mitigation**: Their effectiveness across alternative architectures—including EfficientNetV2, DenseNet, ConvNeXt, and Vision Transformers—has not yet been experimentally validated. Future work in Step 5 will systematically test these recommendations against alternative backbones.

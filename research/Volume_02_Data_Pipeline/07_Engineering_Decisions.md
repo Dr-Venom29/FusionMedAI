@@ -81,6 +81,18 @@ graph TD
 - **Decision**: Force lazy image loading inside `RetinaDataset` instead of pre-caching decoded image arrays in RAM.
 - **Reasoning**: Lazy loading guarantees that RAM usage stays constant regardless of dataset size. Large datasets remain feasible on typical development hardware. Caching can be evaluated later as an optimization rather than a baseline assumption, avoiding early memory exhaustion.
 
+### 17. Why Model-Agnostic Data Pipeline?
+- **Decision**: Design the pipeline (`RetinaDataset` -> `Transforms` -> `DataLoader`) to output standardized tensors without coupling it to any specific neural network.
+- **Reasoning**: Ensures that the data loading pipeline is completely decoupled from the model architecture. Changing the classification backbone (e.g. from EfficientNet-B0 to ResNet, DenseNet, ConvNeXt, or Vision Transformers) is achieved by modifying only the model instantiation code, while the data pipeline remains identical.
+
+### 18. Why Separate Data Pipeline From Training?
+- **Decision**: Structurally isolate files into distinct packages (`src/data/` for pipeline, `src/models/` for classifiers, and `src/training/` for execution loops) instead of a monolithic project structure.
+- **Reasoning**: Separating directories isolates concerns, ensuring that modifications to the optimization schedule, loss functions, or evaluation metrics do not affect dataset loading or augmentation code.
+
+### 19. Why Configuration-Driven Parameters?
+- **Decision**: Centralize hyperparameters such as `IMAGE_SIZE`, `BATCH_SIZE`, `NUM_WORKERS`, `MODEL_NAME`, and `DEVICE` within [config.py](file:///d:/FusionMedAI/src/config.py).
+- **Reasoning**: Avoids hardcoding configurations across different modules, eliminating configuration drift and enabling rapid experiments.
+
 ---
 
 ## Computational Complexity & Memory Analysis
@@ -103,7 +115,7 @@ Reviewing the memory behavior of the pipeline components highlights trade-offs b
   - **Memory Footprint**: $\mathcal{O}(1)$ constant auxiliary RAM.
   - **Details**: Images are opened, converted to RGB, transformed, and loaded as tensors *on-the-fly* during training loop iterations. Once a batch is processed and backpropagated, Python's garbage collection reclaims image tensors, preventing system memory exhaustion regardless of whether the dataset scales from $3.6 \times 10^3$ to $10^6$ images.
 - **DataLoader Prefetching**:
-  - **Memory Footprint**: $\mathcal{O}(B \cdot \text{prefetch\_factor} \cdot \text{num\_workers})$ RAM/Shared Memory.
+  - **Memory Footprint**: $\mathcal{O}(B \cdot \text{prefetch-factor} \cdot \text{num-workers})$ RAM/Shared Memory.
   - **Details**: When `num_workers > 0`, workers spawn subprocesses that load and process images asynchronously, placing them in a queue. This maintains a buffer of batches to keep the GPU fully saturated, trading small shared memory overhead for reduced GPU starvation.
 - **GPU Tensor Buffering**:
   - **Memory Footprint**: $\mathcal{O}(B \cdot H \cdot W \cdot C)$ VRAM.

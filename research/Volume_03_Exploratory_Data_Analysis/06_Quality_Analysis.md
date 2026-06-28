@@ -49,8 +49,8 @@ The individual quality components are defined as:
   $$Q_{\text{brightness}} = \text{clip}\left(1.0 - \frac{|\text{brightness} - 120.0|}{120.0}, 0.0, 1.0\right)$$
   The target brightness value of 120 represents a mid-range grayscale intensity selected empirically to favor adequately exposed retinal images while penalizing severe under- and over-exposure.
 - **Sharpness Quality ($Q_{\text{sharpness}}$)**:
-  $$Q_{\text{sharpness}} = \text{clip}\left(\frac{\text{sharpness}}{\text{ref\_sharpness}}, 0.0, 1.0\right)$$
-  Where the sharpness is normalized by a reference sharpness ($\text{ref\_sharpness} = 811.23$, matching the 75th percentile of the dataset).
+  $$Q_{\text{sharpness}} = \text{clip}\left(\frac{\text{sharpness}}{\text{ref-sharpness}}, 0.0, 1.0\right)$$
+  Where the sharpness is normalized by a reference sharpness ($\text{ref-sharpness} = 811.23$, matching the 75th percentile of the dataset).
 - **Resolution Quality ($Q_{\text{resolution}}$)**:
   $$Q_{\text{resolution}} = \text{clip}\left(\frac{\text{width} \times \text{height}}{1024 \times 1024}, 0.0, 1.0\right)$$
   One megapixel ($1024 \times 1024$ pixels) was selected as a practical engineering reference because images above this resolution generally retain sufficient retinal detail for modern CNN architectures while avoiding excessive computational cost.
@@ -61,9 +61,9 @@ Across the $3,662$ training images, the quality distribution shows:
 - **Quality Score Standard Deviation ($\sigma_Q$)**: $0.1458$
 
 ### Practical Engineering Applications
-During subsequent model development and training, this quality score can be used to construct quality-weighted loss functions or adjust sample drawing:
-- **Quality-Aware Gradient Weighting**: Images with lower quality scores may be assigned reduced sampling weights or excluded during sensitivity analyses, while higher-quality images may be prioritized for model training.
-- **Explainability Validation**: Quality scores will be cross-referenced with Grad-CAM activation maps to verify that classification models do not focus on illumination artifacts or blurred peripheral margins.
+During baseline model development and training (Step 4), the quality score was not yet integrated directly into training loss calculations or sampling loops; it remains preserved as an experimental variable for future iterations. In subsequent optimization phases, these parameters can support:
+- **Quality-Aware Gradient Weighting**: Low-quality images can be down-weighted or filtered to prevent noisy gradient updates.
+- **Explainability Validation**: Quality scores will be cross-referenced with post-training Grad-CAM activation maps to verify whether image quality or blur artifacts bias the model's spatial attention boundaries.
 
 ### Visual Quality Distributions
 

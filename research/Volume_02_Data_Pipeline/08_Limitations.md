@@ -20,7 +20,7 @@ The implemented data pipeline satisfies the functional requirements of the curre
 ## 4. Sequential Loading in Verification Runs
 - **Limitation**: The end-to-end integration test ran with `num_workers=0` (sequential execution on the main process).
 - **Impact**: Loading 3,662 high-resolution images sequentially took ~578 seconds (elapsed time across all splits). While appropriate for debugging and Windows portability, this is too slow for actual model training.
-- **Future Work**: During model training, different `num_workers` configurations will be benchmarked to identify the optimal value for the target hardware platform.
+- **Future Work**: The baseline framework has been completed. Systematic benchmarking across different worker counts will be performed during full-scale training experiments.
 
 ## 5. No Hardware-Accelerated Data Loading
 - **Limitation**: The pipeline is CPU-bound, relying on Python's PIL and torchvision on the host.
@@ -38,9 +38,14 @@ The implemented data pipeline satisfies the functional requirements of the curre
 - **Future Work**: Evaluate RAM caching, SSD caching, or WebDataset/Tensor storage formats for larger datasets.
 
 ## 8. Baseline Preprocessing Only
-- **Limitation**: The transform pipeline intentionally uses conservative preprocessing parameters.
-- **Impact**: While it forms a solid baseline, it does not incorporate advanced, dataset-specific preprocessing steps.
-- **Future Work**: More advanced preprocessing strategies, informed by quantitative EDA findings (such as circular cropping, resizing aspect-ratio adjustments, and custom channel normalization), will be evaluated during later experimental stages.
+- **Limitation**: Advanced retinal preprocessing (CLAHE, Ben Graham preprocessing, circular cropping) remains outside the baseline pipeline.
+- **Impact**: While basic resizing and normalization form a solid baseline, advanced domain-specific enhancements have not yet been evaluated.
+- **Future Work**: Advanced retinal preprocessing will be evaluated experimentally after establishing EfficientNet-B0 baseline performance.
+
+## 9. Single Baseline Architecture
+- **Limitation**: The current implementation validates only EfficientNet-B0.
+- **Impact**: We cannot compare model size, throughput, or accuracy across alternative architectures.
+- **Future Work**: Future work includes benchmarking and evaluating alternative backbones, including EfficientNetV2, ConvNeXt, DenseNet, and Vision Transformers.
 
 ---
 

@@ -79,7 +79,7 @@ In medical AI systems, silent data issues (such as missing files or corrupted im
 
 ## Transform Integration & Dependency Injection
 An optional `transform` callable can be supplied to the constructor:
-- **Dependency Injection**: By accepting the transform pipeline as a constructor argument rather than defining it internally, the dataset remains independent of preprocessing policies. This design enables the same dataset implementation to be reused for training, validation, testing, and inference simply by supplying different transform pipelines.
+- **Dependency Injection**: By accepting the transform pipeline as a constructor argument rather than defining it internally, the dataset remains independent of preprocessing policies. This design enables the same dataset implementation to be reused for training, validation, testing, offline inference, and Grad-CAM visualization simply by supplying different transform pipelines.
 
 ## Design Characteristics
 The implemented `RetinaDataset` exhibits the following properties:

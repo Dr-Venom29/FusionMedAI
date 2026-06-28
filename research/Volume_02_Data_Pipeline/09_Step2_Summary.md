@@ -17,7 +17,7 @@ graph TD
     Dataset --> Transforms["Standard Preprocessing & Augmentations"]
     Transforms --> Dataloader["DataLoader (Mini-batching, Shuffling)"]
     Dataloader --> Verification["E2E Automated Verification Suite"]
-    Verification --> Model["Downstream Preprocessing & Baseline CNN (Step 4 & 5)"]
+    Verification --> Model["Baseline Deep Learning Framework (Step 4 & 5)"]
 ```
 
 ## Key Outcomes
@@ -57,10 +57,43 @@ We executed the end-to-end verification script and confirmed that all checks pas
 - CSV validation, split integrity, class distribution, dataset length, image loading, batch shapes, and full iteration tests have been verified.
 - No data leakage or loading failures were detected during verification.
 
-## Readiness for Image Preprocessing and Baseline CNN Development
-The project now provides all infrastructure required to begin preprocessing optimization and model development, including reliable data loading, standardized preprocessing, deterministic evaluation, and reproducible experimentation.
-- Stable, shuffled training batches of shape `(32, 3, 224, 224)` and deterministic validation and test batches are fully configured.
-- Tensors are loaded onto CPU memory by default, matching PyTorch best practices.
-- Parameters for learning rates, batch sizes, worker counts, and device selections are centralized in `src/config.py`, allowing easy model experimentation.
+## Readiness for Baseline Training and Experimentation
+The project is now ready for baseline training, architecture comparison, hyperparameter optimization, and explainability. The data pipeline outputs stable, shuffled training batches of shape `(32, 3, 224, 224)` and deterministic validation and test batches, feeding the finalized modular PyTorch baseline framework.
+
+### Baseline Deep Learning Achievements (Step 4)
+* **Baseline EfficientNet-B0**: Integrated PyTorch's official pretrained EfficientNet-B0 with custom classifier heads.
+* **Training Framework**: Established multi-epoch loops using Automatic Mixed Precision (`autocast`), Cosine Annealing learning rate schedule, and Early Stopping.
+* **Inference Pipeline**: Built a dedicated CLI and API for single-image and batch fundus classification.
+* **Checkpoint Manager**: Configured saving/loading of model weights, optimizer/scheduler states, and Python/PyTorch version configurations.
+* **Experiment Logging**: Integrated TensorBoard and CSV trackers to log learning rates, losses, and metrics.
 
 The validated pipeline developed in this phase was subsequently used to generate the quantitative analyses presented in the Exploratory Data Analysis phase, confirming its correctness under practical experimental workloads.
+
+---
+
+## Next Phase Roadmap
+
+The flowchart below maps the research roadmap for the subsequent steps:
+
+```
+Pipeline
+   │
+   ▼
+Baseline Model
+   │
+   ▼
+Training
+   │
+   ▼
+Evaluation
+   │
+   ▼
+Grad-CAM
+   │
+   ▼
+Calibration
+   │
+   ▼
+ACARA-U
+```
+*Figure 9.1: Data pipeline to clinical model training roadmap.*

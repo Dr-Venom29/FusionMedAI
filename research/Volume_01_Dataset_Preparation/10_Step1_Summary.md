@@ -6,16 +6,19 @@ This chapter summarizes the objectives achieved, files generated, engineering co
 
 ## Objectives Achieved
 
-The project has successfully completed the Dataset Preparation (Step 1), Data Pipeline (Step 2), and Exploratory Data Analysis (Step 3) phases of the FusionMedAI framework:
-- **Verified Directory Structure**: Established a standardized folder layout separating raw clinical data from processed arrays and metadata reports.
-- **Formulated Centralized Configuration**: Centralized paths, seeds, image size, and DataLoader settings in `src/config.py`.
+The project has successfully completed the Dataset Preparation (Step 1), Data Pipeline (Step 2), Exploratory Data Analysis (Step 3), and Baseline Model Development (Step 4) phases of the FusionMedAI framework:
+- **Verified Directory Structure**: Established a standardized folder layout separating raw clinical data from processed arrays, metadata reports, and logs.
+- **Formulated Centralized Configuration**: Centralized paths, seeds, image size, learning rates, epochs, and DataLoader settings in `src/config.py`.
 - **Automated Data Quality Audits**: Developed verification scripts validating file existence, duplicate records, and formats.
 - **Pre-Generated Reusable Metadata**: Extracted image dimension records and statistics to avoid runtime CPU bottlenecks.
 - **Deterministic Stratified Dataset Splitting**: Programmatically split the raw clinical images into Train (80%), Validation (10%), and Test (10%) splits while preserving class proportions.
 - **Modular Dataset & Transform Implementations**: Created a reusable `RetinaDataset` with custom torchvision augmentations.
 - **Configurable Dataloaders with Safety Shields**: Built memory-pinned PyTorch loaders with Windows-specific worker fallback policies.
-- **Independent Validation Modules**: Implemented five independent verification modules (`verify_dataset.py`, `verify_dataset_class.py`, `verify_transforms.py`, `verify_dataloader.py`, `verify_pipeline.py`) to validate each stage.
-- **Automated Exploratory Data Analysis (Step 3)**: Developed a concurrent statistics extraction and plotting pipeline, delivering 14 publication-grade figures, a summary dashboard, custom RGB channel profiling, an automated Jupyter Notebook, duplicate auditing (detecting 134 duplicate pairs), quality score ($Q$) assessments, preprocessing recommendations, dataset fingerprinting, and execution manifests.
+- **Automated Exploratory Data Analysis (Step 3)**: Developed a concurrent statistics extraction and plotting pipeline, duplicate auditing, and quality assessments.
+- **EfficientNet-B0 Baseline Framework (Step 4)**: Developed a fully modular deep learning baseline including model wrappers, training loops (AMP `autocast` optimized), Cosine scheduler, and TensorBoard logging.
+- **Resumable State-Dict Checkpoint System**: Configured a checkpointing manager saving optimizer, scheduler, epoch, and metric history alongside host environment metadata and configuration parameters.
+- **Standalone Inference CLI/API**: Created an API enabling single-scan and batch clinical predictions.
+- **Relocated Verification Suite**: Moved all verification utilities under a dedicated top-level `verification/` folder to separate validation checks from the production codebase.
 
 ---
 
@@ -98,40 +101,37 @@ Training Ready
 
 ---
 
-## Readiness for Image Preprocessing and Baseline Model Development
-After completion of Steps 1, 2, and 3, the project is now ready for Step 4 (Image Preprocessing) and baseline model development. The dataset has been verified, stratified, wrapped in reusable PyTorch Dataset classes, profiled quantitatively, and audited for data quality. The preprocessing recommendations and Quality Scores ($Q$) serve as the foundation for the subsequent experimental phase.
+## Readiness for Baseline Training and Experimentation
+After completion of Steps 1, 2, 3, and 4, the project is now ready for Step 5 (Baseline Training and Experimentation). The dataset has been verified, stratified, and analyzed, and the modular PyTorch baseline framework has been constructed and verified end-to-end (dry-run). The baseline configuration acts as the foundation for the subsequent experimental phase.
 
 ---
 
 ## Next Phase Roadmap
 
-The flowchart below maps the research roadmap for the subsequent step (Model Development):
+The flowchart below maps the research roadmap for the subsequent step (Model Training and Optimization):
 
 ```
-Next Phase (Step 4 & 5)
+Next Phase (Step 5)
       │
       ▼
-Preprocessing
+Baseline Training
       │
       ▼
- EfficientNet
+Hyperparameter Optimization
       │
       ▼
-   Training
+Architecture Comparison
       │
       ▼
-  Evaluation
+Explainability
       │
       ▼
-   Grad-CAM
+Calibration
       │
       ▼
-  Calibration
-      │
-      ▼
- OOD Detection
+Uncertainty
       │
       ▼
    ACARA-U
 ```
-*Figure 10.2: Preprocessing, model development, and post-training roadmap.*
+*Figure 10.2: Model training, optimization, explainability, and post-training roadmap.*

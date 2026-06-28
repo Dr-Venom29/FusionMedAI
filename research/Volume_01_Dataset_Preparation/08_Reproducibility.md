@@ -60,6 +60,33 @@ Ensuring absolute reproducibility is critical for medical AI to verify clinical 
 | **Dependencies** | Locked package versions in `requirements.txt` |
 | **Fingerprint** | Dataset reproducibility SHA-256 fingerprinting |
 | **Manifests** | Execution manifests (`manifest.json`) logging runtimes and environments |
+| **Experiments** | Dynamic versioned experiment run directories |
+| **Checkpoints** | Resumable state dictionaries (model, optimizer, scheduler, epoch) |
+| **Environments** | Software environment logging (Python, PyTorch, Torchvision versions) |
+
+---
+
+## Deep Learning Reproducibility (Step 4 Baseline)
+Beyond the dataset pipeline, the baseline modeling framework implements several clinical-grade reproducibility features:
+
+### 1. Dynamic Experiment Versioning
+* Experiments are automatically logged under unique, versioned directories (e.g., `experiments/v001_efficientnet_b0/`, `experiments/v002_effb0_aug/`).
+* Each run folder contains its exact configuration file (`config.json`), preventing parameter drift and preserving the history of all settings.
+
+### 2. State-Dict Checkpoint Reproducibility
+* Model parameters, optimizer states, learning rate scheduler settings, training history, and best validation metrics are packed into unified checkpoint binaries (`best_model.pt` and `last_model.pt`).
+* This enables resuming training or running offline evaluations at any time, producing bit-wise identical metrics.
+* To prevent configuration loss, the active training configuration (`config.json`) is also copied directly into the `checkpoints/` directory alongside the binaries.
+
+### 3. Execution Environment Logging
+* System parameters—such as the exact Python version, PyTorch version, Torchvision version, and random seed—are automatically collected and written into the checkpoint's metadata block at save time.
+* This ensures that any model can be audited for software dependency compatibility.
+
+### 4. Relocated Verification Suite
+* Verification tools are isolated from production runtime modules and stored under a dedicated top-level **[verification/](file:///d:/FusionMedAI/verification/)** folder.
+* Automated verifications validate:
+  - **Dataset structures** under [verification/data/](file:///d:/FusionMedAI/verification/data/).
+  - **Model parameters, checkpoint loading consistency, and mock training loops** under [verification/model/](file:///d:/FusionMedAI/verification/model/).
 
 ---
 
@@ -142,17 +169,17 @@ Create the following directories if they do not already exist: `datasets/raw/apt
 ### Step 5: Execute Dataset Verification
 Run the verification script to audit the dataset and check for errors:
 ```bash
-python src/data/verify_dataset.py
+python verification/data/verify_dataset.py
 ```
-This script will verify files, check image modes, verify labels, and generate the following reports in `datasets/metadata/`:
-- `verification_report.json`
-- `verification.log`
-- `image_sizes.csv`
-- `missing_images.csv`
-- `corrupted_images.csv`
-- `duplicate_ids.csv`
-- `missing_test_images.csv`
-- `duplicate_test_ids.csv`
+This script will verify files, check image modes, verify labels, and generate reports under the `datasets/metadata/` subdirectories:
+- `datasets/metadata/validation/verification_report.json`
+- `logs/verification.log`
+- `datasets/metadata/statistics/image_sizes.csv`
+- `datasets/metadata/validation/missing_images.csv`
+- `datasets/metadata/validation/corrupted_images.csv`
+- `datasets/metadata/validation/duplicate_ids.csv`
+- `datasets/metadata/validation/missing_test_images.csv`
+- `datasets/metadata/validation/duplicate_test_ids.csv`
 
 ### Step 6: Generate Dataset Metadata
 Run the metadata generation script to create the files required for training:
@@ -160,11 +187,11 @@ Run the metadata generation script to create the files required for training:
 python src/data/generate_metadata.py
 ```
 This script will produce:
-- `train_metadata.csv`
-- `class_distribution.csv`
-- `dataset_statistics.json`
-- `image_statistics.csv`
-- `quality_statistics.csv`
+- `datasets/metadata/statistics/train_metadata.csv`
+- `datasets/metadata/statistics/class_distribution.csv`
+- `datasets/metadata/statistics/dataset_statistics.json`
+- `datasets/metadata/statistics/image_statistics.csv`
+- `datasets/metadata/quality/quality_statistics.csv`
 
 Following these steps will reproduce identical metadata files, verification reports, dataset statistics, and dataset split results (when deterministic procedures are used).
 

@@ -61,6 +61,14 @@ This chapter documents the key technical decisions, trade-offs, and software eng
 - **Engineering Rationale**: Pre-generating metadata enables statistical analysis without repeatedly decoding high-resolution retinal images, reducing execution time while ensuring consistent descriptive statistics across multiple experiments. This mirrors the engineering style of Volume 3.
 - **Trade-off**: Requires running metadata generation as a separate preliminary step before any analysis or plotting scripts can execute.
 
+### 9. Why Modular Training Architecture?
+- **Decision**: Separate model definition, training loop execution, inference APIs, checkpointing, and visualization into decoupled modules rather than a single monolithic script.
+- **Engineering Rationale**:
+  - Allows changing the model architecture (e.g. switching from EfficientNet-B0 to ConvNeXt) by simply changing a string in `config.py`, without rewriting any training or validation code.
+  - Simplifies testing and debugging of individual pipeline components (like checkpoint loading, early stopping, or metric calculations).
+  - Makes code highly reusable and readable, aligning with production-grade research repositories.
+- **Trade-off**: Requires managing imports and dependencies across multiple files, increasing the architectural complexity for small-scale experiments.
+
 ---
 
 ## Software Architecture Patterns

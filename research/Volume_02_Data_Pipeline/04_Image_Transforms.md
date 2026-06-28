@@ -78,6 +78,8 @@ $$x_{norm} = \frac{x - \mu}{\sigma}$$
 
 The preprocessing configuration presented here represents the baseline transform pipeline. Subsequent EDA findings may recommend adjustments to resizing strategy, normalization statistics, augmentation strength, or preprocessing order based on observed dataset characteristics.
 
+The transform API was intentionally designed to support both training and deployment. The same validation transform pipeline is reused during inference to ensure predictions are generated under the same preprocessing conditions used during evaluation.
+
 ## Implementation Characteristics
 The transform module provides:
 - **Separate pipelines for training and evaluation**: Ensuring safe benchmarks.

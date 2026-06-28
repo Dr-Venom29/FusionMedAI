@@ -1,4 +1,6 @@
 from pathlib import Path
+import os
+import re
 import torch
 
 # ==========================
@@ -82,7 +84,7 @@ COLOR_JITTER_SATURATION = 0.1
 COLOR_JITTER_HUE = 0.05
 
 # ==========================
-# Training Hyperparameters (Future Use)
+# Training Hyperparameters
 # ==========================
 
 BATCH_SIZE = 32
@@ -107,6 +109,61 @@ LEARNING_RATE = 1e-4
 
 WEIGHT_DECAY = 1e-4
 
+# Added for Step 4
+EPOCHS = 20
+PATIENCE = 10
+EARLY_STOPPING_MONITOR = "qwk"  # Optimize validation QWK
+
+# Resolve run version dynamically
+RUN_VERSION = os.environ.get("FUSIONMED_RUN_VERSION")
+RUN_NAME = os.environ.get("FUSIONMED_RUN_NAME", MODEL_NAME)
+
+if not RUN_VERSION:
+    experiments_base = PROJECT_ROOT / "experiments"
+    existing_versions = []
+    if experiments_base.exists():
+        for path in experiments_base.iterdir():
+            if path.is_dir():
+                match = re.match(r"^v(\d+)_", path.name)
+                if match:
+                    existing_versions.append(int(match.group(1)))
+    if existing_versions:
+        # Default to latest version for evaluation/testing/inference
+        latest_version = max(existing_versions)
+        RUN_VERSION = f"v{latest_version:03d}"
+    else:
+        RUN_VERSION = "v001"
+
+# ==========================
+# Run Directory Setup
+# ==========================
+
+RUN_DIR = PROJECT_ROOT / "experiments" / f"{RUN_VERSION}_{RUN_NAME}"
+
+CHECKPOINT_DIR = RUN_DIR / "checkpoints"
+TENSORBOARD_DIR = RUN_DIR / "tensorboard"
+CURVES_DIR = RUN_DIR / "curves"
+CONFUSION_MATRIX_DIR = RUN_DIR / "confusion_matrix"
+ROC_DIR = RUN_DIR / "roc"
+
+# Checkpoint paths
+BEST_CHECKPOINT = CHECKPOINT_DIR / "best_model.pt"
+LAST_CHECKPOINT = CHECKPOINT_DIR / "last_model.pt"
+
+# Run outputs
+RUN_HISTORY_CSV = RUN_DIR / "history.csv"
+RUN_HISTORY_JSON = RUN_DIR / "history.json"
+RUN_CONFIG_JSON = RUN_DIR / "config.json"
+RUN_PREDICTIONS_CSV = RUN_DIR / "predictions.csv"
+
+# Global tracking
+BASELINE_CSV = PROJECT_ROOT / "experiments" / "baseline_results.csv"
+EXPERIMENT_LOG_EXCEL = PROJECT_ROOT / "experiments" / "experiment_log.xlsx"
+
+# Auto-create run folders
+for directory in [RUN_DIR, CHECKPOINT_DIR, TENSORBOARD_DIR, CURVES_DIR, CONFUSION_MATRIX_DIR, ROC_DIR]:
+    directory.mkdir(parents=True, exist_ok=True)
+
 # ==========================
 # Phase 3 Directories & Files
 # ==========================
@@ -122,19 +179,26 @@ RETINA_RESULTS_DIR = RESULTS_DIR / "retina"
 RETINA_FIGURES_DIR = RETINA_RESULTS_DIR / "figures"
 RETINA_RESEARCH_DIR = RESEARCH_DIR / "Volume_03_Exploratory_Data_Analysis"
 
+# Metadata Subdirectories
+METADATA_QUALITY_DIR = METADATA_DIR / "quality"
+METADATA_VALIDATION_DIR = METADATA_DIR / "validation"
+METADATA_STATISTICS_DIR = METADATA_DIR / "statistics"
+METADATA_EDA_DIR = METADATA_DIR / "eda"
+METADATA_RECOMMENDATIONS_DIR = METADATA_DIR / "recommendations"
+
 # Metadata additions
-IMAGE_STATISTICS_CSV = METADATA_DIR / "image_statistics.csv"
-EDA_STATISTICS_CSV = METADATA_DIR / "eda_statistics.csv"
-EDA_STATISTICS_PARQUET = METADATA_DIR / "eda_statistics.parquet"
-EDA_SUMMARY_JSON = METADATA_DIR / "eda_summary.json"
-PREPROCESSING_RECOMMENDATIONS_JSON = METADATA_DIR / "preprocessing_recommendations.json"
+IMAGE_STATISTICS_CSV = METADATA_STATISTICS_DIR / "image_statistics.csv"
+EDA_STATISTICS_CSV = METADATA_EDA_DIR / "eda_statistics.csv"
+EDA_STATISTICS_PARQUET = METADATA_EDA_DIR / "eda_statistics.parquet"
+EDA_SUMMARY_JSON = METADATA_EDA_DIR / "eda_summary.json"
+PREPROCESSING_RECOMMENDATIONS_JSON = METADATA_RECOMMENDATIONS_DIR / "preprocessing_recommendations.json"
 
 # Quality Outlier CSV Paths
-DARK_IMAGES_CSV = METADATA_DIR / "dark_images.csv"
-BRIGHT_IMAGES_CSV = METADATA_DIR / "bright_images.csv"
-BLURRY_IMAGES_CSV = METADATA_DIR / "blurry_images.csv"
-SMALL_IMAGES_CSV = METADATA_DIR / "small_images.csv"
-LARGE_IMAGES_CSV = METADATA_DIR / "large_images.csv"
+DARK_IMAGES_CSV = METADATA_QUALITY_DIR / "dark_images.csv"
+BRIGHT_IMAGES_CSV = METADATA_QUALITY_DIR / "bright_images.csv"
+BLURRY_IMAGES_CSV = METADATA_QUALITY_DIR / "blurry_images.csv"
+SMALL_IMAGES_CSV = METADATA_STATISTICS_DIR / "small_images.csv"
+LARGE_IMAGES_CSV = METADATA_STATISTICS_DIR / "large_images.csv"
 
 # ==========================
 # Phase 3 EDA Parameters

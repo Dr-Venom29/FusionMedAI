@@ -31,6 +31,13 @@ These spatial properties present critical challenges for the image preprocessing
 | **$384 \times 384$** | Better lesion preservation, moderate speed | Increased GPU memory requirements |
 | **$512 \times 512$** | Highest spatial fidelity, minimal feature loss | Slowest training, highest GPU memory usage |
 
+## Decisions Adopted During Baseline Implementation
+The following decisions were implemented in the baseline framework (Step 4) to address these characteristics:
+* **224×224 Selected for Baseline**: Adopted as the primary input resolution to enable rapid training iterations, verify components end-to-end, and leverage default ImageNet-pretrained weights.
+* **Bilinear Interpolation**: Adopted `InterpolationMode.BILINEAR` as the standard interpolation mode to preserve lesion borders while maintaining computational efficiency.
+* **ImageNet Normalization**: Retained standard ImageNet channel-wise normalization parameters during the baseline phase to match the expected inputs of pretrained weights.
+* **Ablations and Multi-Scale Benchmarks Postponed**: Multi-scale training (comparing 224, 384, and 512 resolutions) and dataset-specific color normalization experiments are deferred to Step 5 to evaluate them as independent variables against the established baseline.
+
 ---
 
 ## Global and Class-wise RGB Channel Analysis

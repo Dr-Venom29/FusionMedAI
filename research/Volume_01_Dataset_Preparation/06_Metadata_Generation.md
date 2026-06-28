@@ -137,8 +137,11 @@ EDA & Quality   PyTorch      Loss Function   Preprocessing    CI/CD
    - Training scripts load `class_distribution.csv` to compute class-weight arrays, balancing the training loss to prevent the network from ignoring minority classes (e.g., Severe DR).
 4. **Preprocessing Recommendation Engine**:
    - Analyzes the statistical distribution of spatial dimensions and color channel statistics to establish candidate resizing resolutions, normalizations, and augmentation parameters.
-5. **Experiments Log & Reporting**:
-   - Experiment managers (like MLflow or TensorBoard) read `dataset_statistics.json` to log hyperparameters and dataset attributes, establishing a solid audit trail for research publication.
+5. **Experiments Log, Configuration & Reporting**:
+   - The generated metadata is reused directly by the experiment config manager to map labels to target names and initialize model outputs.
+   - Deep learning baseline frameworks consume the statistics to profile parameter sizes, compile results tables, and log training history.
+   - Inference and verification scripts load the validation indices and metadata parameters to perform offline tests and speed benchmarks.
+   - Reports and logs (such as MLflow, TensorBoard, and Excel logbooks) reference the dataset statistics to ensure a complete audit trail.
 
 ---
 

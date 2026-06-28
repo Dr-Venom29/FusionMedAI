@@ -25,6 +25,9 @@ This work introduces several key methodological and engineering contributions to
 7. **Quantitative Exploratory Analysis Framework**:
    Developed an automated EDA framework that computes spatial statistics, RGB distributions, image quality metrics, duplicate analysis, preprocessing recommendations, and reproducible research reports.
 
+8. **Baseline Deep Learning Framework**:
+   Designed a modular PyTorch baseline framework including EfficientNet-B0, experiment versioning, checkpointing, TensorBoard logging, inference APIs, and reproducible verification, enabling systematic model comparison in later phases.
+
 ---
 
 ## Novelty and Research Value

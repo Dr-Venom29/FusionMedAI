@@ -21,4 +21,4 @@ To support these research objectives, the EDA module must achieve the following 
 3. **Read-Only Verification Suite**: Perform all metadata extractions under read-only constraints, ensuring no raw image arrays are modified or resized on disk.
 4. **Structured Outlier Mapping**: Generate CSV tables containing statistically identified dark, bright, blurry, large, and small images for manual clinical quality assessment.
 5. **Unified Reporting and Exporters**: Implement automated tools to compile vector PDF reports, Markdown summaries, and execution manifests containing environment configurations.
-6. **Construct Preprocessing Recommendations**: Export candidate configurations for image size, color normalization, augmentations, and loss functions as structured JSON recommendations to be benchmarked during the model development and training phase.
+6. **Establish and Validate Preprocessing Recommendations**: Export candidate configurations for image size, color normalization, augmentations, and loss functions as structured JSON recommendations that were subsequently adopted and validated during the baseline model development and training phase.

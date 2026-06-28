@@ -120,10 +120,13 @@ Transforms
 DataLoader
      │
      ▼
-  Training
+   Training
      │
      ▼
- Evaluation
+    Testing
+     │
+     ▼
+  Inference
      │
      ▼
 Deployment
@@ -139,7 +142,9 @@ Deployment
 7. **Dataset Loading**: Custom PyTorch dataset instances load images lazily and apply transforms.
 8. **DataLoader Batching**: DataLoader batches images and transfers tensors to the training device.
 9. **Training**: The PyTorch model reads files from the processed directory and runs training epochs.
-10. **Evaluation & Deployment**: Models are evaluated and deployed for clinical inference.
+10. **Testing**: Runs test set evaluation, profiling parameters, average latency (ms/image), and throughput (FPS).
+11. **Inference**: Classified results are generated via the standalone inference API for clinical fundus scans.
+12. **Deployment**: Models are deployed into production environments.
 
 ---
 

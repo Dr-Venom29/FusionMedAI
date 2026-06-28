@@ -30,17 +30,17 @@ This chapter documents the limitations of the current dataset preparation phase 
 - **Limitation**: Since the APTOS 2019 dataset does not include explicit patient identifiers, patient-level separation cannot be guaranteed. Splitting is performed at the image level.
 - **Reason for Deferral**: This is a structural limitation of the public source metadata. Future work using dataset sources with patient IDs will enforce patient-level disjointness to prevent potential intra-patient data leakage.
 
-### 7. No Model Training or Evaluation
-- **Limitation**: No neural networks have been developed, trained, or evaluated.
-- **Reason for Deferral**: Training requires a verified dataset, stratified splits, and defined preprocessing steps. Developing models before establishing these components risks training on corrupted data or introducing data leakage.
+### 7. No Large-Scale Baseline Training or Hyperparameter Optimization
+- **Limitation**: Full baseline training and hyperparameter optimization have not yet been performed.
+- **Reason for Deferral**: Step 4 established the modular PyTorch training framework and verified it end-to-end (dry-run). Large-scale experiments and hyperparameter optimization are deferred to Step 5.
 
-### 8. No Explainability
-- **Limitation**: Grad-CAM and other explainability techniques have not yet been integrated.
-- **Reason for Deferral**: Interpretability checks are applied post-training to validate clinical decision boundaries.
+### 8. Explainability Infrastructure Deferred
+- **Limitation**: Grad-CAM visualization has not yet been implemented.
+- **Reason for Deferral**: Explainability infrastructure has been prepared through feature extraction support in the model wrapper class, but Grad-CAM visualization will be implemented after baseline training.
 
-### 9. No Calibration
+### 9. Calibration and Uncertainty Estimation Deferred
 - **Limitation**: Model calibration and uncertainty estimation are not implemented.
-- **Reason for Deferral**: Calibration and uncertainty quantification (such as temperature scaling or conformal prediction) are introduced after establishing baseline model training.
+- **Reason for Deferral**: Calibration methods (such as temperature scaling) and uncertainty quantification are intentionally deferred until after baseline model performance has been established.
 
 ### 10. No Out-of-Distribution (OOD) Detection
 - **Limitation**: Images are assumed to originate from the APTOS distribution. Distribution shift and out-of-distribution detection are not addressed in this phase.

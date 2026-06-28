@@ -10,6 +10,8 @@ graph TD
     Transforms --> Dataloader["DataLoader (Batching, Shuffle, Multi-process)"]
     Dataloader --> Batch["Batch Tensor (32, 3, 224, 224)"]
     Batch --> GPU["GPU Memory"]
+    GPU --> TrainLoop["Training Loop"]
+    TrainLoop --> InferEngine["Inference Engine"]
 ```
 
 The function `create_dataloaders()` handles the initialization of all three dataloaders in a single, centralized call, exposing a consistent interface:
@@ -24,7 +26,7 @@ Following the Single Responsibility Principle, dataset loading is decoupled from
 - **Justification**: Separating these concerns improves modularity, makes unit testing simpler, and allows the same dataset implementation to be reused with different loading strategies.
 
 ## Batch Formation
-Datasets load samples individually. The dataloader fetches $N$ samples (where $N = \text{batch\_size}$, configured to 32) and stacks them along a new dimension to form a batch tensor:
+Datasets load samples individually. The dataloader fetches $N$ samples (where $N$ is the batch size, configured to 32) and stacks them along a new dimension to form a batch tensor:
 - **Image Batch Shape**: $(B, C, H, W) = (32, 3, 224, 224)$
 - **Label Batch Shape**: $(B,) = (32,)$
 
@@ -40,7 +42,7 @@ This ensures that downstream networks receive standard tensors ready for GPU tra
 
 ## Shuffling Strategy
 - **Training DataLoader**: `shuffle=True`. Shuffling the training set at each epoch ensures that gradient updates are computed over different mini-batches, preventing the optimizer from memorizing dataset ordering.
-- **Validation and Test DataLoaders**: `shuffle=False`. Since no parameter updates occur during validation or testing, sample ordering does not affect the computed metrics. Keeping the order deterministic improves reproducibility and simplifies debugging.
+- **Validation and Test DataLoaders**: `shuffle=False`. Since no parameter updates occur during validation or testing, sample ordering does not affect the computed metrics. Keeping the order deterministic improves reproducibility and simplifies debugging. During inference, only the validation/test preprocessing pipeline is used while shuffling is disabled to ensure consistent, ordered predictions.
 
 ## Defensive Validation
 Before constructing any DataLoader objects, `create_dataloaders()` performs strict validations:

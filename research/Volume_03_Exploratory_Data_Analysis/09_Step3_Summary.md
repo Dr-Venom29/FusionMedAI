@@ -49,7 +49,7 @@ The primary quantitative metrics obtained during the automated EDA run are:
 | **Preprocessing Guidelines** | `datasets/metadata/preprocessing_recommendations.json` | ✅ |
 | **Publication Figures (14 files)** | `research/Volume_03_Exploratory_Data_Analysis/images/Fig_03_*` (PNG) | ✅ |
 | **Summary Dashboard** | `results/retina/summary_dashboard.png` | ✅ |
-| **PDF Summary Report** | `reports/retina_eda_summary.pdf` | ✅ |
+| **PDF Summary Report** | `reports/retina_eda_summary.pdf` | ❌ (Deleted; MD is single source of truth) |
 | **Markdown Summary Report** | `reports/retina_eda_summary.md` | ✅ |
 | **Jupyter Notebook** | `notebooks/retina/eda.ipynb` | ✅ |
 | **Execution Manifest** | `results/retina/manifest.json` | ✅ |
@@ -63,6 +63,7 @@ The primary quantitative metrics obtained during the automated EDA run are:
 - **Dataset Fingerprinting**: Implemented deterministic SHA-256 fingerprinting of dataset metadata to support experiment reproducibility and dataset integrity verification.
 - **Cached Metadata Generation**: Eliminated repeated image scanning by serializing extracted statistics to CSV and optional Parquet formats.
 - **Structured Reporting**: Automated generation of Markdown reports, PDF reports, research figures, and execution manifests to improve reproducibility.
+- **Baseline Integration (Step 4)**: Successfully adopted the recommended aspect ratio, interpolation, and color normalization methods. Frozen input resolution at \(224 \times 224\) to verify pipeline stability under single-variable changes.
 
 ---
 
@@ -95,5 +96,23 @@ graph TD
 
 ---
 
-## Readiness for Step 4
-With Step 3 complete and frozen, the project is ready for **Step 4 – Image Preprocessing**. Candidate preprocessing configurations have been established and will be evaluated during preprocessing and subsequent model training.
+## Readiness for Baseline Training and Experimentation
+The recommendations derived from the Exploratory Data Analysis have been **successfully adopted by Step 4 baseline model development**. The baseline EfficientNet-B0 has been initialized, trained, and verified using the preprocessing configurations established in this phase.
+
+The project is now ready for baseline training and optimization. Preprocessing configurations have been frozen at a stable baseline, and the next milestones will address:
+
+```
+Ready for baseline benchmarking
+      │
+      ▼
+Hyperparameter optimization
+      │
+      ▼
+Class imbalance mitigation
+      │
+      ▼
+Explainability (Grad-CAM)
+      │
+      ▼
+  Model comparison
+```

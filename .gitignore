@@ -6,6 +6,8 @@ venv/
 .venv/
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
 
 # ======================================
 # Jupyter
@@ -21,6 +23,17 @@ datasets/raw/
 datasets/processed/
 datasets/interim/
 
+# Keep dataset documentation
+!datasets/README.md
+
+# ======================================
+# Experiments
+# ======================================
+
+experiments/*
+!experiments/experiment_log.xlsx
+!experiments/.gitkeep
+
 # ======================================
 # Model Weights
 # ======================================
@@ -29,19 +42,28 @@ datasets/interim/
 *.pt
 *.ckpt
 *.onnx
-
-checkpoints/
-weights/
+*.engine
 
 # ======================================
-# Results
+# Logs
+# ======================================
+
+*.log
+logs/
+
+# ======================================
+# TensorBoard
+# ======================================
+
+events.out.tfevents*
+tensorboard/
+runs/
+
+# ======================================
+# Visualization Outputs
 # ======================================
 
 results/
-logs/
-runs/
-wandb/
-tensorboard/
 
 # ======================================
 # Environment
@@ -49,6 +71,7 @@ tensorboard/
 
 .env
 .env.*
+.python-version
 
 # ======================================
 # IDE
@@ -63,9 +86,18 @@ tensorboard/
 
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # ======================================
-# Large PDFs (optional)
+# Papers (optional)
 # ======================================
 
 papers/*.pdf
+
+# ======================================
+# Temporary Files
+# ======================================
+
+*.tmp
+*.bak
+*.swp

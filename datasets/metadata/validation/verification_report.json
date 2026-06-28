@@ -1,6 +1,6 @@
 {
   "dataset": "APTOS2019",
-  "verification_date": "2026-06-26",
+  "verification_date": "2026-06-28",
   "csv_rows": 3662,
   "train_images": 3662,
   "test_images": 1928,
