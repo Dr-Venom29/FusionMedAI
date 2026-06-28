@@ -108,26 +108,15 @@ To ensure full experimental comparability, all runs were conducted within the st
 
 The flowchart below illustrates the sequence of steps required to reproduce the dataset preparation pipeline:
 
-```
-Clone Repository
-       │
-       ▼
-Install Dependencies
-       │
-       ▼
-Download Dataset
-       │
-       ▼
- Verify Dataset
-       │
-       ▼
-Generate Metadata
-       │
-       ▼
-  Ready for EDA
-       │
-       ▼
-Ready for Training
+```mermaid
+flowchart TD
+    Clone[Clone Repository]
+    --> Deps[Install Dependencies]
+    --> Download[Download Dataset]
+    --> Verify[Verify Dataset]
+    --> Meta[Generate Metadata]
+    --> EDA[Ready for EDA]
+    --> Training[Ready for Training]
 ```
 *Figure 8.1: Pipeline reproduction workflow.*
 

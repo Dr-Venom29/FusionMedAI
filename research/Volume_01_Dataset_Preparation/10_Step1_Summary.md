@@ -73,29 +73,16 @@ Verification reports and diagnostic artifacts were automatically generated and s
 
 The flowchart below shows the progression of data through the ingestion and preparation pipeline stages:
 
-```
-Dataset
-   │
-   ▼
-Verification
-   │
-   ▼
-Metadata
-   │
-   ▼
- Split
-   │
-   ▼
-Dataset
-   │
-   ▼
-Transforms
-   │
-   ▼
-DataLoader
-   │
-   ▼
-Training Ready
+```mermaid
+flowchart TD
+    Dataset
+    --> Verification
+    --> Metadata
+    --> Split
+    --> DatasetClass[Dataset Class]
+    --> Transforms
+    --> DataLoader
+    --> TrainingReady[Training Ready]
 ```
 *Figure 10.1: Project data flow architecture.*
 
@@ -110,28 +97,15 @@ After completion of Steps 1, 2, 3, and 4, the project is now ready for Step 5 (B
 
 The flowchart below maps the research roadmap for the subsequent step (Model Training and Optimization):
 
-```
-Next Phase (Step 5)
-      │
-      ▼
-Baseline Training
-      │
-      ▼
-Hyperparameter Optimization
-      │
-      ▼
-Architecture Comparison
-      │
-      ▼
-Explainability
-      │
-      ▼
-Calibration
-      │
-      ▼
-Uncertainty
-      │
-      ▼
-   ACARA-U
+```mermaid
+flowchart TD
+    NextPhase[Next Phase Step 5]
+    --> BaselineTraining[Baseline Training]
+    --> HyperparameterOptimization[Hyperparameter Optimization]
+    --> ArchitectureComparison[Architecture Comparison]
+    --> Explainability
+    --> Calibration
+    --> Uncertainty
+    --> ACARAU[ACARA-U]
 ```
 *Figure 10.2: Model training, optimization, explainability, and post-training roadmap.*

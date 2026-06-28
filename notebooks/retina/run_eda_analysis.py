@@ -731,7 +731,11 @@ This document summarizes the quantitative, colorimetric, and visual analysis of 
   - Class 3 (Severe): {counts[3]} ({percentages[3]:.2f}%)
   - Class 4 (Proliferative): {counts[4]} ({percentages[4]:.2f}%)
 - **Imbalance Ratio**: `{summary_data['class_imbalance']['imbalance_ratio']}` (Majority Class Count vs Minority Class Count)
-- **Recommended Loss Function**: Class-Weighted Cross-Entropy Loss
+- **Baseline Loss Function**: Cross Entropy Loss
+- **Future Experiments**:
+  - Weighted Cross Entropy
+  - Focal Loss
+  - Ordinal Loss
 
 ## Global RGB Channel Mean & Standard Deviation (Normalized [0, 1])
 - **Dataset Mean**: R: `{summary_data['rgb_mean'][0]:.6f}` \| G: `{summary_data['rgb_mean'][1]:.6f}` \| B: `{summary_data['rgb_mean'][2]:.6f}`
@@ -746,17 +750,34 @@ The computed RGB statistics provide a dataset-specific normalization baseline th
 - **Corrupted Files / Invalid Channels**: Corrupted: {summary_data['corrupted_images']} \| Missing: {summary_data['missing_images']}
 
 ## Candidate Preprocessing Guidelines
-Based on statistical variances, the following candidate configurations have been identified for experimental evaluation during preprocessing and baseline model training:
-- **Candidate Image Sizes**: `[224, 384, 512]` (To be determined via training benchmarks)
-- **Candidate Normalization Methods**: `[ImageNet, Dataset]` (To be compared in ablation studies)
-- **Candidate Augmentations**:
-  - Horizontal Flip: `[True, False]`
-  - Rotation Degrees: `[0, 15, 30]`
-  - Color Jitter: `[True, False]`
-  - Random Crop: `[True, False]`
+Based on statistical variances, the following configurations have been identified for experimental evaluation during preprocessing and baseline model training:
+- **Candidate Image Sizes**:
+  - Baseline: 224 × 224 (selected for EfficientNet-B0)
+  - Future Benchmarks: 384 × 384, 512 × 512
+- **Candidate Normalization Methods**:
+  - Baseline: ImageNet normalization (implemented)
+  - Future Evaluation: Dataset-specific normalization
+- **Baseline Augmentation Strategy (Implemented)**:
+  - Horizontal Flip
+  - Rotation
+  - Color Jitter
+- **Future Experiments**:
+  - Random Crop
+  - Strong augmentation policies (e.g., AutoAugment, RandAugment)
+  - MixUp
+  - CutMix
+
+## Baseline Decisions Adopted
+Based on the exploratory analysis, the following engineering decisions were adopted during Step 4:
+- Baseline input resolution: 224 × 224
+- ImageNet normalization selected for baseline
+- EfficientNet-B0 chosen as reference architecture
+- Standard Cross Entropy Loss selected for baseline
+- Dataset-specific normalization deferred for future benchmarking
+- Higher input resolutions (384 and 512) reserved for comparative experiments
 
 ## Conclusion and Next Steps
-Overall, the exploratory analysis confirms that the APTOS 2019 training cohort is structurally valid, quantitatively characterized, and suitable for deep learning experimentation. The extracted metadata, quality assessments, duplicate audit, and preprocessing recommendations establish a reproducible foundation for Step 4 (Image Preprocessing) and subsequent baseline model development.
+The exploratory analysis successfully characterized the APTOS 2019 dataset and directly informed the baseline EfficientNet-B0 implementation. The identified preprocessing recommendations, normalization strategies, and augmentation candidates now serve as controlled experimental variables for future training, hyperparameter optimization, and architecture comparison studies.
 """
     with open(md_path, "w", encoding="utf-8") as f:
         f.write(md_content)

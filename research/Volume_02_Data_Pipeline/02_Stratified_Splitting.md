@@ -44,16 +44,18 @@ Class imbalance is intentionally preserved during splitting to ensure that the v
 ## Two-Stage 80/10/10 Split
 A standard split ratio of **80% Train / 10% Validation / 10% Test** is implemented in a two-stage process using scikit-learn's `train_test_split`:
 
-```
-Original Dataset (3662 samples)
-        │
-        ├── Stage 1 (80/20 split)
-        │    ├── Train Split: 80% (2929 samples)
-        │    └── Temp Split:  20% (733 samples)
-        │
-        └── Stage 2 (50/50 split of Temp)
-             ├── Validation Split: 10% (366 samples)
-             └── Test Split:       10% (367 samples)
+```mermaid
+flowchart TD
+    Orig[Original Dataset: 3,662 samples]
+    --> Stage1{Stage 1: 80/20 Stratified Split}
+    
+    Stage1 --> Train[Train Split: 80% - 2,929 samples]
+    Stage1 --> Temp[Temp Split: 20% - 733 samples]
+    
+    Temp --> Stage2{Stage 2: 50/50 Stratified Split}
+    
+    Stage2 --> Val[Validation Split: 10% - 366 samples]
+    Stage2 --> Test[Test Split: 10% - 367 samples]
 ```
 
 A two-stage approach was adopted because `train_test_split` directly supports binary partitioning while preserving class proportions via stratification. Splitting the temporary subset a second time ensures that the validation and test sets also maintain the original class distribution.

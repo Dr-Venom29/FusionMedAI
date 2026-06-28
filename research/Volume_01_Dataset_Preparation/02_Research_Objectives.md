@@ -17,21 +17,15 @@ The primary objective of this phase is to establish a **fully reproducible, auto
 ## Objectives Flow
 The following flowchart illustrates the logical progression of objectives required to establish a research-ready dataset:
 
+```mermaid
+flowchart TD
+    Objectives
+    --> Verification
+    --> Metadata
+    --> Reproducibility
+    --> DatasetReady[Dataset Ready]
 ```
-Objectives
-     │
-     ▼
-Verification
-     │
-     ▼
-  Metadata
-     │
-     ▼
-Reproducibility
-     │
-     ▼
-Dataset Ready
-```
+
 
 ---
 

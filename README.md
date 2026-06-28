@@ -12,12 +12,19 @@ The primary architecture utilizes **ACARA-U Fusion** (Attention-driven Clinical 
 
 - Automated dataset verification and metadata generation
 - Stratified train/validation/test splitting (80/10/10)
-- Custom PyTorch Dataset and transforms with configurable DataLoader
-- End-to-end pipeline and integration verification
-- Automated Exploratory Data Analysis (EDA) & RGB channel profiling
-- Continuous Image Quality Assessment (Quality Score Q)
-- Dataset duplicate audit & SHA-256 fingerprinting
-- Centralized configuration and research logs
+- Custom PyTorch Dataset and configurable DataLoader
+- End-to-end pipeline verification
+- Exploratory Data Analysis (EDA)
+- RGB channel profiling and quality assessment
+- Duplicate image auditing (SHA-256)
+- EfficientNet-B0 baseline implementation
+- Modular PyTorch training framework
+- Automatic checkpoint management
+- TensorBoard experiment tracking
+- Versioned experiment management
+- Comprehensive evaluation metrics (QWK, Macro F1, Balanced Accuracy)
+- Standalone inference API (single & batch prediction)
+- Automated framework verification
 
 ---
 
@@ -28,6 +35,21 @@ The following diagram illustrates the multi-modal diagnostic flow of the FusionM
 ![System Architecture](docs/architecture_v1.png)
 
 *Figure 1: High-level architectural overview of the FusionMedAI multi-modal pipeline.*
+
+---
+
+## 🛠️ Tech Stack
+
+- Python 3.12
+- PyTorch
+- Torchvision
+- OpenCV
+- Albumentations
+- NumPy
+- Pandas
+- Matplotlib
+- Scikit-learn
+- TensorBoard
 
 ---
 
@@ -51,10 +73,17 @@ Implemented:
 - ✔ Image Transforms
 - ✔ DataLoader
 - ✔ End-to-End Verification
-- ✔ Exploratory Data Analysis (EDA) & Quality Audit
+- ✔ Exploratory Data Analysis
+- ✔ EfficientNet-B0 Baseline Framework
+- ✔ Modular Training Pipeline
+- ✔ Checkpoint Management
+- ✔ TensorBoard Integration
+- ✔ Experiment Versioning
+- ✔ Standalone Inference
+- ✔ Framework Verification
 
 In Progress:
-- 🔄 Image Preprocessing & Baseline CNN Development
+- 🔄 Baseline Training & Hyperparameter Optimization
 
 ---
 
@@ -62,13 +91,13 @@ In Progress:
 
 | Version | Status |
 |---------|--------|
-| v0.1.0 | Dataset Preparation ✅ |
-| v0.2.0 | Data Pipeline ✅ |
-| v0.3.0 | Exploratory Data Analysis ✅ |
-| v0.4.0 | Preprocessing & CNN Development 🔄 |
-| v0.5.0 | Training & Evaluation |
-| v0.6.0 | Explainability |
-| v1.0.0 | Retina Module |
+| v0.1.0  | Dataset Preparation ✅ |
+| v0.2.0  | Data Pipeline ✅ |
+| v0.3.0  | Exploratory Data Analysis ✅ |
+| v0.4.0  | Baseline Model Framework ✅ |
+| v0.5.0  | Baseline Training & Experiments 🔄 |
+| v0.6.0  | Explainability |
+| v1.0.0  | Retina Module |
 
 ---
 
@@ -87,15 +116,18 @@ The framework is organized into specialized domain modules. The current status o
 
 ### Retina Module Development Progress
 
-- [x] **Dataset Preparation**: Completed data integrity checks, resolution-imbalance analysis, and automated metadata generation.
-- [x] **Data Pipeline**: Implemented reproducible stratified 80/10/10 split, lazy-loading `RetinaDataset` subclass, validation/training image transformations, and multi-process `DataLoader`.
-- [x] **Verification Framework**: Configured a rigorous unit and integration verification suite validating dataset integrity, lazy image loading, and zero data leakage.
-- [x] **Exploratory Data Analysis (EDA)**: Completed colorimetric RGB profiling, image quality assessment (Continuous Quality Score $Q$), duplicate auditing (detecting 134 pairs), and publication-ready report compilations.
-- [ ] **Image Preprocessing**: Pre-generate optimized cropped and padded images based on EDA recommendations.
-- [ ] **Model Development**: Setup model backbone architecture and baseline configurations.
-- [ ] **Training**: Configure training scripts, loss functions, and optimization policies.
-- [ ] **Explainability**: Integrate XAI visualizations.
-- [ ] **Evaluation**: Document validation and external testing metrics.
+- [x] Baseline Model Framework
+- [x] Modular Training Pipeline
+- [x] Experiment Tracking
+- [x] Checkpoint Manager
+- [x] Inference Module
+- [x] Verification Framework
+- [ ] Baseline Training
+- [ ] Hyperparameter Optimization
+- [ ] Architecture Comparison
+- [ ] Explainability
+- [ ] Calibration
+- [ ] External Evaluation
 
 ---
 
@@ -108,6 +140,7 @@ FusionMedAI/
 │   ├── interim/              # Generated diagnostic reports & logs
 │   └── processed/            # Final versioned data splits
 ├── docs/                     # Architectural diagrams & specifications
+├── experiments/              # Isolated model checkpoints and run artifacts
 ├── notebooks/                # Academic Jupyter notebooks
 │   └── retina/
 │       ├── eda.ipynb         # Interactive dataset exploratory analysis
@@ -116,20 +149,18 @@ FusionMedAI/
 ├── research/                 # Academic notebooks & clinical engineering logs
 │   ├── Volume_01_Dataset_Preparation/  # Raw audits, checks, and metadata logic
 │   ├── Volume_02_Data_Pipeline/        # Data flow, complexities, and pipeline decisions
-│   └── Volume_03_Exploratory_Data_Analysis/ # Spatial, RGB, quality, and duplicate analysis
+│   ├── Volume_03_Exploratory_Data_Analysis/ # Spatial, RGB, quality, and duplicate analysis
+│   └── Volume_04_Baseline_Model/       # EfficientNet-B0 backbone, trainer design, checkpointing
 ├── src/                      # Production source codebase
 │   ├── config.py             # Centralized pipeline configuration
-│   └── data/                 # Data loading, transforms, and splits
-│       ├── dataset.py        # Custom RetinaDataset class (lazy loading)
-│       ├── dataloader.py     # Multi-process DataLoader constructor
-│       ├── generate_metadata.py # Raw dataset scanning and CSV generation
-│       ├── split_dataset.py  # Stratified 80/10/10 dataset splitter
-│       ├── transforms.py     # Centralized PyTorch transformation pipelines
-│       ├── verify_dataset.py # Raw dataset integrity validation
-│       ├── verify_dataset_class.py # RetinaDataset unit verification
-│       ├── verify_dataloader.py # DataLoader unit verification
-│       ├── verify_pipeline.py # End-to-end integration verification script
-│       └── verify_transforms.py # Transforms unit verification
+│   ├── inference.py          # Standalone inference API (single & batch)
+│   ├── data/                 # Data loading, transforms, and splits
+│   ├── models/               # Model definitions, wrappers, factory
+│   ├── training/             # Trainer class, optimizers, schedulers
+│   └── utils/                # Helper utilities (seeds, device, files)
+├── verification/             # Independent verification scripts
+│   ├── data/                 # Ingestion & split checks
+│   └── model/                # Model, checkpoint, and training dry-run verifications
 ├── LICENSE                   # Open-source licensing
 └── requirements.txt          # Virtual environment dependencies
 ```
@@ -142,6 +173,7 @@ Each engineering phase is documented in detail:
 - **Volume 01 — Dataset Preparation** (located at [research/Volume_01_Dataset_Preparation/](research/Volume_01_Dataset_Preparation/))
 - **Volume 02 — Data Pipeline** (located at [research/Volume_02_Data_Pipeline/](research/Volume_02_Data_Pipeline/))
 - **Volume 03 — Exploratory Data Analysis** (located at [research/Volume_03_Exploratory_Data_Analysis/](research/Volume_03_Exploratory_Data_Analysis/))
+- **Volume 04 — Baseline Model Development** (located at [research/Volume_04_Baseline_Model/](research/Volume_04_Baseline_Model/))
 
 Each volume contains:
 - Introduction & background
@@ -194,7 +226,7 @@ datasets/
             └── ...
 ```
 
-Run the pipeline setup scripts in order:
+Run the pipeline setup and verification scripts in order:
 
 ```bash
 # Step 1: Run raw dataset checks & verify images
@@ -211,9 +243,31 @@ python src/data/verify_pipeline.py
 
 # Step 5: Run Exploratory Data Analysis & report generation
 python -m notebooks.retina.run_eda_analysis
+
+# Step 6: Verify model wrapper and parameter count
+python verification/model/verify_model.py
+
+# Step 7: Verify training loop, backpropagation, and scheduler updates
+python verification/model/verify_training.py
+
+# Step 8: Verify checkpoint saving, loading, and resumes
+python verification/model/verify_checkpoint.py
 ```
 
 All verification and analysis steps must run successfully before proceeding to model preprocessing and training.
+
+---
+
+## 📊 Framework Verification
+
+Before launching full GPU training jobs, the baseline Retina model framework was validated using CPU dry-runs:
+
+- **Model verification**: Successful initialization of EfficientNet-B0, parameter count profile (4,013,953 parameters, ~15.31 MB), forward check, and feature extraction mapping check (`[B, 1280, 7, 7]`).
+- **Training verification**: Backpropagation verified (checking optimizer step updates parameters), loss check, and learning rate decay validation (decaying from $1 \times 10^{-4}$ to $9.1 \times 10^{-5}$ on Step 1).
+- **Checkpoint verification**: verified state dictionary matching for parameters, history logs, optimizer state, scheduler state, and exact value reconstruction under `allclose` check.
+- **Inference verification**: Standalone inference check on single-image and batch data loaders, including confidence scoring and processing latency checks (~35 ms/image on CPU).
+
+The framework is now ready for full-scale GPU training and experimental evaluation.
 
 ---
 
@@ -222,10 +276,10 @@ All verification and analysis steps must run successfully before proceeding to m
 - **v0.1.0 (Dataset Preparation)**: Completed raw audit, metadata generation, and resolution scanning. ✅
 - **v0.2.0 (Data Pipeline)**: Completed stratified split, lazy loading, transforms, and E2E verification. ✅
 - **v0.3.0 (Exploratory Data Analysis)**: Completed concurrent stats extraction, RGB profiling, duplicate audit, quality scoring, and automated reports. ✅
-- **v0.4.0 (Retina Preprocessing & CNN Development)**: Pre-generate optimized dataset splits and build timm backbone CNN models. 🔄
-- **v0.5.0 (Retina Training & Evaluation)**: Complete optimization, validation benchmarks, and external testing.
-- **v0.6.0 (Retina Explainability)**: Integrate post-hoc visual explanations.
-- **v1.0.0 (Retina Module Complete)**: Fully release verified, explainable Diabetic Retinopathy module.
+- **v0.4.0 (Baseline Framework)**: Built custom model wrapper, factory, BaseClassifier, trainer, mixed precision (AMP), Early Stopping, checkpointing, standalone inference, and verification framework. ✅
+- **v0.5.0 (Baseline Training & Experiments)**: baseline training, hyperparameter optimization, loss comparisons (Focal, Weighted CE), optimizer and scheduler comparisons. 🔄
+- **v0.6.0 (Explainability & Calibration)**: Grad-CAM post-hoc visual explanation, calibration curves, and uncertainty estimation.
+- **v1.0.0 (Retina Module)**: Production release of explainable, calibrated Retina module.
 - **v2.0.0 (Foot Ulcer Module Complete)**: Integrate wound segmentation models.
 - **v3.0.0 (Clinical Module Complete)**: Integrate EHR structured features and classification networks.
 - **v4.0.0 (FusionMedAI Complete)**: Release unified multi-modal ACARA-U Fusion model.

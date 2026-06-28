@@ -121,31 +121,22 @@ Although several public retinal datasets are available, APTOS 2019 was selected 
 
 The following flowchart shows how APTOS and IDRiD are utilized across training, verification, and external validation:
 
+```mermaid
+flowchart TD
+    subgraph Phase 1 [Internal Training & Validation]
+        APTOS
+        --> Verification
+        --> Metadata
+        --> Split
+        --> Training
+        --> Validation
+    end
+    subgraph Phase 2 [External Generalization Testing]
+        IDRiD --> ExtVal[External Validation]
+    end
+    Validation -.-> ExtVal
 ```
-APTOS
-  │
-  ▼
-Verification
-  │
-  ▼
-Metadata
-  │
-  ▼
-Split
-  │
-  ▼
-Training
-  │
-  ▼
-Validation
-  │
-  ▼
-[Later]
-IDRiD
-  │
-  ▼
-External Validation
-```
+
 
 ---
 

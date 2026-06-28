@@ -99,25 +99,16 @@ This chapter documents the key technical decisions, trade-offs, and software eng
 ## Modularity & Pipeline Dependencies
 The following flowchart illustrates the dependency structure of the modules, showing how the centralized configuration feeds all operations:
 
-```
-src/config.py
-      │
-      ├───────────────┐
-      ▼               ▼
-verify_dataset  generate_metadata
-      │               │
-      └───────┬───────┘
-              ▼
-             EDA
-              │
-              ▼
-        split_dataset
-              │
-              ▼
-           Dataset
-              │
-              ▼
-           Training
+```mermaid
+flowchart TD
+    Config[src/config.py]
+    Config --> Verify[verify_dataset]
+    Config --> Gen[generate_metadata]
+    Verify --> EDA
+    Gen --> EDA
+    EDA --> Split[split_dataset]
+    Split --> Dataset
+    Dataset --> Training
 ```
 *Figure 7.1: Pipeline dependency diagram showing unidirectional data flow.
 

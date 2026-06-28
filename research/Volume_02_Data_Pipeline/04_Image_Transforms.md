@@ -7,41 +7,23 @@ Data Augmentation artificially expands the dataset size by applying random geome
 ## Transform Pipelines
 Three separate transform pipelines are exposed through API functions:
 
-```
-  Training Transforms                       Validation & Test Transforms
- ┌─────────────────────┐                   ┌─────────────────────┐
- │    Raw PIL Image    │                   │    Raw PIL Image    │
- └──────────┬──────────┘                   └──────────┬──────────┘
-            │                                         │
-            ▼                                         ▼
- ┌─────────────────────┐                   ┌─────────────────────┐
- │  Resize (Bilinear)  │                   │  Resize (Bilinear)  │
- └──────────┬──────────┘                   └──────────┬──────────┘
-            │                                         │
-            ▼                                         │
- ┌─────────────────────┐                              │
- │   Random Rotation   │                              │
- └──────────┬──────────┘                              │
-            │                                         │
-            ▼                                         │
- ┌─────────────────────┐                              │
- │   Random Hor.Flip   │                              │
- └──────────┬──────────┘                              │
-            │                                         │
-            ▼                                         │
- ┌─────────────────────┐                              │
- │    Color Jitter     │                              │
- └──────────┬──────────┘                              │
-            │                                         │
-            ▼                                         ▼
- ┌─────────────────────┐                   ┌─────────────────────┐
- │      ToTensor       │                   │      ToTensor       │
- └──────────┬──────────┘                   └──────────┬──────────┘
-            │                                         │
-            ▼                                         ▼
- ┌─────────────────────┐                   ┌─────────────────────┐
- │      Normalize      │                   │      Normalize      │
- └─────────────────────┘                   └─────────────────────┘
+```mermaid
+flowchart TD
+    subgraph Train [Training Transforms]
+        T1[Raw PIL Image]
+        --> T2[Resize Bilinear 224x224]
+        --> T3[Random Rotation ±15°]
+        --> T4[Random Horizontal Flip]
+        --> T5[Color Jitter]
+        --> T6[ToTensor]
+        --> T7[Normalize ImageNet Stats]
+    end
+    subgraph ValTest [Validation & Test Transforms]
+        V1[Raw PIL Image]
+        --> V2[Resize Bilinear 224x224]
+        --> V3[ToTensor]
+        --> V4[Normalize ImageNet Stats]
+    end
 ```
 
 ### 1. Training Pipeline

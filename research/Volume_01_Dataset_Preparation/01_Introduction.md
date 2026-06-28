@@ -30,30 +30,18 @@ This phase establishes the dataset preparation and verification framework, focus
 
 The following flowchart shows the progression from raw data ingestion to the final model within the FusionMedAI framework:
 
+```mermaid
+flowchart TD
+    Raw[Raw Dataset]
+    --> Verification
+    --> Metadata
+    --> EDA
+    --> Preprocessing
+    --> Training
+    --> Evaluation
+    --> FusionMedAI
 ```
-Raw Dataset
-     │
-     ▼
-Verification
-     │
-     ▼
-  Metadata
-     │
-     ▼
-    EDA
-     │
-     ▼
-Preprocessing
-     │
-     ▼
-  Training
-     │
-     ▼
- Evaluation
-     │
-     ▼
-FusionMedAI
-```
+
 
 ## Relationship to the Complete FusionMedAI Pipeline
 The outcomes of this phase serve as the essential input for all subsequent stages of the project:

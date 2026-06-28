@@ -95,41 +95,20 @@ FusionMedAI follows several core software engineering and medical AI principles:
 ## Expected Workflow
 The FusionMedAI pipeline operates as a unidirectional flow, ensuring that data is thoroughly checked and analyzed before any optimization takes place:
 
-```
-Raw Dataset
-     │
-     ▼
-Verification
-     │
-     ▼
-  Metadata
-     │
-     ▼
-    EDA
-     │
-     ▼
-   Split
-     │
-     ▼
-  Dataset
-     │
-     ▼
-Transforms
-     │
-     ▼
-DataLoader
-     │
-     ▼
-   Training
-     │
-     ▼
-    Testing
-     │
-     ▼
-  Inference
-     │
-     ▼
-Deployment
+```mermaid
+flowchart TD
+    Raw[Raw Dataset]
+    --> Verification
+    --> Metadata
+    --> EDA
+    --> Split
+    --> Dataset
+    --> Transforms
+    --> DataLoader
+    --> Training
+    --> Testing
+    --> Inference
+    --> Deployment
 ```
 *Figure 4.2: Unidirectional data flow from download to deployment.*
 

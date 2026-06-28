@@ -101,18 +101,11 @@ The recommendations derived from the Exploratory Data Analysis have been **succe
 
 The project is now ready for baseline training and optimization. Preprocessing configurations have been frozen at a stable baseline, and the next milestones will address:
 
-```
-Ready for baseline benchmarking
-      │
-      ▼
-Hyperparameter optimization
-      │
-      ▼
-Class imbalance mitigation
-      │
-      ▼
-Explainability (Grad-CAM)
-      │
-      ▼
-  Model comparison
+```mermaid
+flowchart TD
+    Benchmarking[Ready for baseline benchmarking]
+    --> Hyperparams[Hyperparameter optimization]
+    --> Imbalance[Class imbalance mitigation]
+    --> Explainability[Explainability (Grad-CAM)]
+    --> Comparison[Model comparison]
 ```

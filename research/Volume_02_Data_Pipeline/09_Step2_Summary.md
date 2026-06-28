@@ -75,25 +75,14 @@ The validated pipeline developed in this phase was subsequently used to generate
 
 The flowchart below maps the research roadmap for the subsequent steps:
 
-```
-Pipeline
-   │
-   ▼
-Baseline Model
-   │
-   ▼
-Training
-   │
-   ▼
-Evaluation
-   │
-   ▼
-Grad-CAM
-   │
-   ▼
-Calibration
-   │
-   ▼
-ACARA-U
+```mermaid
+flowchart TD
+    Pipeline
+    --> BaselineModel[Baseline Model]
+    --> Training
+    --> Evaluation
+    --> GradCAM[Grad-CAM]
+    --> Calibration
+    --> ACARAU[ACARA-U]
 ```
 *Figure 9.1: Data pipeline to clinical model training roadmap.*

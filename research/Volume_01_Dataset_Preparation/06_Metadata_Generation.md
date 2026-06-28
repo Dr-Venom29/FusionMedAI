@@ -11,17 +11,15 @@ Metadata acts as a lightweight, structured representation of the dataset. Instea
 
 The relationship between the raw data and the generated metadata files is illustrated below:
 
-```
-Raw CSV Indices (train.csv / test.csv)
-                │
-                ├───► Metadata Generator (generate_metadata.py)
-                │                  │
-Raw Image Files ┘                  ▼
-                           metadata/ directory
-                                   │
-      ┌────────────────┬───────────┴────┬─────────────────┐
-      ▼                ▼                ▼                 ▼
-train_metadata.csv image_statistics.csv class_distribution.csv dataset_statistics.json
+```mermaid
+flowchart TD
+    RawCSV[Raw CSV Indices train.csv / test.csv] --> Gen[Metadata Generator generate_metadata.py]
+    RawImg[Raw Image Files] --> Gen
+    Gen --> Dir[metadata/ directory]
+    Dir --> M1[train_metadata.csv]
+    Dir --> M2[image_statistics.csv]
+    Dir --> M3[class_distribution.csv]
+    Dir --> M4[dataset_statistics.json]
 ```
 *Figure 6.1: Relationship between raw inputs and generated metadata files.*
 
@@ -53,35 +51,18 @@ Because metadata are generated deterministically from verified raw data, multipl
 ## Metadata Lifecycle
 The following flowchart displays the complete lifecycle of metadata from initial clinical acquisition to final research archiving:
 
-```
-Raw Images
-     │
-     ▼
-Verification
-     │
-     ▼
-  Metadata
-     │
-     ▼
-    EDA
-     │
-     ▼
-   Split
-     │
-     ▼
-  Dataset
-     │
-     ▼
-  Training
-     │
-     ▼
- Evaluation
-     │
-     ▼
-Experiments
-     │
-     ▼
-  Archive
+```mermaid
+flowchart TD
+    RawImages[Raw Images]
+    --> Verification
+    --> Metadata
+    --> EDA
+    --> Split
+    --> Dataset
+    --> Training
+    --> Evaluation
+    --> Experiments
+    --> Archive
 ```
 *Figure 6.2: Complete metadata lifecycle stages.*
 
@@ -119,13 +100,14 @@ Experiments
 ## Metadata Reuse and Data Flow
 The pre-generated metadata is reused across multiple stages of the FusionMedAI pipeline:
 
-```
-                          datasets/metadata/
-                                   │
-      ┌────────────┬───────────────┼───────────────┬────────────┐
-      ▼            ▼               ▼               ▼            ▼
-EDA & Quality   PyTorch      Loss Function   Preprocessing    CI/CD
-  Analysis      Dataset        Weighting    Recommendation   Auditing
+```mermaid
+flowchart TD
+    Meta[datasets/metadata/]
+    Meta --> EDA[EDA & Quality Analysis]
+    Meta --> DS[PyTorch Dataset]
+    Meta --> Loss[Loss Function Weighting]
+    Meta --> Pre[Preprocessing Recommendation]
+    Meta --> CICD[CI/CD Auditing]
 ```
 *Figure 6.3: Downstream modules consuming generated metadata.*
 

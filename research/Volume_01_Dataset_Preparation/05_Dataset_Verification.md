@@ -9,41 +9,37 @@ Medical image datasets are frequently prone to transcription, transmission, and 
 
 The verification process is organized as a pipeline that runs a sequence of structural and data audits:
 
-```
-        Start Verification
-                 │
-                 ▼
-          CSVs Exist?
-                 ├── No ──► Raise Error & Stop
-                 ▼ Yes
-      Image Folders Exist?
-                 ├── No ──► Raise Error & Stop
-                 ▼ Yes
-      Load train.csv & test.csv
-                 │
-                 ▼
-      Required Columns present?
-                 ├── No ──► Raise Error & Stop
-                 ▼ Yes
-       Run Integrity Checks
-                 │
-  ┌──────────────┼──────────────┬──────────────┐
-  ▼              ▼              ▼              ▼
-Check Missing  Check Duplicate Verify Color  Validate Diagnosis
-   Images          IDs       & Corruption     Labels
-  └──────────────┬──────────────┴──────────────┘
-                 │
-                 ▼
-           Errors Found?
-                 ├── Yes ──► Log Errors & FAIL
-                 ▼ No
-            Mark PASS
-                 │
-                 ▼
-       Save JSON Report, Logs, & CSVs
-                 │
-                 ▼
-          End Verification
+```mermaid
+flowchart TD
+    Start([Start Verification])
+    --> CSVCheck{CSVs Exist?}
+    
+    CSVCheck -- No --> ErrorStop[Raise Error & Stop]
+    CSVCheck -- Yes --> FolderCheck{Image Folders Exist?}
+    
+    FolderCheck -- No --> ErrorStop
+    FolderCheck -- Yes --> LoadCSVs[Load train.csv & test.csv]
+    
+    LoadCSVs --> ColCheck{Required Columns Present?}
+    
+    ColCheck -- No --> ErrorStop
+    ColCheck -- Yes --> IntegrityChecks[Run Integrity Checks]
+    
+    subgraph Checks [Integrity Audits]
+        Check1[Check Missing Images]
+        Check2[Check Duplicate IDs]
+        Check3[Verify Color & Corruption]
+        Check4[Validate Diagnosis Labels]
+    end
+    
+    IntegrityChecks --> Check1 & Check2 & Check3 & Check4
+    Check1 & Check2 & Check3 & Check4 --> ErrorCheck{Errors Found?}
+    
+    ErrorCheck -- Yes --> Fail[Log Errors & FAIL]
+    ErrorCheck -- No --> Pass[Mark PASS]
+    
+    Pass --> Save[Save JSON Report, Logs, & CSVs]
+    Save --> End([End Verification])
 ```
 *Figure 5.1: Flowchart representing the automated dataset verification pipeline.*
 
@@ -118,16 +114,16 @@ The pipeline maps every row in the index to its corresponding file on disk (cons
 
 The verification pipeline writes several structured files to the metadata directory:
 
-```
-verify_dataset.py
-      │
-      ├───► verification_report.json
-      ├───► missing_images.csv
-      ├───► duplicate_ids.csv
-      ├───► corrupted_images.csv
-      ├───► invalid_labels.csv
-      ├───► image_sizes.csv
-      └───► verification.log
+```mermaid
+flowchart TD
+    Verify[verify_dataset.py]
+    Verify --> R1[verification_report.json]
+    Verify --> R2[missing_images.csv]
+    Verify --> R3[duplicate_ids.csv]
+    Verify --> R4[corrupted_images.csv]
+    Verify --> R5[invalid_labels.csv]
+    Verify --> R6[image_sizes.csv]
+    Verify --> R7[verification.log]
 ```
 *Figure 5.2: Verification script outputs and generated reports.*
 
