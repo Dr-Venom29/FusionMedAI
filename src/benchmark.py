@@ -93,8 +93,9 @@ class BenchmarkRunner:
     architectures under identical experimental settings.
     """
     
-    def __init__(self, dry_run: bool = False) -> None:
+    def __init__(self, dry_run: bool = False, model_name: str | None = None) -> None:
         self.dry_run = dry_run
+        self.model_name = model_name
         
         # Setup directories
         config.BENCHMARK_DIR.mkdir(parents=True, exist_ok=True)
@@ -146,13 +147,20 @@ class BenchmarkRunner:
         self.class_weights_tensor = torch.tensor(self.class_weights, dtype=torch.float).to(config.DEVICE)
         self.logger.info(f"Dynamic class weights computed: {self.class_weights}")
         
-        self.architectures = [
+        all_models = [
             "efficientnet_b0",
             "efficientnet_b3",
             "convnext_tiny",
             "swin_tiny",
             "vit_b16"
         ]
+        
+        if model_name:
+            if model_name not in all_models:
+                raise ValueError(f"Unknown model: {model_name}")
+            self.architectures = [model_name]
+        else:
+            self.architectures = all_models
         
     def run(self) -> None:
         results_list = []
@@ -704,9 +712,33 @@ class BenchmarkRunner:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="FusionMedAI Step 5 Model Benchmarking Run")
-    parser.add_argument("--dry-run", action="store_true", help="Execute in fast debugging mode")
+    parser = argparse.ArgumentParser(
+        description="FusionMedAI Step 5 Model Benchmarking Run"
+    )
+
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Execute in fast debugging mode"
+    )
+
+    parser.add_argument(
+        "--model",
+        type=str,
+        default=None,
+        choices=[
+            "efficientnet_b0",
+            "efficientnet_b3",
+            "convnext_tiny",
+            "swin_tiny",
+            "vit_b16"
+        ],
+        help="Benchmark only a single architecture"
+    )
     args = parser.parse_args()
     
-    runner = BenchmarkRunner(dry_run=args.dry_run)
+    runner = BenchmarkRunner(
+        dry_run=args.dry_run,
+        model_name=args.model
+    )
     runner.run()
