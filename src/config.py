@@ -160,8 +160,16 @@ RUN_PREDICTIONS_CSV = RUN_DIR / "predictions.csv"
 BASELINE_CSV = PROJECT_ROOT / "experiments" / "baseline_results.csv"
 EXPERIMENT_LOG_EXCEL = PROJECT_ROOT / "experiments" / "experiment_log.xlsx"
 
+# ==========================
+# Benchmark Paths
+# ==========================
+BENCHMARK_DIR = PROJECT_ROOT / "experiments" / "benchmark"
+BENCHMARK_RESULTS_DIR = PROJECT_ROOT / "results" / "benchmark"
+BENCHMARK_FIGURES_DIR = BENCHMARK_RESULTS_DIR / "figures"
+BENCHMARK_TABLES_DIR = BENCHMARK_RESULTS_DIR / "tables"
+
 # Auto-create run folders
-for directory in [RUN_DIR, CHECKPOINT_DIR, TENSORBOARD_DIR, CURVES_DIR, CONFUSION_MATRIX_DIR, ROC_DIR]:
+for directory in [RUN_DIR, CHECKPOINT_DIR, TENSORBOARD_DIR, CURVES_DIR, CONFUSION_MATRIX_DIR, ROC_DIR, BENCHMARK_DIR, BENCHMARK_RESULTS_DIR, BENCHMARK_FIGURES_DIR, BENCHMARK_TABLES_DIR]:
     directory.mkdir(parents=True, exist_ok=True)
 
 # ==========================
