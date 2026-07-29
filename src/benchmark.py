@@ -442,6 +442,13 @@ class BenchmarkRunner:
             
             # Clean up model
             self.logger.info(f"Finished benchmarking {arch}. Cleaning up memory...")
+            
+            # Create downloadable ZIP
+            try:
+                self._archive_experiment(arch)
+            except Exception as e:
+                self.logger.error(f"Failed to archive {arch}: {e}")
+            
             del model
             self._free_memory()
             
@@ -470,6 +477,36 @@ class BenchmarkRunner:
         
         self.logger.info("\nAll benchmark outputs saved to results/benchmark/ and experiments/benchmark/")
         
+    def _archive_experiment(self, arch):
+        import shutil
+        import tempfile
+
+        temp_dir = Path(tempfile.mkdtemp())
+
+        shutil.copytree(
+            config.BENCHMARK_DIR / arch,
+            temp_dir / arch
+        )
+
+        output_zip = Path("/kaggle/working") / f"{arch}_complete"
+
+        shutil.make_archive(
+            str(output_zip),
+            "zip",
+            temp_dir
+        )
+
+        shutil.rmtree(temp_dir, ignore_errors=True)
+
+        self.logger.info(
+            f"Saved archive -> {output_zip}.zip"
+        )
+        
+        print("=" * 60)
+        print(f"Download this file:")
+        print(f"/kaggle/working/{arch}_complete.zip")
+        print("=" * 60)
+
     def _profile_latency(self, model):
         """Measures CPU/GPU latency for single inference and batched inference."""
         # 1. Warmup the GPU for 20 runs
