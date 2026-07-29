@@ -1,4 +1,4 @@
-# Chapter 10: Framework Verification Results
+# Chapter 7: Framework Validation
 
 Before executing large-scale baseline training, the complete deep learning framework was validated through a series of automated verification procedures. These tests were designed to confirm the correctness of the model architecture, training pipeline, optimization process, checkpoint management, and inference workflow.
 
@@ -65,14 +65,4 @@ These measurements are intended only to verify correct execution on the developm
 
 All verification scripts (`verify_model.py`, `verify_training.py`, and `verify_checkpoint.py`) completed successfully without structural or logical errors.
 
-```mermaid
-flowchart LR
-    verify_model.py --> verify_training.py
-    verify_training.py --> verify_checkpoint.py
-    verify_checkpoint.py --> FrameworkReady[Framework Ready]
-    FrameworkReady --> Step5[Step 5]
-```
-
-The verification process confirms that the baseline framework—including model initialization, optimization, checkpointing, inference, experiment tracking, and evaluation—is functioning as intended and is ready for full baseline training and systematic experimentation in **Step 5**.
-
-It is important to emphasize that the verification metrics reported in this chapter represent **framework validation results rather than final model performance**. The official baseline performance metrics will be established after full training on the APTOS 2019 dataset during the subsequent experimental phase.
+The verification process confirmed that the baseline framework—including model initialization, optimization, checkpointing, inference, experiment tracking, and evaluation—is functioning as intended. The validated framework was subsequently used for the five-model architecture benchmarking study (Step 5).

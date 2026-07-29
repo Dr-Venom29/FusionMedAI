@@ -18,28 +18,17 @@ classDiagram
     }
 ```
 
-## Dataset Flow
-The following flowchart represents the exact data flow that occurs when a single sample is fetched via `__getitem__()`:
-
-```mermaid
-graph TD
-    CSV["CSV Split File"] --> ID["Extract id_code"]
-    ID --> Resolve["Resolve image_path"]
-    Resolve --> Read["PIL.Image.open()"]
-    Read --> Convert["convert('RGB')"]
-    Convert --> Trans["Apply Transforms"]
-    Trans --> Return["Return Tensor Tuple: (image, label)"]
-```
-
 ## Dataset Lifecycle
-The sequential progression of data from disk representation to tensor format is defined by the following stages:
+The sequential progression of data from disk representation to tensor format during a single fetch (`__getitem__`) is defined by the following stages:
+
 ```mermaid
 graph TD
     CSV["CSV Split (Disk)"] --> Dataset["RetinaDataset (CPU RAM index)"]
-    Dataset --> Transforms["torchvision.transforms (PIL in CPU memory)"]
-    Transforms --> DataLoader["DataLoader batch collation (CPU pinned RAM)"]
+    Dataset --> PIL["PIL.Image.open() & convert('RGB')"]
+    PIL --> Transforms["torchvision.transforms (Augmentation & Resizing)"]
+    Transforms --> Tensor["Return Tuple: (Tensor, Label)"]
+    Tensor --> DataLoader["DataLoader batch collation (CPU pinned RAM)"]
     DataLoader --> GPU["GPU Transfer (VRAM memory buffers)"]
-    GPU --> Model["Model Ingestion (CNN Training Step)"]
 ```
 
 ## Single Responsibility Principle

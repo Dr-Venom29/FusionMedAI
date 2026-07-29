@@ -62,8 +62,10 @@ Across the $3,662$ training images, the quality distribution shows:
 
 ### Practical Engineering Applications
 During baseline model development and training (Step 4), the quality score was not yet integrated directly into training loss calculations or sampling loops; it remains preserved as an experimental variable for future iterations. In subsequent optimization phases, these parameters can support:
-- **Quality-Aware Gradient Weighting**: Low-quality images can be down-weighted or filtered to prevent noisy gradient updates.
-- **Explainability Validation**: Quality scores will be cross-referenced with post-training Grad-CAM activation maps to verify whether image quality or blur artifacts bias the model's spatial attention boundaries.
+- **Quality-Aware Sampling**: Adapting the dataloader to over-sample high-quality representative images or filter severe outliers.
+- **Quality-Aware Gradient Weighting**: Low-quality images can be down-weighted to prevent noisy gradient updates.
+- **Uncertainty Calibration**: Utilizing image quality as a prior to calibrate model confidence, ensuring the model expresses higher uncertainty on severely degraded scans.
+- **Grad-CAM Explainability Validation**: Quality scores will be cross-referenced with post-training Grad-CAM activation maps to verify whether blur artifacts bias the model's spatial attention boundaries.
 
 ### Visual Quality Distributions
 

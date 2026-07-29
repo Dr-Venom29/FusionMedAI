@@ -53,12 +53,12 @@ Before constructing any DataLoader objects, `create_dataloaders()` performs stri
 
 Fail-fast validation prevents training from starting with invalid configuration.
 
-## Multi-process Workers (`num_workers`)
+## Performance Optimizations
+
+### Multi-process Workers (`num_workers`)
 PyTorch uses Python multiprocessing to load data in parallel:
 - **Worker count**: Configured in `src/config.py` via `NUM_WORKERS`.
 - **Portability**: On Windows, multi-process data loading can sometimes raise file lock issues or slow down startup during development. `create_dataloaders()` keeps the workers configurable and safely defaults to `num_workers=0` (single-thread execution on the main process) during verification runs.
-
-## Memory Optimizations
 
 ### Pin Memory (`pin_memory`)
 When training on a GPU, host memory must first be copied to the GPU:

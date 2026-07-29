@@ -8,19 +8,23 @@ This directory contains the datasets used in FusionMedAI for diabetes risk predi
 datasets/
 ├── raw/
 │   └── aptos2019/
-├── interim/          # Intermediate files generated during preprocessing
-├── processed/        # Versioned train/val/test splits
-├── metadata/         # Generated metadata and statistics
+├── processed/
+│   └── splits/
+├── metadata/
+│   ├── verification_report.json
+│   ├── dataset_statistics.json
+│   └── ...
+├── interim/
 └── README.md
 ```
 
 ## Dataset Overview
 
-| Module | Dataset | Purpose |
+| Module | Dataset | Status |
 | :--- | :--- | :--- |
-| **Retina** | APTOS 2019 | Diabetic Retinopathy Classification |
-| **Foot Ulcer** | DFUC | Wound Detection & Staging |
-| **Clinical** | PIMA | Tabular Diabetes Risk Prediction |
+| **Retina** | APTOS 2019 | ✅ Implemented |
+| **Foot Ulcer** | DFUC | 🚧 Planned |
+| **Clinical** | PIMA | 🚧 Planned |
 
 ---
 
@@ -52,16 +56,48 @@ python src/data/split_dataset.py
 python src/data/verify_pipeline.py
 ```
 
-## Current Status
+## Retina Module Progress
 
-The APTOS 2019 dataset has completed:
-- Dataset verification
-- Metadata generation
-- Stratified train/validation/test splitting
-- Exploratory Data Analysis (EDA)
-- Baseline framework validation
+Dataset Preparation          ✅
+Data Pipeline               ✅
+EDA                         ✅
+Training Framework          ✅
+Architecture Benchmarking   ✅
+Calibration                 ⏳
+Explainability              ⏳
+Uncertainty                 ⏳
 
-The dataset is now ready for baseline model training.
+### Completed Tasks
+✅ Dataset verification
+✅ Metadata generation
+✅ Stratified train/validation/test split
+✅ Exploratory Data Analysis
+✅ Baseline training framework
+✅ Architecture benchmarking
+✅ EfficientNet-B3 backbone selected
+
+Current retinal backbone: **EfficientNet-B3**
+
+## Reproducibility
+
+The retinal experiments use:
+
+- Fixed random seed
+- Deterministic train/validation/test split
+- Frozen benchmark configuration
+- Versioned experiment outputs
+
+## Benchmark Summary
+
+Five pretrained architectures were evaluated under identical experimental settings:
+
+- EfficientNet-B0
+- EfficientNet-B3
+- ConvNeXt-Tiny
+- Swin-Tiny
+- ViT-B/16
+
+Selected retinal backbone: **EfficientNet-B3**
 
 ---
 
@@ -95,63 +131,15 @@ According to Kaggle Competition Terms (Research/Educational Use)
 
 ---
 
-# Foot Ulcer Module Dataset: DFUC (Diabetic Foot Ulcer Challenge)
+## Planned Datasets
 
-### Overview
-DFUC is a diabetic foot ulcer image dataset used for ulcer detection, localization, segmentation, and severity assessment.
+### Foot Ulcer
+- **Dataset:** DFUC
+- **Status:** Planned
 
-### Dataset Statistics
-- **Approximate Image Count:** ~4,000+ Images
-
-### Download Source
-- **Link:** [DFUC Challenge Website](https://dfu-challenge.github.io)
-
-### Classes
-Depending on the specific task:
-- Ulcer Present / Ulcer Absent
-- Severity Categories
-
-### License
-Research Use
-
----
-
-# Clinical Module Dataset: PIMA Indians Diabetes Dataset
-
-### Overview
-PIMA is a structured clinical dataset used for diabetes prediction based on diagnostic measurements.
-
-### Dataset Statistics
-- **Sample Count:** 768 Patients
-- **Features:** 8 Clinical Features:
-  1. Pregnancies
-  2. Glucose
-  3. Blood Pressure
-  4. Skin Thickness
-  5. Insulin
-  6. BMI
-  7. Diabetes Pedigree Function
-  8. Age
-
-### Download Source
-- **Link:** [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Pima+Indians+Diabetes)
-
-### Target Labels
-| Label | Meaning |
-|-------|----------|
-| 0     | Non-Diabetic |
-| 1     | Diabetic |
-
-### Missing Values (Known Issues)
-Several features contain zero values that represent missing measurements. These include:
-- Glucose
-- Blood Pressure
-- Skin Thickness
-- Insulin
-- BMI
-
-### License
-Open Research Dataset
+### Clinical
+- **Dataset:** PIMA Indians Diabetes
+- **Status:** Planned
 
 ---
 

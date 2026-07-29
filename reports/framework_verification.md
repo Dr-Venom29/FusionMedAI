@@ -72,4 +72,5 @@
 ## Note
 The metrics presented in this report originate from a CPU-based verification execution intended to validate the correctness of the training framework.
 These values should not be interpreted as the expected performance of the EfficientNet-B0 baseline.
-Final benchmark results will be generated after full-scale training and hyperparameter optimization during Step 5.
+
+The framework verification successfully validated the complete training pipeline. Final architecture benchmarking has since been completed separately, and EfficientNet-B3 was selected as the retinal backbone.

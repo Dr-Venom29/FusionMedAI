@@ -12,7 +12,7 @@ This design improves reproducibility, simplifies experimentation, and prevents i
 
 ```mermaid
 flowchart TD
-    FMAI[FusionMedAI] --> Retina[Retina Module]
+    FMAI[FusionMedAI] --> Retina[Retina Module (EfficientNet-B3)]
     FMAI --> Foot[Foot Ulcer Module]
     FMAI --> Clinical[Clinical Module]
     

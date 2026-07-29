@@ -5,9 +5,7 @@ This chapter details the purpose, structure, columns, and downstream reuse of th
 ---
 
 ## Why Metadata Matters
-In deep learning pipelines, especially when dealing with high-resolution image data, disk and memory I/O can easily introduce unnecessary I/O overhead during preprocessing and training. Traversing thousands of directories to fetch image dimensions, file sizes, or labels during preprocessing or training is computationally expensive. Generating a centralized metadata directory solves this bottleneck.
-
-Metadata acts as a lightweight, structured representation of the dataset. Instead of reading thousands of large images to calculate distributions, check dimensions, or verify labels, scripts can load a single CSV or JSON file in milliseconds, significantly reducing CPU memory overhead.
+Metadata acts as a lightweight, structured representation of the dataset. Generating a centralized metadata directory allows scripts to load a single CSV or JSON file in milliseconds, serving as a unified reference point for the pipeline.
 
 The relationship between the raw data and the generated metadata files is illustrated below:
 
@@ -133,8 +131,7 @@ flowchart TD
   We choose the storage format based on the structure of the data and its downstream consumption profile:
   - **CSV (Tabular Data)**: Tabular data (like image sizes and labels) is stored as CSVs, which are directly readable by Pandas during EDA and PyTorch datasets during training.
   - **JSON (Hierarchical Data)**: Config-like global parameters (like mean sizes, class labels, and dataset statistics) are saved as JSON, facilitating quick integration with automated training modules and experiment logs.
-- **Why Reusable Reports and Storage Efficiency?**
-  Generating reusable reports ensures that dataset verification only needs to be run **once**. Repeatedly opening 3,662 high-resolution PNG images during every preprocessing stage would introduce unnecessary I/O. Instead, loading the `train_metadata.csv` requires only a few hundred KB of memory, which significantly reduces disk I/O latency.
+
 - **No Manual Modifications**
   Generated metadata are treated as derived artifacts. They should never be manually edited, because doing so would break consistency with the verified raw dataset. Instead, metadata should always be regenerated from the source data using the metadata generation pipeline.
 - **Dataset-Independent Scalability**

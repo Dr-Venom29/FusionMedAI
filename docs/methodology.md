@@ -17,11 +17,13 @@ flowchart TD
     DatasetPrep[Dataset Preparation]
     --> DataPipeline[Data Pipeline]
     --> EDA[Exploratory Data Analysis]
-    --> BaselineModel[Baseline Model Development]
-    --> BaselineTraining[Baseline Training & Evaluation]
+    --> BaselineFramework[Baseline Framework]
+    --> ArchitectureBenchmarking[Architecture Benchmarking]
+    --> Calibration
     --> Explainability
+    --> UncertaintyEstimation[Uncertainty Estimation]
     --> ModuleCompletion[Module Completion]
-    --> MultimodalFusion[Multimodal Fusion ACARA-U]
+    --> MultimodalFusion[ACARA-U Fusion]
 ```
 
 Each stage is verified before progressing to the next stage.
@@ -98,17 +100,16 @@ Completed:
 * Data Pipeline
 * Exploratory Data Analysis
 * Baseline Model Framework
+* Architecture Benchmarking
 
-In Progress:
+Current:
 
-* Baseline Training
-* Hyperparameter Optimization
-* Comparative Model Evaluation
+* Calibration
 
 Planned:
 
 * Explainability
-* Calibration
+* Uncertainty
 * Foot Ulcer Module
 * Clinical Module
 * ACARA-U Fusion
@@ -120,3 +121,16 @@ Planned:
 Once all individual modules have been validated, the final FusionMedAI methodology will integrate their outputs through the ACARA-U Fusion Engine using uncertainty-aware decision aggregation rather than feature-level patient fusion.
 
 This approach preserves scientific validity while enabling multimodal clinical intelligence across heterogeneous public medical datasets.
+
+---
+
+# Architecture Benchmarking (Step 5)
+
+FusionMedAI conducts rigorous fair-comparison benchmarking to identify the optimal architectural backbone for each module. The protocol ensures that inductive biases and architectural paradigms (e.g., CNNs vs Vision Transformers) are compared transparently without hyperparameter bias.
+
+## Benchmarking Protocol
+- **Frozen Environment**: All architectures are subjected to the exact same dataset, train/val/test splits, batch size, epochs, and random seeds.
+- **Identical Optimization**: Confounding variables are eliminated by strictly fixing the optimizer (AdamW), learning rate scheduler (CosineAnnealingLR), and loss function (Weighted Cross-Entropy) across all models.
+- **Hardware Efficiency Tracking**: Beyond diagnostic metrics (Accuracy, QWK, ROC-AUC), models are profiled for parameter count, FLOPs, MACs, peak VRAM, inference latency, and throughput.
+- **Clinical Feasibility Selection**: The final model is selected based on a holistic assessment balancing high diagnostic power with edge-deployment feasibility (low memory footprint and low latency).
+

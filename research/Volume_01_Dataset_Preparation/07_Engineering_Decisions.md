@@ -21,47 +21,18 @@ This chapter documents the key technical decisions, trade-offs, and software eng
   - Prevents configuration drift by ensuring that all components use identical configurations.
 - **Trade-off**: Couples all scripts to a single configuration module, meaning changes to the config structure can affect multiple operational files.
 
-### 3. Why Metadata Pre-generation Instead of Dynamic Recomputation?
-- **Decision**: Precalculate all image properties (width, height, file size, aspect ratio) and save them to CSV and JSON files in `datasets/metadata/` rather than reading raw images dynamically during training.
-- **Research Rationale**:
-  - Fundus images in the APTOS dataset possess highly variable resolutions (ranging from 474 pixels to 4,288 pixels). Extracting these dimensions on-the-fly inside PyTorch data loaders during training introduces unnecessary computational and I/O overhead.
-  - Pre-generating metadata files allows scripts to load the entire dataset index in milliseconds, avoiding CPU bottlenecks and saving disk I/O operations during training epochs.
-- **Trade-off**: Metadata becomes stale if raw images change. Therefore, metadata must always be regenerated after dataset modifications.
 
-### 4. Why Verification Before Preprocessing?
-- **Decision**: Enforce dataset integrity checks before running preprocessing or resizing.
-- **Engineering Rationale**:
-  - Medical image preprocessing (resizing, padding, crop mask optimization) is computationally expensive.
-  - Running preprocessing on unverified datasets risks wasting hours of processing time before hitting a corrupted file, missing label, or out-of-bounds index. Verification ensures that the data is structurally sound before any processing occurs, following a strict **fail-fast** approach (Shore, 2004).
-- **Trade-off**: Adds an initial verification runtime step before preprocessing can begin, increasing pipeline latency on first run.
 
-### 5. Why Separating Raw and Processed Datasets?
-- **Decision**: The `datasets/raw/` folder is read-only, and any preprocessed files are written to `datasets/processed/`.
-- **Research Rationale**:
-  - Raw clinical scans are the ground-truth audit trail (immutable artifacts). Modifying them destroys the ability to trace training data back to the original source.
-  - Preserving raw data allows researchers to test different preprocessing and augmentation strategies without needing to re-download the source files.
-- **Trade-off**: Increases disk storage requirements since raw and processed images coexist simultaneously.
-
-### 6. Why JSON Plus CSV?
-- **Decision**: Use JSON for dataset-level summaries (`dataset_statistics.json`) and CSV for tabular per-image lists (`train_metadata.csv`, `image_statistics.csv`).
-- **Engineering Rationale**:
-  - **CSV (Tabular Data)**: Highly efficient for scanning, filtering, and joining tables using pandas. PyTorch dataset classes can easily load CSV rows via index lookups.
-  - **JSON (Hierarchical Data)**: Supports nested objects and key-value pairs. Well suited for configuration, automation metadata, and experiment logging.
-- **Trade-off**: Requires maintaining parser logic for two separate file types.
-
-### 7. Why Modular Scripts Instead of Monolithic Jupyers?
+### 3. Why Modular Scripts Instead of Monolithic Jupyers?
 - **Decision**: Implement verification and metadata generation in pure Python scripts (`verify_dataset.py`, `generate_metadata.py`) under `src/data/` rather than in Jupyter Notebooks.
 - **Engineering Rationale**:
   - Pure Python scripts can be version-controlled cleanly with Git, without the clutter of large JSON notebook outputs.
   - Scripts are easily executed from the terminal, making them ready for automated CI/CD pipelines, automated testing, and cloud GPU environments.
 - **Trade-off**: Lacks the interactive, cell-by-cell visualization interface of Jupyter Notebooks during active code development.
 
-### 8. Why Metadata Before EDA?
-- **Decision**: Precalculate all image properties (width, height, file size, aspect ratio) and save them to CSV and JSON files in `datasets/metadata/` before running Exploratory Data Analysis.
-- **Engineering Rationale**: Pre-generating metadata enables statistical analysis without repeatedly decoding high-resolution retinal images, reducing execution time while ensuring consistent descriptive statistics across multiple experiments. This mirrors the engineering style of Volume 3.
-- **Trade-off**: Requires running metadata generation as a separate preliminary step before any analysis or plotting scripts can execute.
 
-### 9. Why Modular Training Architecture?
+
+### 4. Why Modular Training Architecture?
 - **Decision**: Separate model definition, training loop execution, inference APIs, checkpointing, and visualization into decoupled modules rather than a single monolithic script.
 - **Engineering Rationale**:
   - Allows changing the model architecture (e.g. switching from EfficientNet-B0 to ConvNeXt) by simply changing a string in `config.py`, without rewriting any training or validation code.

@@ -36,6 +36,6 @@
 
 ---
 
-## Baseline Validation Only
-- **Limitation**: Current EDA recommendations have only been applied to the baseline EfficientNet-B0 implementation.
-- **Mitigation**: Their effectiveness across alternative architectures—including EfficientNetV2, DenseNet, ConvNeXt, and Vision Transformers—has not yet been experimentally validated. Future work in Step 5 will systematically test these recommendations against alternative backbones.
+## Validation Scope
+- **Limitation**: The EDA recommendations have been validated under the baseline framework and the five-model architecture benchmarking study. Their effectiveness under calibration, explainability, uncertainty estimation, and multimodal fusion remains to be evaluated.
+- **Mitigation**: Future phases of the research roadmap will systematically evaluate whether these preprocessing choices maintain their robustness during advanced model interpretability and calibration workloads.

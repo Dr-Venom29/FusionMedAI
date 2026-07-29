@@ -96,16 +96,17 @@ graph TD
 
 ---
 
-## Readiness for Baseline Training and Experimentation
-The recommendations derived from the Exploratory Data Analysis have been **successfully adopted by Step 4 baseline model development**. The baseline EfficientNet-B0 has been initialized, trained, and verified using the preprocessing configurations established in this phase.
+## Completion of Step 4 and Step 5
+The recommendations derived from the Exploratory Data Analysis were successfully incorporated into:
+- **Baseline Framework (Step 4)**
+- **Architecture Benchmarking (Step 5)**
 
-The project is now ready for baseline training and optimization. Preprocessing configurations have been frozen at a stable baseline, and the next milestones will address:
+The project has now successfully completed these benchmarking phases. The next milestones in the research roadmap will address model robustness and clinical interpretability:
 
 ```mermaid
 flowchart TD
-    Benchmarking[Ready for baseline benchmarking]
-    --> Hyperparams[Hyperparameter optimization]
-    --> Imbalance[Class imbalance mitigation]
-    --> Explainability[Explainability (Grad-CAM)]
-    --> Comparison[Model comparison]
+    Calibration[Calibration]
+    --> Explainability[Explainability]
+    --> Uncertainty[Uncertainty Estimation]
+    --> Multimodal[Multimodal Fusion]
 ```

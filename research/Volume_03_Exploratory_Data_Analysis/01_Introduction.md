@@ -43,7 +43,7 @@ The analysis is organized into the following chapters:
 - **Chapter 8: Limitations** — Examines the scientific and engineering limitations of the EDA pipeline.
 - **Chapter 9: Step 3 Summary** — Summarizes the deliverables, milestones, and readiness for baseline training.
 
-The recommendations derived from this exploratory analysis were subsequently adopted during the baseline EfficientNet-B0 implementation (Step 4), influencing input resolution selection, preprocessing configuration, and experiment design.
+The recommendations derived from this exploratory analysis were first adopted during the baseline framework (Step 4) and subsequently reused during the controlled architecture benchmarking study (Step 5).
 
 ---
 

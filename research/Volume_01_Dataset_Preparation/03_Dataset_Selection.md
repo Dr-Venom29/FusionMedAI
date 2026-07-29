@@ -69,74 +69,12 @@ Available under the Kaggle Competition Terms for educational and research purpos
 
 ---
 
-## Dataset 2: IDRiD (Indian Diabetic Retinopathy Image Dataset) — Future Integration
+## Future External Validation Datasets
 
-### 1. Overview and Modality
-The IDRiD dataset (Porwal et al., 2018) is a publicly available clinical benchmark dataset compiled from an eye clinic in Nanded, India. Similar to APTOS, it uses digital color retinal fundus photography.
+- **IDRiD (Indian Diabetic Retinopathy Image Dataset)**
+- **Messidor**
 
-### 2. Dataset Characteristics
-- **Total Samples**: 516 Images (typically split into 413 training images and 103 testing images).
-- **Resolution**: Homogeneous high-definition scans (typically 4,288 × 2,848 pixels).
-- **Format**: TIFF / JPEG.
-
-### 3. Label Definitions
-Grades diabetic retinopathy severity using the same 5-class international scale (0 to 4). Additionally, it provides annotations for diabetic macular edema (DME) risk levels (0 to 2) and pixel-level segmentations for key lesions (microaneurysms, hemorrhages, hard exudates, and soft exudates).
-
-### 4. Suitability, Advantages, and Limitations
-- **Suitability**: Serves as a suitable external validation dataset or cross-dataset training benchmark due to its clinical grading. Because APTOS and IDRiD originate from different clinical environments, cross-dataset evaluation also introduces a domain-shift scenario, which later motivates the proposed Out-of-Distribution (OOD) detection module.
-- **Advantages**: Provides precise pixel-level annotations for key pathological lesions, allowing models to learn explainable features (e.g., segmenting exudates to justify a severity score).
-- **Limitations**: Much smaller sample size (516 images) compared to APTOS, making it less suitable as a standalone training set for deep architectures from scratch.
-- **Licensing**: Available for research and academic purposes under the IDRiD database terms.
-
----
-
-## Dataset Comparison and Selection Rationale
-
-To contextualize the dataset choices, the table below compares the key properties of public retinal fundus datasets:
-
-| Dataset | Images | Classes | Resolution | Lesion Masks | Licensing |
-| :--- | :---: | :---: | :---: | :---: | :--- |
-| **EyePACS** | ~88,000 | 5 | Variable | No | Non-commercial |
-| **APTOS 2019** | 3,662 (Train) | 5 | Variable | No | Non-commercial |
-| **IDRiD** | 516 | 5 | Fixed | Yes | Research-only |
-| **Messidor** | 1,200 | 4 | Fixed | No | Research-only |
-
-Although several public retinal datasets are available, APTOS 2019 was selected as the primary training and validation dataset due to:
-- **Balanced Dataset Size**: Large enough (~3,662 training images) to support training deep convolutional and transformer backbones, yet small enough to allow rapid local verification and iterative experimentation.
-- **Five-Class Severity Labels**: Matches the international clinical standard, supporting multi-class severity assessment.
-- **Active Benchmark & Community Adoption**: Served as a key competition benchmark, allowing comparison with published literature.
-- **Public Accessibility & Suitable Licensing**: Readily available under terms suited for research and academic development.
-
----
-
-## Rationale: Why Start with APTOS Before IDRiD?
-
-1. **Dataset Volume**: APTOS contains 3,662 labeled training samples, which is nearly **9 times larger** than IDRiD's 413 training samples. Deep learning models require significant data volume to learn generalized features before fine-tuning on smaller clinical datasets.
-2. **Clinical Diversity**: APTOS is compiled from multiple screening sites with varying cameras and resolutions. IDRiD, on the other hand, was captured using a single camera model at a single clinic. Starting with the more diverse APTOS dataset prevents the model from developing early biases towards specific image characteristics.
-3. **Pipeline Stress-Testing**: The high variability in APTOS's image dimensions (ranging from 474px to 4288px) and aspect ratios provides a more challenging benchmark for the automated verification and preprocessing pipelines compared to the uniform resolutions of IDRiD.
-
----
-
-## Evaluation Workflow
-
-The following flowchart shows how APTOS and IDRiD are utilized across training, verification, and external validation:
-
-```mermaid
-flowchart TD
-    subgraph Phase 1 [Internal Training & Validation]
-        APTOS
-        --> Verification
-        --> Metadata
-        --> Split
-        --> Training
-        --> Validation
-    end
-    subgraph Phase 2 [External Generalization Testing]
-        IDRiD --> ExtVal[External Validation]
-    end
-    Validation -.-> ExtVal
-```
-
+These datasets will be introduced and documented in later volumes when the project reaches the external validation and out-of-distribution (OOD) testing phases.
 
 ---
 

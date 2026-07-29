@@ -1,34 +1,37 @@
-# FusionMedAI: Multi-Modal Clinical Intelligence System
+# FusionMedAI
+> Explainable Multi-Modal AI Framework for Diabetic Disease Analysis
+
+Retina • Clinical • Foot Ulcer • Multimodal Fusion
 
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120/)
 [![PyTorch 2.4](https://img.shields.io/badge/pytorch-2.4-orange.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-FusionMedAI is a clinical engineering framework designed for multi-modal medical diagnostics and interpretability. The system targets diagnostic classification across heterogeneous datasets (imaging, clinical structured data, and patient reports) by combining advanced deep learning backbones with transparent explainable AI (XAI) models.
-
-The primary architecture utilizes **ACARA-U Fusion** (Attention-driven Clinical and Retinal Analysis with Uncertainty estimation) to fuse high-resolution clinical imaging, tabular EHR markers, and visual explanation metrics into robust diagnostic predictions.
-
-## ✨ Current Features
-
-- Automated dataset verification and metadata generation
-- Stratified train/validation/test splitting (80/10/10)
-- Custom PyTorch Dataset and configurable DataLoader
-- End-to-end pipeline verification
-- Exploratory Data Analysis (EDA)
-- RGB channel profiling and quality assessment
-- Duplicate image auditing (SHA-256)
-- EfficientNet-B0 baseline implementation
-- Modular PyTorch training framework
-- Automatic checkpoint management
-- TensorBoard experiment tracking
-- Versioned experiment management
-- Comprehensive evaluation metrics (QWK, Macro F1, Balanced Accuracy)
-- Standalone inference API (single & batch prediction)
-- Automated framework verification
+**Current Status**
+- ✓ Retina Benchmarking Complete
+- 🔄 Calibration
+- 🔄 Explainability
+- 🔄 Uncertainty
+- ⬜ Foot Module
+- ⬜ Clinical Module
+- ⬜ ACARA-U Fusion
 
 ---
 
-## 🏗️ Current Development Architecture
+## ✨ Core Infrastructure
+
+- ✓ Dataset verification
+- ✓ Data pipeline
+- ✓ EDA
+- ✓ Modular training
+- ✓ Benchmarking
+- ✓ Experiment tracking
+- ✓ Inference
+- ✓ Verification
+
+---
+
+## 🏗️ Architecture
 
 The following diagram illustrates the multi-modal diagnostic flow of the FusionMedAI framework, from raw heterogeneous ingestion to multi-level predictive fusion:
 
@@ -38,17 +41,58 @@ The following diagram illustrates the multi-modal diagnostic flow of the FusionM
 
 ---
 
+## 🔬 Architecture Benchmarking
+
+We conducted a rigorous, identical-condition benchmark across five distinct vision architectures to select the optimal Retina Module backbone:
+1. **EfficientNet-B0** (CNN)
+2. **EfficientNet-B3** (CNN)
+3. **ConvNeXt-Tiny** (Modernized CNN)
+4. **Swin-Tiny** (Hierarchical Transformer)
+5. **ViT-B/16** (Vision Transformer)
+
+### Final Benchmark Results
+
+| Model | Accuracy | Balanced Acc. | Macro F1 | QWK | ROC-AUC | Params | Peak VRAM | Latency | Throughput |
+|---|---|---|---|---|---|---|---|---|---|
+| **EfficientNet-B3** | **84.20%** | 67.22% | 0.6813 | **0.9233** | 0.9457 | 10.70M | 2.81 GB | 12.64 ms | 79.1 img/s |
+| ConvNeXt-Tiny | 81.20% | **72.05%** | **0.6893** | 0.9145 | **0.9587** | 27.82M | 2.30 GB | 5.65 ms | 177.0 img/s |
+| EfficientNet-B0 | 79.29% | 67.68% | 0.6505 | 0.9101 | 0.9353 | 4.01M | 1.50 GB | 8.08 ms | 123.7 img/s |
+| Swin-Tiny | 78.75% | 66.35% | 0.6406 | 0.8973 | 0.9516 | 27.52M | 2.57 GB | 12.89 ms | 77.6 img/s |
+| ViT-B/16 | 77.38% | 58.01% | 0.5804 | 0.8656 | 0.9225 | 85.80M | 3.41 GB | 15.16 ms | 66.0 img/s |
+
+**Selection Outcome:** **EfficientNet-B3** was selected as the final Retinal Module backbone due to its superior clinical grading metrics (Accuracy and QWK) and excellent hardware efficiency compared to massive transformers.
+
+---
+
+## 🌟 Research Highlights
+
+- Five-model benchmark under identical experimental conditions
+- EfficientNet-B3 selected as the final retinal backbone
+- Modular PyTorch framework with experiment versioning
+- Comprehensive engineering documentation across five research volumes
+- Reproducible end-to-end medical AI pipeline
+
+---
+
 ## 🛠️ Tech Stack
 
+**Language**
 - Python 3.12
+
+**Deep Learning**
 - PyTorch
 - Torchvision
-- OpenCV
-- Albumentations
+
+**Data**
 - NumPy
 - Pandas
+
+**Vision**
+- OpenCV
+- Albumentations
+
+**Visualization**
 - Matplotlib
-- Scikit-learn
 - TensorBoard
 
 ---
@@ -62,105 +106,17 @@ The following diagram illustrates the multi-modal diagnostic flow of the FusionM
 
 ---
 
-## 📌 Current Implementation
-
-Implemented:
-- ✔ Dataset Preparation
-- ✔ Metadata Generation
-- ✔ Dataset Verification
-- ✔ Stratified Splitting
-- ✔ RetinaDataset
-- ✔ Image Transforms
-- ✔ DataLoader
-- ✔ End-to-End Verification
-- ✔ Exploratory Data Analysis
-- ✔ EfficientNet-B0 Baseline Framework
-- ✔ Modular Training Pipeline
-- ✔ Checkpoint Management
-- ✔ TensorBoard Integration
-- ✔ Experiment Versioning
-- ✔ Standalone Inference
-- ✔ Framework Verification
-
-In Progress:
-- 🔄 Baseline Training & Hyperparameter Optimization
-
----
-
-## 🚀 Releases
-
-| Version | Status |
-|---------|--------|
-| v0.1.0  | Dataset Preparation ✅ |
-| v0.2.0  | Data Pipeline ✅ |
-| v0.3.0  | Exploratory Data Analysis ✅ |
-| v0.4.0  | Baseline Model Framework ✅ |
-| v0.5.0  | Baseline Training & Experiments 🔄 |
-| v0.6.0  | Explainability |
-| v1.0.0  | Retina Module |
-
----
-
-## 📊 Project Status & Progress
-
-The framework is organized into specialized domain modules. The current status of development is tracked below:
-
-### Overall Progress
-
-| Module | Core Features | Status |
-| :--- | :--- | :--- |
-| **Retina Module** | Diabetic Retinopathy staging (APTOS 2019 / IDRiD) | 🔄 In Progress |
-| **Foot Ulcer Module** | Wound segmentation and infection classification | ⬜ Not Started |
-| **Clinical Module** | Tabular EHR risk prediction and feature extraction | ⬜ Not Started |
-| **Fusion Engine (ACARA-U)** | Joint embedding & uncertainty-weighted cross-attention | ⬜ Not Started |
-
-### Retina Module Development Progress
-
-- [x] Baseline Model Framework
-- [x] Modular Training Pipeline
-- [x] Experiment Tracking
-- [x] Checkpoint Manager
-- [x] Inference Module
-- [x] Verification Framework
-- [ ] Baseline Training
-- [ ] Hyperparameter Optimization
-- [ ] Architecture Comparison
-- [ ] Explainability
-- [ ] Calibration
-- [ ] External Evaluation
-
----
-
 ## 📁 Repository Structure
 
 ```directory
 FusionMedAI/
 ├── datasets/                 # Labeled medical databases
-│   ├── raw/                  # Unmodified raw clinical inputs (e.g., aptos2019)
-│   ├── interim/              # Generated diagnostic reports & logs
-│   └── processed/            # Final versioned data splits
 ├── docs/                     # Architectural diagrams & specifications
-├── experiments/              # Isolated model checkpoints and run artifacts
 ├── notebooks/                # Academic Jupyter notebooks
-│   └── retina/
-│       ├── eda.ipynb         # Interactive dataset exploratory analysis
-│       ├── extract_stats.py  # Concurrent statistical feature extractor
-│       └── run_eda_analysis.py # Automated EDA & report generation engine
-├── research/                 # Academic notebooks & clinical engineering logs
-│   ├── Volume_01_Dataset_Preparation/  # Raw audits, checks, and metadata logic
-│   ├── Volume_02_Data_Pipeline/        # Data flow, complexities, and pipeline decisions
-│   ├── Volume_03_Exploratory_Data_Analysis/ # Spatial, RGB, quality, and duplicate analysis
-│   └── Volume_04_Baseline_Model/       # EfficientNet-B0 backbone, trainer design, checkpointing
+├── reports/                  # Published benchmark reports
+├── research/                 # Academic documentation
 ├── src/                      # Production source codebase
-│   ├── config.py             # Centralized pipeline configuration
-│   ├── inference.py          # Standalone inference API (single & batch)
-│   ├── data/                 # Data loading, transforms, and splits
-│   ├── models/               # Model definitions, wrappers, factory
-│   ├── training/             # Trainer class, optimizers, schedulers
-│   └── utils/                # Helper utilities (seeds, device, files)
 ├── verification/             # Independent verification scripts
-│   ├── data/                 # Ingestion & split checks
-│   └── model/                # Model, checkpoint, and training dry-run verifications
 ├── LICENSE                   # Open-source licensing
 └── requirements.txt          # Virtual environment dependencies
 ```
@@ -169,20 +125,15 @@ FusionMedAI/
 
 ## 📚 Research Documentation
 
-Each engineering phase is documented in detail:
-- **Volume 01 — Dataset Preparation** (located at [research/Volume_01_Dataset_Preparation/](research/Volume_01_Dataset_Preparation/))
-- **Volume 02 — Data Pipeline** (located at [research/Volume_02_Data_Pipeline/](research/Volume_02_Data_Pipeline/))
-- **Volume 03 — Exploratory Data Analysis** (located at [research/Volume_03_Exploratory_Data_Analysis/](research/Volume_03_Exploratory_Data_Analysis/))
-- **Volume 04 — Baseline Model Development** (located at [research/Volume_04_Baseline_Model/](research/Volume_04_Baseline_Model/))
+| Volume | Topic | Status |
+| :--- | :--- | :--- |
+| I | Dataset Preparation | ✅ |
+| II | Data Pipeline | ✅ |
+| III | Exploratory Data Analysis | ✅ |
+| IV | Baseline Framework | ✅ |
+| V | Architecture Benchmarking | ✅ |
 
-Each volume contains:
-- Introduction & background
-- Objectives & contributions
-- Technical design decisions & trade-offs
-- Verification methodology & coverage
-- Multi-dimensional figures and dashboards (for Volume 3)
-- Research limitations & mitigations
-- Concluding roadmaps
+Detailed documentation can be found in the `research/` directory.
 
 ---
 
@@ -260,14 +211,43 @@ All verification and analysis steps must run successfully before proceeding to m
 
 ## 📊 Framework Verification
 
-Before launching full GPU training jobs, the baseline Retina model framework was validated using CPU dry-runs:
+Framework verification confirmed:
+- ✓ Model initialization
+- ✓ Training loop
+- ✓ Checkpoint recovery
+- ✓ Inference
 
-- **Model verification**: Successful initialization of EfficientNet-B0, parameter count profile (4,013,953 parameters, ~15.31 MB), forward check, and feature extraction mapping check (`[B, 1280, 7, 7]`).
-- **Training verification**: Backpropagation verified (checking optimizer step updates parameters), loss check, and learning rate decay validation (decaying from $1 \times 10^{-4}$ to $9.1 \times 10^{-5}$ on Step 1).
-- **Checkpoint verification**: verified state dictionary matching for parameters, history logs, optimizer state, scheduler state, and exact value reconstruction under `allclose` check.
-- **Inference verification**: Standalone inference check on single-image and batch data loaders, including confidence scoring and processing latency checks (~35 ms/image on CPU).
+**Detailed results**: `reports/framework_verification.md`
 
-The framework is now ready for full-scale GPU training and experimental evaluation.
+---
+
+## 🚀 Development Milestones
+
+| Version | Status |
+|---------|--------|
+| v0.1.0  | Dataset Preparation ✅ |
+| v0.2.0  | Data Pipeline ✅ |
+| v0.3.0  | Exploratory Data Analysis ✅ |
+| v0.4.0  | Baseline Model Framework ✅ |
+| v0.5.0  | Architecture Benchmarking ✅ |
+| v0.6.0  | Calibration, Explainability, Uncertainty |
+| v1.0.0  | Retina Module |
+
+---
+
+## 📊 Project Status
+
+| Module | Status |
+| :--- | :--- |
+| **Retina Module** | Architecture Benchmarking Complete |
+| **Foot Ulcer Module** | ⬜ Not Started |
+| **Clinical Module** | ⬜ Not Started |
+| **Fusion Engine (ACARA-U)** | ⬜ Not Started |
+
+### Retina Module Current Focus
+- Calibration
+- Explainability
+- Uncertainty
 
 ---
 
@@ -277,12 +257,15 @@ The framework is now ready for full-scale GPU training and experimental evaluati
 - **v0.2.0 (Data Pipeline)**: Completed stratified split, lazy loading, transforms, and E2E verification. ✅
 - **v0.3.0 (Exploratory Data Analysis)**: Completed concurrent stats extraction, RGB profiling, duplicate audit, quality scoring, and automated reports. ✅
 - **v0.4.0 (Baseline Framework)**: Built custom model wrapper, factory, BaseClassifier, trainer, mixed precision (AMP), Early Stopping, checkpointing, standalone inference, and verification framework. ✅
-- **v0.5.0 (Baseline Training & Experiments)**: baseline training, hyperparameter optimization, loss comparisons (Focal, Weighted CE), optimizer and scheduler comparisons. 🔄
-- **v0.6.0 (Explainability & Calibration)**: Grad-CAM post-hoc visual explanation, calibration curves, and uncertainty estimation.
+- **v0.5.0 (Architecture Benchmarking)**: Completed fair-benchmark comparison across 5 architectures, yielding EfficientNet-B3 as the final Retinal backbone. ✅
+- **v0.6.0 (Calibration, Explainability, Uncertainty)**: Calibration, Explainability, and Uncertainty Estimation.
 - **v1.0.0 (Retina Module)**: Production release of explainable, calibrated Retina module.
 - **v2.0.0 (Foot Ulcer Module Complete)**: Integrate wound segmentation models.
 - **v3.0.0 (Clinical Module Complete)**: Integrate EHR structured features and classification networks.
 - **v4.0.0 (FusionMedAI Complete)**: Release unified multi-modal ACARA-U Fusion model.
+
+---
+
 ## ⚖️ License
 
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.

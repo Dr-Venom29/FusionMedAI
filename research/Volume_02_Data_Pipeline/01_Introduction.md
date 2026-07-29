@@ -28,11 +28,7 @@ graph TD
     E --> F
     F --> G[transforms.py: get_train/val/test_transforms]
     G --> H[dataloader.py: create_dataloaders]
-    H --> I[PyTorch Batched CPU Tensors]
-    I --> J[Model Training]
-    J --> K[Inference]
-    K --> L[Evaluation]
-    L --> M[Grad-CAM]
+    H --> I[Training-Ready Tensors]
 ```
 
 Each step of the pipeline is isolated:

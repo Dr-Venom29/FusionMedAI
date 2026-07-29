@@ -57,32 +57,12 @@ We executed the end-to-end verification script and confirmed that all checks pas
 - CSV validation, split integrity, class distribution, dataset length, image loading, batch shapes, and full iteration tests have been verified.
 - No data leakage or loading failures were detected during verification.
 
-## Readiness for Baseline Training and Experimentation
-The project is now ready for baseline training, architecture comparison, hyperparameter optimization, and explainability. The data pipeline outputs stable, shuffled training batches of shape `(32, 3, 224, 224)` and deterministic validation and test batches, feeding the finalized modular PyTorch baseline framework.
+## Conclusion: The Production Pipeline
+This data pipeline became the production pipeline used throughout:
+- Baseline development
+- Model benchmarking
+- Calibration
+- Explainability
+- Future multimodal fusion
 
-### Baseline Deep Learning Achievements (Step 4)
-* **Baseline EfficientNet-B0**: Integrated PyTorch's official pretrained EfficientNet-B0 with custom classifier heads.
-* **Training Framework**: Established multi-epoch loops using Automatic Mixed Precision (`autocast`), Cosine Annealing learning rate schedule, and Early Stopping.
-* **Inference Pipeline**: Built a dedicated CLI and API for single-image and batch fundus classification.
-* **Checkpoint Manager**: Configured saving/loading of model weights, optimizer/scheduler states, and Python/PyTorch version configurations.
-* **Experiment Logging**: Integrated TensorBoard and CSV trackers to log learning rates, losses, and metrics.
-
-The validated pipeline developed in this phase was subsequently used to generate the quantitative analyses presented in the Exploratory Data Analysis phase, confirming its correctness under practical experimental workloads.
-
----
-
-## Next Phase Roadmap
-
-The flowchart below maps the research roadmap for the subsequent steps:
-
-```mermaid
-flowchart TD
-    Pipeline
-    --> BaselineModel[Baseline Model]
-    --> Training
-    --> Evaluation
-    --> GradCAM[Grad-CAM]
-    --> Calibration
-    --> ACARAU[ACARA-U]
-```
-*Figure 9.1: Data pipeline to clinical model training roadmap.*
+By establishing a deterministic, well-tested, and fully isolated data layer in Step 2, all subsequent research volumes could focus entirely on model architecture, training stability, and clinical evaluation without encountering data loading bottlenecks or leakage issues.

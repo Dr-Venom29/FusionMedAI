@@ -68,7 +68,7 @@ Where $p_t$ is the model's estimated probability for the correct class, and $\ga
 Data-level balancing techniques such as weighted random sampling and minority-class oversampling will also be evaluated during model training and compared with algorithm-level loss weighting to resolve the distribution skewness.
 
 ### Baseline Training Decision
-The baseline EfficientNet-B0 implementation (Step 4) was intentionally trained using the natural class distribution without applying weighted sampling or loss-balancing techniques. This establishes a clean, unweighted baseline against which subsequent data-level sampling (e.g. `WeightedRandomSampler`) and loss-level balancing methods (e.g. class weighting or Focal Loss) can be systematically evaluated in later phases.
+The initial baseline established an unweighted reference. Subsequent benchmarking evaluated multiple architectures before class-balancing strategies were introduced.
 
 ### Visual Artifacts and Grids
 

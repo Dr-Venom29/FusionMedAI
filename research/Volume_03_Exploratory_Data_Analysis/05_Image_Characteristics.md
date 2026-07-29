@@ -23,20 +23,20 @@ These spatial properties present critical challenges for the image preprocessing
    Downscaling high-resolution images ($4,288 \times 2,848$) to $224 \times 224$ represents a significant reduction:
    $$\text{Pixel Reduction} = \frac{4288 \times 2848 - 224 \times 224}{4288 \times 2848} \times 100 \approx 99.59\%$$
    Extremely small features, such as microaneurysms (which may be only $5\text{--}15$ pixels wide in raw images), may become indistinguishable after interpolation.
-   - *Engineering Recommendation*: Multi-scale training benchmarks using different target resolutions should be evaluated to measure accuracy-speed trade-offs:
+   - *Engineering Recommendation*: Multi-scale target resolutions present different accuracy-speed trade-offs.
 
-| Candidate Resolution | Advantages | Disadvantages |
+| Resolution | Status | Rationale |
 | :---: | :--- | :--- |
-| **$224 \times 224$** | Fastest training, lowest memory footprint | Loss of fine localized lesions |
-| **$384 \times 384$** | Better lesion preservation, moderate speed | Increased GPU memory requirements |
-| **$512 \times 512$** | Highest spatial fidelity, minimal feature loss | Slowest training, highest GPU memory usage |
+| **$224 \times 224$** | Used throughout the baseline and architecture benchmarking phases. | Fastest training, lowest memory footprint; leverages default ImageNet weights. |
+| **$384 \times 384$** | Reserved for future multi-scale ablation studies. | Better lesion preservation, moderate speed. |
+| **$512 \times 512$** | Reserved for future multi-scale ablation studies. | Highest spatial fidelity, slowest training, highest GPU memory usage. |
 
-## Decisions Adopted During Baseline Implementation
-The following decisions were implemented in the baseline framework (Step 4) to address these characteristics:
-* **224×224 Selected for Baseline**: Adopted as the primary input resolution to enable rapid training iterations, verify components end-to-end, and leverage default ImageNet-pretrained weights.
+## Decisions Adopted During Baseline & Benchmarking
+The following decisions were implemented in the baseline framework (Step 4) and retained during architecture benchmarking (Step 5) to address these characteristics:
+* **224×224 Selected**: Adopted as the primary input resolution to enable rapid training iterations, verify components end-to-end, and leverage default ImageNet-pretrained weights across all evaluated architectures.
 * **Bilinear Interpolation**: Adopted `InterpolationMode.BILINEAR` as the standard interpolation mode to preserve lesion borders while maintaining computational efficiency.
-* **ImageNet Normalization**: Retained standard ImageNet channel-wise normalization parameters during the baseline phase to match the expected inputs of pretrained weights.
-* **Ablations and Multi-Scale Benchmarks Postponed**: Multi-scale training (comparing 224, 384, and 512 resolutions) and dataset-specific color normalization experiments are deferred to Step 5 to evaluate them as independent variables against the established baseline.
+* **ImageNet Normalization**: Retained standard ImageNet channel-wise normalization parameters during both baseline and benchmarking phases to match the expected inputs of pretrained weights.
+* **Multi-Scale Benchmarks Reserved**: Multi-scale training (comparing 224, 384, and 512 resolutions) and dataset-specific color normalization experiments are reserved for future optimization studies.
 
 ---
 

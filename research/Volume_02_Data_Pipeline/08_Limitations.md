@@ -40,12 +40,7 @@ The implemented data pipeline satisfies the functional requirements of the curre
 ## 8. Baseline Preprocessing Only
 - **Limitation**: Advanced retinal preprocessing (CLAHE, Ben Graham preprocessing, circular cropping) remains outside the baseline pipeline.
 - **Impact**: While basic resizing and normalization form a solid baseline, advanced domain-specific enhancements have not yet been evaluated.
-- **Future Work**: Advanced retinal preprocessing will be evaluated experimentally after establishing EfficientNet-B0 baseline performance.
-
-## 9. Single Baseline Architecture
-- **Limitation**: The current implementation validates only EfficientNet-B0.
-- **Impact**: We cannot compare model size, throughput, or accuracy across alternative architectures.
-- **Future Work**: Future work includes benchmarking and evaluating alternative backbones, including EfficientNetV2, ConvNeXt, DenseNet, and Vision Transformers.
+- **Future Work**: Advanced retinal preprocessing will be evaluated experimentally after establishing EfficientNet-B3 baseline performance.
 
 ---
 

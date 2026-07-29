@@ -29,9 +29,8 @@ This document summarizes the quantitative, colorimetric, and visual analysis of 
   - Class 3 (Severe): 193 (5.27%)
   - Class 4 (Proliferative): 295 (8.06%)
 - **Imbalance Ratio**: `9.3523` (Majority Class Count vs Minority Class Count)
-- **Baseline Loss Function**: Cross Entropy Loss
+- **Baseline Loss Function**: Weighted Cross-Entropy Loss
 - **Future Experiments**:
-  - Weighted Cross Entropy
   - Focal Loss
   - Ordinal Loss
 
@@ -69,10 +68,11 @@ Based on statistical variances, the following configurations have been identifie
 Based on the exploratory analysis, the following engineering decisions were adopted during Step 4:
 - Baseline input resolution: 224 × 224
 - ImageNet normalization selected for baseline
-- EfficientNet-B0 chosen as reference architecture
-- Standard Cross Entropy Loss selected for baseline
+- Initial reference architecture: EfficientNet-B0
+- Final selected backbone (after Step 5): EfficientNet-B3
+- Weighted Cross-Entropy Loss selected for baseline
 - Dataset-specific normalization deferred for future benchmarking
 - Higher input resolutions (384 and 512) reserved for comparative experiments
 
 ## Conclusion and Next Steps
-The exploratory analysis successfully characterized the APTOS 2019 dataset and directly informed the baseline EfficientNet-B0 implementation. The identified preprocessing recommendations, normalization strategies, and augmentation candidates now serve as controlled experimental variables for future training, hyperparameter optimization, and architecture comparison studies.
+The exploratory analysis successfully characterized the APTOS 2019 dataset. The exploratory analysis informed the initial baseline configuration and the controlled benchmarking protocol. Following architecture benchmarking, EfficientNet-B3 was selected as the retinal backbone. The identified preprocessing recommendations, normalization strategies, and augmentation candidates now serve as controlled experimental variables for future training and hyperparameter optimization studies.

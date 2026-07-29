@@ -26,6 +26,16 @@ flowchart TD
     end
 ```
 
+### Transform Pipelines Summary
+
+| Transform | Train | Validation / Test |
+| :--- | :---: | :---: |
+| **Resize** | ✅ | ✅ |
+| **Random Rotation** | ✅ | ❌ |
+| **Random Flip** | ✅ | ❌ |
+| **Color Jitter** | ✅ | ❌ |
+| **Normalize** | ✅ | ✅ |
+
 ### 1. Training Pipeline
 Designed to introduce diverse samples for training:
 - **Resize**: Resizes images to a standard dimension.

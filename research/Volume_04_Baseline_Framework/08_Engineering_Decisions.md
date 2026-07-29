@@ -1,4 +1,4 @@
-# Chapter 11: Engineering Decisions
+# Chapter 8: Engineering Decisions
 
 Several architectural and software engineering decisions were made during the development of the baseline framework to maximize modularity, reproducibility, maintainability, and future extensibility.
 
@@ -78,49 +78,14 @@ Since Diabetic Retinopathy grading is an ordinal classification problem, QWK pro
 
 ---
 
-## 7. Automatic Mixed Precision (AMP)
+## Summary of Additional Optimizations
 
-Training incorporates PyTorch Automatic Mixed Precision using `torch.amp.autocast` together with `GradScaler`.
+In addition to the core architectural decisions above, the baseline framework also implements several practical engineering optimizations detailed in earlier chapters:
 
-This design reduces computational cost while maintaining numerical stability during gradient updates.
-
----
-
-## 8. Dedicated Verification Framework
-
-Verification scripts were intentionally separated from the runtime source code and organized within a dedicated `verification/` directory.
-
-Independent verification of:
-
-* Dataset pipeline
-* Model architecture
-* Training loop
-* Checkpoint management
-
-ensures that infrastructure correctness is established before computationally expensive experiments begin.
-
----
-
-## 9. Standalone Inference Module
-
-Prediction logic is isolated from the training framework through a dedicated inference module supporting:
-
-* Single-image inference
-* Batch inference
-* Confidence estimation
-* Latency measurement
-
-This separation prepares the framework for future deployment without modifying the training pipeline.
-
----
-
-## 10. Lightweight Documentation Strategy
-
-Automatically generated PDF reports were intentionally removed from the training pipeline.
-
-Instead, Markdown reports are produced together with structured experiment logs and visualization outputs. PDF generation is deferred until thesis writing or publication preparation, reducing repository size and eliminating duplicate artifacts.
-
-## Summary
+* **Automatic Mixed Precision (AMP)** for efficient training while maintaining numerical stability (Chapter 3).
+* **Dedicated Verification Framework** to ensure infrastructure correctness prior to full training (Chapter 7).
+* **Standalone Inference Module** for isolated prediction generation.
+* **Lightweight Documentation Strategy** prioritizing structured Markdown over duplicate PDF generation.
 
 These engineering decisions collectively establish a research-oriented framework that emphasizes modularity, reproducibility, scalability, and maintainability. The resulting architecture provides a stable foundation for subsequent hyperparameter optimization, backbone comparison, explainability, calibration, uncertainty estimation, and multimodal fusion within the FusionMedAI framework.
 

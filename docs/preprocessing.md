@@ -23,6 +23,8 @@ Each module maintains an independent preprocessing pipeline tailored to its resp
 
 ### Current Baseline
 
+The current baseline preprocessing pipeline was used consistently during the five-model architecture benchmarking phase, ensuring a fair comparison between all candidate backbones.
+
 The current Retina Module applies a lightweight preprocessing pipeline consisting of:
 
 * Image resizing

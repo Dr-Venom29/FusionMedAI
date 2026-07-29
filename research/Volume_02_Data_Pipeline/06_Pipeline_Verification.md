@@ -84,31 +84,6 @@ The terminal execution output log is summarized below:
 
 ```
 ==========================================
-STARTING END-TO-END PIPELINE VERIFICATION
-==========================================
-Verifying split CSVs...
-  [OK] Train CSV: 2929 rows loaded successfully.
-  [OK] Validation CSV: 366 rows loaded successfully.
-  [OK] Test CSV: 367 rows loaded successfully.
-
-Verifying split integrity...
-  [OK] Splits are mutually exclusive (zero overlap in ID codes).
-  [OK] Total split samples sum matches expected: 3662
-
-Computing class distributions...
-... [Class Distribution Table] ...
-
-Verifying Dataset, Transforms, and DataLoader integration...
-  [OK] Dataset lengths match their corresponding split CSV sizes.
-  Fetching a training batch...
-  [OK] DataLoader batch loaded successfully with correct shapes, CPU device, and finite float32 values.
-  [OK] Validation and Test DataLoader batches loaded with correct shape.
-Verifying end-to-end iteration (iterating splits)...
-  Train     : Loaded 2929 samples in 92  batches. Time: 452.05s | Throughput: 6.5 samples/sec
-  Validation: Loaded 366  samples in 12  batches. Time: 55.64s | Throughput: 6.6 samples/sec
-  Test      : Loaded 367  samples in 12  batches. Time: 70.66s | Throughput: 5.2 samples/sec
-
-==========================================
 END-TO-END PIPELINE VERIFICATION SUMMARY
 ==========================================
 Train CSV ............................. PASS
@@ -130,6 +105,11 @@ Throughput ............................ PASS
 ==========================================
 ALL PIPELINE CHECKS PASSED
 ==========================================
+
+[Throughput Detail]
+Train     : Loaded 2929 samples | Throughput: 6.5 samples/sec
+Validation: Loaded 366  samples | Throughput: 6.6 samples/sec
+Test      : Loaded 367  samples | Throughput: 5.2 samples/sec
 ```
 
 ## Throughput Interpretation

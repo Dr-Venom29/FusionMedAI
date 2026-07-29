@@ -70,6 +70,7 @@ Completed:
 * Configuration export
 * History logging
 * Prediction export
+* Architecture benchmarking
 
 Planned:
 
@@ -78,7 +79,6 @@ Planned:
 * Learning rate experiments
 * Loss function comparison
 * Optimizer comparison
-* Architecture benchmarking
 
 ---
 
@@ -156,3 +156,6 @@ The experiment management framework emphasizes:
 * Scalability
 
 This infrastructure enables systematic comparison of preprocessing strategies, optimization methods, and model architectures throughout the FusionMedAI project.
+
+---
+
