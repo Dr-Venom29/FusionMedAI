@@ -8,3 +8,4 @@ matplotlib
 shap
 albumentations
 timm
+reportlab

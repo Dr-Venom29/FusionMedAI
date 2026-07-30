@@ -29,3 +29,9 @@
 - **Highest ROC-AUC**: ConvNeXt-Tiny showed the highest ROC-AUC (0.9587) and Balanced Accuracy (72.05%), indicating exceptional separability.
 - **Smallest Footprint**: EfficientNet-B0 required the least VRAM (1.50 GB) and parameters (4.01M), but sacrificed diagnostic accuracy.
 - **Transformer Performance**: ViT-B/16 struggled on this dataset size, yielding the worst diagnostic metrics across the board despite having the largest parameter count (85.80M). Transformers require significantly larger training regimes to outperform CNNs without strong inductive biases.
+
+## 5.4 Benchmark Conclusion
+
+The benchmark demonstrates that no single architecture dominates every evaluation metric. While ConvNeXt-Tiny achieved superior efficiency and ROC-AUC, EfficientNet-B3 consistently delivered the highest classification accuracy and Quadratic Weighted Kappa, which are the primary objectives for diabetic retinopathy grading.
+
+Accordingly, EfficientNet-B3 was selected as the retinal backbone for all subsequent calibration, explainability, and multimodal integration stages.

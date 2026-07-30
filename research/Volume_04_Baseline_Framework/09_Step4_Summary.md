@@ -18,20 +18,16 @@ While the baseline framework is highly stable, it was designed with intentional 
 - **Baseline Preprocessing Strategy**: Advanced preprocessing (CLAHE, Ben Graham, circular cropping) was intentionally excluded to ensure a simple and reproducible baseline.
 - **Image-Only Learning**: Multimodal integration (clinical metadata) is excluded from the baseline and will be introduced through the ACARA-U Fusion framework.
 
-## Roadmap and Next Steps
+## Current Project Status
 
-This framework was subsequently used for:
-- **Five-model benchmarking (Step 5)**, where EfficientNet-B0, EfficientNet-B3, ConvNeXt-Tiny, Swin-Tiny, and ViT-B/16 were systematically compared.
+Following the completion of the baseline framework:
 
-With the architecture benchmark complete, the current research roadmap transitions to:
-- **Calibration**
-- **Explainability (Grad-CAM)**
-- **Uncertainty Estimation**
-- **Multimodal Fusion**
+✓ Step 5: Multi-Architecture Benchmarking (Completed)
 
-```mermaid
-flowchart TD
-    S4[Step 4: Baseline Model Development] -->|Completed| S5[Step 5: Architecture Benchmarking]
-    S5 -->|Current Milestone| S6[Step 6: Calibration & Explainability]
-    S6 -->|Future| S7[Step 7: Multimodal Fusion & ACARA-U]
-```
+✓ Step 6: Model Explainability and Qualitative Analysis (Completed)
+
+The project now proceeds toward:
+
+*   Clinical Module Development
+*   Foot Ulcer Module Development
+*   ACARA-U Multimodal Fusion

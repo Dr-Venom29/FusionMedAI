@@ -103,7 +103,8 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 USE_AMP = True
 
-MODEL_NAME = "efficientnet_b0"
+# Note: For XAI (Step 6), the model architecture can be overridden via CLI arguments.
+MODEL_NAME = "efficientnet_b3"
 
 LEARNING_RATE = 1e-4
 
@@ -216,3 +217,17 @@ FIGURE_DPI = 300
 FIGURE_FORMATS = ["png", "svg"]
 OUTLIER_PERCENTILE = 0.05
 MAX_ANALYSIS_DIM = 512
+
+# ==========================
+# Phase 6 (XAI) Parameters & Directories
+# ==========================
+XAI_VERSION = "1.0.0"
+
+FINAL_MODEL_RESULTS_DIR = PROJECT_ROOT / "results" / "final_model"
+XAI_RESULTS_DIR = PROJECT_ROOT / "results" / "xai"
+XAI_EXPERIMENTS_DIR = PROJECT_ROOT / "experiments" / "xai"
+XAI_LOGS_DIR = XAI_EXPERIMENTS_DIR / "logs"
+XAI_CONFIGS_DIR = XAI_EXPERIMENTS_DIR / "configs"
+
+for directory in [FINAL_MODEL_RESULTS_DIR, XAI_RESULTS_DIR, XAI_EXPERIMENTS_DIR, XAI_LOGS_DIR, XAI_CONFIGS_DIR, REPORTS_DIR]:
+    directory.mkdir(parents=True, exist_ok=True)

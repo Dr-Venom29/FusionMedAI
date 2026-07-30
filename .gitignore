@@ -43,6 +43,14 @@ experiments/*
 *.ckpt
 *.onnx
 *.engine
+*.safetensors
+
+# ======================================
+# Results / Generated Outputs
+# ======================================
+
+results/
+reports/generated/
 
 # ======================================
 # Logs
@@ -60,10 +68,12 @@ tensorboard/
 runs/
 
 # ======================================
-# Visualization Outputs
+# Cache
 # ======================================
 
-results/
+.cache/
+.pytest_cache/
+.mypy_cache/
 
 # ======================================
 # Environment

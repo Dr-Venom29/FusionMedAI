@@ -27,3 +27,5 @@ Based strictly on the benchmark results, **EfficientNet-B3** has been selected a
 3. **Deployment Feasibility**: A latency of 12.64 ms and peak VRAM of 2.81 GB means the model can be deployed locally on edge devices or standard clinic PCs without requiring high-end datacenter GPUs.
 
 While ConvNeXt-Tiny showed strong ROC-AUC, EfficientNet-B3's superior accuracy and QWK make it the safer, more robust choice for final grading.
+
+Following model selection, EfficientNet-B3 becomes the fixed backbone for Step 6, where calibration, explainability, uncertainty estimation, and qualitative clinical validation are performed before multimodal integration.

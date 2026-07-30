@@ -12,9 +12,11 @@ Step 5 successfully benchmarked five distinct architectures under a rigorously c
 **EfficientNet-B3** was selected as the Retinal Module backbone due to its highest diagnostic performance (84.20% Accuracy, 0.9233 QWK) and excellent parameter efficiency. This concludes the architecture discovery phase.
 
 ## 9.3 Next Phase
-With the benchmark completed and the backbone selected, the project will now proceed to address model robustness and clinical interpretability. The upcoming milestones include:
 
-- **Calibration**
-- **Explainability (Grad-CAM)**
-- **Uncertainty Estimation**
-- **Multimodal Fusion**
+Step 6 (Model Explainability) has been successfully completed using the selected EfficientNet-B3 backbone.
+
+The project will now proceed toward:
+
+*   Clinical Module Development
+*   Foot Ulcer Module Development
+*   ACARA-U Multimodal Fusion
