@@ -31,15 +31,15 @@ This chapter documents the limitations of the current dataset preparation phase 
 - **Reason for Deferral**: This is a structural limitation of the public source metadata. Future work using dataset sources with patient IDs will enforce patient-level disjointness to prevent potential intra-patient data leakage.
 
 ### 7. Explainability Infrastructure Deferred
-- **Limitation**: Grad-CAM visualization has not yet been implemented.
-- **Reason for Deferral**: Explainability infrastructure has been prepared through feature extraction support in the model wrapper class, but Grad-CAM visualization will be implemented after baseline training.
+- **Limitation**: Grad-CAM explainability was implemented in Step 6. More advanced explainability techniques (e.g., Integrated Gradients, SHAP, Score-CAM) remain future work.
+- **Reason for Deferral**: Explainability infrastructure has been prepared through feature extraction support in the model wrapper class, but more advanced visualization techniques remain future work.
 
 ### 8. Calibration and Uncertainty Estimation Deferred
-- **Limitation**: Model calibration and uncertainty estimation are not implemented.
+- **Limitation**: Calibration and uncertainty estimation remain planned extensions beyond the completed Retina Module.
 - **Reason for Deferral**: Calibration methods (such as temperature scaling) and uncertainty quantification are intentionally deferred until after baseline model performance has been established.
 
 ### 9. No Out-of-Distribution (OOD) Detection
-- **Limitation**: Images are assumed to originate from the APTOS distribution. Distribution shift and out-of-distribution detection are not addressed in this phase.
+- **Limitation**: Images are assumed to originate from the APTOS distribution. External validation and out-of-distribution robustness remain future research directions.
 - **Reason for Deferral**: OOD detection and cross-dataset shift checks are deferred to subsequent development volumes to isolate baseline model development from robustness testing.
 
 ### 10. Clinical Annotation Uncertainty and Label Noise

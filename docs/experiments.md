@@ -64,20 +64,22 @@ The framework maintains:
 
 Completed:
 
-* Experiment versioning
+* Baseline training
+* Architecture benchmarking
+* Explainability
 * Checkpoint management
 * TensorBoard integration
+* Experiment versioning
 * Configuration export
 * History logging
 * Prediction export
-* Architecture benchmarking
 
 Planned:
 
-* Full baseline training
+* Calibration
+* Uncertainty estimation
 * Hyperparameter optimization
-* Learning rate experiments
-* Loss function comparison
+* Loss comparison
 * Optimizer comparison
 
 ---

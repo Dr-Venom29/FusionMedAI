@@ -81,7 +81,7 @@ flowchart TD
     Split --> Dataset
     Dataset --> Training
 ```
-*Figure 7.1: Pipeline dependency diagram showing unidirectional data flow.
+*Figure 7.1: Pipeline dependency diagram showing unidirectional data flow.*
 
 ---
 

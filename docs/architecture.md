@@ -50,7 +50,7 @@ This standardized pipeline ensures that every module is independently validated 
 
 | Module            | Status                        |
 | ----------------- | ----------------------------- |
-| Retina Module     | ✅ Baseline Framework Complete |
+| Retina Module     | ✅ Completed (Steps 1–6)      |
 | Foot Ulcer Module | ⏳ Planned                     |
 | Clinical Module   | ⏳ Planned                     |
 | ACARA-U Fusion    | ⏳ Planned                     |
@@ -84,3 +84,5 @@ The system architecture is based on the following principles:
 * Versioned experiment tracking
 * Explainability-ready architecture
 * Scalable multimodal integration
+* Independent benchmark selection
+* Uncertainty-aware fusion readiness

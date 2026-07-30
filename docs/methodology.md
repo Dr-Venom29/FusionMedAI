@@ -19,8 +19,8 @@ flowchart TD
     --> EDA[Exploratory Data Analysis]
     --> BaselineFramework[Baseline Framework]
     --> ArchitectureBenchmarking[Architecture Benchmarking]
-    --> Calibration
     --> Explainability
+    --> Calibration
     --> UncertaintyEstimation[Uncertainty Estimation]
     --> ModuleCompletion[Module Completion]
     --> MultimodalFusion[ACARA-U Fusion]
@@ -98,9 +98,10 @@ Completed:
 
 * Dataset Preparation
 * Data Pipeline
-* Exploratory Data Analysis
-* Baseline Model Framework
+* EDA
+* Baseline Framework
 * Architecture Benchmarking
+* Explainability
 
 Current:
 
@@ -108,10 +109,9 @@ Current:
 
 Planned:
 
-* Explainability
-* Uncertainty
-* Foot Ulcer Module
+* Uncertainty Estimation
 * Clinical Module
+* Foot Ulcer Module
 * ACARA-U Fusion
 
 ---

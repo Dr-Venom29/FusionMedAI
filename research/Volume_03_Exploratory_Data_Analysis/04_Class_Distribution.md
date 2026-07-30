@@ -67,8 +67,10 @@ Where $p_t$ is the model's estimated probability for the correct class, and $\ga
 ### 3. Data-Level Balancing Techniques
 Data-level balancing techniques such as weighted random sampling and minority-class oversampling will also be evaluated during model training and compared with algorithm-level loss weighting to resolve the distribution skewness.
 
-### Baseline Training Decision
-The initial baseline established an unweighted reference. Subsequent benchmarking evaluated multiple architectures before class-balancing strategies were introduced.
+### Decisions Adopted During Subsequent Phases
+Step 4 adopted Cross Entropy as the reference baseline.
+Step 5 froze preprocessing for fair benchmarking.
+Step 6 retained identical preprocessing to ensure Grad-CAM explanations were comparable across experiments.
 
 ### Visual Artifacts and Grids
 

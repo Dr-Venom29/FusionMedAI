@@ -1,6 +1,6 @@
 # Chapter 3: Dataset Selection
 
-This research employs established public benchmarks for diabetic retinopathy classification to develop, validate, and test deep learning models. In Step 1, the primary focus is on the **APTOS 2019 Blindness Detection** dataset, with plans to integrate the **IDRiD** dataset in future development volumes.
+This research employs established public benchmarks for diabetic retinopathy classification to develop, validate, and test deep learning models. In Step 1, the primary focus is on the **APTOS 2019 Blindness Detection** dataset. IDRiD and additional retinal datasets are reserved for future external validation and cross-dataset generalization studies following completion of the Retina Module baseline.
 
 ---
 

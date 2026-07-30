@@ -37,5 +37,5 @@
 ---
 
 ## Validation Scope
-- **Limitation**: The EDA recommendations have been validated under the baseline framework and the five-model architecture benchmarking study. Their effectiveness under calibration, explainability, uncertainty estimation, and multimodal fusion remains to be evaluated.
+- **Limitation**: Their effectiveness has been validated under the baseline framework (Step 4), architecture benchmarking (Step 5), and explainability pipeline (Step 6). Their influence on calibration, uncertainty estimation, and multimodal fusion remains to be evaluated.
 - **Mitigation**: Future phases of the research roadmap will systematically evaluate whether these preprocessing choices maintain their robustness during advanced model interpretability and calibration workloads.

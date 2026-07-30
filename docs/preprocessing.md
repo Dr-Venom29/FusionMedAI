@@ -12,7 +12,7 @@ Each module maintains an independent preprocessing pipeline tailored to its resp
 
 | Module            | Preprocessing Status               |
 | ----------------- | ---------------------------------- |
-| Retina Module     | Baseline preprocessing implemented |
+| Retina Module     | Baseline preprocessing finalized and validated through architecture benchmarking. |
 | Foot Ulcer Module | Planned                            |
 | Clinical Module   | Planned                            |
 | ACARA-U Fusion    | Planned                            |
@@ -23,7 +23,7 @@ Each module maintains an independent preprocessing pipeline tailored to its resp
 
 ### Current Baseline
 
-The current baseline preprocessing pipeline was used consistently during the five-model architecture benchmarking phase, ensuring a fair comparison between all candidate backbones.
+The current baseline preprocessing pipeline was used consistently during the five-model architecture benchmarking phase, ensuring a fair comparison between all candidate backbones. The same preprocessing configuration was retained during explainability experiments to ensure direct comparability of Grad-CAM visualizations.
 
 The current Retina Module applies a lightweight preprocessing pipeline consisting of:
 

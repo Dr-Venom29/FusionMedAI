@@ -39,8 +39,9 @@ This document tracks the verification status of all datasets used throughout the
 ### Model Readiness
 
 * [x] Baseline Framework Verified
-* [ ] Baseline Training Completed
-* [ ] External Validation Completed
+* [x] Baseline Training Completed
+* [x] Architecture Benchmarking Completed
+* [x] Explainability Completed
 
 ---
 
@@ -73,7 +74,7 @@ This document tracks the verification status of all datasets used throughout the
 
 | Dataset               | Status                        |
 | --------------------- | ----------------------------- |
-| APTOS 2019            | ✅ Ready for Baseline Training |
+| APTOS 2019            | ✅ Retina Module Completed     |
 | DFUC                  | ⏳ Planned                     |
 | PIMA Indians Diabetes | ⏳ Planned                     |
 
@@ -149,11 +150,15 @@ Completed
 * Image quality assessment
 * Data pipeline verification
 * Baseline framework verification
+* Baseline training
+* Architecture benchmarking
+* Explainability
 
 Pending
 
-* Full baseline training
-* External dataset validation
+* Calibration
+* Uncertainty estimation
+* External validation
 * Cross-dataset benchmarking
 
 ---

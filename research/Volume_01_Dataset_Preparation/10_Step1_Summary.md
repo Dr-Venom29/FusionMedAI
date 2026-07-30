@@ -98,7 +98,11 @@ Volume 1 establishes the core structural components of the FusionMedAI project:
 ✓ Reproducibility
 
 These outputs form the immutable foundation used directly in:
-- **Volume 2**: Data Pipeline
-- **Volume 3**: Exploratory Data Analysis
-- **Volume 4**: Baseline Framework
-- **Volume 5**: Architecture Benchmarking
+
+*   Volume 2 – Data Pipeline
+*   Volume 3 – Exploratory Data Analysis
+*   Volume 4 – Baseline Framework
+*   Volume 5 – Architecture Benchmarking
+*   Volume 6 – Model Explainability
+
+All subsequent Retina Module experiments reused the verified dataset established in this phase without requiring structural modifications.

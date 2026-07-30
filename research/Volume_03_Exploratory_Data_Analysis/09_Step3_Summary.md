@@ -103,10 +103,14 @@ The recommendations derived from the Exploratory Data Analysis were successfully
 
 The project has now successfully completed these benchmarking phases. The next milestones in the research roadmap will address model robustness and clinical interpretability:
 
-```mermaid
-flowchart TD
-    Calibration[Calibration]
-    --> Explainability[Explainability]
-    --> Uncertainty[Uncertainty Estimation]
-    --> Multimodal[Multimodal Fusion]
-```
+Completed milestones:
+
+✓ Step 4 – Baseline Framework
+✓ Step 5 – Architecture Benchmarking
+✓ Step 6 – Explainable AI Analysis
+
+Upcoming milestones:
+
+*   Clinical Module Development
+*   Foot Ulcer Module Development
+*   ACARA-U Multimodal Fusion

@@ -7,11 +7,13 @@ Retina • Clinical • Foot Ulcer • Multimodal Fusion
 [![PyTorch 2.4](https://img.shields.io/badge/pytorch-2.4-orange.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+FusionMedAI is a modular research framework for explainable multi-modal diabetic disease analysis. The project develops independent Retina, Clinical, and Foot Ulcer AI modules using reproducible engineering practices before integrating them through the uncertainty-aware ACARA-U Fusion Engine.
+
 **Current Status**
 - ✓ Retina Benchmarking Complete
+- ✓ Explainability Complete
 - 🔄 Calibration
-- 🔄 Explainability
-- 🔄 Uncertainty
+- 🔄 Uncertainty Estimation
 - ⬜ Foot Module
 - ⬜ Clinical Module
 - ⬜ ACARA-U Fusion
@@ -28,6 +30,7 @@ Retina • Clinical • Foot Ulcer • Multimodal Fusion
 - ✓ Experiment tracking
 - ✓ Inference
 - ✓ Verification
+- ✓ Explainable AI (Grad-CAM)
 
 ---
 
@@ -68,9 +71,9 @@ We conducted a rigorous, identical-condition benchmark across five distinct visi
 
 - Five-model benchmark under identical experimental conditions
 - EfficientNet-B3 selected as the final retinal backbone
-- Modular PyTorch framework with experiment versioning
-- Comprehensive engineering documentation across five research volumes
-- Reproducible end-to-end medical AI pipeline
+- Modular PyTorch framework with reproducible experiment tracking
+- Comprehensive engineering documentation across six research volumes
+- Reproducible end-to-end retinal AI research pipeline
 
 ---
 
@@ -113,7 +116,7 @@ FusionMedAI/
 ├── datasets/                 # Labeled medical databases
 ├── docs/                     # Architectural diagrams & specifications
 ├── notebooks/                # Academic Jupyter notebooks
-├── reports/                  # Published benchmark reports
+├── reports/                  # Benchmark, Explainability & Evaluation Reports
 ├── research/                 # Academic documentation
 ├── src/                      # Production source codebase
 ├── verification/             # Independent verification scripts
@@ -132,6 +135,7 @@ FusionMedAI/
 | III | Exploratory Data Analysis | ✅ |
 | IV | Baseline Framework | ✅ |
 | V | Architecture Benchmarking | ✅ |
+| VI | Model Explainability | ✅ |
 
 Detailed documentation can be found in the `research/` directory.
 
@@ -216,6 +220,7 @@ Framework verification confirmed:
 - ✓ Training loop
 - ✓ Checkpoint recovery
 - ✓ Inference
+- ✓ Explainability pipeline
 
 **Detailed results**: `reports/framework_verification.md`
 
@@ -230,24 +235,8 @@ Framework verification confirmed:
 | v0.3.0  | Exploratory Data Analysis ✅ |
 | v0.4.0  | Baseline Model Framework ✅ |
 | v0.5.0  | Architecture Benchmarking ✅ |
-| v0.6.0  | Calibration, Explainability, Uncertainty |
+| v0.6.0  | Explainability Complete · Calibration & Uncertainty In Progress |
 | v1.0.0  | Retina Module |
-
----
-
-## 📊 Project Status
-
-| Module | Status |
-| :--- | :--- |
-| **Retina Module** | Architecture Benchmarking Complete |
-| **Foot Ulcer Module** | ⬜ Not Started |
-| **Clinical Module** | ⬜ Not Started |
-| **Fusion Engine (ACARA-U)** | ⬜ Not Started |
-
-### Retina Module Current Focus
-- Calibration
-- Explainability
-- Uncertainty
 
 ---
 
@@ -258,7 +247,12 @@ Framework verification confirmed:
 - **v0.3.0 (Exploratory Data Analysis)**: Completed concurrent stats extraction, RGB profiling, duplicate audit, quality scoring, and automated reports. ✅
 - **v0.4.0 (Baseline Framework)**: Built custom model wrapper, factory, BaseClassifier, trainer, mixed precision (AMP), Early Stopping, checkpointing, standalone inference, and verification framework. ✅
 - **v0.5.0 (Architecture Benchmarking)**: Completed fair-benchmark comparison across 5 architectures, yielding EfficientNet-B3 as the final Retinal backbone. ✅
-- **v0.6.0 (Calibration, Explainability, Uncertainty)**: Calibration, Explainability, and Uncertainty Estimation.
+- **v0.6.0 (Calibration, Explainability, Uncertainty)**:
+  Completed:
+  • Explainability (Grad-CAM)
+  In Progress:
+  • Calibration
+  • Uncertainty Estimation
 - **v1.0.0 (Retina Module)**: Production release of explainable, calibrated Retina module.
 - **v2.0.0 (Foot Ulcer Module Complete)**: Integrate wound segmentation models.
 - **v3.0.0 (Clinical Module Complete)**: Integrate EHR structured features and classification networks.

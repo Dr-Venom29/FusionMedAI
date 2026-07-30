@@ -3,9 +3,9 @@
 The implemented data pipeline satisfies the functional requirements of the current development phase and has been verified through unit and end-to-end integration testing. However, several opportunities remain for improving robustness, scalability, and training efficiency.
 
 ## 1. Temporary ImageNet Normalization
-- **Limitation**: The pipeline currently uses ImageNet mean ($\mu=[0.485, 0.456, 0.406]$) and standard deviation ($\sigma=[0.229, 0.224, 0.225]$) constants. Dataset-specific normalization statistics have not yet been computed and experimentally compared against ImageNet normalization.
+- **Limitation**: The pipeline currently uses ImageNet mean ($\mu=[0.485, 0.456, 0.406]$) and standard deviation ($\sigma=[0.229, 0.224, 0.225]$) constants. Dataset-specific normalization statistics were computed during Step 3. However, controlled experiments in Steps 4 and 5 retained ImageNet normalization to maintain compatibility with pretrained backbone weights and ensure fair architecture comparisons. Dataset-specific normalization remains available for future optimization studies.
 - **Impact**: While acceptable for transfer learning with ImageNet-pretrained weights, these values do not match the true channel statistics of retinal fundus photographs, which contain a dominant red channel and much darker background pixels.
-- **Future Work**: We plan to compute custom channel statistics over the APTOS 2019 training split and update these constants prior to final model training, evaluating their impact as an experimental variable.
+- **Future Work**: Evaluate the impact of custom channel statistics as an experimental variable during future optimization phases.
 
 ## 2. Lack of Class-Weighted Sampling
 - **Limitation**: The dataloader currently uses standard random sampling.
@@ -20,7 +20,7 @@ The implemented data pipeline satisfies the functional requirements of the curre
 ## 4. Sequential Loading in Verification Runs
 - **Limitation**: The end-to-end integration test ran with `num_workers=0` (sequential execution on the main process).
 - **Impact**: Loading 3,662 high-resolution images sequentially took ~578 seconds (elapsed time across all splits). While appropriate for debugging and Windows portability, this is too slow for actual model training.
-- **Future Work**: The baseline framework has been completed. Systematic benchmarking across different worker counts will be performed during full-scale training experiments.
+- **Future Work**: Systematic benchmarking across different worker counts was successfully performed during baseline training (Step 4) and architecture benchmarking (Step 5).
 
 ## 5. No Hardware-Accelerated Data Loading
 - **Limitation**: The pipeline is CPU-bound, relying on Python's PIL and torchvision on the host.
@@ -40,7 +40,7 @@ The implemented data pipeline satisfies the functional requirements of the curre
 ## 8. Baseline Preprocessing Only
 - **Limitation**: Advanced retinal preprocessing (CLAHE, Ben Graham preprocessing, circular cropping) remains outside the baseline pipeline.
 - **Impact**: While basic resizing and normalization form a solid baseline, advanced domain-specific enhancements have not yet been evaluated.
-- **Future Work**: Advanced retinal preprocessing will be evaluated experimentally after establishing EfficientNet-B3 baseline performance.
+- **Future Work**: Advanced retinal preprocessing is intentionally deferred as genuinely future work outside the scope of the current framework baseline.
 
 ---
 
