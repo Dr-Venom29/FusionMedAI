@@ -26,7 +26,6 @@ Evaluate CNN- and Transformer-based architectures using identical training confi
 ## Folder Organization
 
 - `figures/` – Benchmark visualizations, including accuracy, QWK, ROC-AUC, performance vs. efficiency, latency, throughput, and other comparative plots.
-- `tables/` – Exported CSV/XLSX benchmark results, metric rankings, and model profile summaries.
 - `01_...` through `09_...` – Detailed chapters covering the benchmarking protocol, selected architectures, training configuration, experimental results, engineering decisions, limitations, and final model selection.
 
 ## Summary

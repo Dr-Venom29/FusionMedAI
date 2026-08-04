@@ -28,8 +28,7 @@ This phase generates:
 
 ## Folder Organization
 
-- **`figures/`** – Representative Grad-CAM visualizations, clinical attention examples, failure cases, and pipeline diagrams.
-- **`tables/`** – Statistical summaries, representative case information, and execution metrics.
+- **`figures/`** – Representative Grad-CAM visualizations, failure cases, and summary statistics.
 - **`reports/`** – Automatically generated publication-ready PDF reports.
 - **`01_...` → `08_...`** – Detailed documentation covering methodology, Grad-CAM implementation, representative selection, clinical interpretation, experimental results, limitations, and conclusions.
 
