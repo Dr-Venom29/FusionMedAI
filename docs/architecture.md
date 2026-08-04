@@ -34,12 +34,14 @@ Each modality follows the same engineering workflow:
 flowchart TD
     Dataset
     --> Verification
-    --> DataPipeline[Data Pipeline]
-    --> EDA[Exploratory Data Analysis]
-    --> BaselineModel[Baseline Model]
-    --> Training
-    --> Evaluation
-    --> Inference
+    --> DataPipeline
+    --> EDA
+    --> BaselineFramework
+    --> Benchmarking
+    --> Explainability
+    --> Calibration
+    --> Uncertainty
+    --> RetinaModule
 ```
 
 This standardized pipeline ensures that every module is independently validated before participating in multimodal fusion.
@@ -50,7 +52,7 @@ This standardized pipeline ensures that every module is independently validated 
 
 | Module            | Status                        |
 | ----------------- | ----------------------------- |
-| Retina Module     | ✅ Completed (Steps 1–6)      |
+| Retina Module     | 🔄 In Progress (Steps 1–7 Completed) |
 | Foot Ulcer Module | ⏳ Planned                     |
 | Clinical Module   | ⏳ Planned                     |
 | ACARA-U Fusion    | ⏳ Planned                     |

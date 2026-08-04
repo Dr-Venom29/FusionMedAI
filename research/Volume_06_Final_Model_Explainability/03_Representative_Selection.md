@@ -1,6 +1,6 @@
 # 03 Representative Selection
 
-Qualitative analysis of Explainable AI is highly susceptible to cherry-picking, where researchers only present the model's most successful predictions. FusionMedAI combats this by implementing a rigorous, deterministic, and highly diversified sampling algorithm in `src/xai/selector.py`.
+Qualitative analysis of Explainable AI is highly susceptible to cherry-picking, where researchers only present the model's most successful predictions. FusionMedAI combats this by implementing a rigorous, reproducible diversified sampling algorithm in `src/xai/selector.py`.
 
 ## Selection Criteria
 

@@ -65,7 +65,7 @@ During baseline model development and training (Step 4), the quality score was n
 - **Quality-Aware Sampling**: Adapting the dataloader to over-sample high-quality representative images or filter severe outliers.
 - **Quality-Aware Gradient Weighting**: Low-quality images can be down-weighted to prevent noisy gradient updates.
 - **Uncertainty Calibration**: Utilizing image quality as a prior to calibrate model confidence, ensuring the model expresses higher uncertainty on severely degraded scans.
-- **Grad-CAM Explainability Validation**: Quality scores will be cross-referenced with post-training Grad-CAM activation maps to verify whether blur artifacts bias the model's spatial attention boundaries.
+- **Grad-CAM Explainability Validation**: Quality scores were cross-referenced with Grad-CAM activation maps during Step 6 to assess whether image quality influenced the model's spatial attention patterns.
 
 ### Visual Quality Distributions
 

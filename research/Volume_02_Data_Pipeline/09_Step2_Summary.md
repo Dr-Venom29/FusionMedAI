@@ -58,19 +58,32 @@ We executed the end-to-end verification script and confirmed that all checks pas
 - No data leakage or loading failures were detected during verification.
 
 ## Conclusion: The Production Pipeline
-This data pipeline became the standardized production pipeline used throughout:
+This standardized production pipeline became the common data infrastructure for:
 
 ✓ Step 3 – Exploratory Data Analysis
+
 ✓ Step 4 – Baseline Framework
+
 ✓ Step 5 – Architecture Benchmarking
+
 ✓ Step 6 – Explainability
 
-The same pipeline will continue to support:
+✓ Step 7 – Probability Calibration
 
-*   Calibration
-*   Uncertainty Estimation
-*   Clinical Module
-*   Foot Ulcer Module
-*   ACARA-U Multimodal Fusion
+Upcoming
+
+→ Step 8 – Uncertainty Estimation
+
+→ Step 9 – Retina Module Integration
+
+→ Step 10 – Final Retina Module Evaluation
+
+Future Modules
+
+• Foot Ulcer Module
+
+• Clinical Module
+
+• ACARA-U Multimodal Fusion
 
 By establishing a deterministic, well-tested, and fully isolated data layer in Step 2, all subsequent research volumes could focus entirely on model architecture, training stability, and clinical evaluation without encountering data loading bottlenecks or leakage issues.

@@ -37,7 +37,7 @@ Each step of the pipeline is isolated:
 3. **Transform Pipelines**: Centralizes torchvision augmentations, distinguishing between training (augmented) and validation/test (deterministic) flows.
 4. **Data Loader (`create_dataloaders`)**: Handles batching, multiprocessing workers, memory pinning, and shuffling.
 
-Although this phase prepares tensors for neural network training, its outputs also serve as the input to the Exploratory Data Analysis (EDA) pipeline, enabling quantitative assessment of image characteristics before model optimization.
+The standardized data pipeline established in this phase was subsequently reused without modification during Exploratory Data Analysis (Step 3), Baseline Framework (Step 4), Architecture Benchmarking (Step 5), Explainability (Step 6), and Probability Calibration (Step 7).
 
 ## Design Principles
 The data pipeline was designed around the following software engineering principles:

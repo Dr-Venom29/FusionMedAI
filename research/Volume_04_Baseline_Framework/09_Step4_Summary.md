@@ -22,12 +22,24 @@ While the baseline framework is highly stable, it was designed with intentional 
 
 Following the completion of the baseline framework:
 
-✓ Step 5: Multi-Architecture Benchmarking (Completed)
+✓ Step 5 – Architecture Benchmarking (Completed)
 
-✓ Step 6: Model Explainability and Qualitative Analysis (Completed)
+✓ Step 6 – Explainability (Completed)
 
-The project now proceeds toward:
+✓ Step 7 – Probability Calibration (Completed)
 
-*   Clinical Module Development
-*   Foot Ulcer Module Development
-*   ACARA-U Multimodal Fusion
+The Retina Module will next proceed to:
+
+• Step 8 – Uncertainty Estimation
+
+• Step 9 – Retina Module Integration
+
+• Step 10 – Final Retina Evaluation
+
+Following completion of the Retina Module, development will continue with:
+
+• Foot Ulcer Module
+
+• Clinical Module
+
+• ACARA-U Multimodal Fusion

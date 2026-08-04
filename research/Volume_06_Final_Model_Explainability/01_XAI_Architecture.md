@@ -9,6 +9,24 @@ The Explainable AI (XAI) pipeline in FusionMedAI is designed to extract, interpr
 3.  **No External Bloat**: To maximize control over the raw activation arrays and eliminate unnecessary dependencies (e.g., `pytorch-grad-cam`), the pipeline uses custom, from-scratch implementations of standard CAM algorithms.
 4.  **Scientific Rigor**: The pipeline avoids overclaiming diagnostic capability (e.g., "The model identified microaneurysms") and instead strictly reports on spatial attention heuristics (e.g., "Attention spans multiple distinct focal regions").
 
+## Architecture Flow
+
+```text
+Image
+  ↓
+EfficientNet-B3
+  ↓
+Inference
+  ↓
+GradCAM
+  ↓
+Clinical Interpreter
+  ↓
+Representative Selector
+  ↓
+PDF Reports
+```
+
 ## Pipeline Components
 
 *   `src/xai.py`: The main CLI entrypoint orchestrating the pipeline.

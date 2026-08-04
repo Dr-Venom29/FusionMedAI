@@ -37,5 +37,11 @@
 ---
 
 ## Validation Scope
-- **Limitation**: Their effectiveness has been validated under the baseline framework (Step 4), architecture benchmarking (Step 5), and explainability pipeline (Step 6). Their influence on calibration, uncertainty estimation, and multimodal fusion remains to be evaluated.
-- **Mitigation**: Future phases of the research roadmap will systematically evaluate whether these preprocessing choices maintain their robustness during advanced model interpretability and calibration workloads.
+The proposed preprocessing strategy has been validated under:
+
+- Step 4 – Baseline Framework
+- Step 5 – Architecture Benchmarking
+- Step 6 – Explainability
+- Step 7 – Probability Calibration
+
+Its influence on uncertainty estimation and multimodal fusion remains to be evaluated.

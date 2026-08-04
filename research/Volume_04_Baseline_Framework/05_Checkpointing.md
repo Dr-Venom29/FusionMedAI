@@ -97,5 +97,6 @@ The checkpoint framework was designed to provide:
 * Experiment reproducibility.
 * Consistent deployment of the best-performing model.
 * Support for long-running experiments and future architecture comparisons.
+* Downstream explainability and calibration pipelines.
 
 By separating checkpoint management into a dedicated module, the training framework remains modular and easily extensible for subsequent research phases.

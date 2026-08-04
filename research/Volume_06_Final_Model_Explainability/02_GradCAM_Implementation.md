@@ -1,6 +1,13 @@
 # 02 GradCAM Implementation
 
 FusionMedAI implements its Class Activation Mapping (CAM) logic entirely from scratch. This custom implementation provides precise control over hook lifecycle management, normalization, and tensor extraction, avoiding the opacity of third-party libraries.
+## Why Grad-CAM?
+Grad-CAM was chosen as the primary explainability mechanism for this project because it is:
+*   **Architecture-independent**: Works out-of-the-box with any CNN (EfficientNet, ConvNeXt).
+*   **Lightweight**: Computes gradients efficiently without heavy computational overhead.
+*   **No retraining**: Requires strictly frozen weights and operates purely post-hoc.
+*   **Localization capability**: Successfully identifies spatial regions contributing to predictions.
+*   **Clinical interpretability**: Produces continuous heatmaps easily readable by clinicians.
 
 ## BaseCAM Abstract Class
 

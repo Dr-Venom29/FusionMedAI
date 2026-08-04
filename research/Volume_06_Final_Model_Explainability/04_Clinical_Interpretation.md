@@ -17,7 +17,7 @@ The `src/xai/clinical_interpreter.py` module evaluates the continuous CAM output
 4.  **Average Activation Intensity**: Extracts the mean value of the attention mask to determine peak confidence within the localized area.
     *   *Interpretation*: "Extremely high activation intensity within focal regions."
 
-This strictly heuristic approach ensures that all generated reports are scientifically defensible for dissertation review, avoiding unfounded claims about internal model reasoning.
+This strictly heuristic approach ensures that all generated reports are scientifically defensible for dissertation review, avoiding unfounded claims about internal model reasoning. This heuristic engine intentionally avoids medical diagnosis. It reports only spatial attention characteristics and does not infer the presence or absence of retinal lesions.
 
 ## Execution Result
 

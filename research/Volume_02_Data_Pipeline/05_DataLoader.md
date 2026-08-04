@@ -42,7 +42,7 @@ This ensures that downstream networks receive standard tensors ready for GPU tra
 
 ## Shuffling Strategy
 - **Training DataLoader**: `shuffle=True`. Shuffling the training set at each epoch ensures that gradient updates are computed over different mini-batches, preventing the optimizer from memorizing dataset ordering.
-- **Validation and Test DataLoaders**: `shuffle=False`. Since no parameter updates occur during validation or testing, sample ordering does not affect the computed metrics. Keeping the order deterministic improves reproducibility and simplifies debugging. During inference, only the validation/test preprocessing pipeline is used while shuffling is disabled to ensure consistent, ordered predictions.
+- **Validation and Test DataLoaders**: `shuffle=False`. Since no parameter updates occur during validation or testing, sample ordering does not affect the computed metrics. Keeping the order deterministic improves reproducibility and simplifies debugging. During inference, only the validation/test preprocessing pipeline is used while shuffling is disabled to ensure consistent, ordered predictions. The deterministic validation transform pipeline was also reused during the Explainability and Calibration stages to ensure consistent preprocessing across all downstream analyses.
 
 ## Defensive Validation
 Before constructing any DataLoader objects, `create_dataloaders()` performs strict validations:

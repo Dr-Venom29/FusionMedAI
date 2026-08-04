@@ -43,7 +43,7 @@ The analysis is organized into the following chapters:
 - **Chapter 8: Limitations** — Examines the scientific and engineering limitations of the EDA pipeline.
 - **Chapter 9: Step 3 Summary** — Summarizes the deliverables, milestones, and readiness for baseline training.
 
-The recommendations derived from this exploratory analysis were first adopted during the baseline framework (Step 4) and subsequently reused during the controlled architecture benchmarking study (Step 5).
+The recommendations derived from this exploratory analysis were first adopted during the baseline framework (Step 4), subsequently reused during architecture benchmarking (Step 5), and later preserved throughout the explainability (Step 6) and probability calibration (Step 7) pipelines to maintain experimental consistency.
 
 ---
 

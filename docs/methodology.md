@@ -45,6 +45,8 @@ Each module performs:
 * Model training
 * Evaluation
 * Explainability
+* Probability Calibration
+* Uncertainty Estimation
 
 independently before multimodal integration.
 
@@ -98,20 +100,21 @@ Completed:
 
 * Dataset Preparation
 * Data Pipeline
-* EDA
+* Exploratory Data Analysis
 * Baseline Framework
 * Architecture Benchmarking
 * Explainability
+* Probability Calibration
 
 Current:
 
-* Calibration
+* Uncertainty Estimation
 
 Planned:
 
-* Uncertainty Estimation
+* Retina Module Integration
 * Clinical Module
-* Foot Ulcer Module
+* Foot Module
 * ACARA-U Fusion
 
 ---

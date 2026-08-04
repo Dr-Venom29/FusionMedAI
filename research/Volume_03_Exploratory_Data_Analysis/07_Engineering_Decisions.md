@@ -58,7 +58,7 @@ As detailed in **Chapter 5**, the pipeline successfully integrated:
 2. **ImageNet Normalization** to align with the expected inputs of pretrained backbone weights.
 3. **Conservative Augmentations** (flips, minor rotations, color jittering) to prevent overfitting while avoiding complex policies (MixUp, CutMix) that could obscure architectural differences.
 
-By freezing these preprocessing recommendations, we ensured that the architecture benchmarking phase evaluated model architectures as independent variables under controlled methodology. Dataset-specific statistics, multi-scale targets, and quality-weighted loss functions remain preserved as candidate optimization strategies for future phases.
+By freezing these preprocessing recommendations, we ensured that the architecture benchmarking phase evaluated model architectures as independent variables under controlled methodology. Dataset-specific statistics, multi-scale targets, and quality-weighted loss functions remain preserved as candidate optimization strategies for future phases. The frozen preprocessing pipeline was subsequently reused without modification during Explainability (Step 6) and Probability Calibration (Step 7), ensuring that downstream analyses reflected the same input distribution as the benchmarking phase.
 
 ---
 

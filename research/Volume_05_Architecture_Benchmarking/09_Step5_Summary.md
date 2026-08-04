@@ -13,10 +13,13 @@ Step 5 successfully benchmarked five distinct architectures under a rigorously c
 
 ## 9.3 Next Phase
 
-Step 6 (Model Explainability) has been successfully completed using the selected EfficientNet-B3 backbone.
+The selected EfficientNet-B3 backbone has now successfully completed:
 
-The project will now proceed toward:
+- ✓ Step 6: Explainability (XAI)
+- ✓ Step 7: Probability Calibration
 
-*   Clinical Module Development
-*   Foot Ulcer Module Development
-*   ACARA-U Multimodal Fusion
+The project will next proceed to:
+
+- Step 8: Uncertainty Estimation
+- Step 9: Retina Module Integration
+- Step 10: Final Retina Evaluation

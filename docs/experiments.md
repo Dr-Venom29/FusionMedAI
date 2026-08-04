@@ -67,6 +67,7 @@ Completed:
 * Baseline training
 * Architecture benchmarking
 * Explainability
+* Probability Calibration
 * Checkpoint management
 * TensorBoard integration
 * Experiment versioning
@@ -76,7 +77,6 @@ Completed:
 
 Planned:
 
-* Calibration
 * Uncertainty estimation
 * Hyperparameter optimization
 * Loss comparison
@@ -126,6 +126,14 @@ Future studies will evaluate:
 * ConvNeXt
 * Swin Transformer
 * Vision Transformer
+
+## Calibration
+
+* Temperature Scaling
+
+## Uncertainty
+
+* Monte Carlo Dropout
 
 ---
 

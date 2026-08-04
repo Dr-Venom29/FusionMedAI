@@ -51,3 +51,6 @@ This work introduces several key methodological and engineering contributions to
 
 6. **Scalable Multi-Modal Design**:
    Establishes clean directory structures and configuration conventions that easily scale to support additional medical datasets (e.g. IDRiD, DFUC, PIMA) without changing core pipeline logic.
+
+7. **Foundation for Explainable and Calibrated AI**:
+   The reproducible dataset engineering established in this phase directly enabled the development of the explainability (Volume 6) and probability calibration (Volume 7) pipelines.

@@ -121,7 +121,7 @@ For transparency and reproducibility, the baseline data pipeline was tested and 
 ---
 
 ## Conclusion
-Collectively, these engineering decisions prioritize reproducibility, modularity, robustness, and maintainability over short-term implementation convenience. This design allows future experimentation—such as replacing the backbone network, changing preprocessing parameters, or introducing additional datasets—without requiring substantial modifications to the overall data pipeline architecture.
+Collectively, these engineering decisions prioritize reproducibility, modularity, robustness, and maintainability over short-term implementation convenience. This design allows future experimentation—such as replacing the backbone network, changing preprocessing parameters, or introducing additional datasets—without requiring substantial modifications to the overall data pipeline architecture. The same modular architecture allowed the explainability and calibration pipelines to reuse the identical preprocessing and data-loading workflow without introducing duplicate implementations.
 
 ## References
 - Gamma, E., Helm, R., Johnson, R., & Vlissides, J. (1994). *Design Patterns: Elements of Reusable Object-Oriented Software*. Addison-Wesley.

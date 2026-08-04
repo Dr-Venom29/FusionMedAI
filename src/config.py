@@ -231,3 +231,20 @@ XAI_CONFIGS_DIR = XAI_EXPERIMENTS_DIR / "configs"
 
 for directory in [FINAL_MODEL_RESULTS_DIR, XAI_RESULTS_DIR, XAI_EXPERIMENTS_DIR, XAI_LOGS_DIR, XAI_CONFIGS_DIR, REPORTS_DIR]:
     directory.mkdir(parents=True, exist_ok=True)
+
+# ==========================
+# Phase 7 (Calibration) Parameters & Directories
+# ==========================
+CALIBRATION_VERSION = "1.0.0"
+
+CALIBRATION_RESULTS_DIR = PROJECT_ROOT / "results" / "calibration"
+CALIBRATION_FIGURES_DIR = CALIBRATION_RESULTS_DIR / "figures"
+CALIBRATION_TABLES_DIR = CALIBRATION_RESULTS_DIR / "tables"
+CALIBRATION_REPORTS_DIR = CALIBRATION_RESULTS_DIR / "reports"
+CALIBRATION_RELIABILITY_DIR = CALIBRATION_RESULTS_DIR / "reliability"
+
+CALIBRATION_EXPERIMENTS_DIR = PROJECT_ROOT / "experiments" / "calibration"
+
+for directory in [CALIBRATION_RESULTS_DIR, CALIBRATION_FIGURES_DIR, CALIBRATION_TABLES_DIR, 
+                  CALIBRATION_REPORTS_DIR, CALIBRATION_RELIABILITY_DIR, CALIBRATION_EXPERIMENTS_DIR]:
+    directory.mkdir(parents=True, exist_ok=True)

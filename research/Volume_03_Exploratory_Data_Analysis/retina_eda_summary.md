@@ -75,4 +75,13 @@ Based on the exploratory analysis, the following engineering decisions were adop
 - Higher input resolutions (384 and 512) reserved for comparative experiments
 
 ## Conclusion and Next Steps
-The exploratory analysis successfully characterized the APTOS 2019 dataset and directly informed the baseline EfficientNet-B0 implementation. The identified preprocessing recommendations, normalization strategies, and augmentation candidates now serve as controlled experimental variables for future training, hyperparameter optimization, and architecture comparison studies.
+The exploratory analysis successfully characterized the APTOS 2019 dataset and established the engineering decisions that were subsequently adopted throughout the Retina Module.
+
+The preprocessing strategy defined in this phase was successfully reused during:
+
+• Step 4 – Baseline Framework
+• Step 5 – Architecture Benchmarking
+• Step 6 – Explainability
+• Step 7 – Probability Calibration
+
+The next phase will investigate uncertainty estimation while maintaining the same standardized preprocessing pipeline.

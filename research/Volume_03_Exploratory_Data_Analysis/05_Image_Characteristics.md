@@ -37,6 +37,7 @@ The following decisions were implemented in the baseline framework (Step 4) and 
 * **Bilinear Interpolation**: Adopted `InterpolationMode.BILINEAR` as the standard interpolation mode to preserve lesion borders while maintaining computational efficiency.
 * **ImageNet Normalization**: Retained standard ImageNet channel-wise normalization parameters during both baseline and benchmarking phases to match the expected inputs of pretrained weights.
 * **Multi-Scale Benchmarks Reserved**: Multi-scale training (comparing 224, 384, and 512 resolutions) and dataset-specific color normalization experiments are reserved for future optimization studies.
+* **The same preprocessing configuration was preserved during Explainability (Step 6) and Calibration (Step 7) to ensure consistency across downstream analyses.**
 
 ---
 

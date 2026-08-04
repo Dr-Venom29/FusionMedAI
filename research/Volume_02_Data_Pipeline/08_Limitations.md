@@ -20,7 +20,7 @@ The implemented data pipeline satisfies the functional requirements of the curre
 ## 4. Sequential Loading in Verification Runs
 - **Limitation**: The end-to-end integration test ran with `num_workers=0` (sequential execution on the main process).
 - **Impact**: Loading 3,662 high-resolution images sequentially took ~578 seconds (elapsed time across all splits). While appropriate for debugging and Windows portability, this is too slow for actual model training.
-- **Future Work**: Systematic benchmarking across different worker counts was successfully performed during baseline training (Step 4) and architecture benchmarking (Step 5).
+- **Future Work**: Systematic benchmarking was completed during Steps 4 and 5. The same optimized data pipeline was subsequently reused during Explainability (Step 6) and Probability Calibration (Step 7).
 
 ## 5. No Hardware-Accelerated Data Loading
 - **Limitation**: The pipeline is CPU-bound, relying on Python's PIL and torchvision on the host.

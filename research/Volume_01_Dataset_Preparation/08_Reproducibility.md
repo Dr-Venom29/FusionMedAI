@@ -42,7 +42,7 @@ Ensuring absolute reproducibility is critical for medical AI to verify clinical 
 - Enforcing a standardized directory structure (`raw/`, `interim/`, `processed/`, `metadata/`) ensures that scripts can find and write files to the correct locations regardless of the host machine.
 
 ### 9. Extended Reproducibility in Downstream Chapters
-- Building upon this baseline, Step 3 (EDA) incorporates extended reproducibility controls, including a deterministic dataset reproducibility fingerprint (SHA-256) and automated execution manifests. Subsequent volumes further extended reproducibility through execution manifests, deterministic benchmarking protocols, standardized experiment logging, checkpoint versioning, and explainability report generation.
+- Building upon this baseline, Step 3 (EDA) incorporates extended reproducibility controls, including a deterministic dataset reproducibility fingerprint (SHA-256) and automated execution manifests. Subsequent volumes extended reproducibility through standardized benchmarking protocols (Volume 5), explainability manifests and report generation (Volume 6), and calibration artifacts including learned temperature parameters, calibration metrics, and execution manifests (Volume 7).
 
 ---
 

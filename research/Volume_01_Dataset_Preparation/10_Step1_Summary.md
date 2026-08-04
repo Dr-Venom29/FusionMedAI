@@ -104,5 +104,6 @@ These outputs form the immutable foundation used directly in:
 *   Volume 4 – Baseline Framework
 *   Volume 5 – Architecture Benchmarking
 *   Volume 6 – Model Explainability
+*   Volume 7 – Probability Calibration
 
-All subsequent Retina Module experiments reused the verified dataset established in this phase without requiring structural modifications.
+All subsequent Retina Module stages—including architecture benchmarking, explainability, and probability calibration—reuse the verified dataset established in this phase without requiring structural modifications.

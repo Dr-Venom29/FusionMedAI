@@ -102,4 +102,4 @@ Training terminates automatically when the validation QWK fails to improve for t
 
 ### 10. Testing and Inference
 
-After training completes, the best checkpoint is evaluated on the held-out test dataset. The testing pipeline generates prediction files, confusion matrices, ROC curves, latency measurements, throughput statistics, and summary reports. The same framework also supports standalone single-image and batch inference through the dedicated inference module.
+After training completes, the best checkpoint is evaluated on the held-out test dataset. The testing pipeline generates prediction files, confusion matrices, ROC curves, latency measurements, throughput statistics, and summary reports. The same framework also supports standalone single-image and batch inference through the dedicated inference module. The generated checkpoints subsequently served as the input for the architecture benchmarking (Volume 05), explainability (Volume 06), and calibration (Volume 07) pipelines.

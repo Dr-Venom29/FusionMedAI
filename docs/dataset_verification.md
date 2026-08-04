@@ -42,6 +42,7 @@ This document tracks the verification status of all datasets used throughout the
 * [x] Baseline Training Completed
 * [x] Architecture Benchmarking Completed
 * [x] Explainability Completed
+* [x] Probability Calibration Completed
 
 ---
 
@@ -74,7 +75,7 @@ This document tracks the verification status of all datasets used throughout the
 
 | Dataset               | Status                        |
 | --------------------- | ----------------------------- |
-| APTOS 2019            | ✅ Retina Module Completed     |
+| APTOS 2019            | 🔄 Retina Module In Progress (Steps 1–7 Completed) |
 | DFUC                  | ⏳ Planned                     |
 | PIMA Indians Diabetes | ⏳ Planned                     |
 
@@ -153,17 +154,17 @@ Completed
 * Baseline training
 * Architecture benchmarking
 * Explainability
+* Probability Calibration
 
 Pending
 
-* Calibration
 * Uncertainty estimation
 * External validation
 * Cross-dataset benchmarking
 
 ---
 
-**Last Updated:** 2026-06-28
+**Last Updated:** 2026-08-04
 
 **Project:** FusionMedAI
 

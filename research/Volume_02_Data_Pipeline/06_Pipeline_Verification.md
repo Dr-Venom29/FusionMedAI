@@ -123,7 +123,14 @@ The automated verification framework guarantees coverage across four primary dim
 - **Regression Testing**: Serves as a repeatable audit suite that can be re-run after changes to configuration, augmentation schedules, or backend libraries to prevent pipeline drift.
 
 ## Downstream Validation
-The successful verification and standardization of the data pipeline directly enabled the implementation of Step 4 (Baseline Model Development) without requiring modifications to the data layer. Specifically:
+The verified data pipeline subsequently supported:
+
+• Step 4 – Baseline Framework
+• Step 5 – Architecture Benchmarking
+• Step 6 – Explainability
+• Step 7 – Probability Calibration
+
+without requiring modifications to the data layer. Specifically:
 - **Baseline Model Initialization**: The standard dataloader shapes `(32, 3, 224, 224)` and target classes were used directly to initialize the classification heads.
 - **Training Loop Validation**: The training and validation loaders were integrated into a multi-epoch training pipeline using mock dry-runs.
 - **Checkpoint Generation**: Standardized data batches allowed validating checkpointer routines under constant data shapes.

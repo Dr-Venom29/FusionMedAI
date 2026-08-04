@@ -30,12 +30,12 @@ This chapter documents the limitations of the current dataset preparation phase 
 - **Limitation**: Because the APTOS 2019 dataset does not include explicit patient identifiers, patient-level separation cannot be guaranteed. Splitting is performed at the image level, introducing a risk of intra-patient data leakage if a single patient has images in both training and validation sets.
 - **Reason for Deferral**: This is a structural limitation of the public source metadata. Future work using dataset sources with patient IDs will enforce patient-level disjointness to prevent potential intra-patient data leakage.
 
-### 7. Explainability Infrastructure Deferred
-- **Limitation**: Grad-CAM explainability was implemented in Step 6. More advanced explainability techniques (e.g., Integrated Gradients, SHAP, Score-CAM) remain future work.
+### 7. Advanced Explainability Methods
+- **Limitation**: Standard Grad-CAM and Grad-CAM++ were implemented in Volume 6. More advanced explainability techniques (Integrated Gradients, SHAP, Score-CAM, Layer-CAM) remain future work.
 - **Reason for Deferral**: Explainability infrastructure has been prepared through feature extraction support in the model wrapper class, but more advanced visualization techniques remain future work.
 
-### 8. Calibration and Uncertainty Estimation Deferred
-- **Limitation**: Calibration and uncertainty estimation remain planned extensions beyond the completed Retina Module.
+### 8. Uncertainty Estimation
+- **Limitation**: Probability calibration using Temperature Scaling was completed in Volume 7. Predictive uncertainty estimation remains future work and will be addressed in Volume 8.
 - **Reason for Deferral**: Calibration methods (such as temperature scaling) and uncertainty quantification are intentionally deferred until after baseline model performance has been established.
 
 ### 9. No Out-of-Distribution (OOD) Detection
@@ -57,4 +57,4 @@ This chapter documents the limitations of the current dataset preparation phase 
 ---
 
 ## Conclusion
-The limitations identified in this chapter are intentionally deferred to maintain modularity. Dataset preparation establishes a reliable foundation upon which preprocessing, training, calibration, explainability, uncertainty estimation, and multimodal fusion will be developed in subsequent phases of FusionMedAI.
+The limitations identified in this chapter are intentionally deferred to maintain modularity. Dataset preparation establishes a reliable foundation upon which preprocessing, training, uncertainty estimation, Retina Module integration, and final evaluation will be developed in subsequent phases of FusionMedAI.

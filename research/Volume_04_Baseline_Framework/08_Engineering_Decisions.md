@@ -86,6 +86,7 @@ In addition to the core architectural decisions above, the baseline framework al
 * **Dedicated Verification Framework** to ensure infrastructure correctness prior to full training (Chapter 7).
 * **Standalone Inference Module** for isolated prediction generation.
 * **Lightweight Documentation Strategy** prioritizing structured Markdown over duplicate PDF generation.
+* **The modular architecture enabled later integration of explainability and calibration modules without modifying the core training framework.**
 
 These engineering decisions collectively establish a research-oriented framework that emphasizes modularity, reproducibility, scalability, and maintainability. The resulting architecture provides a stable foundation for subsequent hyperparameter optimization, backbone comparison, explainability, calibration, uncertainty estimation, and multimodal fusion within the FusionMedAI framework.
 

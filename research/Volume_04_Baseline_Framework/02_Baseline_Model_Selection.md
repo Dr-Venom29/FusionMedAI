@@ -32,8 +32,8 @@ The wrapper exposes an `extract_features(x)` method that returns feature maps im
 
 These intermediate feature representations provide the foundation for several future components of the FusionMedAI framework:
 
-1. **Grad-CAM** for visual explainability of retinal lesion localization.
-2. **Multimodal feature fusion** within the ACARA-U framework.
+1. **Grad-CAM explainability** (implemented in Volume 06).
+2. **Future multimodal feature fusion** within the ACARA-U framework.
 3. **Embedding extraction** for feature analysis and representation learning.
 
 ```mermaid
