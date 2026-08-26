@@ -1,0 +1,3 @@
+|   MC Passes Count (N) | Discovered Dropout Layers     | Stochasticity Validation Check   |   Sanity Validation Variance |   Sanity Validation Prob. Std |   Test Set Average Predictive Var |   Test Set Average Mutual Info |
+|----------------------:|:------------------------------|:---------------------------------|-----------------------------:|------------------------------:|----------------------------------:|-------------------------------:|
+|                    25 | backbone.classifier.0 (p=0.3) | PASSED                           |                  0.000153949 |                    0.00766738 |                       0.000194896 |                      0.0020656 |

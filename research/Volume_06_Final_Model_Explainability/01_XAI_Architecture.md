@@ -11,20 +11,14 @@ The Explainable AI (XAI) pipeline in FusionMedAI is designed to extract, interpr
 
 ## Architecture Flow
 
-```text
-Image
-  ↓
-EfficientNet-B3
-  ↓
-Inference
-  ↓
-GradCAM
-  ↓
-Clinical Interpreter
-  ↓
-Representative Selector
-  ↓
-PDF Reports
+```mermaid
+flowchart TD
+    Image --> EfficientNet-B3
+    EfficientNet-B3 --> Inference
+    Inference --> GradCAM
+    GradCAM --> ClinicalInterpreter[Clinical Interpreter]
+    ClinicalInterpreter --> RepresentativeSelector[Representative Selector]
+    RepresentativeSelector --> PDFReports[PDF Reports]
 ```
 
 ## Pipeline Components

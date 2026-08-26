@@ -248,3 +248,17 @@ CALIBRATION_EXPERIMENTS_DIR = PROJECT_ROOT / "experiments" / "calibration"
 for directory in [CALIBRATION_RESULTS_DIR, CALIBRATION_FIGURES_DIR, CALIBRATION_TABLES_DIR, 
                   CALIBRATION_REPORTS_DIR, CALIBRATION_RELIABILITY_DIR, CALIBRATION_EXPERIMENTS_DIR]:
     directory.mkdir(parents=True, exist_ok=True)
+
+# ==========================
+# Phase 8 (Uncertainty) Parameters & Directories
+# ==========================
+UNCERTAINTY_VERSION = "1.0.0"
+
+UNCERTAINTY_RESULTS_DIR = RESULTS_DIR / "uncertainty"
+UNCERTAINTY_FIGURES_DIR = UNCERTAINTY_RESULTS_DIR / "figures"
+UNCERTAINTY_TABLES_DIR = UNCERTAINTY_RESULTS_DIR / "tables"
+UNCERTAINTY_EXPERIMENTS_DIR = PROJECT_ROOT / "experiments" / "uncertainty"
+
+for directory in [UNCERTAINTY_RESULTS_DIR, UNCERTAINTY_FIGURES_DIR, UNCERTAINTY_TABLES_DIR, UNCERTAINTY_EXPERIMENTS_DIR]:
+    directory.mkdir(parents=True, exist_ok=True)
+
