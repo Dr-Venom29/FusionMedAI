@@ -52,7 +52,7 @@ This standardized pipeline ensures that every module is independently validated 
 
 | Module            | Status                        |
 | ----------------- | ----------------------------- |
-| Retina Module     | 🔄 In Progress (Steps 1–7 Completed) |
+| Retina Module     | 🔄 In Progress (Steps 1–8 Completed) |
 | Foot Ulcer Module | ⏳ Planned                     |
 | Clinical Module   | ⏳ Planned                     |
 | ACARA-U Fusion    | ⏳ Planned                     |

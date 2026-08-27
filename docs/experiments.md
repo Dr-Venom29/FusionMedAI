@@ -68,6 +68,7 @@ Completed:
 * Architecture benchmarking
 * Explainability
 * Probability Calibration
+* Uncertainty estimation
 * Checkpoint management
 * TensorBoard integration
 * Experiment versioning
@@ -77,63 +78,60 @@ Completed:
 
 Planned:
 
-* Uncertainty estimation
 * Hyperparameter optimization
 * Loss comparison
 * Optimizer comparison
 
 ---
 
-# Planned Experiment Categories
+# Experiment Categories
+
+## Executed Categories
+
+### Calibration
+* Temperature Scaling (Post-hoc calibration on the validation split)
+
+### Uncertainty
+* Monte Carlo Dropout (Stochastic ensembling with $N=25$ passes on the test split)
+
+---
+
+## Planned Future Categories
 
 Future studies will evaluate:
 
-## Baseline Model
-
+### Baseline Model
 * EfficientNet-B0
 
-## Hyperparameters
-
+### Hyperparameters
 * Learning rate
 * Batch size
 * Weight decay
 * Number of epochs
 
-## Loss Functions
-
+### Loss Functions
 * Cross Entropy
 * Weighted Cross Entropy
 * Focal Loss
 * Ordinal Loss
 
-## Optimizers
-
+### Optimizers
 * AdamW
 * Adam
 * SGD with Momentum
 
-## Learning Rate Schedulers
-
+### Learning Rate Schedulers
 * Cosine Annealing
 * StepLR
 * OneCycleLR
 * ReduceLROnPlateau
 
-## Backbone Architectures
-
+### Backbone Architectures
 * EfficientNet-B0
 * EfficientNet-B3
 * ConvNeXt
 * Swin Transformer
 * Vision Transformer
-
-## Calibration
-
-* Temperature Scaling
-
-## Uncertainty
-
-* Monte Carlo Dropout
 
 ---
 

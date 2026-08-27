@@ -97,7 +97,6 @@ The framework follows several core engineering principles:
 # Current Project Status
 
 Completed:
-
 * Dataset Preparation
 * Data Pipeline
 * Exploratory Data Analysis
@@ -105,14 +104,12 @@ Completed:
 * Architecture Benchmarking
 * Explainability
 * Probability Calibration
-
-Current:
-
 * Uncertainty Estimation
 
-Planned:
-
+Current:
 * Retina Module Integration
+
+Planned:
 * Clinical Module
 * Foot Module
 * ACARA-U Fusion
