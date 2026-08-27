@@ -35,8 +35,9 @@ This chapter documents the limitations of the current dataset preparation phase 
 - **Reason for Deferral**: Explainability infrastructure has been prepared through feature extraction support in the model wrapper class, but more advanced visualization techniques remain future work.
 
 ### 8. Uncertainty Estimation
-- **Limitation**: Probability calibration using Temperature Scaling was completed in Volume 7. Predictive uncertainty estimation remains future work and will be addressed in Volume 8.
-- **Reason for Deferral**: Calibration methods (such as temperature scaling) and uncertainty quantification are intentionally deferred until after baseline model performance has been established.
+- **Limitation**: Uncertainty estimation was not part of the original dataset preparation phase.
+- **Resolution in Later Volumes**: Prediction uncertainty was subsequently implemented and evaluated in Volume 8 using MC Dropout, predictive entropy, expected entropy, mutual information, predictive variance, error-detection analysis, risk-coverage analysis, AURC/E-AURC, and Monte Carlo convergence analysis.
+- **Remaining Limitation**: The current uncertainty evaluation remains specific to the finalized Retina Module and does not yet establish cross-dataset uncertainty robustness.
 
 ### 9. No Out-of-Distribution (OOD) Detection
 - **Limitation**: Images are assumed to originate from the APTOS distribution. External validation and out-of-distribution robustness remain future research directions.
@@ -57,4 +58,4 @@ This chapter documents the limitations of the current dataset preparation phase 
 ---
 
 ## Conclusion
-The limitations identified in this chapter are intentionally deferred to maintain modularity. Dataset preparation establishes a reliable foundation upon which preprocessing, training, uncertainty estimation, Retina Module integration, and final evaluation will be developed in subsequent phases of FusionMedAI.
+The limitations identified in this chapter were historically deferred to maintain modularity during the dataset preparation phase. Subsequent volumes successfully resolved many of these limitations—including model benchmarking, explainability, calibration, predictive uncertainty estimation, and Retina Module integration—while cross-dataset robustness, OOD detection models, and multi-modal aggregation represent upcoming fusion engineering goals.

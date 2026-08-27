@@ -47,7 +47,7 @@ The primary quantitative metrics obtained during the automated EDA run are:
 | **Visual Duplicate List** | `datasets/metadata/duplicate_images.csv` | ✅ |
 | **Descriptive JSON Summary** | `datasets/metadata/eda_summary.json` | ✅ |
 | **Preprocessing Guidelines** | `datasets/metadata/preprocessing_recommendations.json` | ✅ |
-| **Publication Figures (14 files)** | `research/Volume_03_Exploratory_Data_Analysis/images/Fig_03_*` (PNG) | ✅ |
+| **Publication Figures (14 files)** | `research/retina/Volume_03_Exploratory_Data_Analysis/images/Fig_03_*` (PNG) | ✅ |
 | **Summary Dashboard** | `results/retina/summary_dashboard.png` | ✅ |
 | **PDF Summary Report** | `reports/retina_eda_summary.pdf` | ❌ (Deleted; MD is single source of truth) |
 | **Markdown Summary Report** | `reports/retina_eda_summary.md` | ✅ |
@@ -96,35 +96,21 @@ graph TD
 
 ---
 
-## Completion of Step 4 and Step 5
-The recommendations derived from the Exploratory Data Analysis were successfully incorporated into:
-- **Baseline Framework (Step 4)**
-- **Architecture Benchmarking (Step 5)**
-
-The project has now successfully completed these benchmarking phases. The next milestones in the research roadmap will address model robustness and clinical interpretability:
+## Foundation for Subsequent Phases
+The recommendations derived from the Exploratory Data Analysis were successfully incorporated into baseline training, benchmarking, explainability, calibration, predictive uncertainty estimation, and Retina Module integration.
 
 Completed Milestones
 
 ✓ Step 4 – Baseline Framework
-
 ✓ Step 5 – Architecture Benchmarking
-
 ✓ Step 6 – Explainability
-
 ✓ Step 7 – Probability Calibration
+✓ Step 8 – Prediction Uncertainty Estimation
+✓ Step 9 – Retina Module Integration & Finalization
 
-Upcoming Milestones
+Future Development
 
-→ Step 8 – Uncertainty Estimation
-
-→ Step 9 – Retina Module Integration
-
-→ Step 10 – Final Retina Module Evaluation
-
-Future Modules
-
-• Foot Ulcer Module
-
-• Clinical Module
-
-• ACARA-U Multimodal Fusion
+→ Step 10 – Foot Ulcer Module
+→ Step 11 – Clinical Module
+→ Step 12 – ACARA-U Multimodal Fusion
+→ Step 13 – Final FusionMedAI System

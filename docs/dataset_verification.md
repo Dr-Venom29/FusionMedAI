@@ -76,7 +76,7 @@ This document tracks the verification status of all datasets used throughout the
 
 | Dataset               | Status                        |
 | --------------------- | ----------------------------- |
-| APTOS 2019            | 🔄 Retina Module In Progress (Steps 1–8 Completed) |
+| APTOS 2019            | ✅ Retina Module Complete      |
 | DFUC                  | ⏳ Planned                     |
 | PIMA Indians Diabetes | ⏳ Planned                     |
 

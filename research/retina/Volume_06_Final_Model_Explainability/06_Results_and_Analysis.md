@@ -35,18 +35,18 @@ The pipeline generated:
 
 A subset of the auto-selected representative cases demonstrates how the heuristic observations map to visual evidence.
 
-| Image | GT | Prediction | Confidence | Entropy | Observation |
-|:---|:---:|:---:|:---:|:---:|:---|
-| `case_001.png` | 0 | 0 | 0.99 | 0.05 | Attention spans multiple distinct focal regions |
-| `case_042.png` | 2 | 2 | 0.94 | 0.12 | Attention concentrated near the central region |
-| `case_118.png` | 4 | 4 | 0.88 | 0.29 | Extremely high activation intensity within focal regions |
-| `case_150.png` | 1 | 1 | 0.76 | 0.45 | Attention overlaps peripheral retina |
-| `case_202.png` | 3 | 3 | 0.91 | 0.18 | Attention is highly localized to a single region |
-| `case_215.png` | 0 | 2 | 0.97 | 0.08 | Extremely high activation intensity within focal regions *(High-Confidence Failure)* |
-| `case_280.png` | 4 | 2 | 0.48 | 1.12 | Attention is widely dispersed across retinal tissue *(Severe Confusion)* |
-| `case_305.png` | 2 | 2 | 0.51 | 1.05 | Attention overlaps peripheral retina *(Low-Confidence Success)* |
-| `case_344.png` | 1 | 0 | 0.62 | 0.88 | Attention spans multiple distinct focal regions |
-| `case_360.png` | 3 | 4 | 0.85 | 0.34 | Attention concentrated near the central region |
+| Image ID | GT | Prediction | Confidence | Entropy | Observation | Category |
+|:---|:---:|:---:|:---:|:---:|:---|:---|
+| `5f51192841f7` | 0 | 0 | 1.0000 | 0.0003 | Attention is highly localized to a single region. Attention concentrated near the central (macular) region. | Most Confident Correct |
+| `7102f29e052e` | 2 | 2 | 0.4159 | 1.0844 | Attention is highly localized to a single region. Attention concentrated near the central (macular) region. | Least Confident Correct |
+| `3435fd8675a2` | 3 | 4 | 0.9977 | 0.0179 | Attention is highly localized to a single region. | Most Confident Incorrect |
+| `d06ccd0cf4b8` | 1 | 0 | 0.4686 | 1.0865 | Attention is highly localized to a single region. | Least Confident Incorrect |
+| `541db13517e2` | 2 | 3 | 0.5346 | 1.1635 | Attention is highly localized to a single region. Attention concentrated near the central (macular) region. | Highest Entropy |
+| `8fc09fecd22f` | 1 | 1 | 0.9983 | 0.0134 | Attention is highly localized to a single region. Attention is widely dispersed across retinal tissue. | Representative Correct (Grade 1) |
+| `23175b7ef453` | 2 | 2 | 0.9998 | 0.0023 | Attention is highly localized to a single region. | Representative Correct (Grade 2) |
+| `dbfd238b3468` | 3 | 3 | 0.9991 | 0.0079 | Attention is highly localized to a single region. Attention is widely dispersed across retinal tissue. Attention concentrated near the central (macular) region. | Representative Correct (Grade 3) |
+| `1c4f3aa4df06` | 4 | 2 | 0.9793 | 0.1074 | Attention is highly localized to a single region. | Severe Confusion (>1 grade error) |
+| `9f436886e056` | 2 | 2 | 0.9941 | 0.0399 | Attention is distributed across intermediate retinal zones. | Random Representative Fill |
 
 ### Generated Reports
 

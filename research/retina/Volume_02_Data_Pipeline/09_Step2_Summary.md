@@ -45,7 +45,7 @@ The following files were added to the project structure:
 - `datasets/processed/splits/split_statistics.json`
 
 ### 3. Engineering Achievements
-- **Reproducible 80/10/10 Stratified Dataset Split**: Partitions the clinical data while strictly maintaining class ratios across all subsets.
+- **Reproducible 80/10/10 Stratified Dataset Split**: Partitions the APTOS retinal image dataset while strictly maintaining class ratios across all subsets.
 - **Modular Dataset, Transform, and DataLoader Implementation**: Each component has a clearly defined responsibility and can be modified independently without requiring changes to the remaining pipeline modules.
 - **Defensive Validation and Fail-Fast Error Handling**: Uses explicit exceptions (`ValueError`, `FileNotFoundError`) to check dataset bounds, missing files, and label bounds before training initialization.
 - **Centralized Configuration Management**: Concentrates all directory paths, hyperparameter bounds, and image sizes in a central configuration module (`src/config.py`).
@@ -61,29 +61,18 @@ We executed the end-to-end verification script and confirmed that all checks pas
 This standardized production pipeline became the common data infrastructure for:
 
 ✓ Step 3 – Exploratory Data Analysis
-
 ✓ Step 4 – Baseline Framework
-
 ✓ Step 5 – Architecture Benchmarking
-
 ✓ Step 6 – Explainability
-
 ✓ Step 7 – Probability Calibration
+✓ Step 8 – Prediction Uncertainty Estimation
+✓ Step 9 – Retina Module Integration & Finalization
 
-Upcoming
+Future Development
 
-→ Step 8 – Uncertainty Estimation
-
-→ Step 9 – Retina Module Integration
-
-→ Step 10 – Final Retina Module Evaluation
-
-Future Modules
-
-• Foot Ulcer Module
-
-• Clinical Module
-
-• ACARA-U Multimodal Fusion
+→ Step 10 – Foot Ulcer Module
+→ Step 11 – Clinical Module
+→ Step 12 – ACARA-U Multimodal Fusion
+→ Step 13 – Final FusionMedAI System
 
 By establishing a deterministic, well-tested, and fully isolated data layer in Step 2, all subsequent research volumes could focus entirely on model architecture, training stability, and clinical evaluation without encountering data loading bottlenecks or leakage issues.

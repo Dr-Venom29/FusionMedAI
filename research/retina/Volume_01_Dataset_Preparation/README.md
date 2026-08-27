@@ -21,11 +21,13 @@ The reproducible dataset preparation framework established in this volume became
 - ✓ Volume 03 – Exploratory Data Analysis
 - ✓ Volume 04 – Baseline Framework
 - ✓ Volume 05 – Architecture Benchmarking
-- ✓ Volume 06 – Explainability (XAI)
+- ✓ Volume 06 – Model Explainability
 - ✓ Volume 07 – Probability Calibration
+- ✓ Volume 08 – Prediction Uncertainty Estimation
+- ✓ Volume 09 – Retina Module Integration & Finalization
 
 ## Upcoming
 
-- → Volume 08 – Uncertainty Estimation
-- → Retina Module Integration
-- → Final Retina Module Evaluation
+- → Foot Ulcer Module
+- → Clinical Module
+- → ACARA-U Multimodal Fusion

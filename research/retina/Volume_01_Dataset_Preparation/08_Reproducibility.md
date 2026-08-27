@@ -42,7 +42,14 @@ Ensuring absolute reproducibility is critical for medical AI to verify clinical 
 - Enforcing a standardized directory structure (`raw/`, `interim/`, `processed/`, `metadata/`) ensures that scripts can find and write files to the correct locations regardless of the host machine.
 
 ### 9. Extended Reproducibility in Downstream Chapters
-- Building upon this baseline, Step 3 (EDA) incorporates extended reproducibility controls, including a deterministic dataset reproducibility fingerprint (SHA-256) and automated execution manifests. Subsequent volumes extended reproducibility through standardized benchmarking protocols (Volume 5), explainability manifests and report generation (Volume 6), and calibration artifacts including learned temperature parameters, calibration metrics, and execution manifests (Volume 7).
+
+Building upon this baseline, later volumes extended reproducibility through:
+
+- standardized benchmarking protocols and reproduction manifests (Volume 5)
+- explainability manifests and reproducible report generation (Volume 6)
+- calibration artifacts, learned temperature parameters, calibration metrics, and execution manifests (Volume 7)
+- Monte Carlo Dropout configuration, convergence analysis, uncertainty artifacts, and reproducibility manifests (Volume 8)
+- finalized Retina Module integration artifacts, acceptance testing, and end-to-end reproducibility documentation (Volume 9)
 
 ---
 
@@ -68,16 +75,16 @@ Ensuring absolute reproducibility is critical for medical AI to verify clinical 
 ---
 
 ## Computational Environment
-To ensure full experimental comparability, all runs were conducted within the standardized local development environment outlined in the table below:
+
+Development and verification were performed across local and GPU-enabled environments. Benchmark training runs were executed on a CUDA-enabled Kaggle environment.
 
 | Component | Value |
 | :--- | :--- |
-| **Python Version** | 3.12 |
-| **PyTorch Version** | 2.4 |
-| **Torchvision Version** | 0.19 |
-| **CUDA Version** | 12.4 (where GPU acceleration is available) |
-| **Operating System** | Windows 11 (Development/Verification) |
-| **Hardware Environment** | Local workstation with multithreaded CPU support |
+| Python Version | 3.12 |
+| PyTorch Version | 2.4 |
+| Torchvision Version | 0.19 |
+| GPU Acceleration | CUDA |
+| Benchmark Environment | Kaggle GPU environment |
 
 ---
 

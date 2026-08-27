@@ -16,12 +16,18 @@ The framework established in this volume subsequently served as the common infra
 
 ## Completed Downstream Volumes
 
+The baseline training and evaluation infrastructure established in this volume was reused throughout the completed Retina research stages:
+
 - ✓ Volume 05 – Architecture Benchmarking
-- ✓ Volume 06 – Explainability (XAI)
+- ✓ Volume 06 – Model Explainability
 - ✓ Volume 07 – Probability Calibration
+- ✓ Volume 08 – Prediction Uncertainty Estimation
+- ✓ Volume 09 – Retina Module Integration & Finalization
 
-## Upcoming
+## Current Status
 
-- → Volume 08 – Uncertainty Estimation
-- → Retina Module Integration
-- → Final Retina Module Evaluation
+**Volume 04 – Baseline Framework: ✅ Complete**
+
+The baseline training framework is complete and frozen for the Retina Module. Its modular design allowed other backbones to be benchmarked seamlessly, and it remains the design reference for the upcoming modules.
+
+The next development phase is the **Foot Ulcer Module**, which will adapt this baseline training and checkpointing framework for the classification of foot ulcer wound images.

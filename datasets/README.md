@@ -49,7 +49,7 @@ python src/data/verify_dataset.py
 # Step 2: Generate dataset metadata and statistics
 python src/data/generate_metadata.py
 
-# Step 3: Create stratified dataset splits (80/10/10)
+# Step 3: Create stratified 80/10/10 dataset splits
 python src/data/split_dataset.py
 
 # Step 4: Verify complete end-to-end data pipeline

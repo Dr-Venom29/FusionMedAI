@@ -88,6 +88,16 @@ Planned:
 
 ## Executed Categories
 
+### Backbone Architectures — Completed
+* EfficientNet-B0
+* EfficientNet-B3
+* ConvNeXt-Tiny
+* Swin-Tiny
+* ViT-B/16
+
+Selected Retina Backbone:
+* EfficientNet-B3
+
 ### Calibration
 * Temperature Scaling (Post-hoc calibration on the validation split)
 
@@ -99,9 +109,6 @@ Planned:
 ## Planned Future Categories
 
 Future studies will evaluate:
-
-### Baseline Model
-* EfficientNet-B0
 
 ### Hyperparameters
 * Learning rate
@@ -125,13 +132,6 @@ Future studies will evaluate:
 * StepLR
 * OneCycleLR
 * ReduceLROnPlateau
-
-### Backbone Architectures
-* EfficientNet-B0
-* EfficientNet-B3
-* ConvNeXt
-* Swin Transformer
-* Vision Transformer
 
 ---
 

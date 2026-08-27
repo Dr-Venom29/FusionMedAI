@@ -23,7 +23,7 @@ Each module maintains an independent preprocessing pipeline tailored to its resp
 
 ### Current Baseline
 
-The current baseline preprocessing pipeline was used consistently during the five-model architecture benchmarking phase, ensuring a fair comparison between all candidate backbones. The same preprocessing configuration was retained during architecture benchmarking, explainability, and probability calibration to ensure experimental consistency.
+The finalized Retina Module continues to use the validated baseline preprocessing configuration established during the controlled benchmarking phase. The same preprocessing configuration was retained during architecture benchmarking, explainability, probability calibration, and uncertainty estimation to ensure experimental consistency.
 
 The current Retina Module applies a lightweight preprocessing pipeline consisting of:
 

@@ -6,7 +6,10 @@ This chapter summarizes the objectives achieved, files generated, engineering co
 
 ## Objectives Achieved
 
-The project has successfully completed the Dataset Preparation (Step 1), Data Pipeline (Step 2), Exploratory Data Analysis (Step 3), and Baseline Model Development (Step 4) phases of the FusionMedAI framework:
+> [!NOTE]
+> **Historical Scope Note:** This chapter documents the state of the project at the completion of Volume 1. Later project phases subsequently completed architecture benchmarking, explainability, probability calibration, uncertainty estimation, and Retina Module integration.
+
+The project successfully completed the Dataset Preparation (Step 1), Data Pipeline (Step 2), Exploratory Data Analysis (Step 3), and Baseline Model Development (Step 4) phases of the FusionMedAI framework during this stage:
 - **Verified Directory Structure**: Established a standardized folder layout separating raw clinical data from processed arrays, metadata reports, and logs.
 - **Formulated Centralized Configuration**: Centralized paths, seeds, image size, learning rates, epochs, and DataLoader settings in `src/config.py`.
 - **Automated Data Quality Audits**: Developed verification scripts validating file existence, duplicate records, and formats.
@@ -90,20 +93,23 @@ flowchart TD
 
 ## Foundation for Subsequent Phases
 
-Volume 1 establishes the core structural components of the FusionMedAI project:
-✓ Dataset Preparation
-✓ Verification
-✓ Metadata
-✓ Dataset Split
-✓ Reproducibility
+Volume 1 established the core structural components of the Retina Module research pipeline:
 
-These outputs form the immutable foundation used directly in:
+✓ Dataset Preparation  
+✓ Verification  
+✓ Metadata  
+✓ Dataset Split  
+✓ Reproducibility  
 
-*   Volume 2 – Data Pipeline
-*   Volume 3 – Exploratory Data Analysis
-*   Volume 4 – Baseline Framework
-*   Volume 5 – Architecture Benchmarking
-*   Volume 6 – Model Explainability
-*   Volume 7 – Probability Calibration
+These outputs formed the immutable dataset foundation reused by:
 
-All subsequent Retina Module stages—including architecture benchmarking, explainability, and probability calibration—reuse the verified dataset established in this phase without requiring structural modifications.
+- Volume 2 – Data Pipeline
+- Volume 3 – Exploratory Data Analysis
+- Volume 4 – Baseline Framework
+- Volume 5 – Architecture Benchmarking
+- Volume 6 – Model Explainability
+- Volume 7 – Probability Calibration
+- Volume 8 – Prediction Uncertainty Estimation
+- Volume 9 – Retina Module Integration & Finalization
+
+The verified APTOS 2019 dataset and deterministic splits established in Volume 1 were retained as the foundation for subsequent Retina Module experiments.

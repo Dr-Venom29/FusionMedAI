@@ -32,6 +32,10 @@ This phase generates:
 - **`reports/`** – Automatically generated publication-ready PDF reports.
 - **`01_...` → `08_...`** – Detailed documentation covering methodology, Grad-CAM implementation, representative selection, clinical interpretation, experimental results, limitations, and conclusions.
 
-## Next Steps
+## Current Status
 
-The explainability outputs generated in this volume provide qualitative validation of the Retina Module and complement the probability calibration stage (Volume 07). Together, these components establish the foundation for **Volume 08: Uncertainty Estimation**, where predictive confidence and uncertainty will be quantified before final Retina Module integration.
+**Volume 06 – Model Explainability: ✅ Complete**
+
+The explainability pipeline is complete and frozen for the Retina Module. Its Grad-CAM generation methods were integrated into the unified inference pipeline to provide visual explanation maps in real-time.
+
+The next development phase is the **Foot Ulcer Module**, which will implement its own explainability pipeline to highlight wound boundaries and clinical zones in foot ulcer classification.

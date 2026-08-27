@@ -41,10 +41,12 @@ flowchart TD
     --> Explainability
     --> Calibration
     --> Uncertainty
-    --> RetinaModule
+    --> ModuleCompletion
 ```
 
-This standardized pipeline ensures that every module is independently validated before participating in multimodal fusion.
+For the Retina Module, this workflow currently terminates in the final Retina Module integration and verification stage.
+
+The same methodology will subsequently be applied independently to the Foot Ulcer and Clinical modules.
 
 ---
 
@@ -52,7 +54,7 @@ This standardized pipeline ensures that every module is independently validated 
 
 | Module            | Status                        |
 | ----------------- | ----------------------------- |
-| Retina Module     | 🔄 In Progress (Steps 1–8 Completed) |
+| Retina Module     | ✅ Complete                   |
 | Foot Ulcer Module | ⏳ Planned                     |
 | Clinical Module   | ⏳ Planned                     |
 | ACARA-U Fusion    | ⏳ Planned                     |

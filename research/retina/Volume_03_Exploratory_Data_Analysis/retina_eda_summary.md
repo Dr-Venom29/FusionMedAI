@@ -83,5 +83,7 @@ The preprocessing strategy defined in this phase was successfully reused during:
 • Step 5 – Architecture Benchmarking
 • Step 6 – Explainability
 • Step 7 – Probability Calibration
+• Step 8 – Prediction Uncertainty Estimation
+• Step 9 – Retina Module Integration & Finalization
 
-The next phase will investigate uncertainty estimation while maintaining the same standardized preprocessing pipeline.
+The next development phase is the **Foot Ulcer Module**, which will execute its own exploratory data analysis on the foot ulcer wound images.

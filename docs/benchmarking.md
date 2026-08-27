@@ -5,7 +5,7 @@ The fifth phase of FusionMedAI evaluated five distinct vision architectures unde
 ## Benchmark Protocol
 * **Frozen Settings**: Epochs=50, Patience=10, Batch=32, Image Size=224, Optimizer=AdamW, Scheduler=CosineAnnealingLR, Seed=42
 * **Loss Function**: Weighted Cross-Entropy (calculated dynamically)
-* **Dataset Splitting**: Identical stratified 70/15/15 splits loaded from Step 2
+* **Dataset Splitting**: Identical stratified 80/10/10 splits loaded from Step 2
 
 ## Hardware & Profiling
 * **Environment**: PyTorch AMP (Automatic Mixed Precision) utilized on CUDA.

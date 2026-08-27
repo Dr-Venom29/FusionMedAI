@@ -43,5 +43,7 @@ The proposed preprocessing strategy has been validated under:
 - Step 5 – Architecture Benchmarking
 - Step 6 – Explainability
 - Step 7 – Probability Calibration
+- Step 8 – Prediction Uncertainty Estimation
+- Step 9 – Retina Module Integration & Finalization
 
-Its influence on uncertainty estimation and multimodal fusion remains to be evaluated.
+Its influence on the upcoming clinical and foot ulcer modules, as well as multimodal fusion, remains to be evaluated.

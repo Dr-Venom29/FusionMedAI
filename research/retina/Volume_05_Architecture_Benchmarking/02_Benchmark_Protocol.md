@@ -5,7 +5,7 @@ To ensure a scientifically fair comparison, the benchmark design strictly freeze
 
 ## 2.2 Experimental Setup
 - **Dataset**: APTOS 2019 Blindness Detection
-- **Train/Val/Test Split**: 70/15/15 (Stratified, identical split for all runs)
+- **Train/Val/Test Split**: 80/10/10 (Stratified, identical split for all runs)
 - **Image Size**: 224x224 (Fixed across all architectures, including ViT)
 - **Batch Size**: 32
 - **Optimizer**: AdamW

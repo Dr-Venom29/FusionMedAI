@@ -23,6 +23,10 @@ In this phase, we implemented **Temperature Scaling**, a post-hoc calibration te
 - **`tables/`**: CSV and Markdown tables containing calibration metrics and quantitative comparisons.
 - **`reports/`**: Automatically generated publication-ready PDF reports summarizing the calibration experiments.
 
-## Next Steps
+## Current Status
 
-The calibrated probabilities produced in this volume form the foundation for **Step 8: Uncertainty Estimation**, where predictive uncertainty will be quantified before integration into the complete Retina Module and, ultimately, the ACARA-U multimodal fusion framework.
+**Volume 07 – Probability Calibration: ✅ Complete**
+
+Probability calibration is complete and frozen for the Retina Module. The learned Temperature parameter ($T \approx 1.6218$) was integrated into the unified Retina inference engine to scale logits inside each MC pass before softmax.
+
+The next development phase is the **Foot Ulcer Module**, which will calibrate its own classification scores using temperature scaling.

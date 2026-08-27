@@ -14,14 +14,20 @@ Evaluate CNN- and Transformer-based architectures using identical training confi
 
 **Completed Downstream Stages**
 
-- ✓ Volume 06 – Explainability (XAI)
+The selected EfficientNet-B3 backbone identified in this volume was utilized as the fixed foundation throughout the completed Retina stages:
+
+- ✓ Volume 06 – Model Explainability
 - ✓ Volume 07 – Probability Calibration
+- ✓ Volume 08 – Prediction Uncertainty Estimation
+- ✓ Volume 09 – Retina Module Integration & Finalization
 
-**Upcoming Stages**
+**Current Status**
 
-- → Volume 08 – Uncertainty Estimation
-- → Retina Module Integration
-- → Final Retina Module Evaluation
+**Volume 05 – Architecture Benchmarking: ✅ Complete**
+
+The benchmarking study is complete and frozen for the Retina Module. Its selection of EfficientNet-B3 establishes the backbone model used throughout all subsequent Retina development stages.
+
+The next development phase is the **Foot Ulcer Module**, which will execute its own backbone architecture benchmarking to identify the optimal feature extractor for foot ulcer classification.
 
 ## Folder Organization
 
