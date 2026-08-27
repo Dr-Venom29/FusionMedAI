@@ -15,7 +15,7 @@ FusionMedAI is a modular research framework for explainable multi-modal diabetic
 - ✓ Explainability Complete
 - ✓ Probability Calibration Complete
 - ✓ Uncertainty Estimation Complete
-- 🔄 Retina Module Integration
+- ✓ Retina Module Integration Complete
 - ⬜ Foot Ulcer Module
 - ⬜ Clinical Module
 - ⬜ ACARA-U Fusion
@@ -141,6 +141,7 @@ FusionMedAI/
 | VI | Model Explainability | ✅ |
 | VII | Probability Calibration | ✅ |
 | VIII | Prediction Uncertainty Estimation | ✅ |
+| IX | Retina Module Integration & Finalization | ✅ |
 
 Detailed documentation can be found in the `research/` directory.
 
