@@ -143,7 +143,7 @@ FusionMedAI/
 | VIII | Prediction Uncertainty Estimation | ✅ |
 | IX | Retina Module Integration & Finalization | ✅ |
 
-Detailed documentation can be found in the `research/` directory.
+Detailed documentation can be found in the `research/retina/` directory.
 
 ---
 
