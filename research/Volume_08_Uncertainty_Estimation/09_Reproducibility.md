@@ -7,7 +7,7 @@ This chapter details the configuration, system environment, and data/checkpoint 
 ## 9.1 Hardware and Operating System
 
 The baseline experiments were executed on the following host configuration:
-- **Operating System**: Microsoft Windows (Windows OS version `windows`)
+- **Operating System**: Microsoft Windows
 - **Execution Target**: Central Processing Unit (CPU)
 - **CUDA Device**: N/A (CPU-only execution verified)
 
@@ -17,8 +17,8 @@ The baseline experiments were executed on the following host configuration:
 
 The python environment was configured with the following package versions:
 - **Python**: `3.12.2 (tags/v3.12.2:6abddd9)`
-- **PyTorch**: `2.11.0+cpu` or compatible
-- **Torchvision**: `0.16.0+cpu` or compatible
+- **PyTorch**: `2.11.0+cpu`
+- **Torchvision**: `0.16.0+cpu`
 - **NumPy**: `1.26.4`
 - **Pandas**: `2.2.1`
 - **SciPy**: `1.12.0`

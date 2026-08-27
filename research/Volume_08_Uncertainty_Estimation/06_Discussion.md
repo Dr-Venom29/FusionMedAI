@@ -33,7 +33,7 @@ Diabetic Retinopathy grading is based on clinical criteria that are inherently c
 ### 6.2.1 Boundary Ambiguity
 The transition boundaries between adjacent grades (e.g., Mild vs. Moderate, or Moderate vs. Severe) are highly subjective. Even retinal specialists frequently disagree on these boundary cases due to variation in lesion counts.
 - **Model Behavior**: Our analysis shows that uncertainty metrics (such as calibrated entropy and mutual information) are elevated in these boundary zones.
-- **Clinical Insight**: Elevated epistemic uncertainty (Mutual Information) on a sample indicates that the model's parameters are split between two adjacent grades. Rather than signaling a failure of the network, this reflects the intrinsic clinical ambiguity of the scan.
+- **Clinical Insight**: Elevated Mutual Information indicates increased disagreement across stochastic model predictions and may identify cases near difficult grade boundaries or regions where the model has limited confidence in its learned representation.
 
 ---
 

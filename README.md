@@ -9,12 +9,14 @@ Retina • Clinical • Foot Ulcer • Multimodal Fusion
 
 FusionMedAI is a modular research framework for explainable multi-modal diabetic disease analysis. The project develops independent Retina, Clinical, and Foot Ulcer AI modules using reproducible engineering practices before integrating them through the uncertainty-aware ACARA-U Fusion Engine.
 
-**Current Status**
+## **Current Status**
+
 - ✓ Retina Benchmarking Complete
 - ✓ Explainability Complete
 - ✓ Probability Calibration Complete
-- 🔄 Uncertainty Estimation
-- ⬜ Foot Module
+- ✓ Uncertainty Estimation Complete
+- 🔄 Retina Module Integration
+- ⬜ Foot Ulcer Module
 - ⬜ Clinical Module
 - ⬜ ACARA-U Fusion
 
@@ -32,6 +34,8 @@ FusionMedAI is a modular research framework for explainable multi-modal diabetic
 - ✓ Verification
 - ✓ Explainable AI (Grad-CAM)
 - ✓ Probability Calibration
+- ✓ Uncertainty Estimation
+- ✓ Selective Prediction / Risk-Coverage Analysis
 
 ---
 
@@ -68,7 +72,10 @@ Complete benchmark methodology and results are available in **Research Volume 05
 - Five-model benchmark under identical experimental conditions
 - EfficientNet-B3 selected as the final retinal backbone
 - Modular PyTorch framework with reproducible experiment tracking
-- Comprehensive engineering documentation across seven research volumes
+- Comprehensive engineering documentation across eight research volumes
+- MC Dropout uncertainty estimation validated on the frozen EfficientNet-B3 test set
+- MC Predictive Variance achieved AUROC 0.8443 for prediction-error detection
+- N=25 MC passes empirically justified through convergence analysis
 - Reproducible end-to-end retinal AI research pipeline
 
 ---
@@ -101,7 +108,7 @@ Complete benchmark methodology and results are available in **Research Volume 05
 - **Multi-Modal Diagnostic Fusion**: Integrate clinical eye scans, demographic records, diabetic lab markers, and foot ulcer images into unified disease staging.
 - **Academic-Grade Reproducibility**: Enforce strict data validation, deterministic stratified splitting, and reproducible pipelines.
 - **Fail-Fast Clinical Engineering**: Ensure dataset integrity (e.g., shape, resolution, aspect ratio, label bounds, file corruption) is programmatically verified before training begins.
-- **Interpretability & Trust**: Build transparent models using Explainable AI (XAI) tools like SHAP and Integrated Gradients to support clinical decision-making.
+- **Interpretability & Trust**: Build transparent models using Explainable AI techniques such as Grad-CAM, with advanced methods such as SHAP and Integrated Gradients reserved for future extensions.
 
 ---
 
@@ -133,6 +140,7 @@ FusionMedAI/
 | V | Architecture Benchmarking | ✅ |
 | VI | Model Explainability | ✅ |
 | VII | Probability Calibration | ✅ |
+| VIII | Prediction Uncertainty Estimation | ✅ |
 
 Detailed documentation can be found in the `research/` directory.
 
@@ -219,6 +227,10 @@ Framework verification confirmed:
 - ✓ Inference
 - ✓ Explainability pipeline
 - ✓ Probability calibration pipeline
+- ✓ Uncertainty estimation pipeline
+- ✓ MC Dropout stochasticity validation
+- ✓ Risk-coverage analysis
+- ✓ MC convergence analysis
 
 **Detailed results**: `reports/framework_verification.md`
 
@@ -234,8 +246,8 @@ Framework verification confirmed:
 | v0.4.0  | Baseline Model Framework ✅ |
 | v0.5.0  | Architecture Benchmarking ✅ |
 | v0.6.0  | Explainability & Probability Calibration Complete |
-| v0.7.0  | Uncertainty Estimation |
-| v1.0.0  | Retina Module |
+| v0.7.0  | Uncertainty Estimation Complete |
+| v1.0.0  | Retina Module Integration |
 
 ---
 
@@ -246,13 +258,40 @@ Framework verification confirmed:
 - **v0.3.0 (Exploratory Data Analysis)**: Completed concurrent stats extraction, RGB profiling, duplicate audit, quality scoring, and automated reports. ✅
 - **v0.4.0 (Baseline Framework)**: Built custom model wrapper, factory, BaseClassifier, trainer, mixed precision (AMP), Early Stopping, checkpointing, standalone inference, and verification framework. ✅
 - **v0.5.0 (Architecture Benchmarking)**: Completed fair-benchmark comparison across 5 architectures, yielding EfficientNet-B3 as the final Retinal backbone. ✅
-- **v0.6.0 (Calibration, Explainability, Uncertainty)**:
+- **v0.6.0 (Explainability & Probability Calibration)**:
   Completed:
   • Explainability (Grad-CAM)
   • Probability Calibration (Temperature Scaling)
-  In Progress:
-  • Uncertainty Estimation
-- **v1.0.0 (Retina Module)**: Production release of explainable, calibrated Retina module.
+  • Reliability analysis
+  • Calibrated confidence evaluation
+  ✅
+
+- **v0.7.0 (Prediction Uncertainty Estimation)**:
+  Completed:
+  • MC Dropout uncertainty estimation
+  • Predictive entropy
+  • Expected entropy
+  • Mutual information
+  • Predictive variance
+  • Error-detection analysis
+  • Risk-coverage analysis
+  • AURC / E-AURC
+  • MC convergence analysis
+  • Representative uncertainty cases
+  • Grad-CAM correlation
+  • Publication figures and research tables
+  • Reproducibility documentation
+  ✅
+
+- **v1.0.0 (Retina Module Integration)**:
+  Integrate the selected EfficientNet-B3 backbone with:
+  • Probability calibration
+  • Grad-CAM explainability
+  • Uncertainty estimation
+  • Selective prediction
+  • Final Retina Module evaluation
+  🔄
+
 - **v2.0.0 (Foot Ulcer Module Complete)**: Integrate wound segmentation models.
 - **v3.0.0 (Clinical Module Complete)**: Integrate EHR structured features and classification networks.
 - **v4.0.0 (FusionMedAI Complete)**: Release unified multi-modal ACARA-U Fusion model.

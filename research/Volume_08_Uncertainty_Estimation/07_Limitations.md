@@ -25,8 +25,8 @@ We explicitly do not claim OOD detection capability based solely on the in-distr
 While MC Dropout provides richer uncertainty representations, its main drawback is computational expense.
 
 ### 7.2.1 Trade-off Analysis
-- **Inference Latency**: For $N = 25$ passes, inference requires 25 forward passes per sample. On CPU-only hardware (such as our host environment), deterministic inference takes $\approx 0.15$ seconds per image, whereas MC Dropout takes $\approx 3.75$ seconds per image.
-- **Hardware Footprint**: In resource-constrained clinical settings (e.g., portable fundus cameras, local clinic edge servers), a 25-fold latency penalty is often prohibitive for real-time screening.
+- **Inference Latency**: MC Dropout performs 25 stochastic forward passes per image. In the recorded CPU execution, the complete MC stage took approximately 6.2 minutes compared with approximately 2.0 minutes for deterministic inference on 367 test images, corresponding to an observed end-to-end runtime increase of roughly 3×. The computational burden remains substantially higher because the model is evaluated repeatedly.
+- **Hardware Footprint**: In resource-constrained clinical settings (e.g., portable fundus cameras, local clinic edge servers), this increased computational demand and latency overhead must be factored into real-time screening workflows.
 - **Energy and Carbon Footprint**: Scaled to millions of screening images annually, multi-pass inference consumes significantly more electricity compared to single-pass calibrated networks.
 
 ---

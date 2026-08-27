@@ -10,10 +10,10 @@ This volume presented an empirical study characterizing the prediction uncertain
    - The risk-coverage curves demonstrate a clear downward trend: as the most uncertain samples are rejected, the error rate (risk) on the remaining retained samples decreases. This validates the use of uncertainty thresholds for clinical referral workflows.
 2. **Deterministic Proxies are Competitive**:
    - Calibrated deterministic proxies (specifically calibrated confidence and normalized calibrated entropy) are highly effective at detecting model errors. Post-hoc temperature scaling ($T \approx 1.6218$) successfully aligns raw confidence with empirical accuracy, making single-pass inference highly reliable for failure detection.
-3. **Stochastic Decompositions Provide Clinical Value**:
-   - MC Dropout successfully decomposes uncertainty into aleatoric (data ambiguity) and epistemic (parameter disagreement) components. Mutual Information (MI) identifies borderline grade-confusion cases (adjacent Diabetic Retinopathy stages) and provides a safety layer for detecting silent failures.
-4. **Computational Latency is the Primary Constraint**:
-   - MC Dropout requires $N=25$ forward passes, introducing a 25-fold latency penalty. For clinical screening deployments, deterministic calibrated confidence remains the preferred operational baseline due to its $O(1)$ efficiency. However, MC Dropout serves as a powerful offline auditing tool for identifying clinical ambiguity.
+3. **Stochastic Uncertainty Metrics Provide Diagnostic Value**:
+   - Stochastic uncertainty metrics provide additional diagnostic information: MC Dropout exposes variation across stochastic predictions. Predictive entropy captures overall predictive uncertainty, while Mutual Information provides an epistemic-uncertainty proxy based on disagreement between stochastic predictions.
+4. **Computational Latency and Inference Costs**:
+   - MC Dropout requires 25 stochastic forward passes per image, producing a substantially higher computational cost than single-pass inference. In our CPU-only baseline execution, this ensembling step took approximately 6.2 minutes (a 3× end-to-end runtime increase compared to the 2.0-minute deterministic inference on 367 images). For clinical screening deployments, deterministic calibrated confidence remains the preferred operational baseline due to its $O(1)$ single-pass efficiency.
 
 ---
 
