@@ -5,11 +5,11 @@ import torch
 # Ensure project root is in sys.path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-import src.config as config
-from src.models.model_factory import load_model
-from src.training.checkpoint import save_checkpoint, load_checkpoint
-from src.training.optimizer import get_optimizer
-from src.training.scheduler import get_scheduler
+import src.retina.config as config
+from src.retina.models.model_factory import load_model
+from src.retina.training.checkpoint import save_checkpoint, load_checkpoint
+from src.retina.training.optimizer import get_optimizer
+from src.retina.training.scheduler import get_scheduler
 
 def verify_checkpoint():
     """

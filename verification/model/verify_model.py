@@ -5,9 +5,9 @@ import torch
 # Ensure project root is in sys.path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-from src.models.model_factory import load_model
-from src.models.base_classifier import BaseClassifier
-import src.config as config
+from src.retina.models.model_factory import load_model
+from src.retina.models.base_classifier import BaseClassifier
+import src.retina.config as config
 
 def verify_model():
     """

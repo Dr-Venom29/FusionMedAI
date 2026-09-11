@@ -10,7 +10,7 @@ from PIL import Image
 # Ensure project root is in sys.path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-from src.config import (
+from src.retina.config import (
     METADATA_DIR,
     METADATA_VALIDATION_DIR,
     METADATA_STATISTICS_DIR,

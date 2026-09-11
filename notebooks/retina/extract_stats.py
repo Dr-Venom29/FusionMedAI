@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Tuple, Dict, Any, List
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from src.config import (
+from src.retina.config import (
     METADATA_DIR,
     TRAIN_IMAGES,
     IMAGE_STATISTICS_CSV,

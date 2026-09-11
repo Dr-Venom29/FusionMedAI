@@ -58,7 +58,7 @@ The quantitative metrics obtained during the automated verification run are deta
 ---
 
 ## Files and Artifacts Generated
-Verification reports and diagnostic artifacts were automatically generated and stored under the workspace directories (`datasets/processed/splits/` and `datasets/metadata/`), including partition CSVs, class statistics indices, integrity reports, metadata summaries, duplicate detection logs, missing image reports, and dataset statistics. These artifacts provide a reproducible audit trail of the dataset preparation process.
+Verification reports and diagnostic artifacts were automatically generated and stored under the workspace directories (`datasets/retina/processed/splits/` and `datasets/retina/metadata/`), including partition CSVs, class statistics indices, integrity reports, metadata summaries, duplicate detection logs, missing image reports, and dataset statistics. These artifacts provide a reproducible audit trail of the dataset preparation process.
 
 ---
 

@@ -15,7 +15,7 @@ The Exploratory Data Analysis reveals that the APTOS 2019 dataset has high spati
 ---
 
 ## Preprocessing Candidate Specifications
-The parameters exported to `datasets/metadata/preprocessing_recommendations.json` are:
+The parameters exported to `datasets/retina/metadata/preprocessing_recommendations.json` are:
 
 - **Image Sizes**: `[224, 384, 512]` pixels. Candidate resolutions span low-, medium-, and high-resolution operating points to evaluate the trade-off between computational cost and preservation of fine retinal lesions.
 - **Augmentation Bounds**:

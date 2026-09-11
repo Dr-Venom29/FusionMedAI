@@ -24,7 +24,7 @@ Ensuring absolute reproducibility is critical for medical AI to verify clinical 
 - All paths, class definitions, and hyperparameters are declared in `src/config.py`. This prevents developers from introducing hardcoded paths or parameters in individual scripts, keeping the configuration consistent.
 
 ### 3. Immutable Raw Dataset
-- The `datasets/raw/` folder is treated as read-only. Scripts are blocked from writing to or modifying files in this directory. If a file is corrupted, it is logged in the metadata directory, keeping the raw dataset unmodified.
+- The `datasets/retina/raw/` folder is treated as read-only. Scripts are blocked from writing to or modifying files in this directory. If a file is corrupted, it is logged in the metadata directory, keeping the raw dataset unmodified.
 
 ### 4. Deterministic Dataset Splitting
 - The dataset splitting procedure employs `train_test_split()` with `random_state=42` and stratified sampling. Consequently, repeated executions generate identical training, validation, and testing partitions while preserving class distributions.
@@ -127,12 +127,12 @@ python -m pip install -r requirements.txt
 ```
 
 ### Step 3: Set Up the Directory Structure
-Create the following directories if they do not already exist: `datasets/raw/aptos2019`, `datasets/interim`, `datasets/processed`, and `datasets/metadata`.
+Create the following directories if they do not already exist: `datasets/retina/raw/aptos2019`, `datasets/interim`, `datasets/processed`, and `datasets/metadata`.
 
 ### Step 4: Download and Place the Dataset
 1. Download the APTOS 2019 Blindness Detection dataset from Kaggle:
    [https://www.kaggle.com/competitions/aptos2019-blindness-detection](https://www.kaggle.com/competitions/aptos2019-blindness-detection)
-2. Extract the downloaded files directly into `datasets/raw/aptos2019/`, ensuring it contains:
+2. Extract the downloaded files directly into `datasets/retina/raw/aptos2019/`, ensuring it contains:
    - `train_images/`
    - `test_images/`
    - `train.csv`
@@ -144,27 +144,27 @@ Run the verification script to audit the dataset and check for errors:
 ```bash
 python verification/data/verify_dataset.py
 ```
-This script will verify files, check image modes, verify labels, and generate reports under the `datasets/metadata/` subdirectories:
-- `datasets/metadata/validation/verification_report.json`
+This script will verify files, check image modes, verify labels, and generate reports under the `datasets/retina/metadata/` subdirectories:
+- `datasets/retina/metadata/validation/verification_report.json`
 - `logs/verification.log`
-- `datasets/metadata/statistics/image_sizes.csv`
-- `datasets/metadata/validation/missing_images.csv`
-- `datasets/metadata/validation/corrupted_images.csv`
-- `datasets/metadata/validation/duplicate_ids.csv`
-- `datasets/metadata/validation/missing_test_images.csv`
-- `datasets/metadata/validation/duplicate_test_ids.csv`
+- `datasets/retina/metadata/statistics/image_sizes.csv`
+- `datasets/retina/metadata/validation/missing_images.csv`
+- `datasets/retina/metadata/validation/corrupted_images.csv`
+- `datasets/retina/metadata/validation/duplicate_ids.csv`
+- `datasets/retina/metadata/validation/missing_test_images.csv`
+- `datasets/retina/metadata/validation/duplicate_test_ids.csv`
 
 ### Step 6: Generate Dataset Metadata
 Run the metadata generation script to create the files required for training:
 ```bash
-python src/data/generate_metadata.py
+python src/retina/data/generate_metadata.py
 ```
 This script will produce:
-- `datasets/metadata/statistics/train_metadata.csv`
-- `datasets/metadata/statistics/class_distribution.csv`
-- `datasets/metadata/statistics/dataset_statistics.json`
-- `datasets/metadata/statistics/image_statistics.csv`
-- `datasets/metadata/quality/quality_statistics.csv`
+- `datasets/retina/metadata/statistics/train_metadata.csv`
+- `datasets/retina/metadata/statistics/class_distribution.csv`
+- `datasets/retina/metadata/statistics/dataset_statistics.json`
+- `datasets/retina/metadata/statistics/image_statistics.csv`
+- `datasets/retina/metadata/quality/quality_statistics.csv`
 
 Following these steps will reproduce identical metadata files, verification reports, dataset statistics, and dataset split results (when deterministic procedures are used).
 

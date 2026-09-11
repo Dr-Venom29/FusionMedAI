@@ -8,15 +8,15 @@ import numpy as np
 # Ensure project root is in sys.path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-import src.config as config
-from src.retina_module import RetinaModule
+import src.retina.config as config
+from src.retina.retina_module import RetinaModule
 
 def main():
     checkpoint_path = Path(config.PROJECT_ROOT) / "experiments" / "efficientnet_b3" / "checkpoints" / "best_model.pt"
     module = RetinaModule(checkpoint_path=checkpoint_path, device="cpu")
     
     # Locate test image
-    img_path = Path(config.PROJECT_ROOT) / "datasets" / "raw" / "aptos2019" / "train_images" / "000c1434d8d7.png"
+    img_path = config.TRAIN_IMAGES / "000c1434d8d7.png"
     assert img_path.exists(), f"Sample image not found at {img_path}"
     
     # Run prediction (25 passes for final high-quality stats matching Step 8)

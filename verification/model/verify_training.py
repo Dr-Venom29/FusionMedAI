@@ -8,15 +8,15 @@ from torch.cuda.amp import GradScaler
 # Ensure project root is in sys.path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-import src.config as config
-from src.models.model_factory import load_model
-from src.training.losses import get_loss_fn
-from src.training.optimizer import get_optimizer
-from src.training.scheduler import get_scheduler
-from src.training.train import train_epoch
-from src.training.validate import validate_epoch
-from src.training.early_stopping import EarlyStopping
-from src.training.metrics import calculate_metrics
+import src.retina.config as config
+from src.retina.models.model_factory import load_model
+from src.retina.training.losses import get_loss_fn
+from src.retina.training.optimizer import get_optimizer
+from src.retina.training.scheduler import get_scheduler
+from src.retina.training.train import train_epoch
+from src.retina.training.validate import validate_epoch
+from src.retina.training.early_stopping import EarlyStopping
+from src.retina.training.metrics import calculate_metrics
 
 def verify_training():
     """

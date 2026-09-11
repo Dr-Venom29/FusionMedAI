@@ -52,7 +52,7 @@ The Step 8 uncertainty estimation pipeline has been executed and verified:
 To execute the uncertainty estimation pipeline, run the following command from the project root:
 
 ```powershell
-python src/uncertainty.py --checkpoint experiments/efficientnet_b3/checkpoints/best_model.pt --model efficientnet_b3 --mc-passes 25 --save-plots
+python src/retina/uncertainty.py --checkpoint experiments/efficientnet_b3/checkpoints/best_model.pt --model efficientnet_b3 --mc-passes 25 --save-plots
 ```
 
 The script performs:

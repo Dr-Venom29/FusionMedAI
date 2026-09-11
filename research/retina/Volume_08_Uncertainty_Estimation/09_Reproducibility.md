@@ -35,7 +35,7 @@ We evaluated the best pre-trained EfficientNet-B3 baseline model:
 
 ### 9.3.2 Test Dataset Split
 We evaluated predictions on the frozen validation-test split:
-- **CSV Split Path**: `datasets/processed/splits/test.csv`
+- **CSV Split Path**: `datasets/retina/processed/splits/test.csv`
 - **Dataset Size**: $367$ retinal scans
 - **SHA-256 Checksum**: `9ea965cf4502dfcbcc871f308a3fa38e6ff5a7f9859f13e73a0e5f98cf48c3b9` (re-computed from actual test split file)
 

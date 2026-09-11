@@ -19,9 +19,14 @@ __pycache__/
 # Dataset
 # ======================================
 
+datasets/*/raw/
+datasets/*/processed/
+datasets/*/interim/
+datasets/*/metadata/
 datasets/raw/
 datasets/processed/
 datasets/interim/
+datasets/metadata/
 
 # Keep dataset documentation
 !datasets/README.md

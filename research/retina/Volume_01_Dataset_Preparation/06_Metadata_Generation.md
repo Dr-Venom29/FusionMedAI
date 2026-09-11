@@ -100,7 +100,7 @@ The pre-generated metadata is reused across multiple stages of the FusionMedAI p
 
 ```mermaid
 flowchart TD
-    Meta[datasets/metadata/]
+    Meta[datasets/retina/metadata/]
     Meta --> EDA[EDA & Quality Analysis]
     Meta --> DS[PyTorch Dataset]
     Meta --> Loss[Loss Function Weighting]

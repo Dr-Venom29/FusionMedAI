@@ -8,8 +8,8 @@ from PIL import Image
 # Ensure project root is in sys.path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-import src.config as config
-from src.retina_module import RetinaModule
+import src.retina.config as config
+from src.retina.retina_module import RetinaModule
 
 def verify_retina_module_acceptance():
     """
@@ -27,7 +27,7 @@ def verify_retina_module_acceptance():
     print("[1/9] Verifying file presence...")
     checkpoint_path = Path(config.PROJECT_ROOT) / "experiments" / "efficientnet_b3" / "checkpoints" / "best_model.pt"
     required_files = [
-        ("Retina Module source", Path(config.PROJECT_ROOT) / "src" / "retina_module.py"),
+        ("Retina Module source", Path(config.PROJECT_ROOT) / "src" / "retina" / "retina_module.py"),
         ("Verification script", Path(config.PROJECT_ROOT) / "verification" / "model" / "verify_retina_module.py"),
         ("EfficientNet-B3 Checkpoint", checkpoint_path),
         ("Step 8 Predictions CSV", Path(config.PROJECT_ROOT) / "results" / "uncertainty" / "predictions.csv"),
@@ -76,7 +76,7 @@ def verify_retina_module_acceptance():
     # 4. Multi-Image Acceptance & State Isolation Test (3 Images)
     # ----------------------------------------------------
     print("\n[4/9] Executing multi-image test (3 images) for state isolation...")
-    test_images_dir = Path(config.PROJECT_ROOT) / "datasets" / "raw" / "aptos2019" / "train_images"
+    test_images_dir = config.TRAIN_IMAGES
     sample_images = sorted(list(test_images_dir.glob("*.png")))
     
     assert len(sample_images) >= 3, f"At least 3 images required in {test_images_dir} for multi-image testing."

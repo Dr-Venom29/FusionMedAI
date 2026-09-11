@@ -6,8 +6,8 @@ from PIL import Image
 # Ensure project root is in sys.path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-from src.config import IMAGE_SIZE
-from src.data.transforms import (
+from src.retina.config import IMAGE_SIZE
+from src.retina.data.transforms import (
     get_train_transforms,
     get_val_transforms,
     get_test_transforms

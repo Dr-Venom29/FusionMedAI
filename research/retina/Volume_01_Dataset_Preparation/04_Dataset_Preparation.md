@@ -34,19 +34,19 @@ datasets/
 
 ### Purpose of Each Directory:
 
-1. **`datasets/raw/`**:
+1. **`datasets/retina/raw/`**:
    - Stores the absolute raw clinical data exactly as it was downloaded from the source (e.g., Kaggle, clinics). This directory is treated as an **immutable artifact**.
    - Under no circumstances should any script modify, move, rename, or write files to this folder after download.
    
-2. **`datasets/interim/`**:
+2. **`datasets/retina/interim/`**:
    - Reserved for intermediate data that has undergone partial transformations.
    - Examples include temporary resized images, intermediate formats (like converting TIFFs to PNGs), or unstratified temporary splits.
    
-3. **`datasets/processed/`**:
+3. **`datasets/retina/processed/`**:
    - Stores the final, ready-to-train datasets.
    - Examples include cropped, normalized, and resized tensors, stratified training/validation folds, or preprocessed clinical tabular arrays.
    
-4. **`datasets/metadata/`**:
+4. **`datasets/retina/metadata/`**:
    - Stores all generated diagnostic reports, log files, image dimension records, and dataset summaries produced during verification and auditing.
    - Centralizing this directory allows Jupyter Notebooks, PyTorch datasets, and scripts to reference pre-computed values without reading raw image files dynamically.
 
@@ -60,7 +60,7 @@ In medical AI research, overwriting original images is a dangerous practice. Ove
 
 ### Alignment with FAIR Data Principles
 The directory architecture is designed to support the **FAIR Data Principles** (Wilkinson et al., 2016):
-- **Findable**: The separation of metadata into `datasets/metadata/` enables clinical researchers to find dataset properties (resolutions, class counts) quickly.
+- **Findable**: The separation of metadata into `datasets/retina/metadata/` enables clinical researchers to find dataset properties (resolutions, class counts) quickly.
 - **Accessible**: Raw and processed files are organized under standard directories with well-documented paths, ensuring they are accessible to programmatic scripts.
 - **Interoperable**: Using standard, non-proprietary file formats (PNG for raw images, CSV and JSON for metadata) guarantees compatibility across different operating systems and deep learning frameworks.
 - **Reusable**: Retaining the immutable raw data ensures that the dataset can be reused for future studies—such as training new backbones, evaluating alternative augmentation strategies, or performing cross-dataset validations.
@@ -69,7 +69,7 @@ The directory architecture is designed to support the **FAIR Data Principles** (
 The directory architecture was designed to support computational reproducibility. Because raw data remain immutable, every experiment can be reconstructed from the original source files, the metadata, and preprocessing scripts without manual intervention.
 
 ### Scalability to Multiple Datasets
-The modular organization also allows additional datasets (e.g., IDRiD, DFUC, PIMA) to be incorporated without modifying existing project logic. Each new dataset is assigned its own subdirectory under `datasets/raw/` and `datasets/processed/`, allowing the verification and training scripts to scale to multi-site clinical configurations seamlessly.
+The modular organization also allows additional datasets (e.g., IDRiD, DFUC, PIMA) to be incorporated without modifying existing project logic. Each new dataset is assigned its own subdirectory under `datasets/retina/raw/` and `datasets/retina/processed/`, allowing the verification and training scripts to scale to multi-site clinical configurations seamlessly.
 
 ### Separation of Metadata
 Keeping metadata separate from image files avoids repeated disk scanning, improves preprocessing efficiency, and enables rapid EDA without reopening thousands of images. This separates lightweight data queries from heavy file I/O operations, improving execution speed.
@@ -113,11 +113,11 @@ flowchart TD
 *Figure 4.2: Unidirectional data flow from download to deployment.*
 
 1. **Source Acquisition**: The workflow begins with acquisition of the original dataset from the official source.
-2. **Raw Dataset Extraction**: Files are extracted to the immutable `datasets/raw/aptos2019/` directory.
+2. **Raw Dataset Extraction**: Files are extracted to the immutable `datasets/retina/raw/aptos2019/` directory.
 3. **Verification**: Automated checks are run to perform integrity audits, generating CSV logs of any corrupted files, missing entries, or duplicate records.
 4. **Metadata Generation**: A metadata extraction process runs to synthesize master metadata CSVs, class distributions, and size statistics.
 5. **EDA**: Data scientists load the generated metadata files to perform statistical analysis and decide on augmentation and cropping parameters.
-6. **Preprocessing & Splitting**: The raw images are programmatically partitioned and written to `datasets/processed/` based on metadata guides.
+6. **Preprocessing & Splitting**: The raw images are programmatically partitioned and written to `datasets/retina/processed/` based on metadata guides.
 7. **Dataset Loading**: Custom PyTorch dataset instances load images lazily and apply transforms.
 8. **DataLoader Batching**: DataLoader batches images and transfers tensors to the training device.
 9. **Training**: The PyTorch model reads files from the processed directory and runs training epochs.

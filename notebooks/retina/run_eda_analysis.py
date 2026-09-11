@@ -15,7 +15,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.append(str(project_root))
 
-from src.config import (
+from src.retina.config import (
     METADATA_DIR,
     TRAIN_IMAGES,
     IMAGE_STATISTICS_CSV,
@@ -822,8 +822,8 @@ The exploratory analysis successfully characterized the APTOS 2019 dataset and d
                     "import cv2\n",
                     "from pathlib import Path\n",
                     "\n",
-                    "# Imports from src.config\n",
-                    "from src.config import (\n",
+                    "# Imports from src.retina.config\n",
+                    "from src.retina.config import (\n",
                     "    EDA_STATISTICS_CSV,\n",
                     "    EDA_SUMMARY_JSON,\n",
                     "    PREPROCESSING_RECOMMENDATIONS_JSON,\n",

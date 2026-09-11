@@ -8,7 +8,7 @@ import torch
 # Ensure project root is in sys.path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-from src.config import (
+from src.retina.config import (
     TRAIN_SPLIT_CSV,
     VAL_SPLIT_CSV,
     TEST_SPLIT_CSV,
@@ -21,7 +21,7 @@ from src.config import (
     BATCH_SIZE,
     IMAGE_SIZE
 )
-from src.data.dataloader import create_dataloaders
+from src.retina.data.dataloader import create_dataloaders
 
 def verify_csvs() -> Tuple[bool, dict]:
     print("Verifying split CSVs...")

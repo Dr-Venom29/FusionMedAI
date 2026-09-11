@@ -18,7 +18,7 @@ graph TD
 ## Architectural Design Decisions & Rationale
 
 ### 1. CSV References vs. Copying Physical Images
-- **Decision**: Save splits as lightweight CSV referencing files in `datasets/processed/splits/` while keeping all raw images in `datasets/raw/aptos2019/train_images/`.
+- **Decision**: Save splits as lightweight CSV referencing files in `datasets/retina/processed/splits/` while keeping all raw images in `datasets/retina/raw/aptos2019/train_images/`.
 - **Reasoning**: Copying images to new folders (e.g. `train/`, `val/`, `test/` directories) would duplicate 3,662 high-resolution files, consuming an extra ~8.4 GB of disk space. Storing only references avoids wasting storage, keeps a single source of truth for raw data, and enables instantaneous split updates by simply rewriting small text files.
 
 ### 2. Decoupled Pipeline Modules

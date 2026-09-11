@@ -6,7 +6,7 @@ import torch
 # Ensure project root is in sys.path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-from src.config import (
+from src.retina.config import (
     BATCH_SIZE,
     IMAGE_SIZE,
     TRAIN_SPLIT_CSV,
@@ -14,7 +14,7 @@ from src.config import (
     TEST_SPLIT_CSV,
     NUM_CLASSES
 )
-from src.data.dataloader import create_dataloaders
+from src.retina.data.dataloader import create_dataloaders
 
 def test_train_dataloader() -> None:
     print("Test 1: Train DataLoader verification...")

@@ -9,8 +9,8 @@ from torchvision import transforms
 # Ensure project root is in sys.path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-from src.config import TRAIN_SPLIT_CSV, TRAIN_IMAGES, ID_COLUMN, LABEL_COLUMN, VALID_LABELS
-from src.data.dataset import RetinaDataset
+from src.retina.config import TRAIN_SPLIT_CSV, TRAIN_IMAGES, ID_COLUMN, LABEL_COLUMN, VALID_LABELS
+from src.retina.data.dataset import RetinaDataset
 
 def test_dataset_loading() -> None:
     print("Test 1: Basic instantiation and length verification...")

@@ -41,12 +41,12 @@ The primary quantitative metrics obtained during the automated EDA run are:
 
 | Deliverable | Location | Status |
 | :--- | :--- | :---: |
-| **Descriptive CSV Statistics** | `datasets/metadata/eda_statistics.csv` | ✅ |
-| **Descriptive Parquet Statistics** | `datasets/metadata/eda_statistics.parquet` | ✅ |
-| **Quality Flags List** | `datasets/metadata/quality_flags.csv` | ✅ |
-| **Visual Duplicate List** | `datasets/metadata/duplicate_images.csv` | ✅ |
-| **Descriptive JSON Summary** | `datasets/metadata/eda_summary.json` | ✅ |
-| **Preprocessing Guidelines** | `datasets/metadata/preprocessing_recommendations.json` | ✅ |
+| **Descriptive CSV Statistics** | `datasets/retina/metadata/eda_statistics.csv` | ✅ |
+| **Descriptive Parquet Statistics** | `datasets/retina/metadata/eda_statistics.parquet` | ✅ |
+| **Quality Flags List** | `datasets/retina/metadata/quality_flags.csv` | ✅ |
+| **Visual Duplicate List** | `datasets/retina/metadata/duplicate_images.csv` | ✅ |
+| **Descriptive JSON Summary** | `datasets/retina/metadata/eda_summary.json` | ✅ |
+| **Preprocessing Guidelines** | `datasets/retina/metadata/preprocessing_recommendations.json` | ✅ |
 | **Publication Figures (14 files)** | `research/retina/Volume_03_Exploratory_Data_Analysis/images/Fig_03_*` (PNG) | ✅ |
 | **Summary Dashboard** | `results/retina/summary_dashboard.png` | ✅ |
 | **PDF Summary Report** | `reports/retina_eda_summary.pdf` | ❌ (Deleted; MD is single source of truth) |

@@ -39,10 +39,10 @@ The following files were added to the project structure:
 - `src/data/verify_transforms.py`
 - `src/data/verify_dataloader.py`
 - `src/data/verify_pipeline.py`
-- `datasets/processed/splits/train.csv`
-- `datasets/processed/splits/val.csv`
-- `datasets/processed/splits/test.csv`
-- `datasets/processed/splits/split_statistics.json`
+- `datasets/retina/processed/splits/train.csv`
+- `datasets/retina/processed/splits/val.csv`
+- `datasets/retina/processed/splits/test.csv`
+- `datasets/retina/processed/splits/split_statistics.json`
 
 ### 3. Engineering Achievements
 - **Reproducible 80/10/10 Stratified Dataset Split**: Partitions the APTOS retinal image dataset while strictly maintaining class ratios across all subsets.

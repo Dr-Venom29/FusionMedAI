@@ -20,9 +20,9 @@ The FusionMedAI data pipeline is built around modular, decoupled components conf
 ```mermaid
 graph TD
     A[Raw train.csv] --> B[split_dataset.py]
-    B --> C[datasets/processed/splits/train.csv]
-    B --> D[datasets/processed/splits/val.csv]
-    B --> E[datasets/processed/splits/test.csv]
+    B --> C[datasets/retina/processed/splits/train.csv]
+    B --> D[datasets/retina/processed/splits/val.csv]
+    B --> E[datasets/retina/processed/splits/test.csv]
     C --> F[RetinaDataset]
     D --> F
     E --> F
