@@ -1,0 +1,50 @@
+{
+  "audit_phase": "10.1.J",
+  "dataset_name": "Diabetic Foot Ulcer (DFU) Wagner 4-Class Dataset",
+  "access_point": {
+    "platform": "Kaggle",
+    "repository_name": "DFU_Dataset_annotated_into_4_classes",
+    "role": "Public mirror / host repository"
+  },
+  "intermediate_processing_platform": {
+    "platform": "Roboflow Universe",
+    "project_name": "ADPM V3.3 Classification",
+    "url": "https://universe.roboflow.com/adpm/adpm-v3.3-classification",
+    "user_account": "adpm",
+    "export_date": "2025-04-05T04:35:00Z",
+    "version": "v4"
+  },
+  "provenance_lineage": {
+    "kaggle_uploader_vs_creator": "Kaggle uploader is a community mirror host; the dataset was curated/exported via Roboflow by account 'adpm'.",
+    "license_vs_original_provenance": "Declared license (MIT) reflects Roboflow export settings. Underlying primary photography derives from clinical DFU image collections.",
+    "raw_images_count": 10062,
+    "unique_source_images_count": 1770,
+    "offline_expansion_ratio": 5.68
+  },
+  "license": {
+    "declared_license": "MIT",
+    "license_source": "README.dataset.txt / Roboflow Universe Export",
+    "redistribution_terms": "Permissible for non-commercial research and commercial development, subject to retaining original copyright notice and permission notice.",
+    "warranty_disclaimer": "Provided 'AS IS' without warranty of any kind, explicit or implied."
+  },
+  "medical_annotation_claims": {
+    "classification_system": "Wagner-Meggitt Classification System (Grades 1-4)",
+    "annotation_classes": {
+      "Grade 1": "Superficial ulcer (full skin thickness, no subcutaneous involvement)",
+      "Grade 2": "Deep ulcer (penetrating to tendon, ligament, or capsule, without bone involvement)",
+      "Grade 3": "Deep ulcer with abscess, osteomyelitis, or joint sepsis",
+      "Grade 4": "Localized gangrene (forefoot or heel)"
+    },
+    "clinical_verification_note": "Annotations categorize DFU into 4 Wagner grades. Specific clinician IDs and inter-rater agreement metrics are not provided in export metadata."
+  },
+  "citation_requirements": [
+    {
+      "type": "Dataset",
+      "citation": "adpm. (2025). ADPM V3.3 Classification [Dataset]. Roboflow Universe. https://universe.roboflow.com/adpm/adpm-v3.3-classification"
+    },
+    {
+      "type": "Clinical Classification",
+      "citation": "Wagner, F. W. (1981). The dysvascular foot: a system for diagnosis and treatment. Foot & Ankle, 2(2), 64-122."
+    }
+  ]
+}

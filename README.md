@@ -1,254 +1,323 @@
 # FusionMedAI
 > Explainable Multi-Modal AI Framework for Diabetic Disease Analysis
 
-Retina • Clinical • Foot Ulcer • Multimodal Fusion
+Retina • Foot Ulcer • Clinical • Multimodal Fusion
 
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120/)
 [![PyTorch 2.4](https://img.shields.io/badge/pytorch-2.4-orange.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-FusionMedAI is a modular research framework for explainable multi-modal diabetic disease analysis. The project develops independent Retina, Clinical, and Foot Ulcer AI modules using reproducible engineering practices before integrating them through the uncertainty-aware ACARA-U Fusion Engine.
+FusionMedAI is a research framework for developing and evaluating independent AI modules for diabetic disease analysis and subsequently combining their outputs through an uncertainty-aware multimodal fusion layer.
 
-## **Current Status**
-
-- ✓ Retina Dataset Preparation
-- ✓ Retina Data Pipeline
-- ✓ Retina EDA & Data Quality Analysis
-- ✓ Retina Baseline Framework
-- ✓ Retina Architecture Benchmarking
-- ✓ Retina Explainability (Grad-CAM)
-- ✓ Retina Probability Calibration
-- ✓ Retina Uncertainty Estimation
-- ✓ Retina Module Integration & Acceptance Testing
-
-- ✓ Foot Ulcer Dataset Preparation & Audit
-- ⬜ Foot Ulcer Data Pipeline
-- ⬜ Foot Ulcer EDA & Data Quality Analysis
-- ⬜ Foot Ulcer Baseline Framework
-- ⬜ Foot Ulcer Architecture Benchmarking
-- ⬜ Foot Ulcer Explainability
-- ⬜ Foot Ulcer Probability Calibration
-- ⬜ Foot Ulcer Uncertainty Estimation
-- ⬜ Foot Ulcer Module Integration
-
-- ⬜ Clinical Module
-- ⬜ ACARA-U Multimodal Fusion
+The framework currently includes a completed retinal imaging pipeline and an independently developed diabetic foot-ulcer pipeline. The clinical module and multimodal fusion layer remain under development.
 
 ---
 
-## ✨ Core Infrastructure
+## Current Status
 
-- ✓ Dataset verification
+### Retina Module
+- ✓ Dataset preparation
 - ✓ Data pipeline
-- ✓ EDA
-- ✓ Modular training
-- ✓ Benchmarking
-- ✓ Experiment tracking
-- ✓ Inference
-- ✓ Verification
-- ✓ Explainable AI (Grad-CAM)
-- ✓ Probability Calibration
-- ✓ Uncertainty Estimation
-- ✓ Selective Prediction / Risk-Coverage Analysis
-- ✓ Retina Module Integration
-- ✓ Retina Module Acceptance Testing
-- ✓ Foot Ulcer Dataset Audit & Decision (Phase 10.1)
+- ✓ Exploratory data analysis and dataset quality assessment
+- ✓ Baseline framework
+- ✓ Architecture benchmarking
+- ✓ Grad-CAM explainability
+- ✓ Probability calibration
+- ✓ Uncertainty estimation
+- ✓ Module integration
+- ✓ Acceptance testing
+
+### Foot Ulcer Module
+- ✓ Dataset acquisition and audit
+- ✓ Canonical dataset construction
+- ✓ Source-image grouping
+- ✓ Near-duplicate and conflict analysis
+- ✓ Group-stratified train/validation/test splitting
+- ✓ Dataset implementation
+- ✓ Image preprocessing and augmentation pipeline
+- ✓ DataLoader implementation
+- ✓ End-to-end pipeline verification
+- ⬜ Exploratory data analysis and dataset quality assessment
+- ⬜ Baseline framework
+- ⬜ Architecture benchmarking
+- ⬜ Explainability
+- ⬜ Probability calibration
+- ⬜ Uncertainty estimation
+- ⬜ Module integration
+
+### Remaining Modules
+- ⬜ Clinical module
+- ⬜ ACARA-U multimodal fusion
 
 ---
 
-## 🏗️ Architecture
-
-The following diagram illustrates the multi-modal diagnostic flow of the FusionMedAI framework, from raw heterogeneous ingestion to multi-level predictive fusion:
+## Architecture
 
 ![System Architecture](docs/architecture_v1.png)
 
-*Figure 1: High-level architectural overview of the FusionMedAI multi-modal pipeline.*
+*Figure 1. High-level architecture of the FusionMedAI framework.*
+
+FusionMedAI is organized as a sequence of independent modality-specific pipelines followed by a multimodal fusion stage.
+
+Each modality is developed and evaluated independently before integration. The current architecture comprises:
+
+- **Retina Module** — diabetic retinopathy assessment from fundus images.
+- **Foot Ulcer Module** — Wagner-grade classification from diabetic foot-ulcer images.
+- **Clinical Module** — structured clinical risk assessment; under development.
+- **ACARA-U Fusion Engine** — uncertainty- and reliability-aware aggregation of modality outputs; under development.
+
+The fusion layer is designed to operate on modality-level risk, confidence, reliability, and uncertainty information rather than directly combining raw modality features.
 
 ---
 
-## 🔬 Retina Backbone Selection
+## Research Methodology
 
-A controlled benchmark was conducted across five state-of-the-art vision architectures under identical experimental settings:
+The project follows the same general development sequence for each modality:
 
+```text
+Dataset Preparation
+        ↓
+Data Pipeline
+        ↓
+EDA & Dataset Quality
+        ↓
+Baseline Framework
+        ↓
+Architecture Benchmarking
+        ↓
+Explainability
+        ↓
+Probability Calibration
+        ↓
+Uncertainty Estimation
+        ↓
+Module Integration
+        ↓
+Multimodal Fusion
+```
+
+This separation is intentional. Dataset validation, model evaluation, calibration, uncertainty estimation, and integration are treated as separate research stages rather than being combined into a single training workflow.
+
+---
+
+## Retina Module
+
+The Retina module has completed its full independent development cycle.
+
+### Dataset
+The module uses the APTOS 2019 diabetic retinopathy dataset. The dataset is not distributed with this repository and must be obtained separately.
+
+### Backbone Selection
+Five architectures were evaluated under a controlled benchmarking procedure:
 - EfficientNet-B0
 - EfficientNet-B3
 - ConvNeXt-Tiny
 - Swin-Tiny
 - ViT-B/16
 
-**Selected Backbone: EfficientNet-B3**
+**Selected backbone**: EfficientNet-B3
 
-EfficientNet-B3 was selected as the final Retina backbone based on its strongest overall combination of classification accuracy, QWK, parameter efficiency, and resource requirements.
+EfficientNet-B3 was retained as the final Retina backbone based on the overall benchmark evaluation, including classification performance, quadratic weighted kappa, parameter count, and computational requirements.
 
-ConvNeXt-Tiny achieved higher Balanced Accuracy, Macro F1, ROC-AUC, and inference throughput, but required substantially more parameters.
+The complete methodology and benchmark results are documented in Research Volume V — Architecture Benchmarking.
 
-Complete benchmark methodology and results are available in **Research Volume 05 – Architecture Benchmarking**.
+### Calibration and Uncertainty
+The final Retina model uses:
+- Temperature Scaling for probability calibration
+- MC Dropout for predictive uncertainty estimation
+- Predictive entropy
+- Mutual information
+- Risk-coverage analysis
+- Grad-CAM for visual explanation
 
----
+On the frozen Retina test set, MC predictive variance achieved an AUROC of 0.8443 for prediction-error detection. The MC Dropout configuration was evaluated for convergence, with 25 stochastic passes selected for the final implementation.
 
-## 🌟 Research Highlights
-
-- Five-model retinal architecture benchmark under identical experimental conditions
-- EfficientNet-B3 selected as the final Retina backbone
-- Modular PyTorch framework with reproducible experiment tracking
-- Research documentation spanning nine Retina research volumes
-- Grad-CAM explainability integrated into the Retina inference pipeline
-- Temperature Scaling used for probability calibration
-- MC Dropout uncertainty estimation validated on the frozen EfficientNet-B3 test set
-- MC Predictive Variance achieved AUROC 0.8443 for prediction-error detection
-- N=25 MC passes empirically supported through convergence analysis
-- End-to-end Retina Module acceptance testing completed
-- Foot Ulcer Phase 10.1 audit completed (10,062 images, Wagner 4-class, Conditional Pass)
+### Integration
+The final Retina module combines prediction, calibrated confidence, uncertainty estimation, and Grad-CAM into a unified inference output. The integrated module has passed its acceptance tests.
 
 ---
 
-## 🛠️ Tech Stack
+## Foot Ulcer Module
 
-**Language**
-- Python 3.12
+The Foot Ulcer module uses the ADPM V3.3 Diabetic Foot Ulcer Classification dataset, organized into four Wagner-based classes:
 
-**Deep Learning**
-- PyTorch
-- Torchvision
+| Class | Description |
+| :--- | :--- |
+| **Grade 1** | Superficial ulcer |
+| **Grade 2** | Deep ulcer without bone involvement |
+| **Grade 3** | Deep ulcer with abscess, osteomyelitis, or joint sepsis |
+| **Grade 4** | Localized gangrene |
 
-**Data**
-- NumPy
-- Pandas
+The audited dataset contains 10,062 valid JPEG RGB images, each with a resolution of $224 \times 224$.
 
-**Vision**
-- OpenCV
-- Albumentations
+### Dataset Audit (Phase 10.1)
+Phase 10.1 established the following:
+- 10,062 valid images
+- 0 corrupt or unreadable images
+- 0 exact duplicate leakage across the original partitions
+- 12 exact duplicate groups identified
+- Source-image grouping established
+- Patient identifiers unavailable
+- Cross-split source-group leakage identified in the distributed dataset
+- Dataset retained with a **Conditional Pass**
 
-**Visualization**
-- Matplotlib
-- TensorBoard
+Because patient identifiers are not provided and the distributed dataset contains derived/augmented variants, the original train/validation/test assignment is not used for final model development.
+
+### Data Pipeline (Phase 10.2)
+Phase 10.2 is complete.
+
+The final modeling dataset contains:
+- 8,038 training images
+- 1,006 validation images
+- 1,006 test images
+- 1,770 source-image groups
+- Deterministic 80/10/10 group-stratified splitting
+- Zero source-group overlap between splits
+- Zero exact duplicate overlap between splits
+- Zero known same-source near-duplicate overlap between splits
+
+The pipeline includes lazy image loading, RGB conversion, preprocessing, augmentation, deterministic worker seeding, configurable DataLoaders, and end-to-end verification.
+
+The complete pipeline passed its acceptance checks, including tensor-shape validation, convolution compatibility, loss/backpropagation, deterministic validation behavior, reproducibility, and leakage checks.
+
+### Current Stage
+The next Foot Ulcer research stage is:
+
+**Phase 10.3 — Exploratory Data Analysis and Dataset Quality Assessment**
+
+Model training does not begin until this stage has been completed.
+
+Detailed Foot research documentation is maintained under:
+`research/foot/`
+
+Dataset documentation is maintained under:
+`datasets/foot/README.md`
 
 ---
 
-## 🎯 Project Goals
+## Core Infrastructure
 
-- **Multi-Modal Diagnostic Fusion**: Integrate retinal fundus images, structured clinical features, and foot-ulcer images into a unified uncertainty-aware diagnostic framework.
-- **Academic-Grade Reproducibility**: Enforce strict data validation, deterministic stratified splitting, and reproducible pipelines.
-- **Fail-Fast Clinical Engineering**: Ensure dataset integrity (e.g., shape, resolution, aspect ratio, label bounds, file corruption) is programmatically verified before training begins.
-- **Interpretability & Trust**: Build transparent models using Explainable AI techniques such as Grad-CAM, with advanced methods such as SHAP and Integrated Gradients reserved for future extensions.
+The repository provides reusable infrastructure for dataset validation, model development, evaluation, and verification:
+
+- Dataset validation
+- Metadata generation
+- Deterministic dataset splitting
+- DataLoader and preprocessing pipelines
+- Model training
+- Checkpoint management
+- Inference
+- Architecture benchmarking
+- Experiment tracking
+- Grad-CAM
+- Probability calibration
+- MC Dropout uncertainty estimation
+- Risk-coverage analysis
+- Pipeline verification
+- Model acceptance testing
+
+Modality-specific implementations remain isolated under their respective source directories.
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```directory
 FusionMedAI/
-├── datasets/                 # Labeled medical databases
-│   ├── retina/               # Retina dataset artifacts
-│   └── foot/                 # Foot DFU dataset artifacts
-├── docs/                     # Architectural diagrams & specifications
-├── notebooks/                # Academic Jupyter notebooks
-│   ├── retina/               # Retina notebooks & EDA
-│   └── foot/                 # Foot notebooks & EDA
-├── reports/                  # Benchmark, Explainability & Evaluation Reports
-├── research/                 # Scientific research documentation
-│   ├── retina/               # Retina Module research volumes
-│   ├── foot/                 # Foot Ulcer Module research volumes
-│   ├── clinical/             # Clinical Module research volumes (scalable target)
-│   └── fusion/               # Multimodal fusion research volumes (scalable target)
-├── src/                      # Production source codebase
-│   ├── retina/               # Retina AI module
-│   └── foot/                 # Foot Ulcer AI module
-├── verification/             # Independent verification scripts
-├── LICENSE                   # Open-source licensing
-└── requirements.txt          # Virtual environment dependencies
+├── datasets/
+│   ├── retina/
+│   │   ├── raw/
+│   │   ├── interim/
+│   │   ├── processed/
+│   │   └── metadata/
+│   └── foot/
+│       ├── raw/
+│       ├── interim/
+│       ├── processed/
+│       └── metadata/
+├── docs/
+│   └── architecture_v1.png
+├── notebooks/
+│   ├── retina/
+│   └── foot/
+├── reports/
+├── research/
+│   ├── retina/
+│   ├── foot/
+│   ├── clinical/
+│   └── fusion/
+├── src/
+│   ├── retina/
+│   └── foot/
+├── verification/
+│   ├── retina/
+│   │   ├── data/
+│   │   └── model/
+│   └── foot/
+│       └── data/
+├── LICENSE
+└── requirements.txt
 ```
 
 ---
 
-## 📚 Research Documentation — Retina
+## Research Documentation
 
+### Retina
 | Volume | Topic | Status |
-| :--- | :--- | :--- |
-| I | Dataset Preparation | ✅ |
-| II | Data Pipeline | ✅ |
-| III | Exploratory Data Analysis | ✅ |
-| IV | Baseline Framework | ✅ |
-| V | Architecture Benchmarking | ✅ |
-| VI | Model Explainability | ✅ |
-| VII | Probability Calibration | ✅ |
-| VIII | Prediction Uncertainty Estimation | ✅ |
-| IX | Retina Module Integration & Finalization | ✅ |
+| :--- | :--- | :---: |
+| **I** | Dataset Preparation | ✅ |
+| **II** | Data Pipeline | ✅ |
+| **III** | Exploratory Data Analysis | ✅ |
+| **IV** | Baseline Framework | ✅ |
+| **V** | Architecture Benchmarking | ✅ |
+| **VI** | Model Explainability | ✅ |
+| **VII** | Probability Calibration | ✅ |
+| **VIII** | Prediction Uncertainty Estimation | ✅ |
+| **IX** | Module Integration & Finalization | ✅ |
 
-Detailed documentation can be found in the `research/retina/` directory.
-
----
-
-## 📚 Research Documentation — Foot Ulcer
-
+### Foot Ulcer
 | Phase | Topic | Status |
-| :--- | :--- | :--- |
-| 10.1.A | Dataset Acquisition & Structure | ✅ |
-| 10.1.B | Dataset Inventory | ✅ |
-| 10.1.C | Label Verification | ✅ |
-| 10.1.D | Image Integrity Audit | ✅ |
-| 10.1.E | Image Property Audit | ✅ |
-| 10.1.F | Duplicate & Near-Duplicate Audit | ✅ |
-| 10.1.G | Class Distribution & Imbalance Audit | ✅ |
-| 10.1.H | Visual Quality Audit | ✅ |
-| 10.1.I | Data Leakage & Patient-Case Investigation | ⚠️ Conditional |
-| 10.1.J | Provenance & License Audit | ✅ |
-| 10.1.K | Dataset Quality Decision | ✅ Conditional Pass |
-
-The Foot dataset has been frozen for downstream research with mandatory source-image group-stratified splitting requirements.
-
-Detailed documentation can be found in the `research/foot/` directory and [datasets/foot/README.md](datasets/foot/README.md).
+| :--- | :--- | :---: |
+| **10.1** | Dataset Preparation & Audit | ✅ Conditional Pass |
+| **10.2** | Data Pipeline | ✅ |
+| **10.3** | Exploratory Data Analysis & Dataset Quality | ⬜ |
+| **10.4** | Baseline Framework | ⬜ |
+| **10.5** | Architecture Benchmarking | ⬜ |
+| **10.6** | Explainability | ⬜ |
+| **10.7** | Probability Calibration | ⬜ |
+| **10.8** | Uncertainty Estimation | ⬜ |
+| **10.9** | Module Integration | ⬜ |
 
 ---
 
-## 🦶 Foot Ulcer Dataset
+## Installation & Setup
 
-The Foot Ulcer module uses the ADPM V3.3 Diabetic Foot Ulcer Classification dataset, organized into four Wagner-based classes:
+### Requirements
+- Python 3.12
+- PyTorch 2.4
 
-- **Grade 1** — Superficial Ulcer
-- **Grade 2** — Deep Ulcer (without bone involvement)
-- **Grade 3** — Deep Ulcer with Abscess, Osteomyelitis, or Joint Sepsis
-- **Grade 4** — Localized Gangrene
-
-The dataset contains 10,062 valid JPEG RGB images at $224 \times 224$ resolution.
-
-The dataset passed the Phase 10.1 audit with a **Conditional Pass**.
-
-Because the distributed dataset contains augmented variants and does not provide patient identifiers, the original train/validation/test assignments are not used as the final modeling split. Phase 10.2 will construct source-image-group-stratified splits to prevent cross-split augmentation leakage.
-
-The immutable raw dataset is maintained under `datasets/foot/raw/`.
-
----
-
-## ⚙️ Installation & Setup
-
-### 1. Environment Setup
-Verify that Python is installed (Python 3.12 recommended). Clone the repository and initialize a virtual environment:
+Create a virtual environment and install project dependencies:
 
 ```bash
-# Clone the repository
 git clone https://github.com/Dr-Venom29/FusionMedAI.git
 cd FusionMedAI
 
-# Create virtual environment
 python -m venv venv
 
-# Activate virtual environment
 # On Windows:
 venv\Scripts\activate
 # On Linux/macOS:
 source venv/bin/activate
 
-# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 2. Dataset Ingestion
-> Note:
-> The APTOS 2019 dataset is not distributed with this repository due to Kaggle licensing. Download it separately and place it under `datasets/retina/raw/aptos2019/`.
+### Dataset Setup
 
-Organize the files into the following directory layout:
+#### Retina
+The APTOS 2019 dataset must be obtained separately.
 
+Expected structure:
 ```directory
 datasets/
 └── retina/
@@ -256,128 +325,66 @@ datasets/
         └── aptos2019/
             ├── train.csv
             └── train_images/
-                ├── 000c1434d8d7.png
+                ├── 000c1434d8d8.png
                 ├── 001639a39701.png
                 └── ...
 ```
 
-The Foot DFU dataset is handled independently under:
-
+#### Foot Ulcer
+The Foot Ulcer dataset is maintained separately under:
 ```directory
 datasets/
 └── foot/
     └── raw/
 ```
 
-The Foot raw dataset is treated as immutable and is not modified in place.
+The raw dataset is treated as immutable. Dataset cleaning, canonicalization, grouping, and final modeling splits are generated into the corresponding `processed/`, `interim/`, and `metadata/` directories.
 
 ---
 
-### 3. Retina Module Pipeline Execution
+## Verification
 
-Run the Retina pipeline setup and verification scripts in order:
+Verification scripts are maintained independently from the training code under `verification/`:
+- `verification/retina/data/` & `verification/retina/model/`
+- `verification/foot/data/`
 
-```bash
-# Step 1: Run raw dataset checks & verify images
-python src/retina/data/verify_dataset.py
+The framework verifies components including:
+- Dataset integrity
+- Pipeline construction
+- Model initialization
+- Training and backpropagation
+- Checkpoint loading
+- Inference
+- Explainability
+- Calibration
+- Uncertainty estimation
+- Module-level acceptance
 
-# Step 2: Generate dataset metadata
-python src/retina/data/generate_metadata.py
-
-# Step 3: Compute stratified 80/10/10 train/validation/test splits
-python src/retina/data/split_dataset.py
-
-# Step 4: Execute end-to-end pipeline verification
-python src/retina/data/verify_pipeline.py
-
-# Step 5: Run Exploratory Data Analysis & report generation
-python -m notebooks.retina.run_eda_analysis
-
-# Step 6: Verify model wrapper and parameter count
-python verification/model/verify_model.py
-
-# Step 7: Verify training loop, backpropagation, and scheduler updates
-python verification/model/verify_training.py
-
-# Step 8: Verify checkpoint saving, loading, and resumes
-python verification/model/verify_checkpoint.py
-```
-
-All verification and analysis steps must run successfully before proceeding to model preprocessing and training.
+The project does not treat successful model training alone as sufficient validation. Each completed research stage has its own verification criteria.
 
 ---
 
-## 📊 Framework Verification
-
-Framework verification confirmed:
-- ✓ Model initialization
-- ✓ Training loop
-- ✓ Checkpoint recovery
-- ✓ Inference
-- ✓ Explainability pipeline
-- ✓ Probability calibration pipeline
-- ✓ Uncertainty estimation pipeline
-- ✓ MC Dropout stochasticity validation
-- ✓ Risk-coverage analysis
-- ✓ MC convergence analysis
-
-**Detailed results**: `reports/framework_verification.md`
-
----
-
-## 🧪 Retina Module — Example Inference
-
-The finalized Retina Module accepts a fundus image and produces a unified diagnostic output containing the predicted diabetic retinopathy class, calibrated confidence, uncertainty estimates, and a Grad-CAM explanation.
+## Example Retina Inference
 
 ### Input Fundus Scan
-
 ![Retina Input](docs/examples/retina_input.png)
 
-### Unified Prediction & Explanation Card
-
+### Unified Prediction & Explanation Output
 ![Retina Output](docs/examples/retina_output.png)
 
-The example above was generated by the verified Retina Module acceptance test.
+The output demonstrates the integrated Retina inference interface, including model prediction, calibrated confidence, uncertainty information, and Grad-CAM explanation.
 
 ---
 
-## 🚀 Development Milestones
+## Development Roadmap
 
-| Version | Status |
-|---------|--------|
-| v0.1.0  | Retina Dataset Preparation ✅ |
-| v0.2.0  | Retina Data Pipeline ✅ |
-| v0.3.0  | Retina Exploratory Data Analysis ✅ |
-| v0.4.0  | Retina Baseline Model Framework ✅ |
-| v0.5.0  | Retina Architecture Benchmarking ✅ |
-| v0.6.0  | Retina Explainability & Probability Calibration Complete ✅ |
-| v0.7.0  | Retina Uncertainty Estimation Complete ✅ |
-| v1.0.0  | Retina Module Integration Complete ✅ |
-| v2.0.0  | Foot Ulcer Module (Phase 10.1 Audit Complete ✅) |
+- **v1.0 (Retina Module)** — **Completed**. The Retina pipeline has progressed from dataset preparation through module integration and acceptance testing. ✅
+- **v2.0 (Foot Ulcer Module)** — **In Development**. Completed: Phase 10.1 (Audit) and Phase 10.2 (Pipeline). Next: **Phase 10.3 — EDA & Dataset Quality**. ⬜
+- **v3.0 (Clinical Module)** — **Planned**. Development of the independent clinical-data assessment module. ⬜
+- **v4.0 (ACARA-U Fusion)** — **Planned**. Integration of the Retina, Foot Ulcer, and Clinical modules through the ACARA-U uncertainty- and reliability-aware fusion framework. ⬜
 
 ---
 
-## 🗺️ Project Roadmap
+## License
 
-- **v0.1.0 (Retina Dataset Preparation)**: Completed raw audit, metadata generation, and resolution scanning. ✅
-- **v0.2.0 (Retina Data Pipeline)**: Completed stratified split, lazy loading, transforms, and E2E verification. ✅
-- **v0.3.0 (Retina Exploratory Data Analysis)**: Completed concurrent stats extraction, RGB profiling, duplicate audit, quality scoring, and automated reports. ✅
-- **v0.4.0 (Retina Baseline Framework)**: Built custom model wrapper, factory, BaseClassifier, trainer, mixed precision (AMP), Early Stopping, checkpointing, standalone inference, and verification framework. ✅
-- **v0.5.0 (Retina Architecture Benchmarking)**: Completed fair-benchmark comparison across 5 architectures, yielding EfficientNet-B3 as the final Retinal backbone. ✅
-- **v0.6.0 (Retina Explainability & Probability Calibration)**: Completed Grad-CAM, Temperature Scaling, reliability analysis, and calibrated confidence evaluation. ✅
-- **v0.7.0 (Retina Uncertainty Estimation)**: Completed MC Dropout uncertainty estimation, predictive entropy, mutual information, error-detection analysis, and risk-coverage analysis. ✅
-- **v1.0.0 (Retina Module Integration)**: Completed EfficientNet-B3 integration, unified inference card, and end-to-end module acceptance verification. ✅
-
-- **v2.0.0 (Foot Ulcer Module)**:
-  Phase 10.1 Dataset Preparation & Audit completed with Conditional Pass. ✅  
-  Phase 10.2 Data Pipeline is next. ⬜
-
-- **v3.0.0 (Clinical Module)**: Build and validate the independent Clinical AI module. ⬜
-
-- **v4.0.0 (ACARA-U Multimodal Fusion)**: Integrate Retina, Foot Ulcer, and Clinical modules through the uncertainty-aware ACARA-U fusion engine. ⬜
-
----
-
-## ⚖️ License
-
-Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+This project is distributed under the MIT License. See [LICENSE](LICENSE) for details.

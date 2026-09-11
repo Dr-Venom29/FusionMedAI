@@ -1,0 +1,75 @@
+{
+  "dataset_name": "Foot Diabetic Ulcer (DFU - Wagner 4-Class)",
+  "raw_directory": "D:\\FusionMedAI\\datasets\\foot\\raw",
+  "total_files": 10064,
+  "total_images": 10062,
+  "total_size_mb": 66.71,
+  "file_size_stats_kb": {
+    "min": 0.18,
+    "max": 17.26,
+    "mean": 6.79
+  },
+  "file_extensions": {
+    ".txt": 2,
+    ".jpg": 10062
+  },
+  "formats": {
+    "JPEG": 10062
+  },
+  "classes": {
+    "Grade 1": 2370,
+    "Grade 2": 2460,
+    "Grade 3": 2802,
+    "Grade 4": 2430
+  },
+  "splits": {
+    "test": 141,
+    "train": 9639,
+    "valid": 282
+  },
+  "splits_by_class": {
+    "test": {
+      "Grade 1": 44,
+      "Grade 2": 37,
+      "Grade 3": 18,
+      "Grade 4": 42
+    },
+    "train": {
+      "Grade 1": 2240,
+      "Grade 2": 2345,
+      "Grade 3": 2744,
+      "Grade 4": 2310
+    },
+    "valid": {
+      "Grade 1": 86,
+      "Grade 2": 78,
+      "Grade 3": 40,
+      "Grade 4": 78
+    }
+  },
+  "dimensions": {
+    "224 \u00d7 224": 10062
+  },
+  "unique_dimension_count": 1,
+  "channels": {
+    "3-channel (RGB)": 10062
+  },
+  "folder_names": [
+    "test",
+    "test/Grade 1",
+    "test/Grade 2",
+    "test/Grade 3",
+    "test/Grade 4",
+    "train",
+    "train/Grade 1",
+    "train/Grade 2",
+    "train/Grade 3",
+    "train/Grade 4",
+    "valid",
+    "valid/Grade 1",
+    "valid/Grade 2",
+    "valid/Grade 3",
+    "valid/Grade 4"
+  ],
+  "non_image_files_count": 2
+}

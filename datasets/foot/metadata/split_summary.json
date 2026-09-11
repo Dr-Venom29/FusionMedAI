@@ -1,0 +1,35 @@
+{
+  "phase": "10.2.5",
+  "title": "Group-Stratified Train/Val/Test Split Report",
+  "seed": 42,
+  "split_ratios": "80% Train / 10% Validation / 10% Test",
+  "unit_of_splitting": "source_image_id group",
+  "total_canonical_images": 10050,
+  "total_source_groups": 1770,
+  "partition_summary": {
+    "train": {
+      "images": 8038,
+      "groups": 1412,
+      "image_percentage": 79.98,
+      "group_percentage": 79.77
+    },
+    "val": {
+      "images": 1006,
+      "groups": 177,
+      "image_percentage": 10.01,
+      "group_percentage": 10.0
+    },
+    "test": {
+      "images": 1006,
+      "groups": 181,
+      "image_percentage": 10.01,
+      "group_percentage": 10.23
+    }
+  },
+  "group_leakage_verification": {
+    "train_val_group_overlap": 0,
+    "train_test_group_overlap": 0,
+    "val_test_group_overlap": 0,
+    "status": "PASS \u2014 0% Group Leakage"
+  }
+}

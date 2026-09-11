@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "folder_to_label_mapping": {
+    "Grade 1": 0,
+    "Grade 2": 1,
+    "Grade 3": 2,
+    "Grade 4": 3
+  },
+  "expected_classes": [
+    "Grade 1",
+    "Grade 2",
+    "Grade 3",
+    "Grade 4"
+  ],
+  "discovered_classes": [
+    "Grade 1",
+    "Grade 2",
+    "Grade 3",
+    "Grade 4"
+  ],
+  "class_counts_by_split": {
+    "test": {
+      "Grade 1": 44,
+      "Grade 2": 37,
+      "Grade 3": 18,
+      "Grade 4": 42
+    },
+    "train": {
+      "Grade 1": 2240,
+      "Grade 2": 2345,
+      "Grade 3": 2744,
+      "Grade 4": 2310
+    },
+    "valid": {
+      "Grade 1": 86,
+      "Grade 2": 78,
+      "Grade 3": 40,
+      "Grade 4": 78
+    }
+  },
+  "issues_found": [],
+  "warnings_found": [],
+  "hidden_files": [],
+  "unexpected_folders": [],
+  "empty_classes": [],
+  "duplicate_class_representations": false,
+  "metadata_conflict": false,
+  "metadata_summary": [
+    "README.dataset.txt: # ADPM V3.3 Classification  > 2025-04-05 9:35am\nhttps://universe.roboflow.com/adpm/adpm-v3.3-classification\n\nProvided by a Roboflow user\nLicense: MIT\n\nClassified DFU into Four groups"
+  ]
+}

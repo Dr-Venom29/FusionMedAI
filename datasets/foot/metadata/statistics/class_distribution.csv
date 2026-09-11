@@ -1,0 +1,5 @@
+class_name,class_index,total_count,total_percentage,train_count,valid_count,test_count
+Grade 1,0,2370,23.55,2240,86,44
+Grade 2,1,2460,24.45,2345,78,37
+Grade 3,2,2802,27.85,2744,40,18
+Grade 4,3,2430,24.15,2310,78,42

@@ -1,0 +1,37 @@
+{
+  "candidate_image_sizes": [
+    224,
+    384,
+    512
+  ],
+  "candidate_normalizations": [
+    "ImageNet",
+    "Dataset"
+  ],
+  "candidate_augmentations": {
+    "horizontal_flip": [
+      true,
+      false
+    ],
+    "rotation_degrees": [
+      0,
+      15,
+      30
+    ],
+    "color_jitter": [
+      true,
+      false
+    ],
+    "random_crop": [
+      true,
+      false
+    ]
+  },
+  "quality_assessment": {
+    "dark_threshold": 37.782003,
+    "bright_threshold": 92.419779,
+    "blur_threshold": 24.368078,
+    "filesize_min_kb": 319.0,
+    "filesize_max_kb": 5525.9
+  }
+}

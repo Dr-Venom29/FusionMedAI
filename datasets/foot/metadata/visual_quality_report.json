@@ -1,0 +1,122 @@
+{
+  "dataset_name": "Foot DFU Wagner 4-Class Dataset",
+  "total_images_audited": 10062,
+  "quality_summary": {
+    "blurry_images_count": 1120,
+    "blurry_percentage": 11.13,
+    "border_images_count": 9,
+    "dark_images_count": 7,
+    "bright_images_count": 0,
+    "low_contrast_images_count": 399
+  },
+  "quality_thresholds": {
+    "laplacian_blur_threshold": 100.0,
+    "dark_intensity_threshold": 35.0,
+    "bright_intensity_threshold": 220.0,
+    "low_contrast_std_threshold": 20.0
+  },
+  "flagged_samples": {
+    "blurry_samples": [
+      {
+        "path": "test/Grade 1/1882_19-Effective-Home-Remedies-For-Corns-And-Calluses_jpg.rf.6256f6ef2653be63d76df1f6f0eaea9d.jpg",
+        "blur_score": 83.48
+      },
+      {
+        "path": "test/Grade 1/301010_jpg.rf.b6c4c0657943b9e4c31a6bcd28be2ff5.jpg",
+        "blur_score": 22.26
+      },
+      {
+        "path": "test/Grade 1/301094_jpg.rf.7d3b7163e735de53aecfcd7afa599c35.jpg",
+        "blur_score": 10.04
+      },
+      {
+        "path": "test/Grade 1/301264_jpg.rf.fedd7346d670ddece894a28645f34f4a.jpg",
+        "blur_score": 82.58
+      },
+      {
+        "path": "test/Grade 1/301417_jpg.rf.a80f7142529c1944b62f114f4fd95297.jpg",
+        "blur_score": 40.18
+      },
+      {
+        "path": "test/Grade 1/301423_jpg.rf.0b4699cf3d1ca3dfad4955e1dd2f4cdf.jpg",
+        "blur_score": 67.99
+      },
+      {
+        "path": "test/Grade 1/301508_jpg.rf.2c2f164dce4ad0fbc7073591101e36e0.jpg",
+        "blur_score": 10.89
+      },
+      {
+        "path": "test/Grade 1/301613_jpg.rf.250d2c749ee82a2b07c39bb419327bda.jpg",
+        "blur_score": 16.9
+      },
+      {
+        "path": "test/Grade 1/301720_jpg.rf.3387fb0e59e1b0697cc45dad02c9558f.jpg",
+        "blur_score": 63.46
+      },
+      {
+        "path": "test/Grade 1/301732_jpg.rf.b98b320397ea02bdfe36fc43dd21673d.jpg",
+        "blur_score": 21.58
+      }
+    ],
+    "border_samples": [
+      {
+        "path": "train/Grade 1/62e0142009a44d1a98f41d8d8874cced_png.rf.30f6407d477b7cdb5481424abceeb63c.jpg"
+      },
+      {
+        "path": "train/Grade 1/m5_05_jpg.rf.e3692081c6563364c540af545bb20bd3.jpg"
+      },
+      {
+        "path": "train/Grade 3/52109842_405285516886601_4290415047278067712_n_jpg.rf.0713f4891a686b6b622c1468aceb26cb.jpg"
+      },
+      {
+        "path": "train/Grade 3/52109842_405285516886601_4290415047278067712_n_jpg.rf.91ebc9e4399d2a233b8041f365c16824.jpg"
+      },
+      {
+        "path": "train/Grade 3/52281293_337922530152377_7755374471602503680_n_jpg.rf.25d7dea5a361794bd368f3408ccbf443.jpg"
+      },
+      {
+        "path": "train/Grade 3/52281293_337922530152377_7755374471602503680_n_jpg.rf.40bd64b72b85354bf4f19a16aa09b80b.jpg"
+      },
+      {
+        "path": "train/Grade 3/52281293_337922530152377_7755374471602503680_n_jpg.rf.6704009d0dbfe7858f52e0cc33a6d652.jpg"
+      },
+      {
+        "path": "train/Grade 3/52281293_337922530152377_7755374471602503680_n_jpg.rf.6db608c09788adbe89433d0b09278c1f.jpg"
+      },
+      {
+        "path": "train/Grade 4/52590332_933677237022401_4422700044289835008_n_jpg.rf.e90978e9c7999b71274fad248a537655.jpg"
+      }
+    ],
+    "dark_samples": [
+      {
+        "path": "train/Grade 4/302173_jpg.rf.0837dc65c1f443d62e1019b07a16fcbf.jpg",
+        "mean_intensity": 33.47
+      },
+      {
+        "path": "train/Grade 4/302173_jpg.rf.1900e63a3d653cbbd7b3b18a7c4b4ee2.jpg",
+        "mean_intensity": 32.11
+      },
+      {
+        "path": "train/Grade 4/302173_jpg.rf.2a9044051612b5dadce3813dcb7dd51a.jpg",
+        "mean_intensity": 33.14
+      },
+      {
+        "path": "train/Grade 4/302173_jpg.rf.705593298f4e294d97b18f021c615a5a.jpg",
+        "mean_intensity": 34.11
+      },
+      {
+        "path": "train/Grade 4/302173_jpg.rf.ba535dae01c493a7a8573a6a4e791fda.jpg",
+        "mean_intensity": 28.14
+      },
+      {
+        "path": "train/Grade 4/302173_jpg.rf.daf8dd4562791006af4fb9c819c05233.jpg",
+        "mean_intensity": 28.94
+      },
+      {
+        "path": "train/Grade 4/302173_jpg.rf.ed8aecc26925292b39f8051f6e46ffb4.jpg",
+        "mean_intensity": 28.89
+      }
+    ],
+    "bright_samples": []
+  }
+}

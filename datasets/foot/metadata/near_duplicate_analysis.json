@@ -1,0 +1,24 @@
+{
+  "phase": "10.2.4",
+  "title": "Near-Duplicate & Conflict Analysis Report",
+  "dhash_threshold": 4,
+  "total_near_duplicate_pairs": 2791,
+  "relationship_breakdown": {
+    "type_1_same_source_group": {
+      "count": 2452,
+      "resolution": "RESOLVED \u2014 Bound into the same source_image_id group in Phase 10.2.3. Zero cross-split leakage.",
+      "percentage": 87.85
+    },
+    "type_2_diff_source_same_class": {
+      "count": 145,
+      "resolution": "MONITORED \u2014 Distinct source groups belonging to the same Wagner grade. No cross-class or leakage conflict.",
+      "percentage": 5.2
+    },
+    "type_3_diff_source_diff_class": {
+      "count": 194,
+      "resolution": "FLAGGED \u2014 Distinct source groups with visual similarity across different Wagner grades. Archived for error analysis.",
+      "percentage": 6.95
+    }
+  },
+  "key_takeaway": "All 2,452 TYPE 1 near-duplicate augmented variants sharing the same source_image_id are completely isolated within their source groups, eliminating the primary source of cross-split data leakage."
+}

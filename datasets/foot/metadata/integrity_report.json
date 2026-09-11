@@ -1,0 +1,108 @@
+{
+  "status": "PASS",
+  "total_files_scanned": 10064,
+  "total_images_scanned": 10062,
+  "classification_summary": {
+    "VALID": 10062,
+    "CORRUPT": 0,
+    "UNREADABLE": 0,
+    "INVALID FORMAT": 2,
+    "SUSPICIOUS": 0
+  },
+  "all_images_valid": true,
+  "issues_detected": [],
+  "sample_records": [
+    {
+      "path": "README.dataset.txt",
+      "status": "INVALID FORMAT",
+      "size_bytes": 183,
+      "reason": "Non-image extension: '.txt'"
+    },
+    {
+      "path": "README.roboflow.txt",
+      "status": "INVALID FORMAT",
+      "size_bytes": 1192,
+      "reason": "Non-image extension: '.txt'"
+    },
+    {
+      "path": "test/Grade 1/112_jpg.rf.472615b206cdec5593b07c5716920e47.jpg",
+      "status": "VALID",
+      "width": 224,
+      "height": 224,
+      "mode": "RGB",
+      "channels": 3,
+      "size_bytes": 12787,
+      "reason": "Passed all decoder, dimension, channel, and load integrity checks"
+    },
+    {
+      "path": "test/Grade 1/1882_19-Effective-Home-Remedies-For-Corns-And-Calluses_jpg.rf.6256f6ef2653be63d76df1f6f0eaea9d.jpg",
+      "status": "VALID",
+      "width": 224,
+      "height": 224,
+      "mode": "RGB",
+      "channels": 3,
+      "size_bytes": 5616,
+      "reason": "Passed all decoder, dimension, channel, and load integrity checks"
+    },
+    {
+      "path": "test/Grade 1/266_jpg.rf.05a52fec87c1b83ad366f07cdedff1c0.jpg",
+      "status": "VALID",
+      "width": 224,
+      "height": 224,
+      "mode": "RGB",
+      "channels": 3,
+      "size_bytes": 7878,
+      "reason": "Passed all decoder, dimension, channel, and load integrity checks"
+    },
+    {
+      "path": "test/Grade 1/301010_jpg.rf.b6c4c0657943b9e4c31a6bcd28be2ff5.jpg",
+      "status": "VALID",
+      "width": 224,
+      "height": 224,
+      "mode": "RGB",
+      "channels": 3,
+      "size_bytes": 4986,
+      "reason": "Passed all decoder, dimension, channel, and load integrity checks"
+    },
+    {
+      "path": "test/Grade 1/301094_jpg.rf.7d3b7163e735de53aecfcd7afa599c35.jpg",
+      "status": "VALID",
+      "width": 224,
+      "height": 224,
+      "mode": "RGB",
+      "channels": 3,
+      "size_bytes": 4283,
+      "reason": "Passed all decoder, dimension, channel, and load integrity checks"
+    },
+    {
+      "path": "test/Grade 1/301264_jpg.rf.fedd7346d670ddece894a28645f34f4a.jpg",
+      "status": "VALID",
+      "width": 224,
+      "height": 224,
+      "mode": "RGB",
+      "channels": 3,
+      "size_bytes": 7182,
+      "reason": "Passed all decoder, dimension, channel, and load integrity checks"
+    },
+    {
+      "path": "test/Grade 1/301417_jpg.rf.a80f7142529c1944b62f114f4fd95297.jpg",
+      "status": "VALID",
+      "width": 224,
+      "height": 224,
+      "mode": "RGB",
+      "channels": 3,
+      "size_bytes": 6039,
+      "reason": "Passed all decoder, dimension, channel, and load integrity checks"
+    },
+    {
+      "path": "test/Grade 1/301423_jpg.rf.0b4699cf3d1ca3dfad4955e1dd2f4cdf.jpg",
+      "status": "VALID",
+      "width": 224,
+      "height": 224,
+      "mode": "RGB",
+      "channels": 3,
+      "size_bytes": 6782,
+      "reason": "Passed all decoder, dimension, channel, and load integrity checks"
+    }
+  ]
+}

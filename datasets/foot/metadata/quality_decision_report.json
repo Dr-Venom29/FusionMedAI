@@ -1,0 +1,29 @@
+{
+  "audit_phase": "10.1.K",
+  "dataset_name": "Diabetic Foot Ulcer (DFU) Wagner 4-Class Dataset",
+  "overall_decision": "CONDITIONAL PASS",
+  "decision_rationale": "The dataset exhibits 100% valid image integrity, clear folder-to-label mapping, manageable duplicates, acceptable visual quality, well-balanced class distribution (1.18:1), and documented MIT provenance. However, because 1,770 source images were expanded 5.68x via offline augmentations without patient-level IDs, random splitting causes cross-split leakage. The dataset is CONDITIONALLY APPROVED for model research subject to mandatory group-stratified splitting on source_image_id.",
+  "subphase_audit_summary": {
+    "10.1.B_inventory": "PASS \u2014 10,062 images, 224x224 RGB JPEGs, 66.71 MB.",
+    "10.1.C_label_verification": "PASS \u2014 Grade 1..4 mapped to numerical labels 0..3.",
+    "10.1.D_integrity_audit": "PASS \u2014 10,062 VALID decodable images (0 corrupt, 0 unreadable).",
+    "10.1.E_property_audit": "PASS \u2014 Observed Mean [0.4937, 0.3630, 0.3272], Std [0.1744, 0.1632, 0.1551].",
+    "10.1.F_duplicate_detection": "PASS \u2014 10,050 unique SHA-256 hashes, 12 exact duplicate groups.",
+    "10.1.G_class_distribution": "PASS \u2014 Well-balanced (imbalance ratio 1.18:1; G1: 23.55%, G2: 24.45%, G3: 27.85%, G4: 24.15%).",
+    "10.1.H_visual_quality": "PASS \u2014 High-resolution clinical wound photos, 0 non-foot images, contact sheet archived.",
+    "10.1.I_leakage_investigation": "CONDITIONAL \u2014 1,770 source image groups identified; patient IDs unavailable; 10 cross-split leakage instances in raw subfolders requiring group-stratified re-partitioning.",
+    "10.1.J_provenance_audit": "PASS \u2014 Kaggle mirror of Roboflow Universe 'ADPM V3.3', MIT License, bibtex citations documented."
+  },
+  "mandatory_conditions": [
+    "1. STRICTLY PROHIBIT random image-level splitting across training, validation, and testing.",
+    "2. ENFORCE source_image_id group-stratified splitting in Phase 10.2 (split_dataset.py) to achieve 0% cross-split leakage.",
+    "3. EXPLICITLY DOCUMENT patient-level ID unavailability limitation in research papers and technical reports.",
+    "4. KEEP datasets/foot/raw/ strictly immutable (read-only)."
+  ],
+  "dataset_freeze_status": {
+    "frozen": true,
+    "freeze_date": "2026-09-11",
+    "target_modality": "Foot (DFU Wagner 4-Class)",
+    "pipeline_readiness": "READY FOR PHASE 10.2 DATA PIPELINE DEVELOPMENT"
+  }
+}

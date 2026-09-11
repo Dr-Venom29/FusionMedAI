@@ -1,0 +1,30 @@
+{
+  "phase": "10.2.2",
+  "title": "Canonical Dataset Manifest Summary",
+  "primary_manifest_path": "processed\\canonical_manifest.csv",
+  "total_records": 10062,
+  "canonical_modeling_records": 10050,
+  "excluded_duplicate_records": 12,
+  "unique_source_image_groups": 1770,
+  "class_breakdown_canonical": {
+    "Grade 1": 2367,
+    "Grade 2": 2457,
+    "Grade 3": 2797,
+    "Grade 4": 2429
+  },
+  "original_partition_breakdown_canonical": {
+    "train": 9627,
+    "valid": 282,
+    "test": 141
+  },
+  "columns": [
+    "id_code",
+    "image_path",
+    "source_image_id",
+    "wagner_grade",
+    "class_name",
+    "original_partition",
+    "sha256",
+    "is_canonical"
+  ]
+}

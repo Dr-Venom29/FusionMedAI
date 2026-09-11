@@ -1,0 +1,23 @@
+{
+  "dataset_name": "Foot DFU Wagner 4-Class Dataset",
+  "total_images_audited": 10062,
+  "exact_duplicate_summary": {
+    "total_exact_duplicate_groups": 12,
+    "total_exact_duplicate_files": 24,
+    "unique_exact_images": 10050,
+    "exact_cross_split_leakages_count": 0,
+    "exact_cross_class_conflicts_count": 0
+  },
+  "near_duplicate_summary": {
+    "near_duplicate_pairs_count": 1964,
+    "near_cross_split_leakages_count": 5,
+    "near_cross_class_conflicts_count": 114,
+    "dhash_hamming_threshold": 4
+  },
+  "critical_findings": {
+    "data_leakage_risk": true,
+    "label_conflict_risk": true
+  },
+  "exact_cross_split_details": [],
+  "exact_cross_class_details": []
+}

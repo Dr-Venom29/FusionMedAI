@@ -1,0 +1,4 @@
+split,total_images,total_groups,Grade_1_Grade 1,Grade_1_pct,Grade_2_Grade 2,Grade_2_pct,Grade_3_Grade 3,Grade_3_pct,Grade_4_Grade 4,Grade_4_pct
+train,8038,1412,1893,23.55,1965,24.45,2237,27.83,1943,24.17
+val,1006,177,237,23.56,246,24.45,280,27.83,243,24.16
+test,1006,181,237,23.56,246,24.45,280,27.83,243,24.16

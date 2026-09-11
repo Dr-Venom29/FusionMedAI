@@ -1,0 +1,157 @@
+{
+  "phase": "10.2.1",
+  "title": "Exact Duplicate Resolution Report",
+  "raw_dataset_status": "UNTOUCHED_IMMUTABLE",
+  "total_files_scanned": 10062,
+  "canonical_unique_images": 10050,
+  "exact_duplicates_excluded": 12,
+  "duplicate_groups_count": 12,
+  "cross_class_label_conflicts": 0,
+  "selection_rule": "Deterministic partition priority (train > valid > test), followed by lexicographically lowest relative path.",
+  "duplicate_groups": [
+    {
+      "group_id": "EXACT_DUP_GROUP_001",
+      "sha256": "d2b59a87d1d12744a0ba61d0d1f810132d2e1f7adeef0f5c96bb8d768a6948da",
+      "total_copies": 2,
+      "wagner_grades": [
+        0
+      ],
+      "canonical_file": "train/Grade 1/301438_jpg.rf.8e79eecd1bed6fde9dc2d8eb2ee39908.jpg",
+      "excluded_files": [
+        "train/Grade 1/301438_jpg.rf.c29f91532ec816291603f0aef0230153.jpg"
+      ]
+    },
+    {
+      "group_id": "EXACT_DUP_GROUP_002",
+      "sha256": "cd4e0e9c8301fa23fc1e494de63856ad4b0e3ce024156b8f82abb7ada2b481cf",
+      "total_copies": 2,
+      "wagner_grades": [
+        0
+      ],
+      "canonical_file": "train/Grade 1/303558_jpg.rf.2ca2197b4328c02c31c796024254b839.jpg",
+      "excluded_files": [
+        "train/Grade 1/303558_jpg.rf.49f97afdfd23a43cafd67e6a98669d04.jpg"
+      ]
+    },
+    {
+      "group_id": "EXACT_DUP_GROUP_003",
+      "sha256": "603a1517697aa64ce889a45505b8b82fcf8b43f2b219ddac849132b9db5da075",
+      "total_copies": 2,
+      "wagner_grades": [
+        0
+      ],
+      "canonical_file": "train/Grade 1/334_jpg.rf.1751023840343cc4ede1443d29c39ec0.jpg",
+      "excluded_files": [
+        "train/Grade 1/334_jpg.rf.7c74590b9afd8a457f2d38d91a9c17db.jpg"
+      ]
+    },
+    {
+      "group_id": "EXACT_DUP_GROUP_004",
+      "sha256": "4be22254dbf1aee03e331575c06e6cddcc5dc1b64be10df4e65240c0e1bf7dc0",
+      "total_copies": 2,
+      "wagner_grades": [
+        1
+      ],
+      "canonical_file": "train/Grade 2/192_jpg.rf.44a3dd28bbc0fba8ce41a70cddfc60a5.jpg",
+      "excluded_files": [
+        "train/Grade 2/192_jpg.rf.6a970ed66f926d646e8989eb9e608552.jpg"
+      ]
+    },
+    {
+      "group_id": "EXACT_DUP_GROUP_005",
+      "sha256": "e75c045e42400eaf2af2096c545134a6c7bf58eb12b831aacb89e5b027f30900",
+      "total_copies": 2,
+      "wagner_grades": [
+        1
+      ],
+      "canonical_file": "train/Grade 2/301200_jpg.rf.80bd0705eb017f5d269720530d115a1c.jpg",
+      "excluded_files": [
+        "train/Grade 2/301200_jpg.rf.a87fcb8eaa6a5d321d572a2ac82e47b2.jpg"
+      ]
+    },
+    {
+      "group_id": "EXACT_DUP_GROUP_006",
+      "sha256": "4f03c3fc1e591b2a740eb797f047d09f7d19a85637106c18c5fe0d60be8c121e",
+      "total_copies": 2,
+      "wagner_grades": [
+        1
+      ],
+      "canonical_file": "train/Grade 2/302303_jpg.rf.44053da24fe41f73eb708e08e725a8ef.jpg",
+      "excluded_files": [
+        "train/Grade 2/302303_jpg.rf.648acbbe98257f2627f001bf78b95b70.jpg"
+      ]
+    },
+    {
+      "group_id": "EXACT_DUP_GROUP_007",
+      "sha256": "15c4e1ac450b151693660a543472703c5a75508f5e1b88f67c296f56b59334bd",
+      "total_copies": 2,
+      "wagner_grades": [
+        2
+      ],
+      "canonical_file": "train/Grade 3/303048_jpg.rf.62cfdb113a37ab7985fbc682717613c4.jpg",
+      "excluded_files": [
+        "train/Grade 3/303048_jpg.rf.7f2b3ce7f4ab47cc53dd63b5aaaa831f.jpg"
+      ]
+    },
+    {
+      "group_id": "EXACT_DUP_GROUP_008",
+      "sha256": "b58aefb232bcad0aa21bceb56e1451fcdd9ac42225b4753df91b32f8784ff159",
+      "total_copies": 2,
+      "wagner_grades": [
+        2
+      ],
+      "canonical_file": "train/Grade 3/304224_jpg.rf.1e83f24597dc4be66451313290669e10.jpg",
+      "excluded_files": [
+        "train/Grade 3/304224_jpg.rf.24f0360c7421876e9ae8cb111281df99.jpg"
+      ]
+    },
+    {
+      "group_id": "EXACT_DUP_GROUP_009",
+      "sha256": "50dc0cf4821047cea59278537372a8f2cf21f9d8682840db0bf48f021b6ebdac",
+      "total_copies": 2,
+      "wagner_grades": [
+        2
+      ],
+      "canonical_file": "train/Grade 3/305338_jpg.rf.23c1c1076523de7fa62f9d2d130029e9.jpg",
+      "excluded_files": [
+        "train/Grade 3/305338_jpg.rf.fa9d88fe9131373758a2ef14aea98e1e.jpg"
+      ]
+    },
+    {
+      "group_id": "EXACT_DUP_GROUP_010",
+      "sha256": "b8d59e9784d6f8f84bce8b07d75f0ee85b41bfefbe5a3ac29a75a652224ab1e2",
+      "total_copies": 2,
+      "wagner_grades": [
+        2
+      ],
+      "canonical_file": "train/Grade 3/305439_jpg.rf.576c6a85b640d9cf73e9f33d7b682dd7.jpg",
+      "excluded_files": [
+        "train/Grade 3/305439_jpg.rf.77cb90a7ba84e4ccc0258d82f63bea03.jpg"
+      ]
+    },
+    {
+      "group_id": "EXACT_DUP_GROUP_011",
+      "sha256": "e3445a492e5ce39221f4f7b7cbce8c7b9cc8d31ee405b203186a99624b43b30c",
+      "total_copies": 2,
+      "wagner_grades": [
+        2
+      ],
+      "canonical_file": "train/Grade 3/498_jpg.rf.42c2be53f2d39930fe89a8f8532a8ad8.jpg",
+      "excluded_files": [
+        "train/Grade 3/498_jpg.rf.8fc9d7859fb68fda0f85689094f93cec.jpg"
+      ]
+    },
+    {
+      "group_id": "EXACT_DUP_GROUP_012",
+      "sha256": "1a061ad0f48a28c291373672662f667c1d36477c127b73ce246a8ebdf1e9f169",
+      "total_copies": 2,
+      "wagner_grades": [
+        3
+      ],
+      "canonical_file": "train/Grade 4/501544_jpg.rf.67054514cf994ad5f4788a220c087426.jpg",
+      "excluded_files": [
+        "train/Grade 4/501544_jpg.rf.86b4cc9bd10f4a48d8e49a093f1f69b2.jpg"
+      ]
+    }
+  ]
+}

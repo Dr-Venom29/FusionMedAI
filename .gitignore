@@ -19,14 +19,21 @@ __pycache__/
 # Dataset
 # ======================================
 
+# Raw datasets
 datasets/*/raw/
+datasets/raw/
+
+# Generated/processed data
 datasets/*/processed/
 datasets/*/interim/
-datasets/*/metadata/
-datasets/raw/
 datasets/processed/
 datasets/interim/
-datasets/metadata/
+
+# Keep dataset metadata/documentation visible on GitHub
+!datasets/*/metadata/
+!datasets/*/metadata/**
+!datasets/metadata/
+!datasets/metadata/**
 
 # Keep dataset documentation
 !datasets/README.md

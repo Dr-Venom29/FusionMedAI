@@ -1,0 +1,102 @@
+{
+  "dataset_name": "Foot DFU Wagner 4-Class Dataset",
+  "total_images": 10062,
+  "class_breakdown": {
+    "Grade 1": {
+      "count": 2370,
+      "percentage": 23.55
+    },
+    "Grade 2": {
+      "count": 2460,
+      "percentage": 24.45
+    },
+    "Grade 3": {
+      "count": 2802,
+      "percentage": 27.85
+    },
+    "Grade 4": {
+      "count": 2430,
+      "percentage": 24.15
+    }
+  },
+  "imbalance_analysis": {
+    "majority_class": "Grade 3",
+    "majority_count": 2802,
+    "majority_percentage": 27.85,
+    "minority_class": "Grade 1",
+    "minority_count": 2370,
+    "minority_percentage": 23.55,
+    "imbalance_ratio": 1.1823,
+    "imbalance_ratio_str": "1.18 : 1",
+    "assessment": "WELL_BALANCED"
+  },
+  "split_level_summaries": {
+    "test": {
+      "total_images": 141,
+      "class_breakdown": {
+        "Grade 1": {
+          "count": 44,
+          "percentage": 31.21
+        },
+        "Grade 2": {
+          "count": 37,
+          "percentage": 26.24
+        },
+        "Grade 3": {
+          "count": 18,
+          "percentage": 12.77
+        },
+        "Grade 4": {
+          "count": 42,
+          "percentage": 29.79
+        }
+      },
+      "imbalance_ratio": 2.4444
+    },
+    "train": {
+      "total_images": 9639,
+      "class_breakdown": {
+        "Grade 1": {
+          "count": 2240,
+          "percentage": 23.24
+        },
+        "Grade 2": {
+          "count": 2345,
+          "percentage": 24.33
+        },
+        "Grade 3": {
+          "count": 2744,
+          "percentage": 28.47
+        },
+        "Grade 4": {
+          "count": 2310,
+          "percentage": 23.97
+        }
+      },
+      "imbalance_ratio": 1.225
+    },
+    "valid": {
+      "total_images": 282,
+      "class_breakdown": {
+        "Grade 1": {
+          "count": 86,
+          "percentage": 30.5
+        },
+        "Grade 2": {
+          "count": 78,
+          "percentage": 27.66
+        },
+        "Grade 3": {
+          "count": 40,
+          "percentage": 14.18
+        },
+        "Grade 4": {
+          "count": 78,
+          "percentage": 27.66
+        }
+      },
+      "imbalance_ratio": 2.15
+    }
+  },
+  "measurement_notice": "Measured without applying sampling, class weighting, or split modification (Rule: Step 10.1 measures, Step 10.2 models)."
+}

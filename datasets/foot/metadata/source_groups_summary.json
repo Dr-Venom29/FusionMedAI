@@ -1,0 +1,20 @@
+{
+  "phase": "10.2.3",
+  "title": "Source-Image Group Construction Report",
+  "total_source_groups": 1770,
+  "total_raw_images": 10062,
+  "total_canonical_images": 10050,
+  "group_size_stats": {
+    "mean_variants_per_group": 5.68,
+    "min_variants": 1,
+    "max_variants": 21
+  },
+  "multi_class_source_groups": 23,
+  "class_distribution_by_primary_group_label": {
+    "Grade 1": 449,
+    "Grade 2": 443,
+    "Grade 3": 437,
+    "Grade 4": 441
+  },
+  "grouping_rule": "Extracted root source_image_id before Roboflow augmentation hash (.rf.<hash>). All augmented variants sharing the same source_image_id are bound strictly into the same group."
+}

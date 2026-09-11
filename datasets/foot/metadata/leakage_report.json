@@ -1,0 +1,1589 @@
+{
+  "dataset_name": "Foot DFU Wagner 4-Class Dataset",
+  "total_images_audited": 10062,
+  "source_image_analysis": {
+    "total_raw_image_files": 10062,
+    "total_unique_source_images": 1770,
+    "augmentation_expansion_factor": 5.68,
+    "groups_with_augmented_variants": 1357
+  },
+  "leakage_investigation_summary": {
+    "cross_split_source_leakage_groups_count": 10,
+    "cross_class_source_conflict_groups_count": 23,
+    "perceptual_cross_split_leakage_pairs_count": 0
+  },
+  "patient_identifier_audit": {
+    "patient_id_available": false,
+    "limitation_note": "Patient-level metadata (e.g. Patient ID / Case ID) is NOT provided in the raw dataset. Images are grouped by Roboflow source image IDs (extractable via filename prefixes). Patient-level separation cannot be guaranteed beyond source-image group separation. This limitation is explicitly documented to prevent false claims of patient-level isolation."
+  },
+  "leakage_findings": {
+    "source_level_leakage_detected": true,
+    "perceptual_leakage_detected": false
+  },
+  "sample_cross_split_leakages": [
+    {
+      "source_id": "24_jpg",
+      "variant_count": 8,
+      "splits_present": [
+        "test",
+        "train"
+      ],
+      "classes_present": [
+        "Grade 2",
+        "Grade 4"
+      ],
+      "files": [
+        {
+          "path": "test/Grade 2/24_jpg.rf.054e4113acb58ff05047216f70d2f788.jpg",
+          "filename": "24_jpg.rf.054e4113acb58ff05047216f70d2f788.jpg",
+          "split": "test",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\test\\Grade 2\\24_jpg.rf.054e4113acb58ff05047216f70d2f788.jpg"
+        },
+        {
+          "path": "train/Grade 4/24_jpg.rf.15b3184a94346865edf368bda34aa19f.jpg",
+          "filename": "24_jpg.rf.15b3184a94346865edf368bda34aa19f.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\24_jpg.rf.15b3184a94346865edf368bda34aa19f.jpg"
+        },
+        {
+          "path": "train/Grade 4/24_jpg.rf.49c0a7e4eb145bb6816c848177c2050d.jpg",
+          "filename": "24_jpg.rf.49c0a7e4eb145bb6816c848177c2050d.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\24_jpg.rf.49c0a7e4eb145bb6816c848177c2050d.jpg"
+        },
+        {
+          "path": "train/Grade 4/24_jpg.rf.50d4851e5a4a02c6e7fca5fc1f03775b.jpg",
+          "filename": "24_jpg.rf.50d4851e5a4a02c6e7fca5fc1f03775b.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\24_jpg.rf.50d4851e5a4a02c6e7fca5fc1f03775b.jpg"
+        },
+        {
+          "path": "train/Grade 4/24_jpg.rf.51a91b2dda947fb21e80aa1e51dd8e6c.jpg",
+          "filename": "24_jpg.rf.51a91b2dda947fb21e80aa1e51dd8e6c.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\24_jpg.rf.51a91b2dda947fb21e80aa1e51dd8e6c.jpg"
+        },
+        {
+          "path": "train/Grade 4/24_jpg.rf.65cbce4fab66c9d49c5812f0675661e5.jpg",
+          "filename": "24_jpg.rf.65cbce4fab66c9d49c5812f0675661e5.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\24_jpg.rf.65cbce4fab66c9d49c5812f0675661e5.jpg"
+        },
+        {
+          "path": "train/Grade 4/24_jpg.rf.74f3a81059f06f300879bb82e379a537.jpg",
+          "filename": "24_jpg.rf.74f3a81059f06f300879bb82e379a537.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\24_jpg.rf.74f3a81059f06f300879bb82e379a537.jpg"
+        },
+        {
+          "path": "train/Grade 4/24_jpg.rf.fb061a1412241d7865086614bf4845b5.jpg",
+          "filename": "24_jpg.rf.fb061a1412241d7865086614bf4845b5.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\24_jpg.rf.fb061a1412241d7865086614bf4845b5.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "29_jpg",
+      "variant_count": 8,
+      "splits_present": [
+        "test",
+        "train"
+      ],
+      "classes_present": [
+        "Grade 2",
+        "Grade 3"
+      ],
+      "files": [
+        {
+          "path": "test/Grade 2/29_jpg.rf.8e7a7900343ab80324ab3bf27d4dc7d7.jpg",
+          "filename": "29_jpg.rf.8e7a7900343ab80324ab3bf27d4dc7d7.jpg",
+          "split": "test",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\test\\Grade 2\\29_jpg.rf.8e7a7900343ab80324ab3bf27d4dc7d7.jpg"
+        },
+        {
+          "path": "train/Grade 3/29_jpg.rf.1c529d195d28fde567f5fbc03c5961e7.jpg",
+          "filename": "29_jpg.rf.1c529d195d28fde567f5fbc03c5961e7.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\29_jpg.rf.1c529d195d28fde567f5fbc03c5961e7.jpg"
+        },
+        {
+          "path": "train/Grade 3/29_jpg.rf.662df89973b763174ff80189b988d50a.jpg",
+          "filename": "29_jpg.rf.662df89973b763174ff80189b988d50a.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\29_jpg.rf.662df89973b763174ff80189b988d50a.jpg"
+        },
+        {
+          "path": "train/Grade 3/29_jpg.rf.6f347376723963832870629077c2ac8b.jpg",
+          "filename": "29_jpg.rf.6f347376723963832870629077c2ac8b.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\29_jpg.rf.6f347376723963832870629077c2ac8b.jpg"
+        },
+        {
+          "path": "train/Grade 3/29_jpg.rf.91961bdba99f57df746a0ef2d8b8a888.jpg",
+          "filename": "29_jpg.rf.91961bdba99f57df746a0ef2d8b8a888.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\29_jpg.rf.91961bdba99f57df746a0ef2d8b8a888.jpg"
+        },
+        {
+          "path": "train/Grade 3/29_jpg.rf.cf7fdf0e18cb39ab9bc3e86414bb62d2.jpg",
+          "filename": "29_jpg.rf.cf7fdf0e18cb39ab9bc3e86414bb62d2.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\29_jpg.rf.cf7fdf0e18cb39ab9bc3e86414bb62d2.jpg"
+        },
+        {
+          "path": "train/Grade 3/29_jpg.rf.e0448a254e565007eb7be44667990d8c.jpg",
+          "filename": "29_jpg.rf.e0448a254e565007eb7be44667990d8c.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\29_jpg.rf.e0448a254e565007eb7be44667990d8c.jpg"
+        },
+        {
+          "path": "train/Grade 3/29_jpg.rf.e1ca30dea4606da24a0860ac5d0c34f9.jpg",
+          "filename": "29_jpg.rf.e1ca30dea4606da24a0860ac5d0c34f9.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\29_jpg.rf.e1ca30dea4606da24a0860ac5d0c34f9.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "7_jpg",
+      "variant_count": 8,
+      "splits_present": [
+        "test",
+        "train"
+      ],
+      "classes_present": [
+        "Grade 1",
+        "Grade 2"
+      ],
+      "files": [
+        {
+          "path": "test/Grade 2/7_jpg.rf.9d42721e5267dd74b9b4a62dce8d7373.jpg",
+          "filename": "7_jpg.rf.9d42721e5267dd74b9b4a62dce8d7373.jpg",
+          "split": "test",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\test\\Grade 2\\7_jpg.rf.9d42721e5267dd74b9b4a62dce8d7373.jpg"
+        },
+        {
+          "path": "train/Grade 1/7_jpg.rf.07748e56e6f45d71225a5e7e7e898fe8.jpg",
+          "filename": "7_jpg.rf.07748e56e6f45d71225a5e7e7e898fe8.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\7_jpg.rf.07748e56e6f45d71225a5e7e7e898fe8.jpg"
+        },
+        {
+          "path": "train/Grade 1/7_jpg.rf.2b3e2f9a5ea7fb0305a26b110afe730e.jpg",
+          "filename": "7_jpg.rf.2b3e2f9a5ea7fb0305a26b110afe730e.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\7_jpg.rf.2b3e2f9a5ea7fb0305a26b110afe730e.jpg"
+        },
+        {
+          "path": "train/Grade 1/7_jpg.rf.65c44067badfe1a66636726d8f5ab856.jpg",
+          "filename": "7_jpg.rf.65c44067badfe1a66636726d8f5ab856.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\7_jpg.rf.65c44067badfe1a66636726d8f5ab856.jpg"
+        },
+        {
+          "path": "train/Grade 1/7_jpg.rf.8d4c5211593d9ff8aec39a432505d63c.jpg",
+          "filename": "7_jpg.rf.8d4c5211593d9ff8aec39a432505d63c.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\7_jpg.rf.8d4c5211593d9ff8aec39a432505d63c.jpg"
+        },
+        {
+          "path": "train/Grade 1/7_jpg.rf.ae6c3245acaadd2faa4bc5fd3483bed8.jpg",
+          "filename": "7_jpg.rf.ae6c3245acaadd2faa4bc5fd3483bed8.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\7_jpg.rf.ae6c3245acaadd2faa4bc5fd3483bed8.jpg"
+        },
+        {
+          "path": "train/Grade 1/7_jpg.rf.b6293673cac8c6a7182f09a99a0fb33e.jpg",
+          "filename": "7_jpg.rf.b6293673cac8c6a7182f09a99a0fb33e.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\7_jpg.rf.b6293673cac8c6a7182f09a99a0fb33e.jpg"
+        },
+        {
+          "path": "train/Grade 1/7_jpg.rf.d23dfcfd5e96443200dcd114ff0ab220.jpg",
+          "filename": "7_jpg.rf.d23dfcfd5e96443200dcd114ff0ab220.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\7_jpg.rf.d23dfcfd5e96443200dcd114ff0ab220.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "21_jpg",
+      "variant_count": 8,
+      "splits_present": [
+        "test",
+        "train"
+      ],
+      "classes_present": [
+        "Grade 3"
+      ],
+      "files": [
+        {
+          "path": "test/Grade 3/21_jpg.rf.8bebd7b1836cbf251f35ae2c0e3af167.jpg",
+          "filename": "21_jpg.rf.8bebd7b1836cbf251f35ae2c0e3af167.jpg",
+          "split": "test",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\test\\Grade 3\\21_jpg.rf.8bebd7b1836cbf251f35ae2c0e3af167.jpg"
+        },
+        {
+          "path": "train/Grade 3/21_jpg.rf.006fae65302b3033765512f24a1591a0.jpg",
+          "filename": "21_jpg.rf.006fae65302b3033765512f24a1591a0.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\21_jpg.rf.006fae65302b3033765512f24a1591a0.jpg"
+        },
+        {
+          "path": "train/Grade 3/21_jpg.rf.095925033371edd5c80cad631e982d7c.jpg",
+          "filename": "21_jpg.rf.095925033371edd5c80cad631e982d7c.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\21_jpg.rf.095925033371edd5c80cad631e982d7c.jpg"
+        },
+        {
+          "path": "train/Grade 3/21_jpg.rf.4016be5afe1893450f5f12c332876dda.jpg",
+          "filename": "21_jpg.rf.4016be5afe1893450f5f12c332876dda.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\21_jpg.rf.4016be5afe1893450f5f12c332876dda.jpg"
+        },
+        {
+          "path": "train/Grade 3/21_jpg.rf.5051580cfb5c16f4ecdb6e983df0abda.jpg",
+          "filename": "21_jpg.rf.5051580cfb5c16f4ecdb6e983df0abda.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\21_jpg.rf.5051580cfb5c16f4ecdb6e983df0abda.jpg"
+        },
+        {
+          "path": "train/Grade 3/21_jpg.rf.616e7e6e2375433219e4702f664ffaa4.jpg",
+          "filename": "21_jpg.rf.616e7e6e2375433219e4702f664ffaa4.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\21_jpg.rf.616e7e6e2375433219e4702f664ffaa4.jpg"
+        },
+        {
+          "path": "train/Grade 3/21_jpg.rf.971998e850e4bad936917e45a6538cc6.jpg",
+          "filename": "21_jpg.rf.971998e850e4bad936917e45a6538cc6.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\21_jpg.rf.971998e850e4bad936917e45a6538cc6.jpg"
+        },
+        {
+          "path": "train/Grade 3/21_jpg.rf.9a1ac09af1cbba6af6ba9bedf794c9b7.jpg",
+          "filename": "21_jpg.rf.9a1ac09af1cbba6af6ba9bedf794c9b7.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\21_jpg.rf.9a1ac09af1cbba6af6ba9bedf794c9b7.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "4_jpg",
+      "variant_count": 8,
+      "splits_present": [
+        "test",
+        "train"
+      ],
+      "classes_present": [
+        "Grade 3",
+        "Grade 4"
+      ],
+      "files": [
+        {
+          "path": "test/Grade 3/4_jpg.rf.9f9060acb97d787c059b080c7b351c1a.jpg",
+          "filename": "4_jpg.rf.9f9060acb97d787c059b080c7b351c1a.jpg",
+          "split": "test",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\test\\Grade 3\\4_jpg.rf.9f9060acb97d787c059b080c7b351c1a.jpg"
+        },
+        {
+          "path": "train/Grade 4/4_jpg.rf.819e31f00f41b06a54f3a46683492acd.jpg",
+          "filename": "4_jpg.rf.819e31f00f41b06a54f3a46683492acd.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\4_jpg.rf.819e31f00f41b06a54f3a46683492acd.jpg"
+        },
+        {
+          "path": "train/Grade 4/4_jpg.rf.9c96e4f54ed01eed77b2ea522cb9afe7.jpg",
+          "filename": "4_jpg.rf.9c96e4f54ed01eed77b2ea522cb9afe7.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\4_jpg.rf.9c96e4f54ed01eed77b2ea522cb9afe7.jpg"
+        },
+        {
+          "path": "train/Grade 4/4_jpg.rf.a943a4abde2fba62719b1a3e3e7f0476.jpg",
+          "filename": "4_jpg.rf.a943a4abde2fba62719b1a3e3e7f0476.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\4_jpg.rf.a943a4abde2fba62719b1a3e3e7f0476.jpg"
+        },
+        {
+          "path": "train/Grade 4/4_jpg.rf.aca10f5cabb6eff19047a210f7da7d5d.jpg",
+          "filename": "4_jpg.rf.aca10f5cabb6eff19047a210f7da7d5d.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\4_jpg.rf.aca10f5cabb6eff19047a210f7da7d5d.jpg"
+        },
+        {
+          "path": "train/Grade 4/4_jpg.rf.ce37761a1f727149e83b0d885918c0f1.jpg",
+          "filename": "4_jpg.rf.ce37761a1f727149e83b0d885918c0f1.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\4_jpg.rf.ce37761a1f727149e83b0d885918c0f1.jpg"
+        },
+        {
+          "path": "train/Grade 4/4_jpg.rf.fc77a7855cc2c32a638b9f57424a7813.jpg",
+          "filename": "4_jpg.rf.fc77a7855cc2c32a638b9f57424a7813.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\4_jpg.rf.fc77a7855cc2c32a638b9f57424a7813.jpg"
+        },
+        {
+          "path": "train/Grade 4/4_jpg.rf.feaa881c75a25b0918732a55b2e31f79.jpg",
+          "filename": "4_jpg.rf.feaa881c75a25b0918732a55b2e31f79.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\4_jpg.rf.feaa881c75a25b0918732a55b2e31f79.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "26_jpg",
+      "variant_count": 8,
+      "splits_present": [
+        "test",
+        "train"
+      ],
+      "classes_present": [
+        "Grade 2",
+        "Grade 4"
+      ],
+      "files": [
+        {
+          "path": "test/Grade 4/26_jpg.rf.d7897ec724090d784645c3c0e28d0d24.jpg",
+          "filename": "26_jpg.rf.d7897ec724090d784645c3c0e28d0d24.jpg",
+          "split": "test",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\test\\Grade 4\\26_jpg.rf.d7897ec724090d784645c3c0e28d0d24.jpg"
+        },
+        {
+          "path": "train/Grade 2/26_jpg.rf.13aa2f3a014806339d8cfb0226ad6e6d.jpg",
+          "filename": "26_jpg.rf.13aa2f3a014806339d8cfb0226ad6e6d.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\26_jpg.rf.13aa2f3a014806339d8cfb0226ad6e6d.jpg"
+        },
+        {
+          "path": "train/Grade 2/26_jpg.rf.235e48558a2ebc7e2bcc33702acfbe19.jpg",
+          "filename": "26_jpg.rf.235e48558a2ebc7e2bcc33702acfbe19.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\26_jpg.rf.235e48558a2ebc7e2bcc33702acfbe19.jpg"
+        },
+        {
+          "path": "train/Grade 2/26_jpg.rf.39e86aea9fa036f630d1a65bdae1380a.jpg",
+          "filename": "26_jpg.rf.39e86aea9fa036f630d1a65bdae1380a.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\26_jpg.rf.39e86aea9fa036f630d1a65bdae1380a.jpg"
+        },
+        {
+          "path": "train/Grade 2/26_jpg.rf.c52cce6c7b8a979295cec7045476167c.jpg",
+          "filename": "26_jpg.rf.c52cce6c7b8a979295cec7045476167c.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\26_jpg.rf.c52cce6c7b8a979295cec7045476167c.jpg"
+        },
+        {
+          "path": "train/Grade 2/26_jpg.rf.c6e19eff785ae22891c2d6504d93e3e3.jpg",
+          "filename": "26_jpg.rf.c6e19eff785ae22891c2d6504d93e3e3.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\26_jpg.rf.c6e19eff785ae22891c2d6504d93e3e3.jpg"
+        },
+        {
+          "path": "train/Grade 2/26_jpg.rf.d70a2d1a6a8921d91e3e9d355c8641da.jpg",
+          "filename": "26_jpg.rf.d70a2d1a6a8921d91e3e9d355c8641da.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\26_jpg.rf.d70a2d1a6a8921d91e3e9d355c8641da.jpg"
+        },
+        {
+          "path": "train/Grade 2/26_jpg.rf.f9f458224f954a2e48170924c7ce3bc2.jpg",
+          "filename": "26_jpg.rf.f9f458224f954a2e48170924c7ce3bc2.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\26_jpg.rf.f9f458224f954a2e48170924c7ce3bc2.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "19_jpg",
+      "variant_count": 8,
+      "splits_present": [
+        "train",
+        "valid"
+      ],
+      "classes_present": [
+        "Grade 2",
+        "Grade 4"
+      ],
+      "files": [
+        {
+          "path": "train/Grade 2/19_jpg.rf.093392d01adc2f55997ce7b3f4120285.jpg",
+          "filename": "19_jpg.rf.093392d01adc2f55997ce7b3f4120285.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\19_jpg.rf.093392d01adc2f55997ce7b3f4120285.jpg"
+        },
+        {
+          "path": "train/Grade 2/19_jpg.rf.28d872479be74f6f36f52339be2559c5.jpg",
+          "filename": "19_jpg.rf.28d872479be74f6f36f52339be2559c5.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\19_jpg.rf.28d872479be74f6f36f52339be2559c5.jpg"
+        },
+        {
+          "path": "train/Grade 2/19_jpg.rf.4378e83fd2a2cc16f9370af6a96fe40a.jpg",
+          "filename": "19_jpg.rf.4378e83fd2a2cc16f9370af6a96fe40a.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\19_jpg.rf.4378e83fd2a2cc16f9370af6a96fe40a.jpg"
+        },
+        {
+          "path": "train/Grade 2/19_jpg.rf.4957037f443e814566fb675f16664edb.jpg",
+          "filename": "19_jpg.rf.4957037f443e814566fb675f16664edb.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\19_jpg.rf.4957037f443e814566fb675f16664edb.jpg"
+        },
+        {
+          "path": "train/Grade 2/19_jpg.rf.597dbefaf5dda7da2f6810cc00c9f374.jpg",
+          "filename": "19_jpg.rf.597dbefaf5dda7da2f6810cc00c9f374.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\19_jpg.rf.597dbefaf5dda7da2f6810cc00c9f374.jpg"
+        },
+        {
+          "path": "train/Grade 2/19_jpg.rf.aa3c0b623bbdfaa7abda767ce0edcc88.jpg",
+          "filename": "19_jpg.rf.aa3c0b623bbdfaa7abda767ce0edcc88.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\19_jpg.rf.aa3c0b623bbdfaa7abda767ce0edcc88.jpg"
+        },
+        {
+          "path": "train/Grade 2/19_jpg.rf.b97f0ac7652e8fee201fc1d02a9c67da.jpg",
+          "filename": "19_jpg.rf.b97f0ac7652e8fee201fc1d02a9c67da.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\19_jpg.rf.b97f0ac7652e8fee201fc1d02a9c67da.jpg"
+        },
+        {
+          "path": "valid/Grade 4/19_jpg.rf.91caf44fccf6e5129a5ea26e7d3c8bf6.jpg",
+          "filename": "19_jpg.rf.91caf44fccf6e5129a5ea26e7d3c8bf6.jpg",
+          "split": "valid",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\valid\\Grade 4\\19_jpg.rf.91caf44fccf6e5129a5ea26e7d3c8bf6.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "11_jpg",
+      "variant_count": 8,
+      "splits_present": [
+        "train",
+        "valid"
+      ],
+      "classes_present": [
+        "Grade 2",
+        "Grade 3"
+      ],
+      "files": [
+        {
+          "path": "train/Grade 3/11_jpg.rf.1225db3a539593f74ebe90b7bea6c657.jpg",
+          "filename": "11_jpg.rf.1225db3a539593f74ebe90b7bea6c657.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\11_jpg.rf.1225db3a539593f74ebe90b7bea6c657.jpg"
+        },
+        {
+          "path": "train/Grade 3/11_jpg.rf.327c0436437f9d1fc69ced79a5dff232.jpg",
+          "filename": "11_jpg.rf.327c0436437f9d1fc69ced79a5dff232.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\11_jpg.rf.327c0436437f9d1fc69ced79a5dff232.jpg"
+        },
+        {
+          "path": "train/Grade 3/11_jpg.rf.40beb059a60695eda640a3227c8de50b.jpg",
+          "filename": "11_jpg.rf.40beb059a60695eda640a3227c8de50b.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\11_jpg.rf.40beb059a60695eda640a3227c8de50b.jpg"
+        },
+        {
+          "path": "train/Grade 3/11_jpg.rf.4eb8419423d76737116c41f773053303.jpg",
+          "filename": "11_jpg.rf.4eb8419423d76737116c41f773053303.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\11_jpg.rf.4eb8419423d76737116c41f773053303.jpg"
+        },
+        {
+          "path": "train/Grade 3/11_jpg.rf.78a89d4781d625b60d2a64ec266ee98e.jpg",
+          "filename": "11_jpg.rf.78a89d4781d625b60d2a64ec266ee98e.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\11_jpg.rf.78a89d4781d625b60d2a64ec266ee98e.jpg"
+        },
+        {
+          "path": "train/Grade 3/11_jpg.rf.83a97ec9ea34014fcf4595c3fbf89014.jpg",
+          "filename": "11_jpg.rf.83a97ec9ea34014fcf4595c3fbf89014.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\11_jpg.rf.83a97ec9ea34014fcf4595c3fbf89014.jpg"
+        },
+        {
+          "path": "train/Grade 3/11_jpg.rf.b8f4ab0a85f7a9dd495ecb6198301911.jpg",
+          "filename": "11_jpg.rf.b8f4ab0a85f7a9dd495ecb6198301911.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\11_jpg.rf.b8f4ab0a85f7a9dd495ecb6198301911.jpg"
+        },
+        {
+          "path": "valid/Grade 2/11_jpg.rf.1f0056b4c08618276ccaf5b6509fe158.jpg",
+          "filename": "11_jpg.rf.1f0056b4c08618276ccaf5b6509fe158.jpg",
+          "split": "valid",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\valid\\Grade 2\\11_jpg.rf.1f0056b4c08618276ccaf5b6509fe158.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "25_jpg",
+      "variant_count": 8,
+      "splits_present": [
+        "train",
+        "valid"
+      ],
+      "classes_present": [
+        "Grade 3"
+      ],
+      "files": [
+        {
+          "path": "train/Grade 3/25_jpg.rf.2aec78d856c487eb6b32a21d3a68f1d6.jpg",
+          "filename": "25_jpg.rf.2aec78d856c487eb6b32a21d3a68f1d6.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\25_jpg.rf.2aec78d856c487eb6b32a21d3a68f1d6.jpg"
+        },
+        {
+          "path": "train/Grade 3/25_jpg.rf.32d7ad81eb200522a9124d69c63dcaac.jpg",
+          "filename": "25_jpg.rf.32d7ad81eb200522a9124d69c63dcaac.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\25_jpg.rf.32d7ad81eb200522a9124d69c63dcaac.jpg"
+        },
+        {
+          "path": "train/Grade 3/25_jpg.rf.3376ab3ebcfea4642c507514a0f331f1.jpg",
+          "filename": "25_jpg.rf.3376ab3ebcfea4642c507514a0f331f1.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\25_jpg.rf.3376ab3ebcfea4642c507514a0f331f1.jpg"
+        },
+        {
+          "path": "train/Grade 3/25_jpg.rf.6cd770253b580b9828456aaf2570c4a7.jpg",
+          "filename": "25_jpg.rf.6cd770253b580b9828456aaf2570c4a7.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\25_jpg.rf.6cd770253b580b9828456aaf2570c4a7.jpg"
+        },
+        {
+          "path": "train/Grade 3/25_jpg.rf.8452cf7629ca73c2b5fb431bfdb04780.jpg",
+          "filename": "25_jpg.rf.8452cf7629ca73c2b5fb431bfdb04780.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\25_jpg.rf.8452cf7629ca73c2b5fb431bfdb04780.jpg"
+        },
+        {
+          "path": "train/Grade 3/25_jpg.rf.dca83cac03d6ed8a2d534c1b50115a86.jpg",
+          "filename": "25_jpg.rf.dca83cac03d6ed8a2d534c1b50115a86.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\25_jpg.rf.dca83cac03d6ed8a2d534c1b50115a86.jpg"
+        },
+        {
+          "path": "train/Grade 3/25_jpg.rf.f5913ae2b25e05008d9d72c19384f9b4.jpg",
+          "filename": "25_jpg.rf.f5913ae2b25e05008d9d72c19384f9b4.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\25_jpg.rf.f5913ae2b25e05008d9d72c19384f9b4.jpg"
+        },
+        {
+          "path": "valid/Grade 3/25_jpg.rf.5e9d724503f1ad4b210f28d60f47a4a1.jpg",
+          "filename": "25_jpg.rf.5e9d724503f1ad4b210f28d60f47a4a1.jpg",
+          "split": "valid",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\valid\\Grade 3\\25_jpg.rf.5e9d724503f1ad4b210f28d60f47a4a1.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "44_jpg",
+      "variant_count": 8,
+      "splits_present": [
+        "train",
+        "valid"
+      ],
+      "classes_present": [
+        "Grade 1",
+        "Grade 3"
+      ],
+      "files": [
+        {
+          "path": "train/Grade 3/44_jpg.rf.0477bd1c9f03f2bf46b8db9cd42a944f.jpg",
+          "filename": "44_jpg.rf.0477bd1c9f03f2bf46b8db9cd42a944f.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\44_jpg.rf.0477bd1c9f03f2bf46b8db9cd42a944f.jpg"
+        },
+        {
+          "path": "train/Grade 3/44_jpg.rf.0f647a63a718c6f2d928165cd1f49c34.jpg",
+          "filename": "44_jpg.rf.0f647a63a718c6f2d928165cd1f49c34.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\44_jpg.rf.0f647a63a718c6f2d928165cd1f49c34.jpg"
+        },
+        {
+          "path": "train/Grade 3/44_jpg.rf.17b50bc47d575d566d0ab5e74235161a.jpg",
+          "filename": "44_jpg.rf.17b50bc47d575d566d0ab5e74235161a.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\44_jpg.rf.17b50bc47d575d566d0ab5e74235161a.jpg"
+        },
+        {
+          "path": "train/Grade 3/44_jpg.rf.1e8853fa9ce869f580badc2651746e75.jpg",
+          "filename": "44_jpg.rf.1e8853fa9ce869f580badc2651746e75.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\44_jpg.rf.1e8853fa9ce869f580badc2651746e75.jpg"
+        },
+        {
+          "path": "train/Grade 3/44_jpg.rf.4d33b9a6868c475da26ab3f1390df29c.jpg",
+          "filename": "44_jpg.rf.4d33b9a6868c475da26ab3f1390df29c.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\44_jpg.rf.4d33b9a6868c475da26ab3f1390df29c.jpg"
+        },
+        {
+          "path": "train/Grade 3/44_jpg.rf.88bd4954f7401aacbd201a5bb53de17c.jpg",
+          "filename": "44_jpg.rf.88bd4954f7401aacbd201a5bb53de17c.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\44_jpg.rf.88bd4954f7401aacbd201a5bb53de17c.jpg"
+        },
+        {
+          "path": "train/Grade 3/44_jpg.rf.c0ef54e856af1c9bc1203a56cee7e05c.jpg",
+          "filename": "44_jpg.rf.c0ef54e856af1c9bc1203a56cee7e05c.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\44_jpg.rf.c0ef54e856af1c9bc1203a56cee7e05c.jpg"
+        },
+        {
+          "path": "valid/Grade 1/44_jpg.rf.b6890726c855213b85154c0ffea57bb6.jpg",
+          "filename": "44_jpg.rf.b6890726c855213b85154c0ffea57bb6.jpg",
+          "split": "valid",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\valid\\Grade 1\\44_jpg.rf.b6890726c855213b85154c0ffea57bb6.jpg"
+        }
+      ]
+    }
+  ],
+  "sample_cross_class_conflicts": [
+    {
+      "source_id": "24_jpg",
+      "variant_count": 8,
+      "splits_present": [
+        "test",
+        "train"
+      ],
+      "classes_present": [
+        "Grade 2",
+        "Grade 4"
+      ],
+      "files": [
+        {
+          "path": "test/Grade 2/24_jpg.rf.054e4113acb58ff05047216f70d2f788.jpg",
+          "filename": "24_jpg.rf.054e4113acb58ff05047216f70d2f788.jpg",
+          "split": "test",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\test\\Grade 2\\24_jpg.rf.054e4113acb58ff05047216f70d2f788.jpg"
+        },
+        {
+          "path": "train/Grade 4/24_jpg.rf.15b3184a94346865edf368bda34aa19f.jpg",
+          "filename": "24_jpg.rf.15b3184a94346865edf368bda34aa19f.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\24_jpg.rf.15b3184a94346865edf368bda34aa19f.jpg"
+        },
+        {
+          "path": "train/Grade 4/24_jpg.rf.49c0a7e4eb145bb6816c848177c2050d.jpg",
+          "filename": "24_jpg.rf.49c0a7e4eb145bb6816c848177c2050d.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\24_jpg.rf.49c0a7e4eb145bb6816c848177c2050d.jpg"
+        },
+        {
+          "path": "train/Grade 4/24_jpg.rf.50d4851e5a4a02c6e7fca5fc1f03775b.jpg",
+          "filename": "24_jpg.rf.50d4851e5a4a02c6e7fca5fc1f03775b.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\24_jpg.rf.50d4851e5a4a02c6e7fca5fc1f03775b.jpg"
+        },
+        {
+          "path": "train/Grade 4/24_jpg.rf.51a91b2dda947fb21e80aa1e51dd8e6c.jpg",
+          "filename": "24_jpg.rf.51a91b2dda947fb21e80aa1e51dd8e6c.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\24_jpg.rf.51a91b2dda947fb21e80aa1e51dd8e6c.jpg"
+        },
+        {
+          "path": "train/Grade 4/24_jpg.rf.65cbce4fab66c9d49c5812f0675661e5.jpg",
+          "filename": "24_jpg.rf.65cbce4fab66c9d49c5812f0675661e5.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\24_jpg.rf.65cbce4fab66c9d49c5812f0675661e5.jpg"
+        },
+        {
+          "path": "train/Grade 4/24_jpg.rf.74f3a81059f06f300879bb82e379a537.jpg",
+          "filename": "24_jpg.rf.74f3a81059f06f300879bb82e379a537.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\24_jpg.rf.74f3a81059f06f300879bb82e379a537.jpg"
+        },
+        {
+          "path": "train/Grade 4/24_jpg.rf.fb061a1412241d7865086614bf4845b5.jpg",
+          "filename": "24_jpg.rf.fb061a1412241d7865086614bf4845b5.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\24_jpg.rf.fb061a1412241d7865086614bf4845b5.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "29_jpg",
+      "variant_count": 8,
+      "splits_present": [
+        "test",
+        "train"
+      ],
+      "classes_present": [
+        "Grade 2",
+        "Grade 3"
+      ],
+      "files": [
+        {
+          "path": "test/Grade 2/29_jpg.rf.8e7a7900343ab80324ab3bf27d4dc7d7.jpg",
+          "filename": "29_jpg.rf.8e7a7900343ab80324ab3bf27d4dc7d7.jpg",
+          "split": "test",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\test\\Grade 2\\29_jpg.rf.8e7a7900343ab80324ab3bf27d4dc7d7.jpg"
+        },
+        {
+          "path": "train/Grade 3/29_jpg.rf.1c529d195d28fde567f5fbc03c5961e7.jpg",
+          "filename": "29_jpg.rf.1c529d195d28fde567f5fbc03c5961e7.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\29_jpg.rf.1c529d195d28fde567f5fbc03c5961e7.jpg"
+        },
+        {
+          "path": "train/Grade 3/29_jpg.rf.662df89973b763174ff80189b988d50a.jpg",
+          "filename": "29_jpg.rf.662df89973b763174ff80189b988d50a.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\29_jpg.rf.662df89973b763174ff80189b988d50a.jpg"
+        },
+        {
+          "path": "train/Grade 3/29_jpg.rf.6f347376723963832870629077c2ac8b.jpg",
+          "filename": "29_jpg.rf.6f347376723963832870629077c2ac8b.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\29_jpg.rf.6f347376723963832870629077c2ac8b.jpg"
+        },
+        {
+          "path": "train/Grade 3/29_jpg.rf.91961bdba99f57df746a0ef2d8b8a888.jpg",
+          "filename": "29_jpg.rf.91961bdba99f57df746a0ef2d8b8a888.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\29_jpg.rf.91961bdba99f57df746a0ef2d8b8a888.jpg"
+        },
+        {
+          "path": "train/Grade 3/29_jpg.rf.cf7fdf0e18cb39ab9bc3e86414bb62d2.jpg",
+          "filename": "29_jpg.rf.cf7fdf0e18cb39ab9bc3e86414bb62d2.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\29_jpg.rf.cf7fdf0e18cb39ab9bc3e86414bb62d2.jpg"
+        },
+        {
+          "path": "train/Grade 3/29_jpg.rf.e0448a254e565007eb7be44667990d8c.jpg",
+          "filename": "29_jpg.rf.e0448a254e565007eb7be44667990d8c.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\29_jpg.rf.e0448a254e565007eb7be44667990d8c.jpg"
+        },
+        {
+          "path": "train/Grade 3/29_jpg.rf.e1ca30dea4606da24a0860ac5d0c34f9.jpg",
+          "filename": "29_jpg.rf.e1ca30dea4606da24a0860ac5d0c34f9.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\29_jpg.rf.e1ca30dea4606da24a0860ac5d0c34f9.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "7_jpg",
+      "variant_count": 8,
+      "splits_present": [
+        "test",
+        "train"
+      ],
+      "classes_present": [
+        "Grade 1",
+        "Grade 2"
+      ],
+      "files": [
+        {
+          "path": "test/Grade 2/7_jpg.rf.9d42721e5267dd74b9b4a62dce8d7373.jpg",
+          "filename": "7_jpg.rf.9d42721e5267dd74b9b4a62dce8d7373.jpg",
+          "split": "test",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\test\\Grade 2\\7_jpg.rf.9d42721e5267dd74b9b4a62dce8d7373.jpg"
+        },
+        {
+          "path": "train/Grade 1/7_jpg.rf.07748e56e6f45d71225a5e7e7e898fe8.jpg",
+          "filename": "7_jpg.rf.07748e56e6f45d71225a5e7e7e898fe8.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\7_jpg.rf.07748e56e6f45d71225a5e7e7e898fe8.jpg"
+        },
+        {
+          "path": "train/Grade 1/7_jpg.rf.2b3e2f9a5ea7fb0305a26b110afe730e.jpg",
+          "filename": "7_jpg.rf.2b3e2f9a5ea7fb0305a26b110afe730e.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\7_jpg.rf.2b3e2f9a5ea7fb0305a26b110afe730e.jpg"
+        },
+        {
+          "path": "train/Grade 1/7_jpg.rf.65c44067badfe1a66636726d8f5ab856.jpg",
+          "filename": "7_jpg.rf.65c44067badfe1a66636726d8f5ab856.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\7_jpg.rf.65c44067badfe1a66636726d8f5ab856.jpg"
+        },
+        {
+          "path": "train/Grade 1/7_jpg.rf.8d4c5211593d9ff8aec39a432505d63c.jpg",
+          "filename": "7_jpg.rf.8d4c5211593d9ff8aec39a432505d63c.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\7_jpg.rf.8d4c5211593d9ff8aec39a432505d63c.jpg"
+        },
+        {
+          "path": "train/Grade 1/7_jpg.rf.ae6c3245acaadd2faa4bc5fd3483bed8.jpg",
+          "filename": "7_jpg.rf.ae6c3245acaadd2faa4bc5fd3483bed8.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\7_jpg.rf.ae6c3245acaadd2faa4bc5fd3483bed8.jpg"
+        },
+        {
+          "path": "train/Grade 1/7_jpg.rf.b6293673cac8c6a7182f09a99a0fb33e.jpg",
+          "filename": "7_jpg.rf.b6293673cac8c6a7182f09a99a0fb33e.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\7_jpg.rf.b6293673cac8c6a7182f09a99a0fb33e.jpg"
+        },
+        {
+          "path": "train/Grade 1/7_jpg.rf.d23dfcfd5e96443200dcd114ff0ab220.jpg",
+          "filename": "7_jpg.rf.d23dfcfd5e96443200dcd114ff0ab220.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\7_jpg.rf.d23dfcfd5e96443200dcd114ff0ab220.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "4_jpg",
+      "variant_count": 8,
+      "splits_present": [
+        "test",
+        "train"
+      ],
+      "classes_present": [
+        "Grade 3",
+        "Grade 4"
+      ],
+      "files": [
+        {
+          "path": "test/Grade 3/4_jpg.rf.9f9060acb97d787c059b080c7b351c1a.jpg",
+          "filename": "4_jpg.rf.9f9060acb97d787c059b080c7b351c1a.jpg",
+          "split": "test",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\test\\Grade 3\\4_jpg.rf.9f9060acb97d787c059b080c7b351c1a.jpg"
+        },
+        {
+          "path": "train/Grade 4/4_jpg.rf.819e31f00f41b06a54f3a46683492acd.jpg",
+          "filename": "4_jpg.rf.819e31f00f41b06a54f3a46683492acd.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\4_jpg.rf.819e31f00f41b06a54f3a46683492acd.jpg"
+        },
+        {
+          "path": "train/Grade 4/4_jpg.rf.9c96e4f54ed01eed77b2ea522cb9afe7.jpg",
+          "filename": "4_jpg.rf.9c96e4f54ed01eed77b2ea522cb9afe7.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\4_jpg.rf.9c96e4f54ed01eed77b2ea522cb9afe7.jpg"
+        },
+        {
+          "path": "train/Grade 4/4_jpg.rf.a943a4abde2fba62719b1a3e3e7f0476.jpg",
+          "filename": "4_jpg.rf.a943a4abde2fba62719b1a3e3e7f0476.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\4_jpg.rf.a943a4abde2fba62719b1a3e3e7f0476.jpg"
+        },
+        {
+          "path": "train/Grade 4/4_jpg.rf.aca10f5cabb6eff19047a210f7da7d5d.jpg",
+          "filename": "4_jpg.rf.aca10f5cabb6eff19047a210f7da7d5d.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\4_jpg.rf.aca10f5cabb6eff19047a210f7da7d5d.jpg"
+        },
+        {
+          "path": "train/Grade 4/4_jpg.rf.ce37761a1f727149e83b0d885918c0f1.jpg",
+          "filename": "4_jpg.rf.ce37761a1f727149e83b0d885918c0f1.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\4_jpg.rf.ce37761a1f727149e83b0d885918c0f1.jpg"
+        },
+        {
+          "path": "train/Grade 4/4_jpg.rf.fc77a7855cc2c32a638b9f57424a7813.jpg",
+          "filename": "4_jpg.rf.fc77a7855cc2c32a638b9f57424a7813.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\4_jpg.rf.fc77a7855cc2c32a638b9f57424a7813.jpg"
+        },
+        {
+          "path": "train/Grade 4/4_jpg.rf.feaa881c75a25b0918732a55b2e31f79.jpg",
+          "filename": "4_jpg.rf.feaa881c75a25b0918732a55b2e31f79.jpg",
+          "split": "train",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 4\\4_jpg.rf.feaa881c75a25b0918732a55b2e31f79.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "26_jpg",
+      "variant_count": 8,
+      "splits_present": [
+        "test",
+        "train"
+      ],
+      "classes_present": [
+        "Grade 2",
+        "Grade 4"
+      ],
+      "files": [
+        {
+          "path": "test/Grade 4/26_jpg.rf.d7897ec724090d784645c3c0e28d0d24.jpg",
+          "filename": "26_jpg.rf.d7897ec724090d784645c3c0e28d0d24.jpg",
+          "split": "test",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\test\\Grade 4\\26_jpg.rf.d7897ec724090d784645c3c0e28d0d24.jpg"
+        },
+        {
+          "path": "train/Grade 2/26_jpg.rf.13aa2f3a014806339d8cfb0226ad6e6d.jpg",
+          "filename": "26_jpg.rf.13aa2f3a014806339d8cfb0226ad6e6d.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\26_jpg.rf.13aa2f3a014806339d8cfb0226ad6e6d.jpg"
+        },
+        {
+          "path": "train/Grade 2/26_jpg.rf.235e48558a2ebc7e2bcc33702acfbe19.jpg",
+          "filename": "26_jpg.rf.235e48558a2ebc7e2bcc33702acfbe19.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\26_jpg.rf.235e48558a2ebc7e2bcc33702acfbe19.jpg"
+        },
+        {
+          "path": "train/Grade 2/26_jpg.rf.39e86aea9fa036f630d1a65bdae1380a.jpg",
+          "filename": "26_jpg.rf.39e86aea9fa036f630d1a65bdae1380a.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\26_jpg.rf.39e86aea9fa036f630d1a65bdae1380a.jpg"
+        },
+        {
+          "path": "train/Grade 2/26_jpg.rf.c52cce6c7b8a979295cec7045476167c.jpg",
+          "filename": "26_jpg.rf.c52cce6c7b8a979295cec7045476167c.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\26_jpg.rf.c52cce6c7b8a979295cec7045476167c.jpg"
+        },
+        {
+          "path": "train/Grade 2/26_jpg.rf.c6e19eff785ae22891c2d6504d93e3e3.jpg",
+          "filename": "26_jpg.rf.c6e19eff785ae22891c2d6504d93e3e3.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\26_jpg.rf.c6e19eff785ae22891c2d6504d93e3e3.jpg"
+        },
+        {
+          "path": "train/Grade 2/26_jpg.rf.d70a2d1a6a8921d91e3e9d355c8641da.jpg",
+          "filename": "26_jpg.rf.d70a2d1a6a8921d91e3e9d355c8641da.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\26_jpg.rf.d70a2d1a6a8921d91e3e9d355c8641da.jpg"
+        },
+        {
+          "path": "train/Grade 2/26_jpg.rf.f9f458224f954a2e48170924c7ce3bc2.jpg",
+          "filename": "26_jpg.rf.f9f458224f954a2e48170924c7ce3bc2.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\26_jpg.rf.f9f458224f954a2e48170924c7ce3bc2.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "35_jpg",
+      "variant_count": 14,
+      "splits_present": [
+        "train"
+      ],
+      "classes_present": [
+        "Grade 1",
+        "Grade 2"
+      ],
+      "files": [
+        {
+          "path": "train/Grade 1/35_jpg.rf.5055afdcd7458cf4d848aab53d02e495.jpg",
+          "filename": "35_jpg.rf.5055afdcd7458cf4d848aab53d02e495.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\35_jpg.rf.5055afdcd7458cf4d848aab53d02e495.jpg"
+        },
+        {
+          "path": "train/Grade 1/35_jpg.rf.7a5f6ee76e4ec3a2a3d3f9fb6bf44b38.jpg",
+          "filename": "35_jpg.rf.7a5f6ee76e4ec3a2a3d3f9fb6bf44b38.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\35_jpg.rf.7a5f6ee76e4ec3a2a3d3f9fb6bf44b38.jpg"
+        },
+        {
+          "path": "train/Grade 1/35_jpg.rf.7e76b57b36fae059ceded61834004b9d.jpg",
+          "filename": "35_jpg.rf.7e76b57b36fae059ceded61834004b9d.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\35_jpg.rf.7e76b57b36fae059ceded61834004b9d.jpg"
+        },
+        {
+          "path": "train/Grade 1/35_jpg.rf.7f17ca8bfde11b49254694579197570e.jpg",
+          "filename": "35_jpg.rf.7f17ca8bfde11b49254694579197570e.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\35_jpg.rf.7f17ca8bfde11b49254694579197570e.jpg"
+        },
+        {
+          "path": "train/Grade 1/35_jpg.rf.adafc56d9f188584fcd7a6f1f5b31bab.jpg",
+          "filename": "35_jpg.rf.adafc56d9f188584fcd7a6f1f5b31bab.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\35_jpg.rf.adafc56d9f188584fcd7a6f1f5b31bab.jpg"
+        },
+        {
+          "path": "train/Grade 1/35_jpg.rf.d7bffe0422db6c1f728d72381ab4f293.jpg",
+          "filename": "35_jpg.rf.d7bffe0422db6c1f728d72381ab4f293.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\35_jpg.rf.d7bffe0422db6c1f728d72381ab4f293.jpg"
+        },
+        {
+          "path": "train/Grade 1/35_jpg.rf.eade2f7ae0196d97b60561e5b9d898ab.jpg",
+          "filename": "35_jpg.rf.eade2f7ae0196d97b60561e5b9d898ab.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\35_jpg.rf.eade2f7ae0196d97b60561e5b9d898ab.jpg"
+        },
+        {
+          "path": "train/Grade 2/35_jpg.rf.231217fcdf49e2dc0546cfe4fb92161a.jpg",
+          "filename": "35_jpg.rf.231217fcdf49e2dc0546cfe4fb92161a.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\35_jpg.rf.231217fcdf49e2dc0546cfe4fb92161a.jpg"
+        },
+        {
+          "path": "train/Grade 2/35_jpg.rf.442c491a92d41e3452059e473581a6f2.jpg",
+          "filename": "35_jpg.rf.442c491a92d41e3452059e473581a6f2.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\35_jpg.rf.442c491a92d41e3452059e473581a6f2.jpg"
+        },
+        {
+          "path": "train/Grade 2/35_jpg.rf.6217bd7b4bd330e120a95040dfeb35b6.jpg",
+          "filename": "35_jpg.rf.6217bd7b4bd330e120a95040dfeb35b6.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\35_jpg.rf.6217bd7b4bd330e120a95040dfeb35b6.jpg"
+        },
+        {
+          "path": "train/Grade 2/35_jpg.rf.a37a31e05bba815d1bead1c2c75df6f0.jpg",
+          "filename": "35_jpg.rf.a37a31e05bba815d1bead1c2c75df6f0.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\35_jpg.rf.a37a31e05bba815d1bead1c2c75df6f0.jpg"
+        },
+        {
+          "path": "train/Grade 2/35_jpg.rf.c49d3a2ffa9409cd137cd357e5e3623b.jpg",
+          "filename": "35_jpg.rf.c49d3a2ffa9409cd137cd357e5e3623b.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\35_jpg.rf.c49d3a2ffa9409cd137cd357e5e3623b.jpg"
+        },
+        {
+          "path": "train/Grade 2/35_jpg.rf.cfb6fd8b90a56aec3a550b87848d8f1f.jpg",
+          "filename": "35_jpg.rf.cfb6fd8b90a56aec3a550b87848d8f1f.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\35_jpg.rf.cfb6fd8b90a56aec3a550b87848d8f1f.jpg"
+        },
+        {
+          "path": "train/Grade 2/35_jpg.rf.f488d379ff2707616b25014308824a4c.jpg",
+          "filename": "35_jpg.rf.f488d379ff2707616b25014308824a4c.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\35_jpg.rf.f488d379ff2707616b25014308824a4c.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "37_jpg",
+      "variant_count": 14,
+      "splits_present": [
+        "train"
+      ],
+      "classes_present": [
+        "Grade 1",
+        "Grade 3"
+      ],
+      "files": [
+        {
+          "path": "train/Grade 1/37_jpg.rf.025e356a15e350ce65d06370fb5234ef.jpg",
+          "filename": "37_jpg.rf.025e356a15e350ce65d06370fb5234ef.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\37_jpg.rf.025e356a15e350ce65d06370fb5234ef.jpg"
+        },
+        {
+          "path": "train/Grade 1/37_jpg.rf.0e1fe68c3c2b7a337f654f5b535b15d4.jpg",
+          "filename": "37_jpg.rf.0e1fe68c3c2b7a337f654f5b535b15d4.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\37_jpg.rf.0e1fe68c3c2b7a337f654f5b535b15d4.jpg"
+        },
+        {
+          "path": "train/Grade 1/37_jpg.rf.56977029989bf5bbe4c642927f4e0c79.jpg",
+          "filename": "37_jpg.rf.56977029989bf5bbe4c642927f4e0c79.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\37_jpg.rf.56977029989bf5bbe4c642927f4e0c79.jpg"
+        },
+        {
+          "path": "train/Grade 1/37_jpg.rf.6ee4ccd9a79b07bed9e5851650cc14ed.jpg",
+          "filename": "37_jpg.rf.6ee4ccd9a79b07bed9e5851650cc14ed.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\37_jpg.rf.6ee4ccd9a79b07bed9e5851650cc14ed.jpg"
+        },
+        {
+          "path": "train/Grade 1/37_jpg.rf.731c5d0c65f88fb972b7051f7123690e.jpg",
+          "filename": "37_jpg.rf.731c5d0c65f88fb972b7051f7123690e.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\37_jpg.rf.731c5d0c65f88fb972b7051f7123690e.jpg"
+        },
+        {
+          "path": "train/Grade 1/37_jpg.rf.d69eead958d1e7ac73a214abfed8a9d4.jpg",
+          "filename": "37_jpg.rf.d69eead958d1e7ac73a214abfed8a9d4.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\37_jpg.rf.d69eead958d1e7ac73a214abfed8a9d4.jpg"
+        },
+        {
+          "path": "train/Grade 1/37_jpg.rf.d9e2990f3fb1d20b81f0a1ef7a76bab4.jpg",
+          "filename": "37_jpg.rf.d9e2990f3fb1d20b81f0a1ef7a76bab4.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\37_jpg.rf.d9e2990f3fb1d20b81f0a1ef7a76bab4.jpg"
+        },
+        {
+          "path": "train/Grade 3/37_jpg.rf.2c24d64fde0fc7d5e4b85a9abe065a4e.jpg",
+          "filename": "37_jpg.rf.2c24d64fde0fc7d5e4b85a9abe065a4e.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\37_jpg.rf.2c24d64fde0fc7d5e4b85a9abe065a4e.jpg"
+        },
+        {
+          "path": "train/Grade 3/37_jpg.rf.4b125da99b43630b1b35bd3e04687b0a.jpg",
+          "filename": "37_jpg.rf.4b125da99b43630b1b35bd3e04687b0a.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\37_jpg.rf.4b125da99b43630b1b35bd3e04687b0a.jpg"
+        },
+        {
+          "path": "train/Grade 3/37_jpg.rf.635391f20d78f495130d28a20911224d.jpg",
+          "filename": "37_jpg.rf.635391f20d78f495130d28a20911224d.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\37_jpg.rf.635391f20d78f495130d28a20911224d.jpg"
+        },
+        {
+          "path": "train/Grade 3/37_jpg.rf.7a26db165a89579ab4baa4e00fb1f5dd.jpg",
+          "filename": "37_jpg.rf.7a26db165a89579ab4baa4e00fb1f5dd.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\37_jpg.rf.7a26db165a89579ab4baa4e00fb1f5dd.jpg"
+        },
+        {
+          "path": "train/Grade 3/37_jpg.rf.942db849a2c1839418973b420ac2498a.jpg",
+          "filename": "37_jpg.rf.942db849a2c1839418973b420ac2498a.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\37_jpg.rf.942db849a2c1839418973b420ac2498a.jpg"
+        },
+        {
+          "path": "train/Grade 3/37_jpg.rf.b81fd4215ec1a75ae1a3debf4f5c228d.jpg",
+          "filename": "37_jpg.rf.b81fd4215ec1a75ae1a3debf4f5c228d.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\37_jpg.rf.b81fd4215ec1a75ae1a3debf4f5c228d.jpg"
+        },
+        {
+          "path": "train/Grade 3/37_jpg.rf.fe5693553b97cb8417d714958be7679a.jpg",
+          "filename": "37_jpg.rf.fe5693553b97cb8417d714958be7679a.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\37_jpg.rf.fe5693553b97cb8417d714958be7679a.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "42_jpg",
+      "variant_count": 14,
+      "splits_present": [
+        "train"
+      ],
+      "classes_present": [
+        "Grade 1",
+        "Grade 3"
+      ],
+      "files": [
+        {
+          "path": "train/Grade 1/42_jpg.rf.0561ae8a0ae368f7502edb49fa5cc57e.jpg",
+          "filename": "42_jpg.rf.0561ae8a0ae368f7502edb49fa5cc57e.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\42_jpg.rf.0561ae8a0ae368f7502edb49fa5cc57e.jpg"
+        },
+        {
+          "path": "train/Grade 1/42_jpg.rf.219cb104f3afffbbc30ef6b75bf357ea.jpg",
+          "filename": "42_jpg.rf.219cb104f3afffbbc30ef6b75bf357ea.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\42_jpg.rf.219cb104f3afffbbc30ef6b75bf357ea.jpg"
+        },
+        {
+          "path": "train/Grade 1/42_jpg.rf.6cad35f691983cf9a3993f2831599359.jpg",
+          "filename": "42_jpg.rf.6cad35f691983cf9a3993f2831599359.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\42_jpg.rf.6cad35f691983cf9a3993f2831599359.jpg"
+        },
+        {
+          "path": "train/Grade 1/42_jpg.rf.78c618ab4abcbbd3b7ebce4656c79bea.jpg",
+          "filename": "42_jpg.rf.78c618ab4abcbbd3b7ebce4656c79bea.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\42_jpg.rf.78c618ab4abcbbd3b7ebce4656c79bea.jpg"
+        },
+        {
+          "path": "train/Grade 1/42_jpg.rf.a5c44e2eb93fc6ec78bcb464a947be67.jpg",
+          "filename": "42_jpg.rf.a5c44e2eb93fc6ec78bcb464a947be67.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\42_jpg.rf.a5c44e2eb93fc6ec78bcb464a947be67.jpg"
+        },
+        {
+          "path": "train/Grade 1/42_jpg.rf.d081368cb735b5a910b8d1887f998021.jpg",
+          "filename": "42_jpg.rf.d081368cb735b5a910b8d1887f998021.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\42_jpg.rf.d081368cb735b5a910b8d1887f998021.jpg"
+        },
+        {
+          "path": "train/Grade 1/42_jpg.rf.dc469070020c3a0f3e5ed338318aae8c.jpg",
+          "filename": "42_jpg.rf.dc469070020c3a0f3e5ed338318aae8c.jpg",
+          "split": "train",
+          "class": "Grade 1",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 1\\42_jpg.rf.dc469070020c3a0f3e5ed338318aae8c.jpg"
+        },
+        {
+          "path": "train/Grade 3/42_jpg.rf.09114a1600d8a1a0257e8100f2129663.jpg",
+          "filename": "42_jpg.rf.09114a1600d8a1a0257e8100f2129663.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\42_jpg.rf.09114a1600d8a1a0257e8100f2129663.jpg"
+        },
+        {
+          "path": "train/Grade 3/42_jpg.rf.14627ba27fd1b27bb6cecf657f6abbc3.jpg",
+          "filename": "42_jpg.rf.14627ba27fd1b27bb6cecf657f6abbc3.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\42_jpg.rf.14627ba27fd1b27bb6cecf657f6abbc3.jpg"
+        },
+        {
+          "path": "train/Grade 3/42_jpg.rf.321592442e76a2e720ed026a0d21c471.jpg",
+          "filename": "42_jpg.rf.321592442e76a2e720ed026a0d21c471.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\42_jpg.rf.321592442e76a2e720ed026a0d21c471.jpg"
+        },
+        {
+          "path": "train/Grade 3/42_jpg.rf.8115ab811886f4e1df002c5e2cfb3e52.jpg",
+          "filename": "42_jpg.rf.8115ab811886f4e1df002c5e2cfb3e52.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\42_jpg.rf.8115ab811886f4e1df002c5e2cfb3e52.jpg"
+        },
+        {
+          "path": "train/Grade 3/42_jpg.rf.c573e2c7e6b3377d5847605c648dde95.jpg",
+          "filename": "42_jpg.rf.c573e2c7e6b3377d5847605c648dde95.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\42_jpg.rf.c573e2c7e6b3377d5847605c648dde95.jpg"
+        },
+        {
+          "path": "train/Grade 3/42_jpg.rf.d8c66b384d2ef09458df0b2fd1dc2a62.jpg",
+          "filename": "42_jpg.rf.d8c66b384d2ef09458df0b2fd1dc2a62.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\42_jpg.rf.d8c66b384d2ef09458df0b2fd1dc2a62.jpg"
+        },
+        {
+          "path": "train/Grade 3/42_jpg.rf.f674b253511d6a7ce9fa1206bcb91a12.jpg",
+          "filename": "42_jpg.rf.f674b253511d6a7ce9fa1206bcb91a12.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\42_jpg.rf.f674b253511d6a7ce9fa1206bcb91a12.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "16_jpg",
+      "variant_count": 14,
+      "splits_present": [
+        "train"
+      ],
+      "classes_present": [
+        "Grade 2",
+        "Grade 3"
+      ],
+      "files": [
+        {
+          "path": "train/Grade 2/16_jpg.rf.02ed36726f55cd31a854da681859dc23.jpg",
+          "filename": "16_jpg.rf.02ed36726f55cd31a854da681859dc23.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\16_jpg.rf.02ed36726f55cd31a854da681859dc23.jpg"
+        },
+        {
+          "path": "train/Grade 2/16_jpg.rf.2dbfdc880648ecc101d70a4623215bec.jpg",
+          "filename": "16_jpg.rf.2dbfdc880648ecc101d70a4623215bec.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\16_jpg.rf.2dbfdc880648ecc101d70a4623215bec.jpg"
+        },
+        {
+          "path": "train/Grade 2/16_jpg.rf.33656361af27b7df4dd512927b7a5983.jpg",
+          "filename": "16_jpg.rf.33656361af27b7df4dd512927b7a5983.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\16_jpg.rf.33656361af27b7df4dd512927b7a5983.jpg"
+        },
+        {
+          "path": "train/Grade 2/16_jpg.rf.5f1c16585f4dfc038a75ff68e894daad.jpg",
+          "filename": "16_jpg.rf.5f1c16585f4dfc038a75ff68e894daad.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\16_jpg.rf.5f1c16585f4dfc038a75ff68e894daad.jpg"
+        },
+        {
+          "path": "train/Grade 2/16_jpg.rf.8988487024aa52e2ad8595195308e87f.jpg",
+          "filename": "16_jpg.rf.8988487024aa52e2ad8595195308e87f.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\16_jpg.rf.8988487024aa52e2ad8595195308e87f.jpg"
+        },
+        {
+          "path": "train/Grade 2/16_jpg.rf.c36ada3a363fa1bacdecc561e98d5d1c.jpg",
+          "filename": "16_jpg.rf.c36ada3a363fa1bacdecc561e98d5d1c.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\16_jpg.rf.c36ada3a363fa1bacdecc561e98d5d1c.jpg"
+        },
+        {
+          "path": "train/Grade 2/16_jpg.rf.e8ebbfaa0a00bfb1d1d629b5cf1d5a9d.jpg",
+          "filename": "16_jpg.rf.e8ebbfaa0a00bfb1d1d629b5cf1d5a9d.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\16_jpg.rf.e8ebbfaa0a00bfb1d1d629b5cf1d5a9d.jpg"
+        },
+        {
+          "path": "train/Grade 3/16_jpg.rf.0d93bf28d3311580187f2ae0933ed111.jpg",
+          "filename": "16_jpg.rf.0d93bf28d3311580187f2ae0933ed111.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\16_jpg.rf.0d93bf28d3311580187f2ae0933ed111.jpg"
+        },
+        {
+          "path": "train/Grade 3/16_jpg.rf.498d5299b08c6134f2ba61da26da87c2.jpg",
+          "filename": "16_jpg.rf.498d5299b08c6134f2ba61da26da87c2.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\16_jpg.rf.498d5299b08c6134f2ba61da26da87c2.jpg"
+        },
+        {
+          "path": "train/Grade 3/16_jpg.rf.8dbd316959e932c484b71879017f32f1.jpg",
+          "filename": "16_jpg.rf.8dbd316959e932c484b71879017f32f1.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\16_jpg.rf.8dbd316959e932c484b71879017f32f1.jpg"
+        },
+        {
+          "path": "train/Grade 3/16_jpg.rf.8e08e5877b4621f0dec6b4946974fe7c.jpg",
+          "filename": "16_jpg.rf.8e08e5877b4621f0dec6b4946974fe7c.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\16_jpg.rf.8e08e5877b4621f0dec6b4946974fe7c.jpg"
+        },
+        {
+          "path": "train/Grade 3/16_jpg.rf.979ce1c175912303a474ecac22e5b5f2.jpg",
+          "filename": "16_jpg.rf.979ce1c175912303a474ecac22e5b5f2.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\16_jpg.rf.979ce1c175912303a474ecac22e5b5f2.jpg"
+        },
+        {
+          "path": "train/Grade 3/16_jpg.rf.ae82a3ff4c631c3c44ea195750320698.jpg",
+          "filename": "16_jpg.rf.ae82a3ff4c631c3c44ea195750320698.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\16_jpg.rf.ae82a3ff4c631c3c44ea195750320698.jpg"
+        },
+        {
+          "path": "train/Grade 3/16_jpg.rf.f1cc4c991b25eace0d060aec748d88d2.jpg",
+          "filename": "16_jpg.rf.f1cc4c991b25eace0d060aec748d88d2.jpg",
+          "split": "train",
+          "class": "Grade 3",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 3\\16_jpg.rf.f1cc4c991b25eace0d060aec748d88d2.jpg"
+        }
+      ]
+    },
+    {
+      "source_id": "19_jpg",
+      "variant_count": 8,
+      "splits_present": [
+        "train",
+        "valid"
+      ],
+      "classes_present": [
+        "Grade 2",
+        "Grade 4"
+      ],
+      "files": [
+        {
+          "path": "train/Grade 2/19_jpg.rf.093392d01adc2f55997ce7b3f4120285.jpg",
+          "filename": "19_jpg.rf.093392d01adc2f55997ce7b3f4120285.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\19_jpg.rf.093392d01adc2f55997ce7b3f4120285.jpg"
+        },
+        {
+          "path": "train/Grade 2/19_jpg.rf.28d872479be74f6f36f52339be2559c5.jpg",
+          "filename": "19_jpg.rf.28d872479be74f6f36f52339be2559c5.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\19_jpg.rf.28d872479be74f6f36f52339be2559c5.jpg"
+        },
+        {
+          "path": "train/Grade 2/19_jpg.rf.4378e83fd2a2cc16f9370af6a96fe40a.jpg",
+          "filename": "19_jpg.rf.4378e83fd2a2cc16f9370af6a96fe40a.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\19_jpg.rf.4378e83fd2a2cc16f9370af6a96fe40a.jpg"
+        },
+        {
+          "path": "train/Grade 2/19_jpg.rf.4957037f443e814566fb675f16664edb.jpg",
+          "filename": "19_jpg.rf.4957037f443e814566fb675f16664edb.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\19_jpg.rf.4957037f443e814566fb675f16664edb.jpg"
+        },
+        {
+          "path": "train/Grade 2/19_jpg.rf.597dbefaf5dda7da2f6810cc00c9f374.jpg",
+          "filename": "19_jpg.rf.597dbefaf5dda7da2f6810cc00c9f374.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\19_jpg.rf.597dbefaf5dda7da2f6810cc00c9f374.jpg"
+        },
+        {
+          "path": "train/Grade 2/19_jpg.rf.aa3c0b623bbdfaa7abda767ce0edcc88.jpg",
+          "filename": "19_jpg.rf.aa3c0b623bbdfaa7abda767ce0edcc88.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\19_jpg.rf.aa3c0b623bbdfaa7abda767ce0edcc88.jpg"
+        },
+        {
+          "path": "train/Grade 2/19_jpg.rf.b97f0ac7652e8fee201fc1d02a9c67da.jpg",
+          "filename": "19_jpg.rf.b97f0ac7652e8fee201fc1d02a9c67da.jpg",
+          "split": "train",
+          "class": "Grade 2",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\train\\Grade 2\\19_jpg.rf.b97f0ac7652e8fee201fc1d02a9c67da.jpg"
+        },
+        {
+          "path": "valid/Grade 4/19_jpg.rf.91caf44fccf6e5129a5ea26e7d3c8bf6.jpg",
+          "filename": "19_jpg.rf.91caf44fccf6e5129a5ea26e7d3c8bf6.jpg",
+          "split": "valid",
+          "class": "Grade 4",
+          "full_path": "D:\\FusionMedAI\\datasets\\foot\\raw\\valid\\Grade 4\\19_jpg.rf.91caf44fccf6e5129a5ea26e7d3c8bf6.jpg"
+        }
+      ]
+    }
+  ]
+}

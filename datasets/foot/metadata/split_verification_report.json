@@ -1,0 +1,86 @@
+{
+  "phase": "10.2.6",
+  "status": "PASS",
+  "title": "Split Verification Report",
+  "leakage_checks": {
+    "source_groups_shared_across_splits": 0,
+    "exact_duplicates_across_splits": 0,
+    "type1_near_duplicates_across_splits": 0,
+    "result": "PASS \u2014 0% Leakage Detected"
+  },
+  "integrity_checks": {
+    "missing_images": 0,
+    "invalid_labels": 0,
+    "duplicate_manifest_rows": 0,
+    "unreadable_corrupted_images": 0,
+    "result": "PASS \u2014 100% Integrity Verified"
+  },
+  "distribution_summary": {
+    "train": {
+      "total_images": 8038,
+      "total_groups": 1412,
+      "class_breakdown": {
+        "Grade 1": {
+          "count": 1893,
+          "percentage": 23.55
+        },
+        "Grade 2": {
+          "count": 1965,
+          "percentage": 24.45
+        },
+        "Grade 3": {
+          "count": 2237,
+          "percentage": 27.83
+        },
+        "Grade 4": {
+          "count": 1943,
+          "percentage": 24.17
+        }
+      }
+    },
+    "val": {
+      "total_images": 1006,
+      "total_groups": 177,
+      "class_breakdown": {
+        "Grade 1": {
+          "count": 237,
+          "percentage": 23.56
+        },
+        "Grade 2": {
+          "count": 246,
+          "percentage": 24.45
+        },
+        "Grade 3": {
+          "count": 280,
+          "percentage": 27.83
+        },
+        "Grade 4": {
+          "count": 243,
+          "percentage": 24.16
+        }
+      }
+    },
+    "test": {
+      "total_images": 1006,
+      "total_groups": 181,
+      "class_breakdown": {
+        "Grade 1": {
+          "count": 237,
+          "percentage": 23.56
+        },
+        "Grade 2": {
+          "count": 246,
+          "percentage": 24.45
+        },
+        "Grade 3": {
+          "count": 280,
+          "percentage": 27.83
+        },
+        "Grade 4": {
+          "count": 243,
+          "percentage": 24.16
+        }
+      }
+    }
+  }
+}
