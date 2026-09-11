@@ -1,0 +1,116 @@
+{
+  "phase": "10.3.6",
+  "title": "Dataset Bias & Shortcut Analysis Report",
+  "total_canonical_images": 10050,
+  "feature_correlation_audit": {
+    "brightness": {
+      "pearson_r": -0.1441,
+      "pearson_p_value": 9.4794e-48,
+      "spearman_rho": -0.146,
+      "anova_f_stat": 92.75,
+      "anova_eta_squared": 0.027,
+      "risk_level": "LOW"
+    },
+    "contrast_rms": {
+      "pearson_r": 0.2406,
+      "pearson_p_value": 2.5539e-132,
+      "spearman_rho": 0.2513,
+      "anova_f_stat": 221.98,
+      "anova_eta_squared": 0.0622,
+      "risk_level": "MODERATE"
+    },
+    "saturation_mean": {
+      "pearson_r": -0.0747,
+      "pearson_p_value": 6.6746e-14,
+      "spearman_rho": -0.0704,
+      "anova_f_stat": 70.89,
+      "anova_eta_squared": 0.0207,
+      "risk_level": "LOW"
+    },
+    "laplacian_var": {
+      "pearson_r": 0.1412,
+      "pearson_p_value": 6.2669e-46,
+      "spearman_rho": 0.1294,
+      "anova_f_stat": 80.14,
+      "anova_eta_squared": 0.0234,
+      "risk_level": "LOW"
+    },
+    "under_exposure_pct": {
+      "pearson_r": 0.1428,
+      "pearson_p_value": 6.0419e-47,
+      "spearman_rho": 0.1072,
+      "anova_f_stat": 137.74,
+      "anova_eta_squared": 0.0395,
+      "risk_level": "LOW"
+    },
+    "over_exposure_pct": {
+      "pearson_r": -0.0095,
+      "pearson_p_value": 0.33879,
+      "spearman_rho": 0.16,
+      "anova_f_stat": 3.53,
+      "anova_eta_squared": 0.0011,
+      "risk_level": "LOW"
+    },
+    "file_size_kb": {
+      "pearson_r": 0.2446,
+      "pearson_p_value": 7.1266e-137,
+      "spearman_rho": 0.2357,
+      "anova_f_stat": 233.35,
+      "anova_eta_squared": 0.0651,
+      "risk_level": "MODERATE"
+    },
+    "has_border": {
+      "pearson_r": 0.1633,
+      "pearson_p_value": 5.0285e-61,
+      "spearman_rho": 0.1634,
+      "anova_f_stat": 123.88,
+      "anova_eta_squared": 0.0357,
+      "risk_level": "LOW"
+    }
+  },
+  "class_wise_feature_means": {
+    "Grade 1": {
+      "brightness": 0.4299,
+      "contrast_rms": 0.1405,
+      "saturation_mean": 0.3979,
+      "laplacian_var": 377.4,
+      "file_size_kb": 6.3,
+      "letterbox_border_pct": 3.08
+    },
+    "Grade 2": {
+      "brightness": 0.393,
+      "contrast_rms": 0.1601,
+      "saturation_mean": 0.4301,
+      "laplacian_var": 404.27,
+      "file_size_kb": 6.6,
+      "letterbox_border_pct": 5.05
+    },
+    "Grade 3": {
+      "brightness": 0.3881,
+      "contrast_rms": 0.1694,
+      "saturation_mean": 0.3878,
+      "laplacian_var": 421.17,
+      "file_size_kb": 6.79,
+      "letterbox_border_pct": 16.2
+    },
+    "Grade 4": {
+      "brightness": 0.3833,
+      "contrast_rms": 0.1756,
+      "saturation_mean": 0.3847,
+      "laplacian_var": 512.2,
+      "file_size_kb": 7.46,
+      "letterbox_border_pct": 13.92
+    }
+  },
+  "roboflow_artifact_audit": {
+    "chi2_stat": 347.87,
+    "p_value": 4.427e-72,
+    "cramers_v": 0.1316,
+    "assessment": "No strong Roboflow naming prefix shortcut bias detected."
+  },
+  "bias_mitigation_recommendations": {
+    "group_stratification": "Phase 10.2 group-stratified split prevents patient-level data leakage and balances source-group distribution across splits.",
+    "data_augmentation": "Apply random color jitter (brightness=0.2, contrast=0.2, saturation=0.1) during training to destroy potential residual illumination/color cast shortcuts.",
+    "normalization": "Normalize using observed dataset statistics [0.4937, 0.3630, 0.3272]."
+  }
+}

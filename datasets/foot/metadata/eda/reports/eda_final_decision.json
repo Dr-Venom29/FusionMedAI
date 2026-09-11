@@ -1,0 +1,61 @@
+{
+  "phase": "10.3.7",
+  "title": "Final Foot EDA & Quality Decision Report",
+  "total_canonical_images": 10050,
+  "total_source_groups": 1770,
+  "acceptance_status": "PASSED",
+  "defensible_research_trail": [
+    {
+      "observation": "Measured exact pixel RGB statistics across 10,050 canonical images: Mean=[0.4937, 0.3630, 0.3272], Std=[0.1745, 0.1632, 0.1551].",
+      "decision": "Use observed dataset normalization statistics rather than standard ImageNet defaults.",
+      "rationale": "Red channel mean (0.4937) is significantly higher than Blue (0.3272) due to tissue hyperemic redness and vascularity. Custom normalization centers color distributions accurately for clinical feature extraction."
+    },
+    {
+      "observation": "Identified 1,414 quality outliers (14.07%) including soft background blur (6.39%), low contrast (4.37%), and color cast (3.13%).",
+      "decision": "Retain 100% of outlier images in the modeling dataset without deletion.",
+      "rationale": "Deleting outliers would distort patient source-group integrity and introduce artificial data selection bias. Models must be evaluated under real-world clinical photography conditions."
+    },
+    {
+      "observation": "Pre-trained ResNet50 feature embeddings yielded a near-zero Silhouette score (-0.0004) and minimum centroid distance (0.0193) between Grade 2 and Grade 3.",
+      "decision": "Mandate supervised end-to-end fine-tuning of deep backbones (ConvNeXt, Swin, EfficientNet) and prioritize Macro F1 & Grade 3 Recall evaluation metrics.",
+      "rationale": "Grade 2 (deep ulcer without osteomyelitis) and Grade 3 (deep ulcer with bone sepsis) share high surface visual similarity. Generic pre-trained features cannot separate them without supervised fine-tuning."
+    },
+    {
+      "observation": "Observed near-perfect class balance (Imbalance Ratio 1.18:1; Grade 1: 23.55%, Grade 2: 24.45%, Grade 3: 27.83%, Grade 4: 24.17%).",
+      "decision": "Use standard epoch-based random shuffling with Cross-Entropy Loss or Sqrt Inverse Frequency weights (Grade 1: 1.0870, Grade 2: 1.0669, Grade 3: 1.0000, Grade 4: 1.0731).",
+      "rationale": "Heavy oversampling is unnecessary and risks overfitting to specific patient source groups."
+    },
+    {
+      "observation": "Audited non-clinical features against Wagner grade; brightness (r=-0.1441) and Roboflow naming prefixes (V=0.1316) show low shortcut risk, while RMS contrast (r=+0.2406) shows moderate correlation due to necrotic eschar contrast.",
+      "decision": "Apply random color jitter (brightness=0.2, contrast=0.2, saturation=0.1) and affine rotation (+/-15 deg) during training.",
+      "rationale": "Color jitter destroys potential residual illumination/color shortcuts without obscuring true tissue necrosis boundaries."
+    }
+  ],
+  "preprocessed_policy_summary": {
+    "normalization_mean": [
+      0.4937,
+      0.363,
+      0.3272
+    ],
+    "normalization_std": [
+      0.1745,
+      0.1632,
+      0.1551
+    ],
+    "image_size": [
+      224,
+      224,
+      3
+    ],
+    "training_augmentations": [
+      "RandomHorizontalFlip(p=0.5)",
+      "RandomRotation(degrees=15)",
+      "ColorJitter(b=0.2, c=0.2, s=0.1)"
+    ],
+    "eval_augmentations": [
+      "None (Deterministic Resize & Normalization)"
+    ],
+    "loss_function": "Weighted Cross-Entropy (Sqrt Inverse Frequency) or Focal Loss (gamma=2.0)",
+    "outlier_policy": "Zero Deletions (100% Retention)"
+  }
+}

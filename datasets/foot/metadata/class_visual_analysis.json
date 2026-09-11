@@ -1,0 +1,77 @@
+{
+  "phase": "10.3.2",
+  "title": "Class-Wise Visual Analysis Report",
+  "class_profiles": {
+    "Grade 1": {
+      "wagner_grade": 0,
+      "sample_count": 2367,
+      "rgb_mean": {
+        "red": 0.5408,
+        "green": 0.3878,
+        "blue": 0.356
+      },
+      "mean_luminance": 0.4299,
+      "std_luminance": 0.1046,
+      "mean_file_size_kb": 6.3
+    },
+    "Grade 2": {
+      "wagner_grade": 1,
+      "sample_count": 2457,
+      "rgb_mean": {
+        "red": 0.5032,
+        "green": 0.35,
+        "blue": 0.3246
+      },
+      "mean_luminance": 0.3929,
+      "std_luminance": 0.113,
+      "mean_file_size_kb": 6.6
+    },
+    "Grade 3": {
+      "wagner_grade": 2,
+      "sample_count": 2797,
+      "rgb_mean": {
+        "red": 0.4744,
+        "green": 0.3576,
+        "blue": 0.3188
+      },
+      "mean_luminance": 0.3881,
+      "std_luminance": 0.1019,
+      "mean_file_size_kb": 6.79
+    },
+    "Grade 4": {
+      "wagner_grade": 3,
+      "sample_count": 2429,
+      "rgb_mean": {
+        "red": 0.4602,
+        "green": 0.358,
+        "blue": 0.3112
+      },
+      "mean_luminance": 0.3832,
+      "std_luminance": 0.1148,
+      "mean_file_size_kb": 7.46
+    }
+  },
+  "visual_comparison_grid": "metadata\\quality\\wagner_class_comparison_grid.png",
+  "class_overlap_analysis": {
+    "grade_1_superficial": {
+      "primary_visual_features": "Superficial skin erosions, blisters, pink/red shallow ulcers, intact subcutaneous plane.",
+      "background_and_lighting": "Varied clinical background (bedsheets, exam chairs, gloved hands), direct flash lighting.",
+      "overlap_risk": "Low risk with Grade 4. Moderate risk with shallow Grade 2 ulcers where dermis depth is ambiguous."
+    },
+    "grade_2_deep_no_bone": {
+      "primary_visual_features": "Penetrating deep ulcer exposing subcutaneous fat, tendon, or ligament. Clear wound margins without gross purulent drainage or black gangrene.",
+      "background_and_lighting": "Clinician hands, ruler measurements, surgical drapes.",
+      "overlap_risk": "HIGH RISK with Grade 3. Because bone involvement (osteomyelitis) or deep joint sepsis occurs below the surface skin, Grade 2 and Grade 3 superficial ulcer beds can appear visually indistinguishable without purulent exudate or sinus tract visualization."
+    },
+    "grade_3_deep_with_abscess": {
+      "primary_visual_features": "Deep ulcer accompanied by visible purulent pus exudate, tissue edema, cellulitis redness, or deep sinus tracts.",
+      "background_and_lighting": "Clinical dressing removal photos, heavy shadow / indoor flash.",
+      "overlap_risk": "HIGH OVERLAP with Grade 2 on dry or cleaned wound beds. Moderate overlap with Grade 4 when dark necrotic crusts mimic early gangrene."
+    },
+    "grade_4_localized_gangrene": {
+      "primary_visual_features": "Localized ischemic black/charcoal necrotic tissue gangrene affecting toes, forefoot, or heel margin.",
+      "background_and_lighting": "Surgical prep background, sterile fields, direct clinic lighting.",
+      "overlap_risk": "DISTINCT VISUAL SIGNATURE. High contrast black necrotic eschar makes Grade 4 easily distinguishable from Grades 1-3."
+    }
+  }
+}

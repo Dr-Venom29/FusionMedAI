@@ -1,0 +1,88 @@
+{
+  "phase": "10.3.1",
+  "title": "Foot Dataset Statistical Profiling Report",
+  "total_canonical_images": 10050,
+  "imbalance_ratio": 1.18,
+  "class_distribution": {
+    "Grade 1": {
+      "count": 2367,
+      "percentage": 23.55
+    },
+    "Grade 2": {
+      "count": 2457,
+      "percentage": 24.45
+    },
+    "Grade 3": {
+      "count": 2797,
+      "percentage": 27.83
+    },
+    "Grade 4": {
+      "count": 2429,
+      "percentage": 24.17
+    }
+  },
+  "source_group_distribution": {
+    "total_source_groups": 1770,
+    "mean_images_per_group": 5.68,
+    "median_images_per_group": 7.0,
+    "min_images_per_group": 1,
+    "max_images_per_group": 21,
+    "percentiles": {
+      "p25": 7.0,
+      "p50": 7.0,
+      "p75": 7.0,
+      "p95": 7.0
+    }
+  },
+  "image_dimensions": {
+    "uniform_resolution": true,
+    "width": 224,
+    "height": 224,
+    "aspect_ratio": 1.0
+  },
+  "rgb_intensity_statistics": {
+    "mean": {
+      "red": 0.4937,
+      "green": 0.363,
+      "blue": 0.3272,
+      "overall": 0.3946
+    },
+    "std": {
+      "red": 0.1745,
+      "green": 0.1632,
+      "blue": 0.1551,
+      "overall": 0.1643
+    },
+    "percentiles": {
+      "red": {
+        "p05": 0.0118,
+        "p25": 0.3725,
+        "p50_median": 0.5098,
+        "p75": 0.6431,
+        "p95": 0.8314
+      },
+      "green": {
+        "p05": 0.0039,
+        "p25": 0.2196,
+        "p50_median": 0.349,
+        "p75": 0.502,
+        "p95": 0.7098
+      },
+      "blue": {
+        "p05": 0.0078,
+        "p25": 0.1882,
+        "p50_median": 0.3059,
+        "p75": 0.451,
+        "p95": 0.6784
+      }
+    }
+  },
+  "file_size_distribution_kb": {
+    "mean_kb": 6.79,
+    "median_kb": 6.6,
+    "min_kb": 2.4,
+    "max_kb": 17.26,
+    "p25_kb": 5.66,
+    "p75_kb": 7.74
+  }
+}

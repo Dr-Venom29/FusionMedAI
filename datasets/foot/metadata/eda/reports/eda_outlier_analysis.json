@@ -1,0 +1,85 @@
+{
+  "phase": "10.3.4",
+  "title": "Outlier Analysis & Anomaly Audit",
+  "total_canonical_images": 10050,
+  "normal_distribution_count": 8636,
+  "normal_distribution_pct": 85.93,
+  "total_outliers_count": 1414,
+  "total_outliers_pct": 14.07,
+  "category_counts": {
+    "EXTREME_BRIGHT_GLARE": 217,
+    "NORMAL_DISTRIBUTION": 8636,
+    "SEVERE_BLUR": 642,
+    "LOW_CONTRAST": 439,
+    "ANOMALOUS_LOW_VARIANCE": 116,
+    "COMPOSITION_COLOR_CAST": 315,
+    "EXTREME_DARK": 24,
+    "HARSH_CONTRAST": 67
+  },
+  "split_outliers_breakdown": {
+    "train": {
+      "EXTREME_BRIGHT_GLARE": 206,
+      "SEVERE_BLUR": 512,
+      "LOW_CONTRAST": 344,
+      "ANOMALOUS_LOW_VARIANCE": 98,
+      "COMPOSITION_COLOR_CAST": 271,
+      "HARSH_CONTRAST": 61,
+      "EXTREME_DARK": 23
+    },
+    "test": {
+      "SEVERE_BLUR": 63,
+      "ANOMALOUS_LOW_VARIANCE": 12,
+      "LOW_CONTRAST": 33,
+      "EXTREME_BRIGHT_GLARE": 4,
+      "EXTREME_DARK": 1,
+      "COMPOSITION_COLOR_CAST": 21,
+      "HARSH_CONTRAST": 1
+    },
+    "val": {
+      "SEVERE_BLUR": 67,
+      "LOW_CONTRAST": 62,
+      "ANOMALOUS_LOW_VARIANCE": 6,
+      "COMPOSITION_COLOR_CAST": 23,
+      "HARSH_CONTRAST": 5,
+      "EXTREME_BRIGHT_GLARE": 7
+    }
+  },
+  "grade_outliers_breakdown": {
+    "Grade 1": {
+      "EXTREME_BRIGHT_GLARE": 65,
+      "SEVERE_BLUR": 210,
+      "LOW_CONTRAST": 211,
+      "ANOMALOUS_LOW_VARIANCE": 51,
+      "COMPOSITION_COLOR_CAST": 58,
+      "HARSH_CONTRAST": 7
+    },
+    "Grade 2": {
+      "SEVERE_BLUR": 193,
+      "EXTREME_BRIGHT_GLARE": 66,
+      "ANOMALOUS_LOW_VARIANCE": 31,
+      "LOW_CONTRAST": 110,
+      "COMPOSITION_COLOR_CAST": 84,
+      "EXTREME_DARK": 7,
+      "HARSH_CONTRAST": 35
+    },
+    "Grade 3": {
+      "SEVERE_BLUR": 148,
+      "LOW_CONTRAST": 82,
+      "COMPOSITION_COLOR_CAST": 113,
+      "ANOMALOUS_LOW_VARIANCE": 15,
+      "EXTREME_BRIGHT_GLARE": 20,
+      "HARSH_CONTRAST": 12,
+      "EXTREME_DARK": 7
+    },
+    "Grade 4": {
+      "EXTREME_BRIGHT_GLARE": 66,
+      "EXTREME_DARK": 10,
+      "LOW_CONTRAST": 36,
+      "SEVERE_BLUR": 91,
+      "COMPOSITION_COLOR_CAST": 60,
+      "ANOMALOUS_LOW_VARIANCE": 19,
+      "HARSH_CONTRAST": 13
+    }
+  },
+  "retention_policy": "NO OUTLIERS ARE DELETED. All identified outliers are retained to preserve group-based split integrity and reflect true clinical photography variation during model evaluation."
+}

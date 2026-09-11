@@ -15,6 +15,8 @@ The framework currently includes a completed retinal imaging pipeline and an ind
 
 ## Current Status
 
+The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline construction, and exploratory data analysis. The next stage is baseline model development.
+
 ### Retina Module
 - ✓ Dataset preparation
 - ✓ Data pipeline
@@ -31,13 +33,18 @@ The framework currently includes a completed retinal imaging pipeline and an ind
 - ✓ Dataset acquisition and audit
 - ✓ Canonical dataset construction
 - ✓ Source-image grouping
-- ✓ Near-duplicate and conflict analysis
+- ✓ Duplicate and near-duplicate analysis
 - ✓ Group-stratified train/validation/test splitting
 - ✓ Dataset implementation
 - ✓ Image preprocessing and augmentation pipeline
 - ✓ DataLoader implementation
 - ✓ End-to-end pipeline verification
-- ⬜ Exploratory data analysis and dataset quality assessment
+- ✓ Statistical profiling
+- ✓ Class-wise visual analysis
+- ✓ Image quality analysis
+- ✓ Outlier analysis
+- ✓ Class separability analysis
+- ✓ Dataset bias and shortcut analysis
 - ⬜ Baseline framework
 - ⬜ Architecture benchmarking
 - ⬜ Explainability
@@ -148,44 +155,43 @@ The Foot Ulcer module uses the ADPM V3.3 Diabetic Foot Ulcer Classification data
 | **Grade 3** | Deep ulcer with abscess, osteomyelitis, or joint sepsis |
 | **Grade 4** | Localized gangrene |
 
-The audited dataset contains 10,062 valid JPEG RGB images, each with a resolution of $224 \times 224$.
+### Dataset Construction
 
-### Dataset Audit (Phase 10.1)
-Phase 10.1 established the following:
-- 10,062 valid images
-- 0 corrupt or unreadable images
-- 0 exact duplicate leakage across the original partitions
-- 12 exact duplicate groups identified
-- Source-image grouping established
-- Patient identifiers unavailable
-- Cross-split source-group leakage identified in the distributed dataset
-- Dataset retained with a **Conditional Pass**
+The audited dataset contains 10,062 valid JPEG RGB images at 224 × 224 resolution.
 
-Because patient identifiers are not provided and the distributed dataset contains derived/augmented variants, the original train/validation/test assignment is not used for final model development.
+Following the Phase 10.1 audit, 10,050 canonical images were retained for downstream modeling. Exact duplicate handling, source-image grouping, near-duplicate analysis, and group-stratified splitting were completed during Phase 10.2.
 
-### Data Pipeline (Phase 10.2)
-Phase 10.2 is complete.
+The final modeling population consists of:
 
-The final modeling dataset contains:
 - 8,038 training images
 - 1,006 validation images
 - 1,006 test images
 - 1,770 source-image groups
-- Deterministic 80/10/10 group-stratified splitting
-- Zero source-group overlap between splits
-- Zero exact duplicate overlap between splits
-- Zero known same-source near-duplicate overlap between splits
 
-The pipeline includes lazy image loading, RGB conversion, preprocessing, augmentation, deterministic worker seeding, configurable DataLoaders, and end-to-end verification.
+The final splits contain no source-group overlap and no exact duplicate overlap.
 
-The complete pipeline passed its acceptance checks, including tensor-shape validation, convolution compatibility, loss/backpropagation, deterministic validation behavior, reproducibility, and leakage checks.
+Patient identifiers are not provided by the distributed dataset. Therefore, patient-level separation cannot be established independently. The grouping strategy is based on recoverable source-image relationships and is documented as a dataset limitation.
+
+The immutable raw dataset is maintained under `datasets/foot/raw/`.
+
+### Exploratory Data Analysis
+
+Phase 10.3 examined the canonical modeling population across statistical, visual, image-quality, outlier, class-separability, and dataset-bias dimensions.
+
+The analysis found a relatively balanced four-class distribution and identified substantial visual overlap between Grades 2 and 3. Image-quality variation and capture-related artifacts were also documented rather than removed from the dataset.
+
+No samples were deleted as a result of the outlier analysis.
+
+The separability and shortcut analyses are used as diagnostic evidence for subsequent model development rather than as evidence of model performance.
+
+Detailed analyses and generated artifacts are maintained under `research/foot/` and `datasets/foot/metadata/`.
 
 ### Current Stage
 The next Foot Ulcer research stage is:
 
-**Phase 10.3 — Exploratory Data Analysis and Dataset Quality Assessment**
+**Phase 10.4 — Foot Ulcer Baseline Framework**
 
-Model training does not begin until this stage has been completed.
+Model benchmarking does not begin until the baseline framework has been established.
 
 Detailed Foot research documentation is maintained under:
 `research/foot/`
@@ -276,17 +282,23 @@ FusionMedAI/
 | **IX** | Module Integration & Finalization | ✅ |
 
 ### Foot Ulcer
+
 | Phase | Topic | Status |
-| :--- | :--- | :---: |
-| **10.1** | Dataset Preparation & Audit | ✅ Conditional Pass |
-| **10.2** | Data Pipeline | ✅ |
-| **10.3** | Exploratory Data Analysis & Dataset Quality | ⬜ |
-| **10.4** | Baseline Framework | ⬜ |
-| **10.5** | Architecture Benchmarking | ⬜ |
-| **10.6** | Explainability | ⬜ |
-| **10.7** | Probability Calibration | ⬜ |
-| **10.8** | Uncertainty Estimation | ⬜ |
-| **10.9** | Module Integration | ⬜ |
+|---|---|---|
+| 10.1 | Dataset Preparation & Audit | ✅ Conditional Pass |
+| 10.2 | Data Pipeline | ✅ |
+| 10.3.1 | Dataset Statistical Profiling | ✅ |
+| 10.3.2 | Class-Wise Visual Analysis | ✅ |
+| 10.3.3 | Image Quality Analysis | ✅ |
+| 10.3.4 | Outlier Analysis | ✅ |
+| 10.3.5 | Class Separability Analysis | ✅ |
+| 10.3.6 | Dataset Bias & Shortcut Analysis | ✅ |
+| 10.4 | Baseline Framework | ⬜ |
+| 10.5 | Architecture Benchmarking | ⬜ |
+| 10.6 | Explainability | ⬜ |
+| 10.7 | Probability Calibration | ⬜ |
+| 10.8 | Uncertainty Estimation | ⬜ |
+| 10.9 | Module Integration | ⬜ |
 
 ---
 
@@ -379,7 +391,7 @@ The output demonstrates the integrated Retina inference interface, including mod
 ## Development Roadmap
 
 - **v1.0 (Retina Module)** — **Completed**. The Retina pipeline has progressed from dataset preparation through module integration and acceptance testing. ✅
-- **v2.0 (Foot Ulcer Module)** — **In Development**. Completed: Phase 10.1 (Audit) and Phase 10.2 (Pipeline). Next: **Phase 10.3 — EDA & Dataset Quality**. ⬜
+- **v2.0 (Foot Ulcer Module)** — **In Development**. Completed: Phase 10.1 (Audit), Phase 10.2 (Pipeline), Phase 10.3 (EDA & Quality). Next: **Phase 10.4 — Baseline Framework**. ⬜
 - **v3.0 (Clinical Module)** — **Planned**. Development of the independent clinical-data assessment module. ⬜
 - **v4.0 (ACARA-U Fusion)** — **Planned**. Integration of the Retina, Foot Ulcer, and Clinical modules through the ACARA-U uncertainty- and reliability-aware fusion framework. ⬜
 

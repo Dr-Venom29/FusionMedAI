@@ -1,0 +1,63 @@
+{
+  "phase": "10.3.3",
+  "title": "Canonical Image Quality Analysis Report",
+  "total_canonical_images": 10050,
+  "overall_summary": {
+    "mean_sharpness_laplacian": 428.73,
+    "total_soft_blur_images": 1114,
+    "soft_blur_pct": 11.08,
+    "mean_brightness": 0.398,
+    "mean_contrast_rms": 0.1618,
+    "mean_saturation": 0.3998,
+    "total_border_letterbox_images": 988,
+    "border_pct": 9.83
+  },
+  "partition_quality_metrics": {
+    "train": {
+      "total_images": 8038,
+      "mean_sharpness_laplacian_var": 433.69,
+      "median_sharpness": 398.87,
+      "soft_blur_images": 890,
+      "soft_blur_pct": 11.07,
+      "mean_brightness": 0.4003,
+      "dark_images": 13,
+      "bright_glare_images": 0,
+      "mean_contrast_rms": 0.1626,
+      "low_contrast_images": 345,
+      "mean_saturation": 0.3984,
+      "letterbox_border_images": 768,
+      "border_pct": 9.55
+    },
+    "val": {
+      "total_images": 1006,
+      "mean_sharpness_laplacian_var": 397.3,
+      "median_sharpness": 372.8,
+      "soft_blur_images": 112,
+      "soft_blur_pct": 11.13,
+      "mean_brightness": 0.3814,
+      "dark_images": 0,
+      "bright_glare_images": 0,
+      "mean_contrast_rms": 0.1554,
+      "low_contrast_images": 62,
+      "mean_saturation": 0.4172,
+      "letterbox_border_images": 119,
+      "border_pct": 11.83
+    },
+    "test": {
+      "total_images": 1006,
+      "mean_sharpness_laplacian_var": 420.56,
+      "median_sharpness": 398.84,
+      "soft_blur_images": 112,
+      "soft_blur_pct": 11.13,
+      "mean_brightness": 0.3963,
+      "dark_images": 0,
+      "bright_glare_images": 0,
+      "mean_contrast_rms": 0.1622,
+      "low_contrast_images": 33,
+      "mean_saturation": 0.393,
+      "letterbox_border_images": 101,
+      "border_pct": 10.04
+    }
+  },
+  "extreme_outliers_count": 368
+}

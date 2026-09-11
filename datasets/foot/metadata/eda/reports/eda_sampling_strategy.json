@@ -1,0 +1,132 @@
+{
+  "phase": "10.3.4",
+  "title": "Class Imbalance & Sampling Strategy Analysis",
+  "total_canonical_images": 10050,
+  "total_source_groups": 1770,
+  "imbalance_ratio_max_to_min": 1.18,
+  "image_level_class_distribution": {
+    "Grade 1": {
+      "wagner_grade_code": 0,
+      "image_count": 2367,
+      "percentage": 23.55
+    },
+    "Grade 2": {
+      "wagner_grade_code": 1,
+      "image_count": 2457,
+      "percentage": 24.45
+    },
+    "Grade 3": {
+      "wagner_grade_code": 2,
+      "image_count": 2797,
+      "percentage": 27.83
+    },
+    "Grade 4": {
+      "wagner_grade_code": 3,
+      "image_count": 2429,
+      "percentage": 24.17
+    }
+  },
+  "group_level_class_distribution": {
+    "Grade 1": {
+      "wagner_grade_code": 0,
+      "group_count": 449,
+      "percentage": 25.37
+    },
+    "Grade 2": {
+      "wagner_grade_code": 1,
+      "group_count": 443,
+      "percentage": 25.03
+    },
+    "Grade 3": {
+      "wagner_grade_code": 2,
+      "group_count": 437,
+      "percentage": 24.69
+    },
+    "Grade 4": {
+      "wagner_grade_code": 3,
+      "group_count": 441,
+      "percentage": 24.92
+    }
+  },
+  "partition_split_class_distribution": {
+    "train": {
+      "Grade 1": {
+        "count": 1893,
+        "percentage": 23.55
+      },
+      "Grade 2": {
+        "count": 1965,
+        "percentage": 24.45
+      },
+      "Grade 3": {
+        "count": 2237,
+        "percentage": 27.83
+      },
+      "Grade 4": {
+        "count": 1943,
+        "percentage": 24.17
+      }
+    },
+    "val": {
+      "Grade 1": {
+        "count": 237,
+        "percentage": 23.56
+      },
+      "Grade 2": {
+        "count": 246,
+        "percentage": 24.45
+      },
+      "Grade 3": {
+        "count": 280,
+        "percentage": 27.83
+      },
+      "Grade 4": {
+        "count": 243,
+        "percentage": 24.16
+      }
+    },
+    "test": {
+      "Grade 1": {
+        "count": 237,
+        "percentage": 23.56
+      },
+      "Grade 2": {
+        "count": 246,
+        "percentage": 24.45
+      },
+      "Grade 3": {
+        "count": 280,
+        "percentage": 27.83
+      },
+      "Grade 4": {
+        "count": 243,
+        "percentage": 24.16
+      }
+    }
+  },
+  "recommended_class_weights": {
+    "inverse_class_frequency": {
+      "0": 1.0615,
+      "1": 1.0226,
+      "2": 0.8983,
+      "3": 1.0344
+    },
+    "sqrt_inverse_class_frequency": {
+      "0": 1.087,
+      "1": 1.0669,
+      "2": 1.0,
+      "3": 1.0731
+    },
+    "effective_number_weights_beta_0_999": {
+      "0": 1.0128,
+      "1": 1.0039,
+      "2": 0.9775,
+      "3": 1.0066
+    }
+  },
+  "modeling_recommendations": {
+    "sampling_strategy": "Standard random shuffling per epoch with class-weighted cross entropy loss or Focal Loss (gamma=2.0). Avoid aggressive oversampling of Grade 3 at image level because it duplicates images from limited source groups.",
+    "loss_function": "Weighted Cross-Entropy (sqrt inverse frequency weights) or Focal Loss.",
+    "group_awareness": "Group-stratified splitting ensures zero patient-level leakage across splits."
+  }
+}

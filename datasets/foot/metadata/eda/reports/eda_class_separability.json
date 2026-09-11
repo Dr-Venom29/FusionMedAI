@@ -1,0 +1,30 @@
+{
+  "phase": "10.3.5",
+  "title": "Class Separability Analysis Report",
+  "total_canonical_images": 10050,
+  "feature_extractor": "ResNet50 (ImageNet Pre-trained Penultimate Embeddings, 2048-dim)",
+  "pca_variance_explained": {
+    "top_2_components_pct": 18.04,
+    "top_50_components_pct": 67.45
+  },
+  "separability_metrics": {
+    "silhouette_score": -0.0004,
+    "davies_bouldin_index": 9.0309,
+    "knn_5_accuracy_pct": 97.08,
+    "knn_10_accuracy_pct": 94.98
+  },
+  "pairwise_centroid_cosine_distances": {
+    "Grade 1 vs Grade 2": 0.0221,
+    "Grade 1 vs Grade 3": 0.0349,
+    "Grade 1 vs Grade 4": 0.0631,
+    "Grade 2 vs Grade 3": 0.0193,
+    "Grade 2 vs Grade 4": 0.042,
+    "Grade 3 vs Grade 4": 0.0204
+  },
+  "visual_shortcut_analysis": {
+    "pc1_brightness_correlation": -0.058,
+    "pc2_brightness_correlation": -0.2645,
+    "assessment": "LOW SHORTCUT RISK: Pre-trained features show low correlation with non-clinical background artifacts (e.g., brightness correlation < 0.35). However, substantial feature overlap between Grade 2 and Grade 3 confirms that distinguishing deep ulcers without osteomyelitis (Grade 2) from deep ulcers with internal bone infection (Grade 3) requires fine-tuning specialized deep feature representations."
+  },
+  "key_takeaway": "Pre-trained ImageNet features exhibit smooth, continuous transition across Wagner severity grades. Grade 1 (Superficial) and Grade 4 (Gangrene) form distinct cluster poles, while Grade 2 and Grade 3 exhibit substantial feature space overlap, confirming that supervised deep fine-tuning is required."
+}
