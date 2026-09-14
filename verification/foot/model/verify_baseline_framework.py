@@ -16,7 +16,7 @@ from src.foot.training.trainer import FootBaselineTrainer, set_reproducibility
 
 def verify_baseline_framework():
     print("==================================================")
-    print("Verifying Modular Baseline Framework (ResNet50 / EfficientNet)")
+    print("Verifying ResNet-50 Baseline Framework")
     print("==================================================")
     
     set_reproducibility(42)

@@ -45,6 +45,11 @@ class FootBaselineTrainer:
         self.config = config
         self.device = torch.device(config.device) if isinstance(config.device, str) else config.device
         
+        self.train_loader = train_loader
+        self.val_loader = val_loader
+        self.optimizer = optimizer
+        self.scheduler = scheduler
+        
         # Enforce device placement across model and criterion (Phase 10.4 Device Safety)
         self.model = model.to(self.device)
         if hasattr(criterion, "to"):
