@@ -1,41 +1,58 @@
 import torch
 import torch.nn as nn
-from typing import Optional
+from typing import Optional, Dict, Type
+
 from src.foot.models.base_classifier import FootBaseClassifier
 from src.foot.models.resnet50 import FootResNet50
-from src.foot.models.efficientnet import FootEfficientNet
+from src.foot.models.architectures import (
+    FootEfficientNetB0,
+    FootEfficientNetB3,
+    FootConvNeXtTiny,
+    FootSwinTiny,
+    FootViTB16
+)
+
+MODEL_REGISTRY: Dict[str, Type[FootBaseClassifier]] = {
+    "resnet50": FootResNet50,
+    "efficientnet_b0": FootEfficientNetB0,
+    "efficientnet_b3": FootEfficientNetB3,
+    "convnext_tiny": FootConvNeXtTiny,
+    "swin_tiny": FootSwinTiny,
+    "vit_b16": FootViTB16
+}
 
 def create_model(
-    name: str = "resnet50",
+    model_name: str = "resnet50",
     num_classes: int = 4,
     pretrained: bool = True,
     dropout_rate: float = 0.2,
     device: Optional[str] = None
 ) -> FootBaseClassifier:
     """
-    Factory function to instantiate Foot DFU classifiers.
+    Central Factory Function for Phase 10.5 Architecture Benchmarking (10.5.3).
     
     Args:
-        name: Architecture name ('resnet50', 'efficientnet_b0', 'efficientnet')
-        num_classes: Number of target output classes (default: 4)
+        model_name: Name of model architecture in MODEL_REGISTRY
+        num_classes: Number of target Wagner classes (default: 4)
         pretrained: Whether to load ImageNet pre-trained weights
-        dropout_rate: Dropout rate for classifier head
-        device: Target device ('cpu', 'cuda')
+        dropout_rate: Dropout rate for classification head
+        device: Device to place model ('cpu' or 'cuda')
         
     Returns:
-        Instance of FootBaseClassifier on specified device.
+        Instance of FootBaseClassifier on target device.
     """
-    name_clean = name.lower().replace("-", "_")
+    name_clean = model_name.lower().replace("-", "_")
     
-    if name_clean in ("resnet50", "resnet_50", "resnet"):
-        model = FootResNet50(num_classes=num_classes, pretrained=pretrained, dropout_rate=dropout_rate)
-    elif name_clean in ("efficientnet_b0", "efficientnet", "effnet"):
-        model = FootEfficientNet(num_classes=num_classes, pretrained=pretrained, dropout_rate=dropout_rate)
-    else:
-        raise ValueError(f"Unsupported model architecture '{name}'. Options: 'resnet50', 'efficientnet_b0'")
+    if name_clean not in MODEL_REGISTRY:
+        supported = list(MODEL_REGISTRY.keys())
+        raise ValueError(f"Unsupported model architecture '{model_name}'. Options: {supported}")
         
+    model_cls = MODEL_REGISTRY[name_clean]
+    model = model_cls(num_classes=num_classes, pretrained=pretrained, dropout_rate=dropout_rate)
+    
     if device is not None:
-        model = model.to(device)
+        target_device = torch.device(device) if isinstance(device, str) else device
+        model = model.to(target_device)
         
     return model
 
@@ -47,7 +64,7 @@ def build_foot_baseline_model(
 ) -> FootBaseClassifier:
     """Builds default ResNet-50 baseline classifier for Phase 10.4."""
     return create_model(
-        name="resnet50",
+        model_name="resnet50",
         num_classes=num_classes,
         pretrained=pretrained,
         dropout_rate=dropout_rate,

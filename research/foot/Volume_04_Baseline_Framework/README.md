@@ -127,11 +127,12 @@ The baseline experiment was executed with:
 | Batch size | 32 |
 | Workers | 4 |
 | Seed | 42 |
-| Maximum epochs | 20 |
-| Loss | Unweighted Cross-Entropy |
-| Device | CUDA |
-| Checkpoint criterion | Validation loss |
-| Early stopping | Enabled (Patience = 10) |
+| Checkpoint criterion | Minimum Validation Loss (`val_loss`) |
+| Primary metric | Macro F1-Score |
+| Early stopping | Enabled (Patience = 10 on `val_loss`) |
+
+> [!NOTE]
+> **Methodological Policy**: Model checkpoint selection and early stopping during training are governed by minimum validation loss (`val_loss`), while Macro F1-score serves as the primary reporting metric for model benchmarking on the frozen test partition.
 
 The complete experiment configuration is archived with the experiment artifacts.
 

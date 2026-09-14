@@ -17,7 +17,8 @@
 - **Optimizer**: `AdamW` ($\text{lr} = 1\text{e-}4$, $\text{weight\_decay} = 1\text{e-}4$)
 - **Scheduler**: `CosineAnnealingLR` ($T_{\text{max}} = 20$, $\eta_{\text{min}} = 1\text{e-}6$)
 - **Loss Function**: Unweighted CrossEntropy Loss
-- **Evaluation Metric**: **Macro F1-Score** (Primary Benchmark)
+- **Checkpoint Selection Policy**: Minimum Validation Loss (`val_loss`) for early stopping and best model checkpoint selection.
+- **Primary Reporting Metric**: **Macro F1-Score** (Primary Benchmark Metric evaluated on frozen test partition).
 
 ---
 

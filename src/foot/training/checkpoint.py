@@ -4,7 +4,7 @@ from typing import Dict, Any, Optional
 
 class CheckpointManager:
     """
-    Manages exact restoration and checkpoint saving for Foot baseline experiments (Phase 10.4.9).
+    Manages model checkpoint saving and best-checkpoint weight restoration for Foot DFU experiments.
     """
     def __init__(self, checkpoint_dir: Path):
         self.checkpoint_dir = Path(checkpoint_dir)
@@ -19,18 +19,22 @@ class CheckpointManager:
         optimizer: torch.optim.Optimizer,
         scheduler: Optional[Any],
         epoch: int,
-        best_metric: float,
-        config_dict: Dict[str, Any],
-        seed: int,
-        is_best: bool = False
+        best_val_loss: float = 0.0,
+        best_val_macro_f1: float = 0.0,
+        config_dict: Optional[Dict[str, Any]] = None,
+        seed: int = 42,
+        is_best: bool = False,
+        checkpoint_metric: str = "val_loss"
     ) -> Path:
         state = {
             "epoch": epoch,
             "model_state_dict": model.state_dict(),
             "optimizer_state_dict": optimizer.state_dict(),
             "scheduler_state_dict": scheduler.state_dict() if scheduler is not None else None,
-            "best_metric": best_metric,
-            "config": config_dict,
+            "best_val_loss": best_val_loss,
+            "best_val_macro_f1": best_val_macro_f1,
+            "checkpoint_metric": checkpoint_metric,
+            "config": config_dict or {},
             "seed": seed
         }
         

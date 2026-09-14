@@ -204,10 +204,12 @@ class FootBaselineTrainer:
                 optimizer=self.optimizer,
                 scheduler=self.scheduler,
                 epoch=epoch,
-                best_metric=best_val_macro_f1,
+                best_val_loss=best_val_loss,
+                best_val_macro_f1=best_val_macro_f1,
                 config_dict={"model": self.config.model_name, "loss_type": self.config.loss_type},
                 seed=self.config.seed,
-                is_best=is_best
+                is_best=is_best,
+                checkpoint_metric="val_loss"
             )
             
             if patience_counter >= self.config.patience:

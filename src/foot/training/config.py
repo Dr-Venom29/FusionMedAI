@@ -64,10 +64,16 @@ class BaselineConfig:
     loss_type: str = "unweighted"
     class_weights: List[float] = field(default_factory=lambda: [1.0870, 1.0669, 1.0000, 1.0731])
     
+    # Optional Explicit Path Overrides
+    custom_experiment_dir: Optional[Path] = None
+    
     @property
     def experiment_dir(self) -> Path:
-        exp_name = f"baseline_{self.model_name}_{self.loss_type}"
-        path = self.experiments_dir / exp_name
+        if self.custom_experiment_dir is not None:
+            path = Path(self.custom_experiment_dir)
+        else:
+            exp_name = f"baseline_{self.model_name}_{self.loss_type}"
+            path = self.experiments_dir / exp_name
         path.mkdir(parents=True, exist_ok=True)
         return path
 

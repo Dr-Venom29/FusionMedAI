@@ -60,7 +60,7 @@ The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline 
 
 ## Architecture
 
-![System Architecture](docs/architecture_v1.png)
+![System Architecture](docs/architecture.png)
 
 *Figure 1. High-level architecture of the FusionMedAI framework.*
 

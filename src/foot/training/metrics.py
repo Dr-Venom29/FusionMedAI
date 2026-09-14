@@ -70,7 +70,53 @@ def compute_baseline_metrics(
         except Exception:
             metrics["macro_roc_auc"] = None
             
+    # 95% Bootstrap Confidence Intervals (Phase 10.5.13)
+    try:
+        ci_dict = compute_bootstrap_ci(y_true, y_pred)
+        metrics["macro_f1_ci"] = ci_dict["macro_f1_ci"]
+        metrics["balanced_accuracy_ci"] = ci_dict["balanced_accuracy_ci"]
+    except Exception:
+        metrics["macro_f1_ci"] = [metrics["macro_f1"], metrics["macro_f1"]]
+        metrics["balanced_accuracy_ci"] = [metrics["balanced_accuracy"], metrics["balanced_accuracy"]]
+
     return metrics
+
+def compute_bootstrap_ci(
+    y_true: np.ndarray,
+    y_pred: np.ndarray,
+    num_bootstraps: int = 1000,
+    confidence_level: float = 0.95,
+    seed: int = 42
+) -> Dict[str, List[float]]:
+    """
+    Computes 95% Bootstrap Confidence Intervals for Macro F1 and Balanced Accuracy (Phase 10.5.13).
+    """
+    rng = np.random.RandomState(seed)
+    n_samples = len(y_true)
+    
+    macro_f1_boot = []
+    bal_acc_boot = []
+    
+    for _ in range(num_bootstraps):
+        idx = rng.choice(n_samples, size=n_samples, replace=True)
+        y_t_b = y_true[idx]
+        y_p_b = y_pred[idx]
+        
+        macro_f1_boot.append(f1_score(y_t_b, y_p_b, average="macro", zero_division=0))
+        bal_acc_boot.append(balanced_accuracy_score(y_t_b, y_p_b))
+        
+    alpha = (1.0 - confidence_level) / 2.0
+    
+    f1_lower = float(round(np.percentile(macro_f1_boot, alpha * 100), 4))
+    f1_upper = float(round(np.percentile(macro_f1_boot, (1.0 - alpha) * 100), 4))
+    
+    bal_lower = float(round(np.percentile(bal_acc_boot, alpha * 100), 4))
+    bal_upper = float(round(np.percentile(bal_acc_boot, (1.0 - alpha) * 100), 4))
+    
+    return {
+        "macro_f1_ci": [f1_lower, f1_upper],
+        "balanced_accuracy_ci": [bal_lower, bal_upper]
+    }
 
 # Alias for backwards compatibility
 compute_evaluation_metrics = compute_baseline_metrics
