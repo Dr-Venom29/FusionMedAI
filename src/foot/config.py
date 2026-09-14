@@ -9,7 +9,12 @@ import torch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-DATASET_ROOT = PROJECT_ROOT / "datasets" / "foot"
+DATASET_ROOT = Path(
+    os.getenv(
+        "FUSIONMEDAI_FOOT_DATASET_ROOT",
+        PROJECT_ROOT / "datasets" / "foot"
+    )
+)
 
 RAW_DATA = DATASET_ROOT / "raw"
 
