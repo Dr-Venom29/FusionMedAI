@@ -86,9 +86,24 @@ class FootDFUDataset(Dataset):
         
         abs_image_path = self.image_dir / rel_image_path
         if not abs_image_path.exists():
-            raise FileNotFoundError(
-                f"Image file missing on disk: '{abs_image_path}' for record index {index} (ID: {id_code})."
-            )
+            # Kaggle / environment fallback search paths
+            candidate_paths = [
+                Path(rel_image_path),
+                PROJECT_ROOT / rel_image_path,
+                self.csv_file.parents[2] / "raw" / rel_image_path,
+                self.csv_file.parents[1] / rel_image_path,
+                self.csv_file.parents[2] / rel_image_path,
+            ]
+            found = False
+            for cand in candidate_paths:
+                if cand.exists():
+                    abs_image_path = cand
+                    found = True
+                    break
+            if not found:
+                raise FileNotFoundError(
+                    f"Image file missing on disk: '{abs_image_path}' for record index {index} (ID: {id_code})."
+                )
             
         # Lazy image loading with guaranteed RGB mode conversion
         with Image.open(abs_image_path) as img:
