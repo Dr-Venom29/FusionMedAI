@@ -24,8 +24,9 @@ from src.foot.config import (
     PROCESSED_SPLITS_DIR
 )
 from src.foot.data.dataloader import create_foot_dataloaders
-from src.foot.model.baseline_model import build_foot_baseline_model
-from src.foot.model.trainer import FootBaselineTrainer, set_reproducibility
+from src.foot.models import build_foot_baseline_model
+from src.foot.training import FootBaselineTrainer
+from src.foot.training.trainer import set_reproducibility
 
 def run_baseline_experiment():
     print("==================================================", flush=True)

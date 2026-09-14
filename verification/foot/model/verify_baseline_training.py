@@ -1,6 +1,5 @@
 import os
 import sys
-import json
 import tempfile
 from pathlib import Path
 import torch
@@ -10,17 +9,12 @@ import numpy as np
 # Ensure project root is in sys.path
 sys.path.append(str(Path(__file__).resolve().parents[3]))
 
-from src.foot.config import (
-    SEED,
-    NUM_CLASSES,
-    CLASS_NAMES,
-    OBSERVED_DATASET_MEAN,
-    OBSERVED_DATASET_STD
-)
-from src.foot.model.baseline_model import build_foot_baseline_model
-from src.foot.model.evaluator import compute_evaluation_metrics
-from src.foot.model.trainer import FootBaselineTrainer, set_reproducibility
-from src.foot.data.dataloader import create_foot_dataloaders
+from src.foot.config import SEED, NUM_CLASSES, CLASS_NAMES
+from src.foot.models import build_foot_baseline_model
+from src.foot.training.config import BaselineConfig
+from src.foot.training.metrics import compute_evaluation_metrics
+from src.foot.training import FootBaselineTrainer
+from src.foot.training.trainer import set_reproducibility
 
 def verify_baseline_training_pipeline():
     print("==================================================", flush=True)
@@ -29,24 +23,26 @@ def verify_baseline_training_pipeline():
     
     set_reproducibility(SEED)
     
-    # 1. Test Model Architecture & Gradient Backprop
-    print("1. Testing EfficientNet-B0 baseline model forward pass & backpropagation...", flush=True)
+    # 1. Test ResNet-50 Model Architecture & Gradient Backpropagation
+    print("1. Testing ResNet-50 baseline model forward pass & backpropagation...", flush=True)
     dummy_input = torch.randn(8, 3, 224, 224)
     dummy_target = torch.tensor([0, 1, 2, 3, 0, 1, 2, 3], dtype=torch.long)
     
-    model = build_foot_baseline_model(num_classes=4, pretrained=False, device="cpu")
+    model = build_foot_baseline_model(num_classes=NUM_CLASSES, pretrained=False, device="cpu")
     optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4)
     criterion = nn.CrossEntropyLoss()
     
     optimizer.zero_grad()
-    outputs = model(dummy_input)
-    loss = criterion(outputs, dummy_target)
+    out = model(dummy_input)
+    logits = out["logits"] if isinstance(out, dict) else out
+    loss = criterion(logits, dummy_target)
     loss.backward()
     
-    # Verify non-null gradient on classifier head
-    classifier_grad = model.backbone.classifier[1].weight.grad
-    assert classifier_grad is not None and classifier_grad.abs().sum() > 0, "Null gradient detected on model head!"
-    print(f" [PASS] Forward pass loss: {loss.item():.4f}, Classifier gradient norm: {classifier_grad.norm().item():.4f}", flush=True)
+    # Verify device consistency and non-null gradient on classifier head
+    assert next(model.parameters()).device.type == "cpu", "Model parameters must be on CPU for synthetic test!"
+    head_param_grad = list(model.parameters())[-1].grad
+    assert head_param_grad is not None and head_param_grad.abs().sum() > 0, "Null gradient detected on classifier head!"
+    print(f" [PASS] Forward pass loss: {loss.item():.4f}, Head gradient norm: {head_param_grad.norm().item():.4f}", flush=True)
 
     # 2. Test Evaluator Metrics Computation
     print("2. Testing evaluation metrics computation...", flush=True)
@@ -62,9 +58,16 @@ def verify_baseline_training_pipeline():
     # 3. Test Trainer Integration on Synthetic Loader (1 epoch)
     print("3. Testing FootBaselineTrainer 1-epoch execution & checkpointing...", flush=True)
     with tempfile.TemporaryDirectory() as tmp_dir:
-        tmp_ckpt = Path(tmp_dir) / "checkpoints"
+        tmp_path = Path(tmp_dir)
+        config = BaselineConfig(
+            model_name="resnet50",
+            loss_type="unweighted",
+            epochs=1,
+            batch_size=4,
+            experiments_dir=tmp_path
+        )
         
-        # Create synthetic datasets
+        # Create synthetic dataset & loaders
         ds_synthetic = torch.utils.data.TensorDataset(dummy_input, dummy_target)
         train_loader = torch.utils.data.DataLoader(ds_synthetic, batch_size=4, shuffle=True)
         val_loader = torch.utils.data.DataLoader(ds_synthetic, batch_size=4, shuffle=False)
@@ -78,27 +81,23 @@ def verify_baseline_training_pipeline():
             optimizer=optimizer,
             scheduler=scheduler,
             criterion=criterion,
-            device="cpu",
-            epochs=1,
-            patience=5,
-            checkpoint_dir=tmp_ckpt,
-            seed=SEED
+            config=config
         )
         
         summary = trainer.train()
         
-        best_ckpt = tmp_ckpt / "best_model.pth"
-        latest_ckpt = tmp_ckpt / "latest_model.pth"
-        hist_csv = tmp_ckpt / "training_history.csv"
+        best_ckpt = config.checkpoint_dir / "best_model.pt"
+        last_ckpt = config.checkpoint_dir / "last_model.pt"
+        hist_csv = config.experiment_dir / "training_history.csv"
         
-        assert best_ckpt.exists(), "best_model.pth checkpoint was not created!"
-        assert latest_ckpt.exists(), "latest_model.pth checkpoint was not created!"
+        assert best_ckpt.exists(), "best_model.pt checkpoint was not created!"
+        assert last_ckpt.exists(), "last_model.pt checkpoint was not created!"
         assert hist_csv.exists(), "training_history.csv was not created!"
         
         # Test loading checkpoint
-        ckpt = torch.load(best_ckpt, weights_only=False)
-        assert "model_state_dict" in ckpt and "metrics" in ckpt, "Corrupted checkpoint state dict!"
-        print(" [PASS] 1-Epoch Trainer execution, checkpoint saving/loading verified.")
+        checkpoint = trainer.checkpoint_manager.load(model=model, checkpoint_path=best_ckpt, device="cpu")
+        assert "model_state_dict" in checkpoint and "seed" in checkpoint, "Corrupted checkpoint state dict!"
+        print(" [PASS] 1-Epoch Trainer execution, checkpoint saving/loading verified.", flush=True)
 
     print("\n==================================================")
     print("FOOT BASELINE MODEL TRAINING & PIPELINE VERIFICATION: PASSED")

@@ -38,3 +38,18 @@ def create_model(
         model = model.to(device)
         
     return model
+
+def build_foot_baseline_model(
+    num_classes: int = 4,
+    pretrained: bool = True,
+    dropout_rate: float = 0.2,
+    device: Optional[str] = None
+) -> FootBaseClassifier:
+    """Builds default ResNet-50 baseline classifier for Phase 10.4."""
+    return create_model(
+        name="resnet50",
+        num_classes=num_classes,
+        pretrained=pretrained,
+        dropout_rate=dropout_rate,
+        device=device
+    )

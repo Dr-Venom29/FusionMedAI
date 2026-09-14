@@ -71,3 +71,6 @@ def compute_baseline_metrics(
             metrics["macro_roc_auc"] = None
             
     return metrics
+
+# Alias for backwards compatibility
+compute_evaluation_metrics = compute_baseline_metrics

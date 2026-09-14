@@ -42,14 +42,15 @@ class FootBaselineTrainer:
         criterion: nn.Module,
         config: BaselineConfig
     ):
-        self.model = model
-        self.train_loader = train_loader
-        self.val_loader = val_loader
-        self.optimizer = optimizer
-        self.scheduler = scheduler
-        self.criterion = criterion
         self.config = config
-        self.device = config.device
+        self.device = torch.device(config.device) if isinstance(config.device, str) else config.device
+        
+        # Enforce device placement across model and criterion (Phase 10.4 Device Safety)
+        self.model = model.to(self.device)
+        if hasattr(criterion, "to"):
+            self.criterion = criterion.to(self.device)
+        else:
+            self.criterion = criterion
         
         set_reproducibility(self.config.seed)
         self.checkpoint_manager = CheckpointManager(self.config.checkpoint_dir)
