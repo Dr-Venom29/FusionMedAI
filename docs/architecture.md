@@ -2,7 +2,7 @@
 
 ## Overview
 
-FusionMedAI is organized as a modular clinical intelligence framework. Each medical modality is developed, trained, validated, and verified independently before integration through the ACARA-U Fusion Engine.
+FusionMedAI is organized as a modular research framework for multimodal diabetic disease analysis. Each modality is developed and evaluated independently before its outputs are considered for integration through the ACARA-U Fusion Engine.
 
 This design improves reproducibility, simplifies experimentation, and prevents information leakage between heterogeneous public datasets.
 
@@ -21,7 +21,7 @@ flowchart TD
     Clinical --> C_Eval[Independent Training & Evaluation]
     
     R_Eval & F_Eval & C_Eval --> Engine[ACARA-U Fusion Engine]
-    Engine --> Assessment[Unified Clinical Assessment]
+    Engine --> Assessment[Unified Multimodal Assessment]
 ```
 
 ---
@@ -46,18 +46,18 @@ flowchart TD
 
 For the Retina Module, this workflow currently terminates in the final Retina Module integration and verification stage.
 
-The same methodology will subsequently be applied independently to the Foot Ulcer and Clinical modules.
+The same methodology is currently being applied to the Foot Ulcer module, followed subsequently by the Clinical module.
 
 ---
 
 ## Current Implementation Status
 
-| Module            | Status                        |
-| ----------------- | ----------------------------- |
-| Retina Module     | ✅ Complete                   |
-| Foot Ulcer Module | ⏳ Planned                     |
-| Clinical Module   | ⏳ Planned                     |
-| ACARA-U Fusion    | ⏳ Planned                     |
+| Module            | Status |
+| ----------------- | ------ |
+| Retina Module     | ✅ Complete |
+| Foot Ulcer Module | 🔄 In development |
+| Clinical Module   | ⏳ Planned |
+| ACARA-U Fusion    | ⏳ Planned |
 
 ---
 
@@ -72,7 +72,7 @@ Each independent module produces:
 * Reliability score
 * Uncertainty estimate
 
-The ACARA-U Fusion Engine aggregates these outputs to generate the final clinical assessment.
+The ACARA-U Fusion Engine aggregates these outputs to generate the final assessment.
 
 Raw patient features are **not** merged across datasets because the public datasets originate from different patient populations.
 
@@ -86,7 +86,5 @@ The system architecture is based on the following principles:
 * Independent model development
 * Reproducible experimentation
 * Versioned experiment tracking
-* Explainability-ready architecture
-* Scalable multimodal integration
-* Independent benchmark selection
-* Uncertainty-aware fusion readiness
+* Separate evaluation of modality-specific models
+* Decision-level fusion of modality outputs

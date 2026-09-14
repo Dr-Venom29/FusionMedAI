@@ -1,6 +1,6 @@
 # Architecture Benchmarking
 
-The fifth phase of FusionMedAI evaluated five distinct vision architectures under a frozen, strictly controlled protocol to select the optimal Retina Module backbone.
+The fifth phase evaluated five vision architectures under a controlled benchmarking protocol to select the Retina Module backbone for the evaluated dataset and experimental setting.
 
 ## Benchmark Protocol
 * **Frozen Settings**: Epochs=50, Patience=10, Batch=32, Image Size=224, Optimizer=AdamW, Scheduler=CosineAnnealingLR, Seed=42
@@ -27,4 +27,6 @@ The fifth phase of FusionMedAI evaluated five distinct vision architectures unde
 
 ## Results & Discussion
 
-In this benchmark, EfficientNet-B3 achieved the highest overall diagnostic performance, while ConvNeXt-Tiny offered the best efficiency-performance tradeoff. Under the current experimental protocol and dataset, transformer-based architectures did not outperform the CNN-based alternatives.
+EfficientNet-B3 achieved the highest accuracy and QWK in the evaluated benchmark, while ConvNeXt-Tiny achieved the highest Macro F1, Balanced Accuracy, and ROC-AUC and had lower measured latency and peak VRAM. EfficientNet-B3 was selected as the Retina backbone under the project's selection criteria.
+
+The evaluated transformer architectures did not achieve the highest scores on the primary metrics used for backbone selection.

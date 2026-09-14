@@ -15,7 +15,7 @@ The framework currently includes a completed retinal imaging pipeline and an ind
 
 ## Current Status
 
-The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline construction, and exploratory data analysis. The next stage is baseline model development.
+The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline construction, exploratory data analysis, and baseline model development. The current baseline is a pretrained ResNet-50 classifier with a frozen-test Macro F1 of 0.6339. The next stage is controlled architecture benchmarking.
 
 ### Retina Module
 - ✓ Dataset preparation
@@ -45,7 +45,7 @@ The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline 
 - ✓ Outlier analysis
 - ✓ Class separability analysis
 - ✓ Dataset bias and shortcut analysis
-- ⬜ Baseline framework
+- ✓ Baseline framework
 - ⬜ Architecture benchmarking
 - ⬜ Explainability
 - ⬜ Probability calibration
@@ -186,15 +186,26 @@ The separability and shortcut analyses are used as diagnostic evidence for subse
 
 Detailed analyses and generated artifacts are maintained under `research/foot/` and `datasets/foot/metadata/`.
 
-### Current Stage
-The next Foot Ulcer research stage is:
+### Baseline Framework
 
-**Phase 10.4 — Foot Ulcer Baseline Framework**
+Phase 10.4 established a pretrained ResNet-50 reference classifier using the frozen, source-group-stratified Foot Ulcer modeling population.
 
-Model benchmarking does not begin until the baseline framework has been established.
+The baseline achieved:
 
-Detailed Foot research documentation is maintained under:
-`research/foot/`
+- **Macro F1**: 0.6339
+- **Balanced Accuracy**: 0.6391
+- **Accuracy**: 0.6372
+- **Macro ROC-AUC**: 0.8423
+
+The Grade 2 / Grade 3 boundary produced the most prominent directional confusion in the frozen test evaluation. The baseline also exhibited rapid reduction in training loss relative to validation performance, indicating early overfitting under the evaluated training configuration.
+
+Detailed methodology, training records, evaluation results, error analysis, and acceptance criteria are documented in:
+
+`research/foot/Volume_04_Baseline_Framework/`
+
+Phase 10.4 has been completed and accepted. The next stage is:
+
+**Phase 10.5 — Foot Ulcer Architecture Benchmarking**
 
 Dataset documentation is maintained under:
 `datasets/foot/README.md`
@@ -293,7 +304,7 @@ FusionMedAI/
 | 10.3.4 | Outlier Analysis | ✅ |
 | 10.3.5 | Class Separability Analysis | ✅ |
 | 10.3.6 | Dataset Bias & Shortcut Analysis | ✅ |
-| 10.4 | Baseline Framework | ⬜ |
+| 10.4 | Baseline Framework | ✅ |
 | 10.5 | Architecture Benchmarking | ⬜ |
 | 10.6 | Explainability | ⬜ |
 | 10.7 | Probability Calibration | ⬜ |
@@ -391,7 +402,7 @@ The output demonstrates the integrated Retina inference interface, including mod
 ## Development Roadmap
 
 - **v1.0 (Retina Module)** — **Completed**. The Retina pipeline has progressed from dataset preparation through module integration and acceptance testing. ✅
-- **v2.0 (Foot Ulcer Module)** — **In Development**. Completed: Phase 10.1 (Audit), Phase 10.2 (Pipeline), Phase 10.3 (EDA & Quality). Next: **Phase 10.4 — Baseline Framework**. ⬜
+- **v2.0 (Foot Ulcer Module)** — **In Development**. Completed: Phase 10.1 (Audit), Phase 10.2 (Pipeline), Phase 10.3 (EDA & Quality), Phase 10.4 (Baseline Framework). Next: **Phase 10.5 — Architecture Benchmarking**. ⬜
 - **v3.0 (Clinical Module)** — **Planned**. Development of the independent clinical-data assessment module. ⬜
 - **v4.0 (ACARA-U Fusion)** — **Planned**. Integration of the Retina, Foot Ulcer, and Clinical modules through the ACARA-U uncertainty- and reliability-aware fusion framework. ⬜
 

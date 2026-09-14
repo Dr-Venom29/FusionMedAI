@@ -47,19 +47,49 @@ This document tracks the verification status of all datasets used throughout the
 
 ---
 
-## Dataset 2: DFUC (Diabetic Foot Ulcer Challenge)
+## Dataset 2: ADPM V3.3 Diabetic Foot Ulcer Classification
 
-* [ ] Dataset Downloaded
-* [ ] Dataset Integrity Verified
-* [ ] Metadata Generated
-* [ ] Class Distribution Analyzed
-* [ ] Train / Validation / Test Split Created
-* [ ] Data Leakage Checked
-* [ ] Data Pipeline Verified
+### Dataset Integrity
+
+- [x] Dataset inventory completed
+- [x] Image count verified
+- [x] Image resolution verified
+- [x] File integrity verified
+- [x] Corrupted images checked
+- [x] Missing files checked
+
+### Labels & Dataset Quality
+
+- [x] Class labels verified
+- [x] Class distribution analyzed
+- [x] Exact duplicates audited
+- [x] Near-duplicate relationships analyzed
+- [x] Source-image groups identified
+- [x] Image quality assessed
+- [x] Outliers analyzed
+- [x] Dataset bias and shortcut analysis completed
+
+### Data Pipeline
+
+- [x] Canonical manifest generated
+- [x] Source-group split created
+- [x] Data leakage checks completed
+- [x] Transform pipeline verified
+- [x] DataLoader verified
+- [x] End-to-end pipeline verified
+
+### Model Readiness
+
+- [x] Baseline framework completed
+- [x] Baseline training completed
+- [ ] Architecture benchmarking
+- [ ] Explainability
+- [ ] Probability calibration
+- [ ] Uncertainty estimation
 
 ---
 
-## Dataset 3: PIMA Indians Diabetes Dataset
+## Dataset 3: Clinical Risk Dataset
 
 * [ ] Dataset Downloaded
 * [ ] Feature Definitions Verified
@@ -74,15 +104,15 @@ This document tracks the verification status of all datasets used throughout the
 
 # Dataset Status
 
-| Dataset               | Status                        |
-| --------------------- | ----------------------------- |
-| APTOS 2019            | ✅ Retina Module Complete      |
-| DFUC                  | ⏳ Planned                     |
-| PIMA Indians Diabetes | ⏳ Planned                     |
+| Dataset | Status |
+| :--- | :--- |
+| APTOS 2019 | ✅ Retina Module Complete |
+| ADPM V3.3 | 🔄 Foot Ulcer Baseline Complete |
+| Clinical Risk Dataset | ⏳ Planned |
 
 ---
 
-# Identified Risks
+# Identified Risks & Mitigation Strategies
 
 ## Independent Datasets
 
@@ -93,21 +123,6 @@ Public datasets originate from different patient populations and cannot be merge
 **Mitigation**
 
 Decision-level aggregation using the ACARA-U Fusion Engine.
-
----
-
-## Class Imbalance
-
-**Issue**
-
-Several disease categories contain substantially fewer samples.
-
-**Mitigation**
-
-* Stratified splitting
-* Class weighting
-* Data augmentation
-* Alternative loss functions
 
 ---
 
@@ -135,9 +150,9 @@ Medical images may contain blur, poor illumination, artifacts, or incomplete fie
 **Mitigation**
 
 * Image quality assessment
-* Continuous quality scoring
-* Quality-aware preprocessing
-* Manual verification where required
+* Quality characterization
+* Quality-aware evaluation
+* Manual audit verification
 
 ---
 
@@ -152,21 +167,22 @@ Completed
 * Image quality assessment
 * Data pipeline verification
 * Baseline framework verification
-* Baseline training
-* Architecture benchmarking
-* Explainability
-* Probability Calibration
-* Uncertainty estimation
+* Baseline training (Retina & Foot Ulcer)
+* Architecture benchmarking (Retina)
+* Explainability (Retina)
+* Probability Calibration (Retina)
+* Uncertainty estimation (Retina)
 
 Pending
 
-* External validation
-* Cross-dataset benchmarking
+* Foot Ulcer Architecture Benchmarking
+* Clinical Module Development
+* Multimodal Fusion Integration
 
 ---
 
-**Last Updated:** 2026-08-27
+**Last Updated:** 2026-09-14
 
 **Project:** FusionMedAI
 
-**Document Version:** Dataset Verification v2
+**Document Version:** Dataset Verification v3

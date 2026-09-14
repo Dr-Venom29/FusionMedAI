@@ -2,7 +2,7 @@
 
 ## Overview
 
-FusionMedAI follows a structured experiment management strategy to ensure reproducibility, fair model comparison, and systematic evaluation.
+FusionMedAI stores each experiment with its configuration, training history, checkpoints, predictions, and evaluation results.
 
 Each experiment is executed within an isolated versioned directory containing its complete configuration, checkpoints, logs, predictions, and evaluation artifacts.
 
@@ -10,21 +10,21 @@ Each experiment is executed within an isolated versioned directory containing it
 
 # Experiment Structure
 
-Each experiment automatically creates a dedicated directory:
+Each experiment creates a dedicated directory:
 
 ```directory
 experiments/
-└── v001_efficientnet_b0/
+└── baseline_resnet50_unweighted/
     ├── config.json
-    ├── history.csv
-    ├── history.json
-    ├── predictions.csv
-    ├── baseline_results.csv
-    ├── checkpoints/
-    ├── curves/
-    ├── confusion_matrix/
-    ├── roc/
-    └── tensorboard/
+    ├── training_history.csv
+    ├── training_summary.json
+    ├── error_analysis.csv
+    ├── test_evaluation.json
+    ├── test_evaluation.md
+    ├── confusion_matrix.png
+    └── checkpoints/
+        ├── best_model.pt
+        └── last_model.pt
 ```
 
 This organization prevents experiment outputs from being overwritten and enables direct comparison between runs.
@@ -43,9 +43,9 @@ For every experiment, the framework records:
 * Training history
 * Evaluation metrics
 * Checkpoints
-* TensorBoard logs
+* Prediction logs
 
-This information enables exact reproduction of experimental results.
+These records provide the configuration and artifacts required to reproduce and inspect an experiment.
 
 ---
 
@@ -53,50 +53,23 @@ This information enables exact reproduction of experimental results.
 
 The framework maintains:
 
-* `experiment_log.xlsx` — Global experiment registry.
-* `baseline_results.csv` — Summary of completed baseline experiments.
-* `history.csv` / `history.json` — Epoch-by-epoch training history.
-* `predictions.csv` — Test predictions for downstream analysis.
+* `training_history.csv` — Epoch-by-epoch training and validation loss/metrics.
+* `training_summary.json` — High-level training execution summary and convergence stats.
+* `error_analysis.csv` — Prediction-level misclassification logs with class probabilities and confidence scores.
+* `test_evaluation.json` / `test_evaluation.md` — Frozen test set evaluation benchmarks.
 
 ---
 
-# Current Status
+# Experiment Categories by Modality
 
-Completed:
+## Retina Module Experiments — Completed
 
-* Baseline training
-* Architecture benchmarking
-* Explainability
-* Probability Calibration
-* Uncertainty estimation
-* Checkpoint management
-* TensorBoard integration
-* Experiment versioning
-* Configuration export
-* History logging
-* Prediction export
-
-Planned:
-
-* Hyperparameter optimization
-* Loss comparison
-* Optimizer comparison
-
----
-
-# Experiment Categories
-
-## Executed Categories
-
-### Backbone Architectures — Completed
+### Backbone Architectures
 * EfficientNet-B0
-* EfficientNet-B3
+* EfficientNet-B3 (Selected Retina Backbone)
 * ConvNeXt-Tiny
 * Swin-Tiny
 * ViT-B/16
-
-Selected Retina Backbone:
-* EfficientNet-B3
 
 ### Calibration
 * Temperature Scaling (Post-hoc calibration on the validation split)
@@ -106,49 +79,49 @@ Selected Retina Backbone:
 
 ---
 
-## Planned Future Categories
+## Foot Ulcer Module Experiments
 
-Future studies will evaluate:
+### Baseline Experiments — Completed
+* ResNet-50 Baseline (Pretrained ImageNet weights, Unweighted CrossEntropy)
+  - Macro F1: `0.6339`, Accuracy: `0.6372`, Balanced Accuracy: `0.6391`
+
+### Architecture Benchmarking — Next Phase (Phase 10.5)
+* EfficientNet-B0
+* EfficientNet-B3
+* ConvNeXt-Tiny
+* Swin-Tiny
+* ViT-B/16
+
+---
+
+## Possible Future Experiments
+
+Future studies may evaluate:
 
 ### Hyperparameters
-* Learning rate
-* Batch size
-* Weight decay
-* Number of epochs
+* Learning rate schedule tuning
+* Batch size variation
+* Weight decay sensitivity
 
 ### Loss Functions
-* Cross Entropy
-* Weighted Cross Entropy
+* Weighted CrossEntropy (Sqrt Inverse Frequency)
 * Focal Loss
-* Ordinal Loss
-
-### Optimizers
-* AdamW
-* Adam
-* SGD with Momentum
-
-### Learning Rate Schedulers
-* Cosine Annealing
-* StepLR
-* OneCycleLR
-* ReduceLROnPlateau
+* Label Smoothing CrossEntropy
 
 ---
 
 # Evaluation Criteria
 
-Every experiment will be evaluated using the same metrics to ensure fair comparison:
+Every experiment is evaluated using standard metrics to ensure consistent comparison:
 
-* Quadratic Weighted Kappa (QWK)
-* Macro F1-score
+* Macro F1-score (Primary Metric)
+* Top-1 Accuracy
 * Balanced Accuracy
-* Accuracy
-* Precision
-* Recall
-* Specificity
-* ROC-AUC
-* Inference latency
-* Model size
+* Weighted F1-score
+* Class-wise Precision, Recall, F1
+* Multi-class Confusion Matrix
+* Macro ROC-AUC
+* Model parameter count and latency
 
 ---
 
@@ -159,11 +132,6 @@ The experiment management framework emphasizes:
 * Reproducibility
 * Version control
 * Modular experimentation
-* Fair benchmarking
 * Traceability
-* Scalability
 
-This infrastructure enables systematic comparison of preprocessing strategies, optimization methods, and model architectures throughout the FusionMedAI project.
-
----
-
+This structure supports comparison of preprocessing, optimization, and model architecture experiments.

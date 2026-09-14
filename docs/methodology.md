@@ -2,7 +2,7 @@
 
 ## Overview
 
-FusionMedAI is a modular clinical intelligence framework designed for multi-modal medical diagnosis. The project follows a staged research methodology in which each module is independently developed, validated, and benchmarked before integration into the final multimodal fusion system.
+FusionMedAI is a modular research framework for multimodal diabetic disease analysis. The project follows a staged research methodology in which each module is independently developed, validated, and benchmarked before integration into the final multimodal fusion system.
 
 This incremental approach improves reproducibility, simplifies experimentation, and enables fair evaluation of each component.
 
@@ -75,7 +75,7 @@ Each module independently produces:
 * Reliability score
 * Uncertainty estimate
 
-These outputs are subsequently aggregated by the ACARA-U Fusion Engine to generate a unified clinical assessment.
+These outputs are subsequently aggregated by the ACARA-U Fusion Engine to generate a unified assessment.
 
 This methodology avoids introducing artificial patient correspondences while maintaining methodological validity.
 
@@ -97,22 +97,15 @@ The framework follows several core engineering principles:
 # Current Project Status
 
 Completed:
-* Dataset Preparation
-* Data Pipeline
-* Exploratory Data Analysis
-* Baseline Framework
-* Architecture Benchmarking
-* Explainability
-* Probability Calibration
-* Uncertainty Estimation
+* **Retina Module**: Complete from Dataset Preparation through Integration and Acceptance testing.
+* **Foot Ulcer Module**: Completed through Phase 10.4 (Baseline Framework: ResNet-50 Macro F1 `0.6339`).
 
-Current:
-* Retina Module Integration
+Current Stage:
+* **Foot Ulcer Module — Phase 10.5 Architecture Benchmarking**
 
 Planned:
-* Clinical Module
-* Foot Module
-* ACARA-U Fusion
+* Clinical Module Development
+* ACARA-U Fusion Engine
 
 ---
 
@@ -120,17 +113,16 @@ Planned:
 
 Once all individual modules have been validated, the final FusionMedAI methodology will integrate their outputs through the ACARA-U Fusion Engine using uncertainty-aware decision aggregation rather than feature-level patient fusion.
 
-This approach preserves scientific validity while enabling multimodal clinical intelligence across heterogeneous public medical datasets.
+This approach avoids assuming that records from different public datasets belong to the same patients.
 
 ---
 
 # Architecture Benchmarking (Step 5)
 
-FusionMedAI conducts rigorous fair-comparison benchmarking to identify the optimal architectural backbone for each module. The protocol ensures that inductive biases and architectural paradigms (e.g., CNNs vs Vision Transformers) are compared transparently without hyperparameter bias.
+FusionMedAI conducts controlled architecture benchmarking to select the backbone for the evaluated dataset and experimental protocol. The protocol ensures that inductive biases and architectural paradigms (e.g., CNNs vs Vision Transformers) are compared transparently while keeping the specified training configuration fixed across architectures.
 
 ## Benchmarking Protocol
 - **Frozen Environment**: All architectures are subjected to the exact same dataset, train/val/test splits, batch size, epochs, and random seeds.
-- **Identical Optimization**: Confounding variables are eliminated by strictly fixing the optimizer (AdamW), learning rate scheduler (CosineAnnealingLR), and loss function (Weighted Cross-Entropy) across all models.
+- **Identical Optimization**: The specified optimizer, scheduler, and loss function are kept fixed across the benchmarked architectures.
 - **Hardware Efficiency Tracking**: Beyond diagnostic metrics (Accuracy, QWK, ROC-AUC), models are profiled for parameter count, FLOPs, MACs, peak VRAM, inference latency, and throughput.
-- **Clinical Feasibility Selection**: The final model is selected based on a holistic assessment balancing high diagnostic power with edge-deployment feasibility (low memory footprint and low latency).
-
+- **Model Selection**: Model selection considers the predefined evaluation metrics together with measured computational characteristics such as parameter count, memory usage, and inference latency.

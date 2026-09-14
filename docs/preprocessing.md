@@ -2,7 +2,7 @@
 
 ## Overview
 
-Preprocessing is a critical stage of the FusionMedAI pipeline. Its objective is to convert heterogeneous clinical data into standardized representations suitable for deep learning while preserving clinically relevant information.
+Preprocessing converts each modality's input data into the representation required by its model while keeping preprocessing specific to that modality.
 
 Each module maintains an independent preprocessing pipeline tailored to its respective data modality.
 
@@ -10,12 +10,12 @@ Each module maintains an independent preprocessing pipeline tailored to its resp
 
 ## Current Module Status
 
-| Module            | Preprocessing Status               |
-| ----------------- | ---------------------------------- |
-| Retina Module     | Baseline preprocessing finalized and validated through architecture benchmarking. |
-| Foot Ulcer Module | Planned                            |
-| Clinical Module   | Planned                            |
-| ACARA-U Fusion    | Planned                            |
+| Module | Preprocessing Status |
+| :--- | :--- |
+| **Retina Module** | Baseline preprocessing finalized and validated through architecture benchmarking. |
+| **Foot Ulcer Module** | Implemented for baseline training; further preprocessing experiments pending. |
+| **Clinical Module** | Planned |
+| **ACARA-U Fusion** | Planned |
 
 ---
 
@@ -27,10 +27,10 @@ The finalized Retina Module continues to use the validated baseline preprocessin
 
 The current Retina Module applies a lightweight preprocessing pipeline consisting of:
 
-* Image resizing
+* Image resizing to 224 × 224
 * Tensor conversion
 * ImageNet normalization
-* Standard data augmentation
+* Standard data augmentation (Training)
 
 This baseline intentionally avoids advanced enhancement techniques to establish a reproducible reference for future experiments.
 
@@ -50,16 +50,19 @@ Future preprocessing studies include:
 
 # Foot Ulcer Module
 
-Planned preprocessing includes:
+### Current Implementation (Phase 10.2 & 10.4 Baseline)
 
-* Color normalization
-* Hair and artifact removal (if required)
-* Contrast enhancement
-* Lesion cropping
-* Image resizing
-* Data augmentation
+The validated Foot Ulcer preprocessing and transform pipeline comprises:
 
-Implementation pending.
+- **Training Pipeline**:
+  - Resize to 224 × 224 RGB
+  - Random Rotation: $\pm 15^\circ$
+  - Random Horizontal Flip: $p=0.5$
+  - Color Jitter (brightness=0.2, contrast=0.2, saturation=0.1)
+  - Observed dataset normalization (`mean = [0.4937, 0.3630, 0.3272]`, `std = [0.1745, 0.1632, 0.1551]`)
+- **Validation / Test Pipeline**:
+  - Resize to 224 × 224 RGB
+  - Observed dataset normalization (100% Deterministic; 0% stochastic augmentation)
 
 ---
 
@@ -80,13 +83,14 @@ Implementation pending.
 
 # ACARA-U Fusion
 
-Before multimodal fusion, features extracted from individual modules will undergo:
+The ACARA-U Fusion stage will operate on outputs produced by the individual modality modules.
 
-* Feature normalization
-* Dimensionality alignment
-* Embedding projection
-* Cross-modal attention preparation
-* Uncertainty calibration
+Planned inputs include:
+
+* Modality-level risk
+* Confidence
+* Reliability
+* Uncertainty
 
 Implementation pending.
 
