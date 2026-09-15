@@ -1,6 +1,6 @@
 # Architecture Benchmarking
 
-The fifth phase evaluated five vision architectures under a controlled benchmarking protocol to select the Retina Module backbone for the evaluated dataset and experimental setting.
+The benchmark compares CNN and transformer-based architectures while keeping the training and evaluation settings fixed to select the Retina Module backbone.
 
 ## Benchmark Protocol
 * **Frozen Settings**: Epochs=50, Patience=10, Batch=32, Image Size=224, Optimizer=AdamW, Scheduler=CosineAnnealingLR, Seed=42
@@ -27,6 +27,6 @@ The fifth phase evaluated five vision architectures under a controlled benchmark
 
 ## Results & Discussion
 
-EfficientNet-B3 achieved the highest accuracy and QWK in the evaluated benchmark, while ConvNeXt-Tiny achieved the highest Macro F1, Balanced Accuracy, and ROC-AUC and had lower measured latency and peak VRAM. EfficientNet-B3 was selected as the Retina backbone under the project's selection criteria.
+EfficientNet-B3 was selected as the Retina backbone under the project's predefined selection criteria. ConvNeXt-Tiny achieved higher Macro F1, Balanced Accuracy, and ROC-AUC, while EfficientNet-B3 achieved higher Accuracy and QWK.
 
 The evaluated transformer architectures did not achieve the highest scores on the primary metrics used for backbone selection.

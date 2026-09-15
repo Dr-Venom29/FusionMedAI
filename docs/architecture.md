@@ -4,7 +4,7 @@
 
 FusionMedAI is organized as a modular research framework for multimodal diabetic disease analysis. Each modality is developed and evaluated independently before its outputs are considered for integration through the ACARA-U Fusion Engine.
 
-This design improves reproducibility, simplifies experimentation, and prevents information leakage between heterogeneous public datasets.
+This design separates modality-specific development and prevents direct mixing of independently sourced datasets before fusion.
 
 ---
 
@@ -44,7 +44,7 @@ flowchart TD
     --> ModuleCompletion
 ```
 
-For the Retina Module, this workflow currently terminates in the final Retina Module integration and verification stage.
+For the Retina Module, this workflow terminates in the final Retina Module integration and verification stage.
 
 The same methodology is currently being applied to the Foot Ulcer module, followed subsequently by the Clinical module.
 
@@ -52,12 +52,12 @@ The same methodology is currently being applied to the Foot Ulcer module, follow
 
 ## Current Implementation Status
 
-| Module            | Status |
-| ----------------- | ------ |
-| Retina Module     | ✅ Complete |
-| Foot Ulcer Module | 🔄 In development |
-| Clinical Module   | ⏳ Planned |
-| ACARA-U Fusion    | ⏳ Planned |
+| Module | Status |
+| :--- | :--- |
+| Retina Module | Complete |
+| Foot Ulcer Module | In development |
+| Clinical Module | Planned |
+| ACARA-U Fusion | Planned |
 
 ---
 
@@ -65,12 +65,7 @@ The same methodology is currently being applied to the Foot Ulcer module, follow
 
 FusionMedAI adopts a **decision-level fusion** methodology.
 
-Each independent module produces:
-
-* Disease prediction
-* Confidence score
-* Reliability score
-* Uncertainty estimate
+Each completed modality module exposes its prediction and associated confidence, reliability, and uncertainty information required by the fusion stage. The exact output fields depend on the module's completion status.
 
 The ACARA-U Fusion Engine aggregates these outputs to generate the final assessment.
 

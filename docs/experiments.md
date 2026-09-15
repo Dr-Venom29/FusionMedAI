@@ -10,21 +10,16 @@ Each experiment is executed within an isolated versioned directory containing it
 
 # Experiment Structure
 
-Each experiment creates a dedicated directory:
+Each experiment creates a dedicated directory under its modality:
 
 ```directory
 experiments/
-└── baseline_resnet50_unweighted/
-    ├── config.json
-    ├── training_history.csv
-    ├── training_summary.json
-    ├── error_analysis.csv
-    ├── test_evaluation.json
-    ├── test_evaluation.md
-    ├── confusion_matrix.png
-    └── checkpoints/
-        ├── best_model.pt
-        └── last_model.pt
+├── retina/
+└── foot/
+    ├── architecture_benchmark/
+    ├── calibration/
+    ├── explainability/
+    └── final_model/
 ```
 
 This organization prevents experiment outputs from being overwritten and enables direct comparison between runs.
@@ -82,15 +77,28 @@ The framework maintains:
 ## Foot Ulcer Module Experiments
 
 ### Baseline Experiments — Completed
-* ResNet-50 Baseline (Pretrained ImageNet weights, Unweighted CrossEntropy)
-  - Macro F1: `0.6339`, Accuracy: `0.6372`, Balanced Accuracy: `0.6391`
+* ResNet-50 Baseline
+  - Macro F1: `0.6339`
+  - Accuracy: `0.6372`
+  - Balanced Accuracy: `0.6391`
 
-### Architecture Benchmarking — Next Phase (Phase 10.5)
+### Architecture Benchmarking — Completed
 * EfficientNet-B0
-* EfficientNet-B3
+* EfficientNet-B3 — Selected Foot Ulcer Backbone
 * ConvNeXt-Tiny
 * Swin-Tiny
 * ViT-B/16
+
+### Explainability — Completed
+* Grad-CAM
+* Attribution sanity checks
+
+### Probability Calibration — Completed
+* Temperature Scaling
+* Vector Scaling — Selected
+
+### Uncertainty Estimation
+* Pending
 
 ---
 

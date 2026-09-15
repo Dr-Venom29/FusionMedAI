@@ -1,4 +1,4 @@
-# FusionMedAI Preprocessing Documentation
+# Preprocessing Documentation
 
 ## Overview
 
@@ -13,7 +13,7 @@ Each module maintains an independent preprocessing pipeline tailored to its resp
 | Module | Preprocessing Status |
 | :--- | :--- |
 | **Retina Module** | Baseline preprocessing finalized and validated through architecture benchmarking. |
-| **Foot Ulcer Module** | Implemented for baseline training; further preprocessing experiments pending. |
+| **Foot Ulcer Module** | Validated and used throughout baseline training and architecture benchmarking. |
 | **Clinical Module** | Planned |
 | **ACARA-U Fusion** | Planned |
 
@@ -32,7 +32,7 @@ The current Retina Module applies a lightweight preprocessing pipeline consistin
 * ImageNet normalization
 * Standard data augmentation (Training)
 
-This baseline intentionally avoids advanced enhancement techniques to establish a reproducible reference for future experiments.
+This baseline intentionally avoids additional enhancement techniques to establish a reproducible reference for future experiments.
 
 ### Planned Experiments
 
@@ -50,9 +50,9 @@ Future preprocessing studies include:
 
 # Foot Ulcer Module
 
-### Current Implementation (Phase 10.2 & 10.4 Baseline)
+### Current Implementation
 
-The validated Foot Ulcer preprocessing and transform pipeline comprises:
+The validated Foot Ulcer preprocessing pipeline was used for baseline training and architecture benchmarking:
 
 - **Training Pipeline**:
   - Resize to 224 × 224 RGB

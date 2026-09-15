@@ -82,9 +82,9 @@ This document tracks the verification status of all datasets used throughout the
 
 - [x] Baseline framework completed
 - [x] Baseline training completed
-- [ ] Architecture benchmarking
-- [ ] Explainability
-- [ ] Probability calibration
+- [x] Architecture benchmarking completed
+- [x] Explainability completed
+- [x] Probability calibration completed
 - [ ] Uncertainty estimation
 
 ---
@@ -106,9 +106,9 @@ This document tracks the verification status of all datasets used throughout the
 
 | Dataset | Status |
 | :--- | :--- |
-| APTOS 2019 | ✅ Retina Module Complete |
-| ADPM V3.3 | 🔄 Foot Ulcer Baseline Complete |
-| Clinical Risk Dataset | ⏳ Planned |
+| APTOS 2019 | Retina Module — Complete |
+| ADPM V3.3 | Foot Ulcer Module — In Development |
+| Clinical Risk Dataset | Planned |
 
 ---
 
@@ -168,21 +168,22 @@ Completed
 * Data pipeline verification
 * Baseline framework verification
 * Baseline training (Retina & Foot Ulcer)
-* Architecture benchmarking (Retina)
-* Explainability (Retina)
-* Probability Calibration (Retina)
+* Architecture benchmarking (Retina & Foot Ulcer)
+* Explainability (Retina & Foot Ulcer)
+* Probability calibration (Retina & Foot Ulcer)
 * Uncertainty estimation (Retina)
 
 Pending
 
-* Foot Ulcer Architecture Benchmarking
+* Foot Ulcer Uncertainty Estimation
+* Foot Ulcer Module Integration
 * Clinical Module Development
 * Multimodal Fusion Integration
 
 ---
 
-**Last Updated:** 2026-09-14
+**Last Updated:** 2026-09-16
 
 **Project:** FusionMedAI
 
-**Document Version:** Dataset Verification v3
+**Document Version:** Dataset Verification v4

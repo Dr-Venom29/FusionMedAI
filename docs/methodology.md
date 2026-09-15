@@ -4,7 +4,7 @@
 
 FusionMedAI is a modular research framework for multimodal diabetic disease analysis. The project follows a staged research methodology in which each module is independently developed, validated, and benchmarked before integration into the final multimodal fusion system.
 
-This incremental approach improves reproducibility, simplifies experimentation, and enables fair evaluation of each component.
+Each stage is evaluated separately so that dataset, model, calibration, uncertainty, and integration results can be inspected independently.
 
 ---
 
@@ -96,15 +96,15 @@ The framework follows several core engineering principles:
 
 # Current Project Status
 
-Completed:
-* **Retina Module**: Complete from Dataset Preparation through Integration and Acceptance testing.
-* **Foot Ulcer Module**: Completed through Phase 10.4 (Baseline Framework: ResNet-50 Macro F1 `0.6339`).
+## Completed
+* **Retina Module** — Complete through integration and acceptance testing.
+* **Foot Ulcer Module** — Complete through probability calibration.
 
-Current Stage:
-* **Foot Ulcer Module — Phase 10.5 Architecture Benchmarking**
+## Current Development
+* **Foot Ulcer Module** — Prediction uncertainty estimation.
 
-Planned:
-* Clinical Module Development
+## Planned
+* Clinical Module
 * ACARA-U Fusion Engine
 
 ---
@@ -117,9 +117,9 @@ This approach avoids assuming that records from different public datasets belong
 
 ---
 
-# Architecture Benchmarking (Step 5)
+# Architecture Benchmarking
 
-FusionMedAI conducts controlled architecture benchmarking to select the backbone for the evaluated dataset and experimental protocol. The protocol ensures that inductive biases and architectural paradigms (e.g., CNNs vs Vision Transformers) are compared transparently while keeping the specified training configuration fixed across architectures.
+FusionMedAI compares different model architectures under a fixed training and evaluation protocol. The benchmark records both classification metrics and computational measurements.
 
 ## Benchmarking Protocol
 - **Frozen Environment**: All architectures are subjected to the exact same dataset, train/val/test splits, batch size, epochs, and random seeds.
