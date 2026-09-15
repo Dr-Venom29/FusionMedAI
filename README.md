@@ -1,4 +1,5 @@
 # FusionMedAI
+
 > Explainable Multi-Modal AI Framework for Diabetic Disease Analysis
 
 Retina • Foot Ulcer • Clinical • Multimodal Fusion
@@ -15,11 +16,13 @@ The framework currently includes a completed retinal imaging pipeline and an ind
 
 ## Current Status
 
-The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline construction, exploratory data analysis, baseline model development, and controlled architecture benchmarking.
+The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline construction, exploratory data analysis, baseline model development, controlled architecture benchmarking, and post-hoc explainability analysis.
 
 The architecture benchmark evaluated EfficientNet-B0, EfficientNet-B3, ConvNeXt-Tiny, Swin-Tiny, and ViT-B/16 under a common training and evaluation protocol. EfficientNet-B3 achieved the highest held-out test Macro F1 (0.6683) and was selected as the primary Foot Ulcer backbone. EfficientNet-B0 produced a nearly identical Macro F1 (0.6672) with substantially lower computational cost and is retained as a lightweight alternative.
 
-The next stage is explainability.
+Phase 10.6 subsequently completed post-hoc Grad-CAM explainability analysis across the complete held-out Foot Ulcer test set.
+
+The next stage is **Phase 10.7 — Probability Calibration**.
 
 ### Retina Module
 - ✓ Dataset preparation
@@ -51,7 +54,7 @@ The next stage is explainability.
 - ✓ Dataset bias and shortcut analysis
 - ✓ Baseline framework
 - ✓ Architecture benchmarking
-- ⬜ Explainability
+- ✓ Explainability
 - ⬜ Probability calibration
 - ⬜ Uncertainty estimation
 - ⬜ Module integration
@@ -85,29 +88,20 @@ The fusion layer is designed to operate on modality-level risk, confidence, reli
 
 The project follows the same general development sequence for each modality:
 
-```text
-Dataset Preparation
-        ↓
-Data Pipeline
-        ↓
-EDA & Dataset Quality
-        ↓
-Baseline Framework
-        ↓
-Architecture Benchmarking
-        ↓
-Explainability
-        ↓
-Probability Calibration
-        ↓
-Uncertainty Estimation
-        ↓
-Module Integration
-        ↓
-Multimodal Fusion
+```mermaid
+flowchart TD
+    A[Dataset Preparation] --> B[Data Pipeline]
+    B --> C[EDA & Dataset Quality]
+    C --> D[Baseline Framework]
+    D --> E[Architecture Benchmarking]
+    E --> F[Explainability]
+    F --> G[Probability Calibration]
+    G --> H[Uncertainty Estimation]
+    H --> I[Module Integration]
+    I --> J[Multimodal Fusion]
 ```
 
-This separation is intentional. Dataset validation, model evaluation, calibration, uncertainty estimation, and integration are treated as separate research stages rather than being combined into a single training workflow.
+This separation is intentional. Dataset validation, model evaluation, calibration, uncertainty estimation, explainability, and integration are treated as separate research stages rather than being combined into a single training workflow.
 
 ---
 
@@ -118,6 +112,10 @@ The Retina module has completed its full independent development cycle.
 ### Dataset
 The module uses the APTOS 2019 diabetic retinopathy dataset. The dataset is not distributed with this repository and must be obtained separately.
 
+### Dataset Analysis
+
+The Retina pipeline included dataset quality assessment, class-distribution analysis, preprocessing validation, and leakage-aware evaluation. The data pipeline was verified before model benchmarking, with the final model evaluated on a frozen test set under a controlled experimental protocol.
+
 ### Backbone Selection
 Five architectures were evaluated under a controlled benchmarking procedure:
 - EfficientNet-B0
@@ -125,6 +123,14 @@ Five architectures were evaluated under a controlled benchmarking procedure:
 - ConvNeXt-Tiny
 - Swin-Tiny
 - ViT-B/16
+
+| Rank | Model | Accuracy | Balanced Acc. | Macro F1 | QWK | ROC-AUC | Parameters | Latency (GPU) |
+| :---: | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 🥇 | **EfficientNet-B3** | **84.20%** | 67.22% | 0.6813 | **0.9233** | 0.9457 | 10.70M | 12.64 ms |
+| 🥈 | ConvNeXt-Tiny | 81.20% | **72.05%** | **0.6893** | 0.9145 | **0.9587** | 27.82M | **5.65 ms** |
+| 🥉 | EfficientNet-B0 | 79.29% | 67.68% | 0.6505 | 0.9101 | 0.9353 | **4.01M** | 8.08 ms |
+| 4 | Swin-Tiny | 78.75% | 66.35% | 0.6406 | 0.8973 | 0.9516 | 27.52M | 12.89 ms |
+| 5 | ViT-B/16 | 77.38% | 58.01% | 0.5804 | 0.8656 | 0.9225 | 85.80M | 15.16 ms |
 
 **Selected backbone**: EfficientNet-B3
 
@@ -150,7 +156,7 @@ The final Retina module combines prediction, calibrated confidence, uncertainty 
 
 ## Foot Ulcer Module
 
-The Foot Ulcer module has completed dataset preparation, data pipeline development, exploratory analysis, baseline evaluation, and architecture benchmarking. Explainability, calibration, uncertainty estimation, and module integration remain under development.
+The Foot Ulcer module has completed dataset preparation, data pipeline development, exploratory analysis, baseline evaluation, architecture benchmarking, and post-hoc explainability analysis. Calibration, uncertainty estimation, and module integration remain under development.
 
 ### Dataset
 
@@ -193,16 +199,20 @@ The baseline highlighted two key challenges: early validation performance satura
 
 Five candidate architectures were evaluated under identical, controlled experimental conditions against the ResNet-50 baseline:
 
-| Rank | Model | Macro F1 | Balanced Accuracy | Macro ROC-AUC | Parameters | Latency (CPU) |
+| Rank | Model | Macro F1 | Balanced Accuracy | Macro ROC-AUC | Parameters | Latency (GPU, T4) |
 | :---: | :--- | ---: | ---: | ---: | ---: | ---: |
 | 🥇 | **EfficientNet-B3** | **0.6683** | **0.6672** | **0.8685** | **10.70M** | **70.39 ms** |
 | 🥈 | EfficientNet-B0 | 0.6672 | 0.6656 | 0.8431 | 4.01M | 37.89 ms |
 | 🥉 | ConvNeXt-Tiny | 0.6566 | 0.6562 | 0.8613 | 27.82M | 109.61 ms |
-| 4 | ResNet-50 (Baseline) | 0.6339 | 0.6391 | 0.8423 | 25.56M | 82.14 ms |
+| 4 | ResNet-50 (Baseline Reference) | 0.6339 | 0.6391 | 0.8423 | 23.51M | — |
 | 5 | Swin-Tiny | 0.6266 | 0.6262 | 0.8269 | 27.52M | 129.09 ms |
 | 6 | ViT-B/16 | 0.5788 | 0.5878 | 0.8364 | 85.80M | 310.28 ms |
 
 **Selection**: EfficientNet-B3 was selected as the primary backbone based on top performance across Macro F1, Balanced Accuracy, and Macro ROC-AUC, alongside strong Grade 2 recall (0.7114). EfficientNet-B0 is retained as a lightweight alternative (4.01M parameters, 37.89 ms latency).
+
+### Explainability
+
+Post-hoc spatial attribution analysis using Grad-CAM was performed across the complete held-out test set ($N=1,006$). Target layer representations (`backbone.features[8]`) were empirically verified, producing localized attributions focused on visible wound bed and margin regions (mean high-attribution area fraction $= 19.61\%$). Model randomization sanity checks (Adebayo test PCC $= 0.0000$) confirmed attribution dependence on learned model parameters.
 
 ### Calibration and Uncertainty
 
@@ -272,7 +282,8 @@ FusionMedAI/
 │   │   ├── data/
 │   │   └── model/
 │   └── foot/
-│       └── data/
+│       ├── data/
+│       └── model/
 ├── LICENSE
 └── requirements.txt
 ```
@@ -308,7 +319,7 @@ FusionMedAI/
 | 10.3.6 | Dataset Bias & Shortcut Analysis | ✅ |
 | 10.4 | Baseline Framework | ✅ |
 | 10.5 | Architecture Benchmarking | ✅ |
-| 10.6 | Explainability | ⬜ |
+| 10.6 | Explainability | ✅ |
 | 10.7 | Probability Calibration | ⬜ |
 | 10.8 | Uncertainty Estimation | ⬜ |
 | 10.9 | Module Integration | ⬜ |
@@ -371,7 +382,7 @@ The raw dataset is treated as immutable. Dataset cleaning, canonicalization, gro
 
 Verification scripts are maintained independently from the training code under `verification/`:
 - `verification/retina/data/` & `verification/retina/model/`
-- `verification/foot/data/`
+- `verification/foot/data/` & `verification/foot/model/`
 
 The framework verifies components including:
 - Dataset integrity
@@ -404,7 +415,7 @@ The output demonstrates the integrated Retina inference interface, including mod
 ## Development Roadmap
 
 - **v1.0 (Retina Module)** — **Completed**. The Retina pipeline has progressed from dataset preparation through module integration and acceptance testing. ✅
-- **v2.0 (Foot Ulcer Module)** — **In Development**. Completed: Phase 10.1 (Audit), Phase 10.2 (Pipeline), Phase 10.3 (EDA & Quality), Phase 10.4 (Baseline Framework), and Phase 10.5 (Architecture Benchmarking). Selected backbone: EfficientNet-B3. Next: **Phase 10.6 — Explainability**. ⬜
+- **v2.0 (Foot Ulcer Module)** — **In Development**. Completed: Phase 10.1 (Audit), Phase 10.2 (Pipeline), Phase 10.3 (EDA & Quality), Phase 10.4 (Baseline Framework), Phase 10.5 (Architecture Benchmarking), and Phase 10.6 (Explainability). Selected backbone: EfficientNet-B3. Next: **Phase 10.7 — Probability Calibration**. ⬜
 - **v3.0 (Clinical Module)** — **Planned**. Development of the independent clinical-data assessment module. ⬜
 - **v4.0 (ACARA-U Fusion)** — **Planned**. Integration of the Retina, Foot Ulcer, and Clinical modules through the ACARA-U uncertainty- and reliability-aware fusion framework. ⬜
 

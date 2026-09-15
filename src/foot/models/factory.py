@@ -33,16 +33,6 @@ def create_model(
 ) -> FootBaseClassifier:
     """
     Central Factory Function for Phase 10.5 Architecture Benchmarking (10.5.3).
-    
-    Args:
-        model_name: Name of model architecture in MODEL_REGISTRY
-        num_classes: Number of target Wagner classes (default: 4)
-        pretrained: Whether to load ImageNet pre-trained weights
-        dropout_rate: Dropout rate for classification head
-        device: Device to place model ('cpu' or 'cuda')
-        
-    Returns:
-        Instance of FootBaseClassifier on target device.
     """
     name_clean = model_name.lower().replace("-", "_")
     
@@ -99,7 +89,7 @@ def load_foot_final_model(
     """
     path = Path(checkpoint_path) if checkpoint_path is not None else FINAL_FOOT_MODEL_CHECKPOINT
     if not path.exists():
-        raise FileNotFoundError(f"Final Foot model checkpoint not found at: '{path}'")
+        raise FileNotFoundError(f"Final Foot model checkpoint not found at canonical path: '{path}'")
         
     model = build_foot_final_model(num_classes=4, pretrained=False, dropout_rate=0.2, device=device)
     checkpoint = torch.load(path, map_location=device, weights_only=False)
