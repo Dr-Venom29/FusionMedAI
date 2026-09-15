@@ -19,7 +19,7 @@ $$\hat{p}_i(T) = \text{softmax}\left( \frac{z_i}{T} \right)$$
 ### Parameter Optimization
 The optimal temperature $T^*$ is optimized on the validation set by minimizing Cross-Entropy (Negative Log-Likelihood):
 
-$$T^* = \arg\min_T -\frac{1}{N_{\text{val}}} \sum_{i=1}^{N_{\text{val}}} \log \left( \text{softmax}\left( \frac{z_i}{T} \right)_{y_i} \right)$$
+$$T^* = \operatorname*{argmin}_{T} -\frac{1}{N_{\text{val}}} \sum_{i=1}^{N_{\text{val}}} \log \left[ \text{softmax}\left( \frac{z_i}{T} \right) \right]_{y_i}$$
 
 - $T > 1$: Softens probability distribution (reduces overconfidence).
 - $T < 1$: Sharpens probability distribution (increases confidence).
@@ -39,6 +39,6 @@ $$\hat{p}_i(W, b) = \text{softmax}(z'_i)$$
 ### Parameter Optimization
 The parameters $w^* \in \mathbb{R}^4$ and $b^* \in \mathbb{R}^4$ (8 learnable parameters total) are optimized on validation logits via L-BFGS minimizing NLL:
 
-$$\{w^*, b^*\} = \arg\min_{w, b} -\frac{1}{N_{\text{val}}} \sum_{i=1}^{N_{\text{val}}} \log \left( \text{softmax}(w \odot z_i + b)_{y_i} \right)$$
+$$\{w^*, b^*\} = \operatorname*{argmin}_{w, b} -\frac{1}{N_{\text{val}}} \sum_{i=1}^{N_{\text{val}}} \log \left[ \text{softmax}(w \odot z_i + b) \right]_{y_i}$$
 
 Vector scaling allows class-specific confidence adjustments, providing greater flexibility than a single temperature scalar.
