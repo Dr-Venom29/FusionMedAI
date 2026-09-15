@@ -198,7 +198,7 @@ def create_contact_sheet(class_images: dict, output_path: Path, samples_per_clas
 
 def generate_markdown_report(report: dict, contact_sheet_rel_path: str) -> str:
     lines = []
-    lines.append("# Phase 10.1.H — Resolution & Visual Quality Audit Report")
+    lines.append("# Resolution & Visual Quality Audit Report")
     lines.append("")
     lines.append("## Visual Contact Sheet Inspection Grid")
     lines.append(f"![Wagner 4-Class Visual Contact Sheet]({contact_sheet_rel_path})")
@@ -231,7 +231,7 @@ def generate_markdown_report(report: dict, contact_sheet_rel_path: str) -> str:
 
 def main():
     raw_dir = config.RAW_DATA
-    print(f"Executing Phase 10.1.H Visual Quality Audit on: {raw_dir}")
+    print(f"Executing Visual Quality Audit on: {raw_dir}")
     
     report_data, quality_records, class_images = audit_visual_quality(raw_dir)
     

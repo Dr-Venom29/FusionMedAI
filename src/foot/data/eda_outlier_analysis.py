@@ -21,14 +21,14 @@ from src.foot.config import (
 
 def analyze_outliers():
     print("==================================================")
-    print("Running Phase 10.3.4 — Detailed Outlier Analysis")
+    print("Running Detailed Outlier Analysis")
     print("==================================================")
     
     quality_csv = METADATA_QUALITY_DIR / "quality_metrics_canonical.csv"
     index_csv = PROCESSED_SPLITS_DIR / "index.csv"
     
     if not index_csv.exists():
-        raise FileNotFoundError(f"Missing index CSV: {index_csv}. Run Phase 10.2 first.")
+        raise FileNotFoundError(f"Missing index CSV: {index_csv}.")
         
     df_index = pd.read_csv(index_csv)
     
@@ -168,7 +168,7 @@ def analyze_outliers():
     print(f"Saved JSON outlier report to:  {json_path}")
     
     # Save Markdown Report
-    md_content = f"""# Phase 10.3.4 — Outlier Analysis & Anomaly Investigation
+    md_content = f"""# Outlier Analysis & Anomaly Investigation
 
 ## 1. Overview & Policy
 
@@ -214,7 +214,7 @@ Outliers are proportionally distributed across partitions, confirming no split b
 ## 4. Modeling Directives for Outliers
 
 1. **Robust Preprocessing**: Standard PyTorch ImageNet / Dataset Normalization ($[0.4937, 0.3630, 0.3272]$) effectively handles brightness/contrast variations.
-2. **Error Tracking**: Outlier image paths in `outlier_analysis_manifest.csv` will be cross-referenced during Phase 10.4+ validation error analysis to determine if model failures correlate with visual anomalies.
+2. **Error Tracking**: Outlier image paths in `outlier_analysis_manifest.csv` will be cross-referenced during validation error analysis to determine if model failures correlate with visual anomalies.
 """
 
     md_path = METADATA_DIR / "eda_outlier_analysis.md"
@@ -222,7 +222,7 @@ Outliers are proportionally distributed across partitions, confirming no split b
         f.write(md_content)
     print(f"Saved Markdown outlier report to: {md_path}")
     
-    print("\nPhase 10.3.4 Outlier Analysis completed successfully!")
+    print("\n Outlier Analysis completed successfully!")
 
 if __name__ == "__main__":
     analyze_outliers()

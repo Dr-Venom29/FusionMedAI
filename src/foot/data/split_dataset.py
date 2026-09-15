@@ -22,12 +22,12 @@ from src.foot.config import (
 
 def run_group_stratified_split():
     print("==================================================")
-    print("Running Phase 10.2.5 — Group-Stratified Train/Val/Test Split")
+    print("Running Group-Stratified Train/Val/Test Split")
     print("==================================================")
     
     canonical_manifest_csv = PROCESSED_DATA / "canonical_manifest.csv"
     if not canonical_manifest_csv.exists():
-        raise FileNotFoundError(f"Prerequisite file not found: {canonical_manifest_csv}. Please run Phase 10.2.2 first.")
+        raise FileNotFoundError(f"Prerequisite file not found: {canonical_manifest_csv}.")
         
     df_manifest = pd.read_csv(canonical_manifest_csv)
     df_canonical = df_manifest[df_manifest["is_canonical"] == True].copy()
@@ -183,7 +183,7 @@ def run_group_stratified_split():
     print(" [PASS] Target 80/10/10 ratio achieved at group level")
     print(" [PASS] Class balance preserved across all 3 partitions")
     print(" [PASS] Split CSV files created in datasets/foot/processed/splits/")
-    print("\nPhase 10.2.5 Group-Stratified Train/Val/Test Split completed successfully!")
+    print("\n Group-Stratified Train/Val/Test Split completed successfully!")
 
 if __name__ == "__main__":
     run_group_stratified_split()

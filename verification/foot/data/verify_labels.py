@@ -124,7 +124,7 @@ def audit_labels(raw_dir: Path):
 
 def generate_markdown_report(audit: dict) -> str:
     lines = []
-    lines.append("# Phase 10.1.C — Label Verification Report")
+    lines.append("# Label Verification Report")
     lines.append("")
     lines.append(f"**Overall Status**: `{audit['status']}`")
     lines.append("")
@@ -181,7 +181,7 @@ def generate_markdown_report(audit: dict) -> str:
 
 def main():
     raw_dir = config.RAW_DATA
-    print(f"Executing Phase 10.1.C Label Verification on: {raw_dir}")
+    print(f"Executing Label Verification on: {raw_dir}")
     
     audit_result = audit_labels(raw_dir)
     

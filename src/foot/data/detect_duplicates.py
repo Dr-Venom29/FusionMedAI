@@ -195,7 +195,7 @@ def audit_duplicates(raw_dir: Path, near_duplicate_threshold=4):
 
 def generate_markdown_report(report: dict) -> str:
     lines = []
-    lines.append("# Phase 10.1.F — Duplicate Detection & Leakage Audit Report")
+    lines.append("# Duplicate Detection & Leakage Audit Report")
     lines.append("")
     lines.append("## Executive Summary")
     lines.append(f"- **Total Images Audited**: `{report['total_images_audited']:,}`")
@@ -243,7 +243,7 @@ def generate_markdown_report(report: dict) -> str:
 
 def main():
     raw_dir = config.RAW_DATA
-    print(f"Executing Phase 10.1.F Duplicate Detection on: {raw_dir}")
+    print(f"Executing Duplicate Detection on: {raw_dir}")
     
     report_data, duplicate_pairs = audit_duplicates(raw_dir)
     

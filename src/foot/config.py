@@ -63,14 +63,14 @@ VALID_LABELS = {0, 1, 2, 3}
 
 IMAGE_SIZE = 224
 
-# Measured from dataset during Phase 10.1.E
+# Measured from dataset
 OBSERVED_DATASET_MEAN = [0.4937, 0.3630, 0.3272]
 OBSERVED_DATASET_STD = [0.1745, 0.1632, 0.1551]
 
 NORMALIZATION_MEAN = OBSERVED_DATASET_MEAN
 NORMALIZATION_STD = OBSERVED_DATASET_STD
 
-# Candidate Augmentations (To be evaluated in Step 10.2 - Data Pipeline)
+# Candidate Augmentations
 CANDIDATE_ROTATION_DEGREES = 15
 CANDIDATE_FLIP_PROBABILITY = 0.5
 

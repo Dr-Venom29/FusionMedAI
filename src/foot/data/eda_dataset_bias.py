@@ -26,14 +26,14 @@ from src.foot.config import (
 
 def run_dataset_bias_eda():
     print("==================================================")
-    print("Running Phase 10.3.6 — Dataset Bias & Shortcut Analysis")
+    print("Running Dataset Bias & Shortcut Analysis")
     print("==================================================")
     
     index_csv = PROCESSED_SPLITS_DIR / "index.csv"
     quality_csv = METADATA_QUALITY_DIR / "quality_metrics_canonical.csv"
     
     if not index_csv.exists() or not quality_csv.exists():
-        raise FileNotFoundError("Missing index.csv or quality_metrics_canonical.csv. Run Phase 10.2 & 10.3.3 first.")
+        raise FileNotFoundError("Missing index.csv or quality_metrics_canonical.csv.")
         
     df_index = pd.read_csv(index_csv)
     df_quality = pd.read_csv(quality_csv)
@@ -156,7 +156,7 @@ def run_dataset_bias_eda():
             "assessment": "No strong Roboflow naming prefix shortcut bias detected."
         },
         "bias_mitigation_recommendations": {
-            "group_stratification": "Phase 10.2 group-stratified split prevents patient-level data leakage and balances source-group distribution across splits.",
+            "group_stratification": "Group-stratified split prevents patient-level data leakage and balances source-group distribution across splits.",
             "data_augmentation": "Apply random color jitter (brightness=0.2, contrast=0.2, saturation=0.1) during training to destroy potential residual illumination/color cast shortcuts.",
             "normalization": "Normalize using observed dataset statistics [0.4937, 0.3630, 0.3272]."
         }
@@ -168,7 +168,7 @@ def run_dataset_bias_eda():
     print(f"Saved JSON bias report to: {json_path}")
     
     # Markdown Report
-    md_content = f"""# Phase 10.3.6 — Dataset Bias & Shortcut Analysis Report
+    md_content = f"""# Dataset Bias & Shortcut Analysis Report
 
 ## 1. Executive Summary
 
@@ -206,11 +206,11 @@ Analysis was conducted across all **10,050 canonical images**.
 
 - **Cramer's V Association**: `{cramers_v:.4f}`
 - **Assessment**: Filename prefixes and Roboflow source variants show low association with Wagner grade labels ($V < 0.20$).
-- **Group-Stratified Partitioning Enforcement**: Group-stratified splitting (Phase 10.2) placed all offline variants derived from the same source image strictly into the same partition, preventing offline augmentation leakage across splits.
+- **Group-Stratified Partitioning Enforcement**: Group-stratified splitting placed all offline variants derived from the same source image strictly into the same partition, preventing offline augmentation leakage across splits.
 
 ---
 
-## 5. Bias Mitigation Mandate for Phase 10.4 Training
+## 5. Bias Mitigation Mandate for Training
 
 1. **Color Jitter Augmentation**: Apply random brightness ($0.2$), contrast ($0.2$), and saturation ($0.1$) jitter during training to suppress residual lighting/saturation shortcuts.
 2. **Observed Normalization**: Apply exact observed normalization $[0.4937, 0.3630, 0.3272]$.
@@ -221,7 +221,7 @@ Analysis was conducted across all **10,050 canonical images**.
         f.write(md_content)
     print(f"Saved Markdown bias report to: {md_path}")
     
-    print("\nPhase 10.3.6 Dataset Bias & Shortcut Analysis completed successfully!")
+    print("\n Dataset Bias & Shortcut Analysis completed successfully!")
 
 if __name__ == "__main__":
     run_dataset_bias_eda()

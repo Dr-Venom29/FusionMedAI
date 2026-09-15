@@ -146,7 +146,7 @@ def audit_image_integrity(raw_dir: Path):
 
 def generate_markdown_report(report: dict) -> str:
     lines = []
-    lines.append("# Phase 10.1.D — Image Integrity Audit Report")
+    lines.append("# Image Integrity Audit Report")
     lines.append("")
     lines.append(f"**Overall Status**: `{report['status']}`")
     lines.append("")
@@ -190,7 +190,7 @@ def generate_markdown_report(report: dict) -> str:
 
 def main():
     raw_dir = config.RAW_DATA
-    print(f"Executing Phase 10.1.D Image Integrity Audit on: {raw_dir}")
+    print(f"Executing Image Integrity Audit on: {raw_dir}")
     
     report_data, image_records = audit_image_integrity(raw_dir)
     

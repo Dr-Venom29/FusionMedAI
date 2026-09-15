@@ -18,7 +18,7 @@ from src.foot.training.trainer import set_reproducibility
 
 def verify_baseline_training_pipeline():
     print("==================================================", flush=True)
-    print("Verifying Phase 10.4 — Baseline Model Training & Pipeline", flush=True)
+    print("Verifying Baseline Model Training & Pipeline", flush=True)
     print("==================================================", flush=True)
     
     set_reproducibility(SEED)

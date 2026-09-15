@@ -16,52 +16,50 @@ The framework currently includes a completed retinal imaging pipeline and an ind
 
 ## Current Status
 
-The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline construction, exploratory data analysis, baseline model development, controlled architecture benchmarking, and post-hoc explainability analysis.
+The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline construction, exploratory data analysis, baseline model development, controlled architecture benchmarking, post-hoc explainability analysis, and probability calibration.
 
-The architecture benchmark evaluated EfficientNet-B0, EfficientNet-B3, ConvNeXt-Tiny, Swin-Tiny, and ViT-B/16 under a common training and evaluation protocol. EfficientNet-B3 achieved the highest held-out test Macro F1 (0.6683) and was selected as the primary Foot Ulcer backbone. EfficientNet-B0 produced a nearly identical Macro F1 (0.6672) with substantially lower computational cost and is retained as a lightweight alternative.
+EfficientNet-B3 was selected as the primary Foot Ulcer backbone. Probability calibration was evaluated using Temperature Scaling and Vector Scaling, with Vector Scaling selected using validation negative log-likelihood under the predefined selection protocol.
 
-Phase 10.6 subsequently completed post-hoc Grad-CAM explainability analysis across the complete held-out Foot Ulcer test set.
-
-The next stage is **Phase 10.7 — Probability Calibration**.
+The next stage is **Phase 10.8 — Prediction Uncertainty Estimation**.
 
 ### Retina Module
-- ✓ Dataset preparation
-- ✓ Data pipeline
-- ✓ Exploratory data analysis and dataset quality assessment
-- ✓ Baseline framework
-- ✓ Architecture benchmarking
-- ✓ Grad-CAM explainability
-- ✓ Probability calibration
-- ✓ Uncertainty estimation
-- ✓ Module integration
-- ✓ Acceptance testing
+- Dataset preparation — Completed
+- Data pipeline — Completed
+- Exploratory data analysis and dataset quality assessment — Completed
+- Baseline framework — Completed
+- Architecture benchmarking — Completed
+- Grad-CAM explainability — Completed
+- Probability calibration — Completed
+- Uncertainty estimation — Completed
+- Module integration — Completed
+- Acceptance testing — Completed
 
 ### Foot Ulcer Module
-- ✓ Dataset acquisition and audit
-- ✓ Canonical dataset construction
-- ✓ Source-image grouping
-- ✓ Duplicate and near-duplicate analysis
-- ✓ Group-stratified train/validation/test splitting
-- ✓ Dataset implementation
-- ✓ Image preprocessing and augmentation pipeline
-- ✓ DataLoader implementation
-- ✓ End-to-end pipeline verification
-- ✓ Statistical profiling
-- ✓ Class-wise visual analysis
-- ✓ Image quality analysis
-- ✓ Outlier analysis
-- ✓ Class separability analysis
-- ✓ Dataset bias and shortcut analysis
-- ✓ Baseline framework
-- ✓ Architecture benchmarking
-- ✓ Explainability
-- ⬜ Probability calibration
-- ⬜ Uncertainty estimation
-- ⬜ Module integration
+- Dataset acquisition and audit — Completed
+- Canonical dataset construction — Completed
+- Source-image grouping — Completed
+- Duplicate and near-duplicate analysis — Completed
+- Group-stratified train/validation/test splitting — Completed
+- Dataset implementation — Completed
+- Image preprocessing and augmentation pipeline — Completed
+- DataLoader implementation — Completed
+- End-to-end pipeline verification — Completed
+- Statistical profiling — Completed
+- Class-wise visual analysis — Completed
+- Image quality analysis — Completed
+- Outlier analysis — Completed
+- Class separability analysis — Completed
+- Dataset bias and shortcut analysis — Completed
+- Baseline framework — Completed
+- Architecture benchmarking — Completed
+- Explainability — Completed
+- Probability calibration — Completed
+- Prediction uncertainty estimation — In development
+- Module integration — Planned
 
 ### Remaining Modules
-- ⬜ Clinical module
-- ⬜ ACARA-U multimodal fusion
+- Clinical module — Planned
+- ACARA-U multimodal fusion — Planned
 
 ---
 
@@ -69,7 +67,7 @@ The next stage is **Phase 10.7 — Probability Calibration**.
 
 ![System Architecture](docs/architecture.png)
 
-*Figure 1. High-level architecture of the FusionMedAI framework.*
+*Figure 1. Architecture of the FusionMedAI framework.*
 
 FusionMedAI is organized as a sequence of independent modality-specific pipelines followed by a multimodal fusion stage.
 
@@ -126,9 +124,9 @@ Five architectures were evaluated under a controlled benchmarking procedure:
 
 | Rank | Model | Accuracy | Balanced Acc. | Macro F1 | QWK | ROC-AUC | Parameters | Latency (GPU) |
 | :---: | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 🥇 | **EfficientNet-B3** | **84.20%** | 67.22% | 0.6813 | **0.9233** | 0.9457 | 10.70M | 12.64 ms |
-| 🥈 | ConvNeXt-Tiny | 81.20% | **72.05%** | **0.6893** | 0.9145 | **0.9587** | 27.82M | **5.65 ms** |
-| 🥉 | EfficientNet-B0 | 79.29% | 67.68% | 0.6505 | 0.9101 | 0.9353 | **4.01M** | 8.08 ms |
+| 1 | **EfficientNet-B3** | **84.20%** | 67.22% | 0.6813 | **0.9233** | 0.9457 | 10.70M | 12.64 ms |
+| 2 | ConvNeXt-Tiny | 81.20% | **72.05%** | **0.6893** | 0.9145 | **0.9587** | 27.82M | **5.65 ms** |
+| 3 | EfficientNet-B0 | 79.29% | 67.68% | 0.6505 | 0.9101 | 0.9353 | **4.01M** | 8.08 ms |
 | 4 | Swin-Tiny | 78.75% | 66.35% | 0.6406 | 0.8973 | 0.9516 | 27.52M | 12.89 ms |
 | 5 | ViT-B/16 | 77.38% | 58.01% | 0.5804 | 0.8656 | 0.9225 | 85.80M | 15.16 ms |
 
@@ -156,7 +154,7 @@ The final Retina module combines prediction, calibrated confidence, uncertainty 
 
 ## Foot Ulcer Module
 
-The Foot Ulcer module has completed dataset preparation, data pipeline development, exploratory analysis, baseline evaluation, architecture benchmarking, and post-hoc explainability analysis. Calibration, uncertainty estimation, and module integration remain under development.
+The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline construction, exploratory data analysis, baseline model development, controlled architecture benchmarking, post-hoc explainability analysis, and probability calibration. Prediction uncertainty estimation and module integration are the next development stages.
 
 ### Dataset
 
@@ -169,14 +167,15 @@ The module uses the ADPM V3.3 Diabetic Foot Ulcer Classification dataset, organi
 | **Grade 3** | Deep ulcer with abscess, osteomyelitis, or joint sepsis |
 | **Grade 4** | Localized gangrene |
 
-The audited dataset contains 10,062 valid images at 224 × 224 resolution. Following duplicate filtering and source-group analysis, 10,050 canonical images were assigned to deterministic, leakage-aware splits:
+The audited dataset contains 10,062 valid images. Exact duplicate resolution produced 10,050 canonical images grouped into 1,770 source-image groups.
+
+The final leakage-aware splits contain:
 
 - **Train**: 8,038 images
 - **Validation**: 1,006 images
 - **Test**: 1,006 images
-- **Source Groups**: 1,770 distinct source image clusters
 
-The final splits contain zero source-group overlap and zero exact-duplicate overlap.
+No source-image group overlaps occur between the final splits, and no exact duplicates cross split boundaries.
 
 ### Dataset Analysis
 
@@ -201,26 +200,46 @@ Five candidate architectures were evaluated under identical, controlled experime
 
 | Rank | Model | Macro F1 | Balanced Accuracy | Macro ROC-AUC | Parameters | Latency (GPU, T4) |
 | :---: | :--- | ---: | ---: | ---: | ---: | ---: |
-| 🥇 | **EfficientNet-B3** | **0.6683** | **0.6672** | **0.8685** | **10.70M** | **70.39 ms** |
-| 🥈 | EfficientNet-B0 | 0.6672 | 0.6656 | 0.8431 | 4.01M | 37.89 ms |
-| 🥉 | ConvNeXt-Tiny | 0.6566 | 0.6562 | 0.8613 | 27.82M | 109.61 ms |
+| 1 | **EfficientNet-B3** | **0.6683** | **0.6672** | **0.8685** | **10.70M** | **70.39 ms** |
+| 2 | EfficientNet-B0 | 0.6672 | 0.6656 | 0.8431 | 4.01M | 37.89 ms |
+| 3 | ConvNeXt-Tiny | 0.6566 | 0.6562 | 0.8613 | 27.82M | 109.61 ms |
 | 4 | ResNet-50 (Baseline Reference) | 0.6339 | 0.6391 | 0.8423 | 23.51M | — |
 | 5 | Swin-Tiny | 0.6266 | 0.6262 | 0.8269 | 27.52M | 129.09 ms |
 | 6 | ViT-B/16 | 0.5788 | 0.5878 | 0.8364 | 85.80M | 310.28 ms |
 
-**Selection**: EfficientNet-B3 was selected as the primary backbone based on top performance across Macro F1, Balanced Accuracy, and Macro ROC-AUC, alongside strong Grade 2 recall (0.7114). EfficientNet-B0 is retained as a lightweight alternative (4.01M parameters, 37.89 ms latency).
+**Selection**: EfficientNet-B3 was selected as the primary Foot Ulcer backbone based on the predefined primary metric of held-out test Macro F1, with Balanced Accuracy, Macro ROC-AUC, class-wise performance, and computational cost considered as secondary criteria. EfficientNet-B0 remains a lightweight alternative. Its test Macro F1 of 0.6672 was only 0.0011 below EfficientNet-B3 (0.6683), while requiring substantially fewer parameters and lower inference latency.
 
 ### Explainability
 
-Post-hoc spatial attribution analysis using Grad-CAM was performed across the complete held-out test set ($N=1,006$). Target layer representations (`backbone.features[8]`) were empirically verified, producing localized attributions focused on visible wound bed and margin regions (mean high-attribution area fraction $= 19.61\%$). Model randomization sanity checks (Adebayo test PCC $= 0.0000$) confirmed attribution dependence on learned model parameters.
+Post-hoc spatial attribution analysis using Grad-CAM was performed across the complete held-out test set ($N=1,006$). Target layer representations (`backbone.features[8]`) were empirically verified, producing localized attributions focused on visible wound bed and margin regions (mean high-attribution area fraction $= 19.61\%$). Model randomization sanity checking produced a Pearson correlation coefficient of 0.0000, indicating that the attribution maps were not preserved after model parameter randomization under the predefined sanity-check protocol. These results evaluate attribution sensitivity to model parameters; they do not establish lesion localization accuracy or clinical validity.
 
-### Calibration and Uncertainty
+### Calibration
 
-Calibration (Temperature Scaling, Vector Scaling) and uncertainty estimation (MC Dropout, Risk-Coverage Analysis) are scheduled for Phase 10.7 and Phase 10.8.
+Probability calibration was performed using post-hoc Temperature Scaling and Vector Scaling on the frozen EfficientNet-B3 model.
+
+Calibration parameters were fitted exclusively on the validation set and evaluated on the held-out test set.
+
+Vector Scaling was selected because it achieved lower validation NLL than Temperature Scaling under the predefined selection protocol.
+
+| Method | Test NLL | Test ECE | Accuracy | Macro F1 | Balanced Accuracy |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| Raw | 0.8779 | 0.0424 | 0.6690 | 0.6683 | 0.6672 |
+| Temperature Scaling | 0.8785 | 0.0388 | 0.6690 | 0.6683 | 0.6672 |
+| **Vector Scaling** | **0.8749** | **0.0313** | **0.6769** | **0.6758** | **0.6753** |
+
+Vector Scaling reduced test ECE from 0.0424 to 0.0313, corresponding to a 26.18% relative reduction.
+
+The selected calibration artifact is frozen under `experiments/foot/final_model/calibration.json`.
+
+### Uncertainty
+
+Prediction uncertainty estimation is the next development stage. The planned analysis will evaluate stochastic predictive uncertainty and risk-coverage behaviour for the selected Foot Ulcer model.
 
 ### Integration
 
-Integrated inference combining prediction, explainability, calibration, and uncertainty estimation will be established in Phase 10.9.
+Integrated Foot Ulcer inference will combine prediction, calibrated probabilities, uncertainty estimation, and Grad-CAM explanations after completion of the uncertainty stage.
+
+Module integration will follow the same interface and verification principles established for the Retina module.
 
 ---
 
@@ -265,6 +284,12 @@ FusionMedAI/
 │       └── metadata/
 ├── docs/
 │   └── architecture_v1.png
+├── experiments/
+│   ├── retina/
+│   └── foot/
+│       ├── architecture_benchmark/
+│       ├── explainability/
+│       └── final_model/
 ├── notebooks/
 │   ├── retina/
 │   └── foot/
@@ -295,34 +320,34 @@ FusionMedAI/
 ### Retina
 | Volume | Topic | Status |
 | :--- | :--- | :---: |
-| **I** | Dataset Preparation | ✅ |
-| **II** | Data Pipeline | ✅ |
-| **III** | Exploratory Data Analysis | ✅ |
-| **IV** | Baseline Framework | ✅ |
-| **V** | Architecture Benchmarking | ✅ |
-| **VI** | Model Explainability | ✅ |
-| **VII** | Probability Calibration | ✅ |
-| **VIII** | Prediction Uncertainty Estimation | ✅ |
-| **IX** | Module Integration & Finalization | ✅ |
+| **I** | Dataset Preparation | Completed |
+| **II** | Data Pipeline | Completed |
+| **III** | Exploratory Data Analysis | Completed |
+| **IV** | Baseline Framework | Completed |
+| **V** | Architecture Benchmarking | Completed |
+| **VI** | Model Explainability | Completed |
+| **VII** | Probability Calibration | Completed |
+| **VIII** | Prediction Uncertainty Estimation | Completed |
+| **IX** | Module Integration & Finalization | Completed |
 
 ### Foot Ulcer
 
 | Phase | Topic | Status |
 |---|---|---|
-| 10.1 | Dataset Preparation & Audit | ✅ Conditional Pass |
-| 10.2 | Data Pipeline | ✅ |
-| 10.3.1 | Dataset Statistical Profiling | ✅ |
-| 10.3.2 | Class-Wise Visual Analysis | ✅ |
-| 10.3.3 | Image Quality Analysis | ✅ |
-| 10.3.4 | Outlier Analysis | ✅ |
-| 10.3.5 | Class Separability Analysis | ✅ |
-| 10.3.6 | Dataset Bias & Shortcut Analysis | ✅ |
-| 10.4 | Baseline Framework | ✅ |
-| 10.5 | Architecture Benchmarking | ✅ |
-| 10.6 | Explainability | ✅ |
-| 10.7 | Probability Calibration | ⬜ |
-| 10.8 | Uncertainty Estimation | ⬜ |
-| 10.9 | Module Integration | ⬜ |
+| 10.1 | Dataset Preparation & Audit | Completed |
+| 10.2 | Data Pipeline | Completed |
+| 10.3.1 | Dataset Statistical Profiling | Completed |
+| 10.3.2 | Class-Wise Visual Analysis | Completed |
+| 10.3.3 | Image Quality Analysis | Completed |
+| 10.3.4 | Outlier Analysis | Completed |
+| 10.3.5 | Class Separability Analysis | Completed |
+| 10.3.6 | Dataset Bias & Shortcut Analysis | Completed |
+| 10.4 | Baseline Framework | Completed |
+| 10.5 | Architecture Benchmarking | Completed |
+| 10.6 | Explainability | Completed |
+| 10.7 | Probability Calibration | Completed |
+| 10.8 | Prediction Uncertainty Estimation | In Development |
+| 10.9 | Module Integration | Planned |
 
 ---
 
@@ -414,10 +439,10 @@ The output demonstrates the integrated Retina inference interface, including mod
 
 ## Development Roadmap
 
-- **v1.0 (Retina Module)** — **Completed**. The Retina pipeline has progressed from dataset preparation through module integration and acceptance testing. ✅
-- **v2.0 (Foot Ulcer Module)** — **In Development**. Completed: Phase 10.1 (Audit), Phase 10.2 (Pipeline), Phase 10.3 (EDA & Quality), Phase 10.4 (Baseline Framework), Phase 10.5 (Architecture Benchmarking), and Phase 10.6 (Explainability). Selected backbone: EfficientNet-B3. Next: **Phase 10.7 — Probability Calibration**. ⬜
-- **v3.0 (Clinical Module)** — **Planned**. Development of the independent clinical-data assessment module. ⬜
-- **v4.0 (ACARA-U Fusion)** — **Planned**. Integration of the Retina, Foot Ulcer, and Clinical modules through the ACARA-U uncertainty- and reliability-aware fusion framework. ⬜
+- **v1.0 (Retina Module)** — **Completed**. The Retina pipeline has progressed from dataset preparation through module integration and acceptance testing.
+- **v2.0 (Foot Ulcer Module)** — **In Development**. Completed: Phase 10.1 through Phase 10.7, including dataset audit, leakage-aware pipeline construction, EDA and quality analysis, baseline evaluation, architecture benchmarking, explainability, and probability calibration. Selected backbone: EfficientNet-B3. Next: Phase 10.8 — Prediction Uncertainty Estimation.
+- **v3.0 (Clinical Module)** — **Planned**. Development of the independent clinical-data assessment module.
+- **v4.0 (ACARA-U Fusion)** — **Planned**. Integration of the Retina, Foot Ulcer, and Clinical modules through the ACARA-U uncertainty- and reliability-aware fusion framework.
 
 ---
 

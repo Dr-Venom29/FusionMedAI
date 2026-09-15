@@ -90,7 +90,7 @@ def verify_final_checkpoint_contract():
 
 def main():
     print("==================================================", flush=True)
-    print("Phase 10.6 — Foot Ulcer Final Model Contract Verification", flush=True)
+    print("Foot Ulcer Final Model Contract Verification", flush=True)
     print("==================================================", flush=True)
     
     verify_final_model_instantiation()

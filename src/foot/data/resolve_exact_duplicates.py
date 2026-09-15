@@ -28,7 +28,7 @@ def compute_sha256(filepath: Path) -> str:
 
 def run_exact_duplicate_resolution():
     print("==================================================")
-    print("Running Phase 10.2.1 — Exact Duplicate Resolution")
+    print("Running Exact Duplicate Resolution")
     print("==================================================")
     
     # 1. Discover all image files
@@ -204,7 +204,7 @@ def run_exact_duplicate_resolution():
     print(" [PASS] datasets/foot/raw/ untouched & unchanged")
     print(" [PASS] Every excluded duplicate mapped to canonical counterpart")
     print(" [PASS] 0 cross-class exact label conflicts verified")
-    print("\nPhase 10.2.1 Exact Duplicate Resolution completed successfully!")
+    print("\n Exact Duplicate Resolution completed successfully!")
 
 if __name__ == "__main__":
     run_exact_duplicate_resolution()

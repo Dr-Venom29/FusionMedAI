@@ -10,7 +10,7 @@ from src.foot.config import DATASET_ROOT, RAW_DATA, METADATA_DIR
 
 def run_provenance_audit():
     print("==================================================")
-    print("Running Phase 10.1.J — Provenance & License Audit")
+    print("Running Provenance & License Audit")
     print("==================================================")
     
     readme_dataset_path = RAW_DATA / "README.dataset.txt"
@@ -82,7 +82,7 @@ def run_provenance_audit():
     print(f"Saved JSON report to: {json_path}")
     
     # Generate Markdown report
-    md_content = f"""# Phase 10.1.J — Provenance & License Audit Report
+    md_content = f"""# Provenance & License Audit Report
 
 ## 1. Overview & Chain of Provenance
 
@@ -155,7 +155,7 @@ To cite this dataset in research publications:
         f.write(md_content)
     print(f"Saved Markdown report to: {md_path}")
     
-    print("\nPhase 10.1.J Provenance & License Audit completed successfully.")
+    print("\n Provenance & License Audit completed successfully.")
 
 if __name__ == "__main__":
     run_provenance_audit()

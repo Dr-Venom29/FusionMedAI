@@ -23,7 +23,7 @@ from src.foot.config import (
 
 def run_final_eda_decision():
     print("==================================================")
-    print("Running Phase 10.3.7 — Final EDA Decision & Artifact Organization")
+    print("Running Final EDA Decision & Artifact Organization")
     print("==================================================")
     
     # 1. Organize generated outputs under datasets/foot/metadata/eda/
@@ -129,7 +129,7 @@ def run_final_eda_decision():
     print(f"Saved JSON final decision to: {json_out_path}")
     
     # Markdown Decision Report
-    md_content = """# Phase 10.3.7 — Final Foot EDA & Quality Decision Report
+    md_content = """# Final Foot EDA & Quality Decision Report
 
 ## 1. Executive Summary & Acceptance Gate
 
@@ -144,7 +144,7 @@ def run_final_eda_decision():
 │ FINAL EDA ACCEPTANCE GATE                        PASS    │
 └──────────────────────────────────────────────────────────┘
 
-Phase 10.3 (Foot Exploratory Data Analysis & Dataset Quality) is **100% complete and fully verified**. The modeling population consists of **10,050 canonical images** across **1,770 source groups** partitioned into Train (8,038), Val (1,006), and Test (1,006).
+(Foot Exploratory Data Analysis & Dataset Quality) is **100% complete and fully verified**. The modeling population consists of **10,050 canonical images** across **1,770 source groups** partitioned into Train (8,038), Val (1,006), and Test (1,006).
 
 ---
 
@@ -190,7 +190,7 @@ Phase 10.3 (Foot Exploratory Data Analysis & Dataset Quality) is **100% complete
 
 ## 4. Formal Sign-Off
 
-Phase 10.3 is **PASSED**. The repository is authorized to proceed to **Phase 10.4 — Foot Model Training & Baseline Benchmarking**.
+The repository is authorized to proceed to Foot Model Training & Baseline Benchmarking**.
 """
 
     md_out_path = METADATA_EDA_REPORTS_DIR / "eda_final_decision.md"
@@ -198,7 +198,7 @@ Phase 10.3 is **PASSED**. The repository is authorized to proceed to **Phase 10.
         f.write(md_content)
     print(f"Saved Markdown final decision to: {md_out_path}")
     
-    print("\nPhase 10.3.7 Final EDA Decision completed successfully!")
+    print("\n Final EDA Decision completed successfully!")
 
 if __name__ == "__main__":
     run_final_eda_decision()

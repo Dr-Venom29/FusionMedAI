@@ -56,7 +56,7 @@ def load_and_verify_calibration(
     override_temp: Optional[float] = None
 ) -> Tuple[float, Dict[str, Any]]:
     """
-    Loads temperature scaling factors from Step 7 experiments, verifies checkpoint integrity,
+    Loads temperature scaling factors from experiments, verifies checkpoint integrity,
     and returns the temperature value and verification metadata.
     
     If the calibration file cannot be loaded, raises an exception (fail-fast),
@@ -108,7 +108,7 @@ def load_and_verify_calibration(
     if not state_path.exists():
         raise FileNotFoundError(
             f"Calibration state file missing at '{state_path}'. "
-            f"Step 8 requires a completed calibration from Step 7. Run calibration first or use --temperature."
+            f"This step requires a completed calibration. Run calibration first or use --temperature."
         )
         
     # 4. Load temperature

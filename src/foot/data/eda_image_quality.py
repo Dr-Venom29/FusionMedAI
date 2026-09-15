@@ -34,12 +34,12 @@ def detect_borders(img_np: np.ndarray, border_thresh: int = 5) -> bool:
 
 def run_image_quality_eda():
     print("==================================================")
-    print("Running Phase 10.3.3 — Image Quality Analysis (Canonical Modeling Set)")
+    print("Running Image Quality Analysis (Canonical Modeling Set)")
     print("==================================================")
     
     index_csv = PROCESSED_SPLITS_DIR / "index.csv"
     if not index_csv.exists():
-        raise FileNotFoundError(f"Missing index CSV: {index_csv}. Run Phase 10.2 first.")
+        raise FileNotFoundError(f"Missing index CSV: {index_csv}.")
         
     df_index = pd.read_csv(index_csv)
     print(f"Loaded canonical modeling population: {len(df_index):,} records.")
@@ -191,7 +191,7 @@ def run_image_quality_eda():
     print(f"Saved JSON quality report to:              {json_path}")
     
     # Markdown Report
-    md_content = f"""# Phase 10.3.3 — Canonical Image Quality Analysis Report
+    md_content = f"""# Canonical Image Quality Analysis Report
 
 ## 1. Quality Metrics Across Splits
 
@@ -222,7 +222,7 @@ def run_image_quality_eda():
     print(" [PASS] Quality metrics verified as consistent across Train, Val, and Test splits")
     print(" [PASS] Letterbox border and exposure clipping detection completed")
     print(" [PASS] Quality metrics and outliers CSV manifests generated")
-    print("\nPhase 10.3.3 Image Quality Analysis completed successfully!")
+    print("\n Image Quality Analysis completed successfully!")
 
 if __name__ == "__main__":
     run_image_quality_eda()

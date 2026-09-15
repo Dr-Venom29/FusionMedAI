@@ -6,8 +6,6 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 
-Union_Path = Union[str, Path]
-
 # Ensure project root is in sys.path
 sys.path.append(str(Path(__file__).resolve().parents[3]))
 
@@ -39,10 +37,10 @@ def seed_worker(worker_id: int) -> None:
 
 
 def create_foot_dataloaders(
-    train_csv: Union_Path = TRAIN_SPLIT_CSV,
-    val_csv: Union_Path = VAL_SPLIT_CSV,
-    test_csv: Union_Path = TEST_SPLIT_CSV,
-    image_dir: Union_Path = RAW_DATA,
+    train_csv: Union[str, Path] = TRAIN_SPLIT_CSV,
+    val_csv: Union[str, Path] = VAL_SPLIT_CSV,
+    test_csv: Union[str, Path] = TEST_SPLIT_CSV,
+    image_dir: Union[str, Path] = RAW_DATA,
     batch_size: int = BATCH_SIZE,
     num_workers: int = NUM_WORKERS,
     pin_memory: bool = PIN_MEMORY,
@@ -58,119 +56,79 @@ def create_foot_dataloaders(
     2. Shuffling for Training: shuffle=True for train loader only.
     3. Reproducible Workers: Generator initialized with fixed seed and seed_worker worker_init_fn.
     4. Configurable Batch Size & Workers.
-    5. Zero Augmentation Leakage into Validation/Test.
-    
-    Args:
-        train_csv: Path to train split CSV manifest.
-        val_csv: Path to validation split CSV manifest.
-        test_csv: Path to test split CSV manifest.
-        image_dir: Path to raw image directory (default: datasets/foot/raw/).
-        batch_size: Number of samples per mini-batch (default: 32).
-        num_workers: Number of data loading subprocesses (default: 4).
-        pin_memory: If True, copies Tensors into CUDA pinned memory.
-        seed: Random seed for worker generator reproducibility.
-        drop_last: If True, drops the last incomplete batch in training.
-        persistent_workers: If True, keeps worker processes alive between epochs.
-        
-    Returns:
-        Tuple[DataLoader, DataLoader, DataLoader]: (train_loader, val_loader, test_loader)
-        
-    Raises:
-        FileNotFoundError: If any split CSV manifest or image directory is missing.
-        ValueError: If batch_size <= 0 or num_workers < 0.
     """
-    train_csv = Path(train_csv)
-    val_csv = Path(val_csv)
-    test_csv = Path(test_csv)
-    image_dir = Path(image_dir)
+    # 1. Instantiate Transforms
+    train_transforms = get_foot_train_transforms()
+    val_transforms = get_foot_val_transforms()
+    test_transforms = get_foot_test_transforms()
     
-    # Pre-instantiation validation
-    if batch_size <= 0:
-        raise ValueError(f"batch_size must be > 0, got {batch_size}")
-    if num_workers < 0:
-        raise ValueError(f"num_workers must be >= 0, got {num_workers}")
-        
-    for name, p in [("Train", train_csv), ("Val", val_csv), ("Test", test_csv)]:
-        if not p.exists():
-            raise FileNotFoundError(f"Cannot create dataloaders: {name} split CSV missing at '{p}'")
-    if not image_dir.exists():
-        raise FileNotFoundError(f"Cannot create dataloaders: Image directory missing at '{image_dir}'")
-        
-    # Set global RNG seeds for reproducible image augmentations
-    torch.manual_seed(seed)
-    np.random.seed(seed)
-    random.seed(seed)
-    
-    # 1. Instantiate FootDFUDatasets
+    # 2. Instantiate Datasets
     train_dataset = FootDFUDataset(
         csv_file=train_csv,
-        image_dir=image_dir,
-        transform=get_foot_train_transforms(),
-        return_metadata=False
+        img_dir=image_dir,
+        transform=train_transforms,
+        is_train=True
     )
     
     val_dataset = FootDFUDataset(
         csv_file=val_csv,
-        image_dir=image_dir,
-        transform=get_foot_val_transforms(),
-        return_metadata=False
+        img_dir=image_dir,
+        transform=val_transforms,
+        is_train=False
     )
     
     test_dataset = FootDFUDataset(
         csv_file=test_csv,
-        image_dir=image_dir,
-        transform=get_foot_test_transforms(),
-        return_metadata=False
+        img_dir=image_dir,
+        transform=test_transforms,
+        is_train=False
     )
     
-    # 2. Configure PyTorch Generator for deterministic shuffling
+    # 3. Configure Reproducible PyTorch Generator
     g = torch.Generator()
     g.manual_seed(seed)
     
-    # Adjust persistent_workers (can only be True if num_workers > 0)
-    use_persistent = persistent_workers and num_workers > 0
+    # Handle persistent_workers constraint
+    use_persistent = persistent_workers if num_workers > 0 else False
     
-    # 3. Create DataLoaders
+    # 4. Construct DataLoaders
     train_loader = DataLoader(
-        train_dataset,
+        dataset=train_dataset,
         batch_size=batch_size,
-        shuffle=True,
+        shuffle=True,  # Shuffle train split strictly
         num_workers=num_workers,
         pin_memory=pin_memory,
-        drop_last=drop_last,
         worker_init_fn=seed_worker,
         generator=g,
+        drop_last=drop_last,
         persistent_workers=use_persistent
     )
     
     val_loader = DataLoader(
-        val_dataset,
+        dataset=val_dataset,
         batch_size=batch_size,
-        shuffle=False,
+        shuffle=False,  # Deterministic validation evaluation
         num_workers=num_workers,
         pin_memory=pin_memory,
-        drop_last=False,
         worker_init_fn=seed_worker,
+        generator=g,
+        drop_last=False,
         persistent_workers=use_persistent
     )
     
     test_loader = DataLoader(
-        test_dataset,
+        dataset=test_dataset,
         batch_size=batch_size,
-        shuffle=False,
+        shuffle=False,  # Deterministic held-out test evaluation
         num_workers=num_workers,
         pin_memory=pin_memory,
-        drop_last=False,
         worker_init_fn=seed_worker,
+        generator=g,
+        drop_last=False,
         persistent_workers=use_persistent
     )
     
     return train_loader, val_loader, test_loader
-
-
-# Type helper for path args
-Union_Path = Union[str, Path]
-from typing import Union
 
 
 def _test_foot_dataloaders():

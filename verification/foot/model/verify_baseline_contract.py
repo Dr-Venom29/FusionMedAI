@@ -23,7 +23,7 @@ from src.foot.config import (
 
 def verify_baseline_contract():
     print("==================================================")
-    print("Verifying Phase 10.4.1 — Baseline Experimental Contract")
+    print("Verifying Baseline Experimental Contract")
     print("==================================================")
     
     errors = []
@@ -84,13 +84,13 @@ def verify_baseline_contract():
         print(" [PASS] Research Volume 04 Contract documentation verified.")
 
     if errors:
-        print("\n[FAIL] Phase 10.4.1 Baseline Contract Verification Errors:")
+        print("\n[FAIL] Baseline Contract Verification Errors:")
         for err in errors:
             print(f" - {err}")
         sys.exit(1)
     else:
         print("\n==================================================")
-        print("PHASE 10.4.1 BASELINE EXPERIMENTAL CONTRACT: PASSED")
+        print("BASELINE EXPERIMENTAL CONTRACT: PASSED")
         print("==================================================")
 
 if __name__ == "__main__":

@@ -34,12 +34,12 @@ from src.foot.config import (
 
 def run_class_separability_analysis():
     print("==================================================")
-    print("Running Phase 10.3.5 — Class Separability Analysis")
+    print("Running Class Separability Analysis")
     print("==================================================")
     
     index_csv = PROCESSED_SPLITS_DIR / "index.csv"
     if not index_csv.exists():
-        raise FileNotFoundError(f"Missing index CSV: {index_csv}. Run Phase 10.2 first.")
+        raise FileNotFoundError(f"Missing index CSV: {index_csv}.")
         
     df_index = pd.read_csv(index_csv)
     total_imgs = len(df_index)
@@ -245,7 +245,7 @@ def run_class_separability_analysis():
     print(f"Saved JSON separability report to: {json_path}")
     
     # Markdown Report
-    md_content = f"""# Phase 10.3.5 — Class Separability Analysis Report
+    md_content = f"""# Class Separability Analysis Report
 
 ## 1. Executive Summary
 
@@ -298,7 +298,7 @@ Pre-trained **ResNet50 (2,048-dimensional ImageNet embeddings)** were extracted 
         f.write(md_content)
     print(f"Saved Markdown separability report to: {md_path}")
     
-    print("\nPhase 10.3.5 Class Separability Analysis completed successfully!")
+    print("\nClass Separability Analysis completed successfully!")
 
 if __name__ == "__main__":
     run_class_separability_analysis()

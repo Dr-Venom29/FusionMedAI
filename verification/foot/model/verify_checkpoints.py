@@ -18,7 +18,7 @@ CANDIDATE_MODELS = ["resnet50", "efficientnet_b0", "efficientnet_b3", "convnext_
 
 def verify_checkpoint_saving_and_loading():
     print("==================================================", flush=True)
-    print("Phase 10.5 — Foot Ulcer Checkpoint Restoration Verification", flush=True)
+    print("Foot Ulcer Checkpoint Restoration Verification", flush=True)
     print("==================================================", flush=True)
     
     with tempfile.TemporaryDirectory() as tmp_dir:

@@ -193,7 +193,7 @@ def analyze_image_properties(raw_dir: Path):
 
 def generate_markdown_report(report: dict) -> str:
     lines = []
-    lines.append("# Phase 10.1.E — Image Property Audit & Preprocessing Rationale")
+    lines.append("# Image Property Audit & Preprocessing Rationale")
     lines.append("")
     lines.append("## Executive Summary")
     lines.append(f"- **Total Images Analyzed**: `{report['total_images_analyzed']:,}`")
@@ -248,7 +248,7 @@ def generate_markdown_report(report: dict) -> str:
 
 def main():
     raw_dir = config.RAW_DATA
-    print(f"Executing Phase 10.1.E Image Property Audit on: {raw_dir}")
+    print(f"Executing Image Property Audit on: {raw_dir}")
     
     report_data, image_records = analyze_image_properties(raw_dir)
     

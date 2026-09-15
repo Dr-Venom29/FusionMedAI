@@ -82,7 +82,7 @@ def main():
     logger = setup_logger("Uncertainty_Pipeline", log_file=logs_dir / "uncertainty.log")
     
     logger.info("================================================================")
-    logger.info("Starting prediction uncertainty estimation pipeline (Step 8)...")
+    logger.info("Starting prediction uncertainty estimation pipeline ...")
     logger.info(f"Experiment Directory: {exp_dir}")
     logger.info(f"Checkpoint Target: {args.checkpoint}")
     logger.info(f"Model Architecture: {args.model}")

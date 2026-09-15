@@ -21,12 +21,12 @@ from src.foot.config import (
 
 def run_class_wise_visual_analysis():
     print("==================================================")
-    print("Running Phase 10.3.2 — Class-Wise Visual Analysis")
+    print("Running Class-Wise Visual Analysis")
     print("==================================================")
     
     index_csv = PROCESSED_SPLITS_DIR / "index.csv"
     if not index_csv.exists():
-        raise FileNotFoundError(f"Missing index CSV: {index_csv}. Run Phase 10.2 first.")
+        raise FileNotFoundError(f"Missing index CSV: {index_csv}.")
         
     df_index = pd.read_csv(index_csv)
     print(f"Loaded canonical modeling index: {len(df_index):,} records.")
@@ -158,7 +158,7 @@ def run_class_wise_visual_analysis():
     print(f"Saved JSON report to: {json_path}")
     
     # Markdown Report
-    md_content = f"""# Phase 10.3.2 — Class-Wise Visual Analysis Report
+    md_content = f"""# Class-Wise Visual Analysis Report
 
 ## 1. Overview & Class Profiles
 
@@ -201,7 +201,7 @@ def run_class_wise_visual_analysis():
     print(" [PASS] 4x4 visual comparison grid generated and saved")
     print(" [PASS] Grade 2 vs Grade 3 clinical visual overlap documented")
     print(" [PASS] Reports saved to datasets/foot/metadata/")
-    print("\nPhase 10.3.2 Class-Wise Visual Analysis completed successfully!")
+    print("\n Class-Wise Visual Analysis completed successfully!")
 
 if __name__ == "__main__":
     run_class_wise_visual_analysis()

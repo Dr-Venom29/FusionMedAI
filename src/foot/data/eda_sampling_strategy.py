@@ -50,14 +50,14 @@ def compute_class_weights(counts: dict, total_samples: int) -> dict:
 
 def run_sampling_strategy_eda():
     print("==================================================")
-    print("Running Phase 10.3.4 — Class Imbalance & Sampling Strategy Analysis")
+    print("Running Class Imbalance & Sampling Strategy Analysis")
     print("==================================================")
     
     index_csv = PROCESSED_SPLITS_DIR / "index.csv"
     groups_csv = METADATA_STATISTICS_DIR / "source_image_groups.csv"
     
     if not index_csv.exists():
-        raise FileNotFoundError(f"Missing index.csv: {index_csv}. Run Phase 10.2 first.")
+        raise FileNotFoundError(f"Missing index.csv: {index_csv}.")
         
     df_index = pd.read_csv(index_csv)
     
@@ -160,7 +160,7 @@ def run_sampling_strategy_eda():
     print(f"\nSaved JSON sampling report to: {json_path}")
     
     # Save Markdown Report
-    md_content = rf"""# Phase 10.3.4 — Class Imbalance & Sampling Strategy Report
+    md_content = rf"""# Class Imbalance & Sampling Strategy Report
 
 ## 1. Class Distribution & Imbalance Ratio
 
@@ -206,7 +206,7 @@ Group-stratified partitioning preserved class proportions across all three split
 
 1. **Sampling Strategy**: Use standard epoch-based random shuffling without heavy oversampling. Oversampling Grade 3 images risks memorizing specific patient source group artifacts.
 2. **Loss Function**: Use Cross-Entropy Loss with Sqrt Inverse Frequency weights or Focal Loss ($\gamma = 2.0$) to mitigate mild minority class suppression.
-3. **Metric Focus**: Macro F1-score and Grade 3 recall will serve as primary evaluation metrics during Phase 10.4+.
+3. **Metric Focus**: Macro F1-score and Grade 3 recall will serve as primary evaluation metrics.
 """
     
     md_path = METADATA_DIR / "eda_sampling_strategy.md"
@@ -214,7 +214,7 @@ Group-stratified partitioning preserved class proportions across all three split
         f.write(md_content)
     print(f"Saved Markdown sampling report to: {md_path}")
     
-    print("\nPhase 10.3.4 Class Imbalance & Sampling Strategy Analysis completed successfully!")
+    print("\n Class Imbalance & Sampling Strategy Analysis completed successfully!")
 
 if __name__ == "__main__":
     run_sampling_strategy_eda()

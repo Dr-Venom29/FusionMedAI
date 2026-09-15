@@ -91,7 +91,7 @@ def audit_class_distribution(raw_dir: Path):
 
 def generate_markdown_report(report: dict) -> str:
     lines = []
-    lines.append("# Phase 10.1.G — Class Distribution & Imbalance Audit Report")
+    lines.append("# Class Distribution & Imbalance Audit Report")
     lines.append("")
     lines.append("## Executive Summary")
     lines.append(f"- **Total Images Measured**: `{report['total_images']:,}`")
@@ -137,7 +137,7 @@ def generate_markdown_report(report: dict) -> str:
 
 def main():
     raw_dir = config.RAW_DATA
-    print(f"Executing Phase 10.1.G Class Distribution Audit on: {raw_dir}")
+    print(f"Executing Class Distribution Audit on: {raw_dir}")
     
     report_data = audit_class_distribution(raw_dir)
     

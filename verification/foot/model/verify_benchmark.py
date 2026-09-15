@@ -98,7 +98,7 @@ def verify_synthetic_benchmark_runner():
 
 def main():
     print("==================================================", flush=True)
-    print("Phase 10.5 — Foot Ulcer Architecture Benchmark Verification", flush=True)
+    print("Foot Ulcer Architecture Benchmark Verification", flush=True)
     print("==================================================", flush=True)
     
     verify_candidate_instantiation()

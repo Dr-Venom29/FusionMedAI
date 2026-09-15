@@ -28,7 +28,7 @@ def main():
     df_train = pd.read_csv(TRAIN_CSV)
     expected_rows = len(df_train)
     
-    # Load image sizes precomputed in Step 1.3
+    # Load image sizes precomputed in EDA
     image_sizes_path = METADATA_STATISTICS_DIR / "image_sizes.csv"
     if not image_sizes_path.exists():
         print(f"Error: image_sizes.csv not found at {image_sizes_path}. Run verify_dataset.py first.")

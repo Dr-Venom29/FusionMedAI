@@ -20,7 +20,7 @@ from src.foot.data.dataloader import create_foot_dataloaders
 
 def run_end_to_end_pipeline_verification():
     print("==================================================")
-    print("Running Phase 10.2.10 — End-to-End Pipeline Verification")
+    print("Running End-to-End Pipeline Verification")
     print("==================================================")
     
     # 1. Create DataLoaders
@@ -119,7 +119,7 @@ def run_end_to_end_pipeline_verification():
     assert seed_lbl_diff == 0.0, "Seeding label reproducibility failed!"
     print("SUCCESS: 100% Seeding Reproducibility Verified!")
     
-    # 6. Save Final Phase 10.2 Acceptance Gate Verification Report
+    # 6. Save Final Acceptance Gate Verification Report
     acceptance_matrix = {
         "10.2.1_exact_duplicate_resolution": "PASS",
         "10.2.2_canonical_manifest": "PASS",
@@ -135,7 +135,7 @@ def run_end_to_end_pipeline_verification():
     
     report_data = {
         "phase": "10.2",
-        "title": "Phase 10.2 Foot Data Pipeline Acceptance Gate Report",
+        "title": "Foot Data Pipeline Acceptance Gate Report",
         "status": "APPROVED",
         "acceptance_matrix": acceptance_matrix,
         "loader_batch_verification": batch_metadata,
@@ -155,29 +155,29 @@ def run_end_to_end_pipeline_verification():
         json.dump(report_data, f, indent=2)
     print(f"\nSaved JSON pipeline verification report to: {json_path}")
     
-    md_content = """# Phase 10.2 — Foot Data Pipeline Acceptance Gate Report
+    md_content = """# Foot Data Pipeline Acceptance Gate Report
 
 ```text
 ================================================================================
-          FOOT DATA PIPELINE ACCEPTANCE GATE (PHASE 10.2)
-Status: PASSED & APPROVED FOR MODEL TRAINING (PHASE 10.3)
+          FOOT DATA PIPELINE ACCEPTANCE GATE
+Status: PASSED & APPROVED FOR MODEL TRAINING
 ================================================================================
 ```
 
-## 1. Phase 10.2 Acceptance Matrix
+## 1. Acceptance Matrix
 
 | Sub-Phase | Component / Requirement | Status |
 | :--- | :--- | :---: |
-| **10.2.1** | Exact Duplicate Resolution (10,050 canonical images, 12 excluded) | ✅ **PASS** |
-| **10.2.2** | Canonical Dataset Manifest (`canonical_manifest.csv`) | ✅ **PASS** |
-| **10.2.3** | Source-Image Group Construction (1,770 source_image_id groups) | ✅ **PASS** |
-| **10.2.4** | Near-Duplicate / Conflict Analysis (2,452 TYPE 1 pairs isolated) | ✅ **PASS** |
-| **10.2.5** | Group-Stratified Split (80% Train / 10% Val / 10% Test) | ✅ **PASS** |
-| **10.2.6** | Split Verification (0 group leakage across train/val/test) | ✅ **PASS** |
-| **10.2.7** | Foot Dataset Class (`FootDFUDataset` in `src/foot/data/dataset.py`) | ✅ **PASS** |
-| **10.2.8** | Candidate Transforms (`src/foot/data/transforms.py`) | ✅ **PASS** |
-| **10.2.9** | DataLoader (`create_foot_dataloaders` in `src/foot/data/dataloader.py`) | ✅ **PASS** |
-| **10.2.10** | End-to-End Pipeline Verification | ✅ **PASS** |
+| **10.2.1** | Exact Duplicate Resolution (10,050 canonical images, 12 excluded) | **PASS** |
+| **10.2.2** | Canonical Dataset Manifest (`canonical_manifest.csv`) | **PASS** |
+| **10.2.3** | Source-Image Group Construction (1,770 source_image_id groups) | **PASS** |
+| **10.2.4** | Near-Duplicate / Conflict Analysis (2,452 TYPE 1 pairs isolated) | **PASS** |
+| **10.2.5** | Group-Stratified Split (80% Train / 10% Val / 10% Test) | **PASS** |
+| **10.2.6** | Split Verification (0 group leakage across train/val/test) | **PASS** |
+| **10.2.7** | Foot Dataset Class (`FootDFUDataset` in `src/foot/data/dataset.py`) | **PASS** |
+| **10.2.8** | Candidate Transforms (`src/foot/data/transforms.py`) | **PASS** |
+| **10.2.9** | DataLoader (`create_foot_dataloaders` in `src/foot/data/dataloader.py`) | **PASS** |
+| **10.2.10** | End-to-End Pipeline Verification | **PASS** |
 
 ---
 
@@ -193,7 +193,7 @@ Status: PASSED & APPROVED FOR MODEL TRAINING (PHASE 10.3)
 
 ## Conclusion
 
-The **Foot DFU Data Pipeline (`src/foot/data/`)** has fulfilled all engineering requirements and passed the **Phase 10.2 Acceptance Gate**. The pipeline is officially approved for Phase 10.3 model baseline training.
+The **Foot DFU Data Pipeline (`src/foot/data/`)** has fulfilled all engineering requirements and passed the **Acceptance Gate**. The pipeline is officially approved for Phase 10.3 model baseline training.
 """
 
     md_path = METADATA_DIR / "pipeline_verification_report.md"

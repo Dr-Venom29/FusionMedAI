@@ -21,7 +21,7 @@ from src.foot.config import (
 
 def run_split_verification():
     print("==================================================")
-    print("Running Phase 10.2.6 — Split Verification")
+    print("Running Split Verification")
     print("==================================================")
     
     train_csv = PROCESSED_SPLITS_DIR / "train.csv"
@@ -30,7 +30,7 @@ def run_split_verification():
     
     for path in [train_csv, val_csv, test_csv]:
         if not path.exists():
-            raise FileNotFoundError(f"Missing split CSV file: {path}. Run Phase 10.2.5 first.")
+            raise FileNotFoundError(f"Missing split CSV file: {path}.")
             
     train_df = pd.read_csv(train_csv)
     val_df = pd.read_csv(val_csv)
@@ -193,7 +193,7 @@ def run_split_verification():
     print(f"\nSaved JSON verification report to: {json_path}")
     
     # Markdown Report
-    md_content = f"""# Phase 10.2.6 — Split Verification Report
+    md_content = f"""# Split Verification Report
 
 ```text
 ================================================================================
@@ -235,7 +235,7 @@ All leakage, integrity, and class distribution checks passed cleanly.
 ---
 
 ## Conclusion
-The group-stratified train/val/test splits are verified as **leakage-free**, **fully decodable**, and **properly stratified**. The dataset split is approved for DataLoader implementation (`Phase 10.2.7`).
+The group-stratified train/val/test splits are verified as **leakage-free**, **fully decodable**, and **properly stratified**. The dataset split is approved for DataLoader implementation.
 """
 
     md_path = METADATA_DIR / "split_verification_report.md"
@@ -249,7 +249,7 @@ The group-stratified train/val/test splits are verified as **leakage-free**, **f
     print(" [PASS] 0 TYPE 1 near-duplicates across splits")
     print(" [PASS] 0 missing images, invalid labels, or corrupted files")
     print(" [PASS] Stratified class distribution verified across train, val, test")
-    print("\nPhase 10.2.6 Split Verification completed successfully!")
+    print("\nSplit Verification completed successfully!")
 
 if __name__ == "__main__":
     run_split_verification()

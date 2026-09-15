@@ -40,7 +40,7 @@ def extract_source_image_id(filename: str) -> str:
 
 def run_near_duplicate_analysis():
     print("==================================================")
-    print("Running Phase 10.2.4 — Near-Duplicate & Conflict Analysis")
+    print("Running Near-Duplicate & Conflict Analysis")
     print("==================================================")
     
     canonical_manifest_csv = PROCESSED_DATA / "canonical_manifest.csv"
@@ -51,7 +51,7 @@ def run_near_duplicate_analysis():
     df_canonical = df_manifest[df_manifest["is_canonical"] == True].copy()
     print(f"Loaded canonical modeling images: {len(df_canonical):,} rows.")
     
-    # 1. Check if near-duplicate pairs file exists from Phase 10.1.F, or compute dHash pairs
+    # 1. Check if near-duplicate pairs file exists from or compute dHash pairs
     prev_pairs_csv = METADATA_STATISTICS_DIR / "foot_duplicate_pairs.csv"
     
     print("Extracting dHashes and computing/loading near-duplicate pairs (dHash distance <= 4)...")
@@ -122,7 +122,7 @@ def run_near_duplicate_analysis():
     print(f"\nTotal Near-Duplicate Pairs Identified (dHash <= 4): {len(near_dup_pairs):,}")
     
     # 2. Categorize Near-Duplicate Relationships
-    # TYPE 1: Same Source Group -> Automatically resolved by Phase 10.2.3 group splitting
+    # TYPE 1: Same Source Group -> Automatically resolved by group splitting
     # TYPE 2: Different Source, Same Class -> Acceptable visually similar wounds
     # TYPE 3: Different Source, Different Class -> Cross-class visual ambiguity flagged for review
     
@@ -167,7 +167,7 @@ def run_near_duplicate_analysis():
         "relationship_breakdown": {
             "type_1_same_source_group": {
                 "count": len(type1_same_source),
-                "resolution": "RESOLVED — Bound into the same source_image_id group in Phase 10.2.3. Zero cross-split leakage.",
+                "resolution": "RESOLVED — Bound into the same source_image_id group. Zero cross-split leakage.",
                 "percentage": round(len(type1_same_source) / max(1, len(near_dup_pairs)) * 100, 2)
             },
             "type_2_diff_source_same_class": {
@@ -195,7 +195,7 @@ def run_near_duplicate_analysis():
     print(" [PASS] TYPE 2 (Diff source, same class) documented as valid clinical similarity")
     print(" [PASS] TYPE 3 (Diff source, diff class) flagged for downstream review")
     print(" [PASS] Resolution report saved to datasets/foot/metadata/near_duplicate_analysis.json")
-    print("\nPhase 10.2.4 Near-Duplicate / Conflict Analysis completed successfully!")
+    print("\nNear-Duplicate / Conflict Analysis completed successfully!")
 
 if __name__ == "__main__":
     run_near_duplicate_analysis()

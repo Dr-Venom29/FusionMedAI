@@ -167,7 +167,7 @@ def investigate_leakage(raw_dir: Path):
 
 def generate_markdown_report(report: dict) -> str:
     lines = []
-    lines.append("# Phase 10.1.I — Data Leakage & Patient-Case Investigation Report")
+    lines.append("# Data Leakage & Patient-Case Investigation Report")
     lines.append("")
     lines.append("## Executive Summary")
     lines.append(f"- **Total Image Files**: `{report['total_images_audited']:,}`")
@@ -210,7 +210,7 @@ def generate_markdown_report(report: dict) -> str:
 
 def main():
     raw_dir = config.RAW_DATA
-    print(f"Executing Phase 10.1.I Leakage Investigation on: {raw_dir}")
+    print(f"Executing Leakage Investigation on: {raw_dir}")
     
     report_data, leakage_records = investigate_leakage(raw_dir)
     

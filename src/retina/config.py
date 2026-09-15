@@ -103,14 +103,13 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 USE_AMP = True
 
-# Note: For XAI (Step 6), the model architecture can be overridden via CLI arguments.
+# Note: For XAI, the model architecture can be overridden via CLI arguments.
 MODEL_NAME = "efficientnet_b3"
 
 LEARNING_RATE = 1e-4
 
 WEIGHT_DECAY = 1e-4
 
-# Added for Step 4
 EPOCHS = 20
 PATIENCE = 10
 EARLY_STOPPING_MONITOR = "qwk"  # Optimize validation QWK

@@ -17,7 +17,7 @@ from src.foot.xai import FootGradCAM, overlay_heatmap
 
 def verify_gradcam_technical():
     print("=============================================================")
-    print("Phase 10.6.6 — Grad-CAM Technical Verification (8 Test Images)")
+    print("Grad-CAM Technical Verification (8 Test Images)")
     print("=============================================================\n")
     
     # Load test split

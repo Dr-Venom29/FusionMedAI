@@ -316,8 +316,6 @@ def _generate_markdown_report(metrics: Dict[str, Any]) -> None:
 > This report summarizes the results of a framework verification dry-run executed on CPU.
 > The reported classification metrics do **not** represent the final performance of EfficientNet-B0.
 > Their purpose is to verify that the complete training, evaluation, checkpointing, and inference pipelines execute correctly.
->
-> Official baseline performance will be reported after full training during Step 5.
 
 ## Experiment Run Summary
 * **Run Version**: `{config.RUN_VERSION}_{config.RUN_NAME}`
@@ -380,7 +378,6 @@ def _generate_markdown_report(metrics: Dict[str, Any]) -> None:
 ## Note
 The metrics presented in this report originate from a CPU-based verification execution intended to validate the correctness of the training framework.
 These values should not be interpreted as the expected performance of the EfficientNet-B0 baseline.
-Final benchmark results will be generated after full-scale training and hyperparameter optimization during Step 5.
 """
     with open(report_path, "w", encoding="utf-8") as f:
         f.write(report_content)

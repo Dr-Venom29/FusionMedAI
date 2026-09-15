@@ -16,7 +16,7 @@ from src.foot.config import (
 
 def verify_eda_outputs():
     print("==================================================")
-    print("Verifying Phase 10.3 — Foot EDA & Quality Artifacts")
+    print("Verifying Foot EDA & Quality Artifacts")
     print("==================================================")
     
     errors = []
@@ -182,13 +182,13 @@ def verify_eda_outputs():
         print(" [PASS] 10.3.7 Final EDA Decision Markdown Report verified.")
 
     if errors:
-        print("\n[FAIL] Phase 10.3 Verification Errors:")
+        print("\n[FAIL] Verification Errors:")
         for err in errors:
             print(f" - {err}")
         sys.exit(1)
     else:
         print("\n==================================================")
-        print("ALL PHASE 10.3 EDA & DATASET QUALITY VERIFICATION CHECKS PASSED!")
+        print("ALL EDA & DATASET QUALITY VERIFICATION CHECKS PASSED!")
         print("==================================================")
 
 if __name__ == "__main__":

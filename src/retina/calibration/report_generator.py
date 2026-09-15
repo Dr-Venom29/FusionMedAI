@@ -189,7 +189,7 @@ def generate_pdf_report(
         f"The optimization learned a temperature scaling factor of T = {temperature:.4f}. "
         f"This effectively reduced the mean confidence by {conf_red:.4f}, mitigating the model's initial overconfidence. "
         f"Note that Maximum Calibration Error (MCE) may occasionally increase, as Temperature Scaling explicitly optimizes NLL, not MCE. "
-        f"These calibrated probabilities provide a mathematically sound foundation for Uncertainty Estimation (Step 8)."
+        f"These calibrated probabilities provide a mathematically sound foundation for Uncertainty Estimation."
     )
     story.append(Paragraph(discussion_text, styles['Normal']))
     

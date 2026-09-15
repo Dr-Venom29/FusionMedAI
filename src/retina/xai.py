@@ -34,7 +34,7 @@ def get_file_hash(filepath):
     return h.hexdigest()
 
 def main():
-    parser = argparse.ArgumentParser(description="FusionMedAI Step 6: XAI Pipeline")
+    parser = argparse.ArgumentParser(description="FusionMedAI XAI Pipeline")
     parser.add_argument("--checkpoint", type=str, required=True, help="Path to best_model.pt")
     parser.add_argument("--model", type=str, default="efficientnet_b3", help="Model architecture name")
     parser.add_argument("--method", type=str, default="gradcam", choices=["gradcam", "gradcam++"])

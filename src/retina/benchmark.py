@@ -108,7 +108,7 @@ class BenchmarkRunner:
             name="BenchmarkRunner",
             log_file=config.BENCHMARK_RESULTS_DIR / "benchmark.log"
         )
-        self.logger.info("Initializing Step 5 Model Benchmarking stage...")
+        self.logger.info("Initializing Model Benchmarking stage...")
         
         # Load Frozen Configuration
         self.config_path = PROJECT_ROOT / "benchmark_config.json"
@@ -750,7 +750,7 @@ class BenchmarkRunner:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="FusionMedAI Step 5 Model Benchmarking Run"
+        description="FusionMedAI Model Benchmarking Run"
     )
 
     parser.add_argument(

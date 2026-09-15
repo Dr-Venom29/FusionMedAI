@@ -13,12 +13,12 @@ from src.retina.retina_module import RetinaModule
 
 def verify_retina_module_acceptance():
     """
-    Step 9 - Final End-to-End Acceptance Test
+    Final End-to-End Acceptance Test
     Validates the entire integrated RetinaModule contract:
     Inference -> Calibration -> MC Dropout -> Grad-CAM -> Unified Output
     """
     print("\n==================================================")
-    print("Verification: Step 9 Retina Module Acceptance Test")
+    print("Verification:  Retina Module Acceptance Test")
     print("==================================================\n")
 
     # ----------------------------------------------------
@@ -30,9 +30,9 @@ def verify_retina_module_acceptance():
         ("Retina Module source", Path(config.PROJECT_ROOT) / "src" / "retina" / "retina_module.py"),
         ("Verification script", Path(config.PROJECT_ROOT) / "verification" / "model" / "verify_retina_module.py"),
         ("EfficientNet-B3 Checkpoint", checkpoint_path),
-        ("Step 8 Predictions CSV", Path(config.PROJECT_ROOT) / "results" / "uncertainty" / "predictions.csv"),
-        ("Step 8 Summary Metrics JSON", Path(config.PROJECT_ROOT) / "results" / "uncertainty" / "uncertainty_metrics.json"),
-        ("Step 8 MC Validation JSON", Path(config.PROJECT_ROOT) / "results" / "uncertainty" / "mc_dropout_validation.json")
+        ("Predictions CSV", Path(config.PROJECT_ROOT) / "results" / "uncertainty" / "predictions.csv"),
+        ("Summary Metrics JSON", Path(config.PROJECT_ROOT) / "results" / "uncertainty" / "uncertainty_metrics.json"),
+        ("MC Validation JSON", Path(config.PROJECT_ROOT) / "results" / "uncertainty" / "mc_dropout_validation.json")
     ]
     
     for label, filepath in required_files:

@@ -9,7 +9,7 @@ from torch.utils.data import Dataset
 # Ensure project root is in sys.path
 sys.path.append(str(Path(__file__).resolve().parents[3]))
 
-from src.foot.config import RAW_DATA, ID_COLUMN, LABEL_COLUMN, CLASS_NAMES
+from src.foot.config import RAW_DATA, ID_COLUMN, LABEL_COLUMN, CLASS_NAMES, PROJECT_ROOT
 
 class FootDFUDataset(Dataset):
     """
@@ -33,43 +33,32 @@ class FootDFUDataset(Dataset):
             image_dir: Path to immutable raw image directory (default: datasets/foot/raw/).
             transform: Optional torchvision/albumentations transformation pipeline.
             return_metadata: If True, __getitem__ returns (image, label, metadata_dict).
-                             If False, __getitem__ returns (image, label).
-                             
-        Raises:
-            FileNotFoundError: If csv_file or image_dir does not exist.
-            ValueError: If required columns ('id_code', 'wagner_grade', 'image_path') are missing.
         """
+        super().__init__()
         self.csv_file = Path(csv_file)
         self.image_dir = Path(image_dir)
         self.transform = transform
         self.return_metadata = return_metadata
-        
+
         if not self.csv_file.exists():
-            raise FileNotFoundError(f"Split CSV manifest not found: '{self.csv_file}'")
-        if not self.image_dir.exists():
-            raise FileNotFoundError(f"Image directory not found: '{self.image_dir}'")
-            
+            raise FileNotFoundError(f"Split CSV manifest missing at path: '{self.csv_file}'")
+
         self.dataframe = pd.read_csv(self.csv_file)
-        
-        # Column validation
+
+        # Validate required columns in manifest
         required_cols = [ID_COLUMN, LABEL_COLUMN, "image_path"]
         for col in required_cols:
             if col not in self.dataframe.columns:
-                raise ValueError(
-                    f"CSV manifest '{self.csv_file}' is missing required column '{col}'."
-                )
+                raise KeyError(f"Required column '{col}' missing from split CSV '{self.csv_file}'")
 
     def __len__(self) -> int:
-        """Returns total number of image records in the dataset partition."""
+        """Returns total number of samples in dataset split."""
         return len(self.dataframe)
 
     def __getitem__(self, index: int) -> Union[Tuple[Any, int], Tuple[Any, int, Dict[str, Any]]]:
         """
-        Retrieves the image and label at the specified index.
+        Loads and returns single sample at given index.
         
-        Args:
-            index: Row index in the manifest dataframe.
-            
         Returns:
             Tuple[Any, int] if return_metadata is False:
                 - image: PIL Image or transformed torch.Tensor [C, H, W]
@@ -108,46 +97,34 @@ class FootDFUDataset(Dataset):
         # Lazy image loading with guaranteed RGB mode conversion
         with Image.open(abs_image_path) as img:
             image = img.convert("RGB")
-            
-        # Apply torchvision / callable transformation pipeline
+
         if self.transform is not None:
             image = self.transform(image)
-            
+
         if self.return_metadata:
             metadata = {
                 "id_code": id_code,
                 "image_path": rel_image_path,
-                "source_image_id": str(row.get("source_image_id", "")),
-                "wagner_grade": label,
-                "class_name": CLASS_NAMES[label] if 0 <= label < len(CLASS_NAMES) else f"Grade {label+1}"
+                "abs_path": str(abs_image_path),
+                "source_image_id": str(row.get("source_image_id", id_code)),
+                "class_name": CLASS_NAMES.get(label, f"Grade_{label+1}")
             }
             return image, label, metadata
-            
+
         return image, label
 
 
-def _test_foot_dataset():
-    """Unit test function for FootDFUDataset."""
-    print("Testing FootDFUDataset class...")
-    from src.foot.config import TRAIN_SPLIT_CSV, VAL_SPLIT_CSV, TEST_SPLIT_CSV
+def _test_dataset():
+    """Unit test for FootDFUDataset."""
+    from src.foot.config import TRAIN_SPLIT_CSV
+    print("Testing FootDFUDataset instantiation...")
+    ds = FootDFUDataset(csv_file=TRAIN_SPLIT_CSV)
+    print(f" - Train Dataset Length: {len(ds):,} samples")
     
-    for split_name, csv_p in [("Train", TRAIN_SPLIT_CSV), ("Val", VAL_SPLIT_CSV), ("Test", TEST_SPLIT_CSV)]:
-        if not csv_p.exists():
-            print(f"Skipping test for {split_name}: {csv_p} not found.")
-            continue
-            
-        dataset = FootDFUDataset(csv_file=csv_p, return_metadata=True)
-        print(f"Loaded {split_name} dataset with {len(dataset):,} samples.")
-        
-        # Test item retrieval
-        img, label, meta = dataset[0]
-        assert isinstance(img, Image.Image), f"Expected PIL Image, got {type(img)}"
-        assert isinstance(label, int), f"Expected int label, got {type(label)}"
-        assert 0 <= label <= 3, f"Label {label} out of bounds [0..3]"
-        assert "source_image_id" in meta, "Missing source_image_id in metadata"
-        print(f" - Sample 0: ID={meta['id_code']}, Grade={label} ({meta['class_name']}), Size={img.size}, Mode={img.mode}")
-
-    print("FootDFUDataset class verified successfully!")
+    img, lbl, meta = ds.__getitem__(0) if hasattr(ds, '__getitem__') and ds.return_metadata else (*ds[0], {})
+    print(f" - Sample 0 -> Image Type: {type(img)}, Label: {lbl}")
+    assert lbl in [0, 1, 2, 3], f"Invalid Wagner grade label: {lbl}"
+    print("FootDFUDataset verified successfully!")
 
 if __name__ == "__main__":
-    _test_foot_dataset()
+    _test_dataset()

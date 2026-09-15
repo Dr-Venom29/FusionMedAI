@@ -13,7 +13,7 @@ from src.foot.xai import (
 )
 
 def test_explainability_module():
-    print("=== Phase 10.6 Foot Ulcer Explainability Contract Verification ===")
+    print("=== Foot Ulcer Explainability Contract Verification ===")
     
     # 1. Instantiate model and GradCAM
     print("\n1. Instantiating EfficientNet-B3 model and FootGradCAM...")
@@ -65,7 +65,7 @@ def test_explainability_module():
     print("   Hook cleanup PASS")
     
     print("\n=============================================================")
-    print("SUCCESS: Phase 10.6 Foot Ulcer Explainability Contract Passed!")
+    print("SUCCESS: Foot Ulcer Explainability Contract Passed!")
     print("=============================================================")
 
 if __name__ == "__main__":

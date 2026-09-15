@@ -23,12 +23,12 @@ def extract_source_image_id(filename: str) -> str:
 
 def run_canonical_manifest_creation():
     print("==================================================")
-    print("Running Phase 10.2.2 — Canonical Dataset Manifest Creation")
+    print("Running Canonical Dataset Manifest Creation")
     print("==================================================")
     
     dup_res_csv = METADATA_STATISTICS_DIR / "foot_duplicate_resolution.csv"
     if not dup_res_csv.exists():
-        raise FileNotFoundError(f"Prerequisite file not found: {dup_res_csv}. Please run Phase 10.2.1 first.")
+        raise FileNotFoundError(f"Prerequisite file not found: {dup_res_csv}.")
         
     df_res = pd.read_csv(dup_res_csv)
     print(f"Loaded duplicate resolution records: {len(df_res):,} rows.")

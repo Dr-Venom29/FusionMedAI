@@ -19,7 +19,7 @@ def main():
     img_path = config.TRAIN_IMAGES / "000c1434d8d7.png"
     assert img_path.exists(), f"Sample image not found at {img_path}"
     
-    # Run prediction (25 passes for final high-quality stats matching Step 8)
+    # Run prediction (25 passes for final high-quality stats)
     print("Running 25-pass MC Dropout prediction on sample image...")
     res = module.predict(image=img_path, mc_passes=25, generate_cam=True)
     

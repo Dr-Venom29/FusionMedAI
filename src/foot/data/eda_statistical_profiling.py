@@ -21,12 +21,12 @@ from src.foot.config import (
 
 def run_dataset_statistical_profiling():
     print("==================================================")
-    print("Running Phase 10.3.1 — Dataset Statistical Profiling")
+    print("Running Dataset Statistical Profiling")
     print("==================================================")
     
     index_csv = PROCESSED_SPLITS_DIR / "index.csv"
     if not index_csv.exists():
-        raise FileNotFoundError(f"Missing index CSV: {index_csv}. Run Phase 10.2 first.")
+        raise FileNotFoundError(f"Missing index CSV: {index_csv}.")
         
     df_index = pd.read_csv(index_csv)
     print(f"Loaded canonical modeling index: {len(df_index):,} records.")
@@ -233,7 +233,7 @@ def run_dataset_statistical_profiling():
     print(" [PASS] Per-channel RGB intensity statistics & percentiles computed")
     print(" [PASS] File size distribution computed")
     print(" [PASS] Output reports saved to datasets/foot/metadata/")
-    print("\nPhase 10.3.1 Dataset Statistical Profiling completed successfully!")
+    print("\n Dataset Statistical Profiling completed successfully!")
 
 if __name__ == "__main__":
     run_dataset_statistical_profiling()

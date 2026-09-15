@@ -12,12 +12,12 @@ from src.foot.config import DATASET_ROOT, PROCESSED_DATA, METADATA_DIR, METADATA
 
 def run_source_group_construction():
     print("==================================================")
-    print("Running Phase 10.2.3 — Source-Image Group Construction")
+    print("Running Source-Image Group Construction")
     print("==================================================")
     
     canonical_manifest_csv = PROCESSED_DATA / "canonical_manifest.csv"
     if not canonical_manifest_csv.exists():
-        raise FileNotFoundError(f"Prerequisite file not found: {canonical_manifest_csv}. Please run Phase 10.2.2 first.")
+        raise FileNotFoundError(f"Prerequisite file not found: {canonical_manifest_csv}.")
         
     df_manifest = pd.read_csv(canonical_manifest_csv)
     print(f"Loaded canonical manifest: {len(df_manifest):,} total image records.")
