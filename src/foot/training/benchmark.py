@@ -69,7 +69,7 @@ def run_architecture_benchmark(selected_models: List[str], profile_only: bool = 
     print("Phase 10.5 — Foot Ulcer Architecture Benchmarking")
     print("==================================================")
     
-    base_benchmark_dir = Path("experiments/foot/architecture_benchmark")
+    base_benchmark_dir = Path(__file__).resolve().parents[3] / "experiments" / "foot" / "architecture_benchmark"
     base_benchmark_dir.mkdir(parents=True, exist_ok=True)
     
     config = BaselineConfig()
@@ -180,7 +180,7 @@ def run_architecture_benchmark(selected_models: List[str], profile_only: bool = 
         
         # Save individual evaluation report & confusion matrix plot (10.5.14)
         cm_np = np.array(test_metrics["confusion_matrix"])
-        meta_bench_dir = Path("datasets/foot/metadata/benchmark")
+        meta_bench_dir = base_benchmark_dir / "metadata"
         meta_bench_dir.mkdir(parents=True, exist_ok=True)
         
         try:
