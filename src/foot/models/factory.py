@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+from pathlib import Path
 from typing import Optional, Dict, Type
 
 from src.foot.models.base_classifier import FootBaseClassifier
@@ -20,6 +21,8 @@ MODEL_REGISTRY: Dict[str, Type[FootBaseClassifier]] = {
     "swin_tiny": FootSwinTiny,
     "vit_b16": FootViTB16
 }
+
+FINAL_FOOT_MODEL_CHECKPOINT = Path(__file__).resolve().parents[3] / "experiments" / "foot" / "architecture_benchmark" / "efficientnet_b3" / "checkpoints" / "best_model.pt"
 
 def create_model(
     model_name: str = "resnet50",
@@ -70,3 +73,36 @@ def build_foot_baseline_model(
         dropout_rate=dropout_rate,
         device=device
     )
+
+def build_foot_final_model(
+    num_classes: int = 4,
+    pretrained: bool = True,
+    dropout_rate: float = 0.2,
+    device: Optional[str] = None
+) -> FootBaseClassifier:
+    """Builds the selected Phase 10.5 primary Foot Ulcer classification model (EfficientNet-B3)."""
+    return create_model(
+        model_name="efficientnet_b3",
+        num_classes=num_classes,
+        pretrained=pretrained,
+        dropout_rate=dropout_rate,
+        device=device
+    )
+
+def load_foot_final_model(
+    checkpoint_path: Optional[Path] = None,
+    device: str = "cpu"
+) -> FootBaseClassifier:
+    """
+    Loads the trained and frozen Phase 10.5 Foot Ulcer primary model (EfficientNet-B3)
+    from its best checkpoint and returns it in evaluation mode.
+    """
+    path = Path(checkpoint_path) if checkpoint_path is not None else FINAL_FOOT_MODEL_CHECKPOINT
+    if not path.exists():
+        raise FileNotFoundError(f"Final Foot model checkpoint not found at: '{path}'")
+        
+    model = build_foot_final_model(num_classes=4, pretrained=False, dropout_rate=0.2, device=device)
+    checkpoint = torch.load(path, map_location=device, weights_only=False)
+    model.load_state_dict(checkpoint["model_state_dict"])
+    model.eval()
+    return model

@@ -118,9 +118,10 @@ EARLY_STOPPING_MONITOR = "qwk"  # Optimize validation QWK
 # Resolve run version dynamically
 RUN_VERSION = os.environ.get("FUSIONMED_RUN_VERSION")
 RUN_NAME = os.environ.get("FUSIONMED_RUN_NAME", MODEL_NAME)
+RETINA_EXPERIMENTS_DIR = PROJECT_ROOT / "experiments" / "retina"
 
 if not RUN_VERSION:
-    experiments_base = PROJECT_ROOT / "experiments"
+    experiments_base = RETINA_EXPERIMENTS_DIR
     existing_versions = []
     if experiments_base.exists():
         for path in experiments_base.iterdir():
@@ -139,7 +140,7 @@ if not RUN_VERSION:
 # Run Directory Setup
 # ==========================
 
-RUN_DIR = PROJECT_ROOT / "experiments" / f"{RUN_VERSION}_{RUN_NAME}"
+RUN_DIR = RETINA_EXPERIMENTS_DIR / f"{RUN_VERSION}_{RUN_NAME}"
 
 CHECKPOINT_DIR = RUN_DIR / "checkpoints"
 TENSORBOARD_DIR = RUN_DIR / "tensorboard"
@@ -158,13 +159,13 @@ RUN_CONFIG_JSON = RUN_DIR / "config.json"
 RUN_PREDICTIONS_CSV = RUN_DIR / "predictions.csv"
 
 # Global tracking
-BASELINE_CSV = PROJECT_ROOT / "experiments" / "baseline_results.csv"
-EXPERIMENT_LOG_EXCEL = PROJECT_ROOT / "experiments" / "experiment_log.xlsx"
+BASELINE_CSV = RETINA_EXPERIMENTS_DIR / "baseline_results.csv"
+EXPERIMENT_LOG_EXCEL = RETINA_EXPERIMENTS_DIR / "experiment_log.xlsx"
 
 # ==========================
 # Benchmark Paths
 # ==========================
-BENCHMARK_DIR = PROJECT_ROOT / "experiments" / "benchmark"
+BENCHMARK_DIR = RETINA_EXPERIMENTS_DIR / "benchmark"
 BENCHMARK_RESULTS_DIR = PROJECT_ROOT / "results" / "benchmark"
 BENCHMARK_FIGURES_DIR = BENCHMARK_RESULTS_DIR / "figures"
 BENCHMARK_TABLES_DIR = BENCHMARK_RESULTS_DIR / "tables"
@@ -225,7 +226,7 @@ XAI_VERSION = "1.0.0"
 
 FINAL_MODEL_RESULTS_DIR = PROJECT_ROOT / "results" / "final_model"
 XAI_RESULTS_DIR = PROJECT_ROOT / "results" / "xai"
-XAI_EXPERIMENTS_DIR = PROJECT_ROOT / "experiments" / "xai"
+XAI_EXPERIMENTS_DIR = RETINA_EXPERIMENTS_DIR / "xai"
 XAI_LOGS_DIR = XAI_EXPERIMENTS_DIR / "logs"
 XAI_CONFIGS_DIR = XAI_EXPERIMENTS_DIR / "configs"
 
@@ -243,7 +244,7 @@ CALIBRATION_TABLES_DIR = CALIBRATION_RESULTS_DIR / "tables"
 CALIBRATION_REPORTS_DIR = CALIBRATION_RESULTS_DIR / "reports"
 CALIBRATION_RELIABILITY_DIR = CALIBRATION_RESULTS_DIR / "reliability"
 
-CALIBRATION_EXPERIMENTS_DIR = PROJECT_ROOT / "experiments" / "calibration"
+CALIBRATION_EXPERIMENTS_DIR = RETINA_EXPERIMENTS_DIR / "calibration"
 
 for directory in [CALIBRATION_RESULTS_DIR, CALIBRATION_FIGURES_DIR, CALIBRATION_TABLES_DIR, 
                   CALIBRATION_REPORTS_DIR, CALIBRATION_RELIABILITY_DIR, CALIBRATION_EXPERIMENTS_DIR]:
@@ -257,7 +258,7 @@ UNCERTAINTY_VERSION = "1.0.0"
 UNCERTAINTY_RESULTS_DIR = RESULTS_DIR / "uncertainty"
 UNCERTAINTY_FIGURES_DIR = UNCERTAINTY_RESULTS_DIR / "figures"
 UNCERTAINTY_TABLES_DIR = UNCERTAINTY_RESULTS_DIR / "tables"
-UNCERTAINTY_EXPERIMENTS_DIR = PROJECT_ROOT / "experiments" / "uncertainty"
+UNCERTAINTY_EXPERIMENTS_DIR = RETINA_EXPERIMENTS_DIR / "uncertainty"
 
 for directory in [UNCERTAINTY_RESULTS_DIR, UNCERTAINTY_FIGURES_DIR, UNCERTAINTY_TABLES_DIR, UNCERTAINTY_EXPERIMENTS_DIR]:
     directory.mkdir(parents=True, exist_ok=True)

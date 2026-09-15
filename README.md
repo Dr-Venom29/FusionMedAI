@@ -15,7 +15,11 @@ The framework currently includes a completed retinal imaging pipeline and an ind
 
 ## Current Status
 
-The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline construction, exploratory data analysis, and baseline model development. The current baseline is a pretrained ResNet-50 classifier with a frozen-test Macro F1 of 0.6339. The next stage is controlled architecture benchmarking.
+The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline construction, exploratory data analysis, baseline model development, and controlled architecture benchmarking.
+
+The architecture benchmark evaluated EfficientNet-B0, EfficientNet-B3, ConvNeXt-Tiny, Swin-Tiny, and ViT-B/16 under a common training and evaluation protocol. EfficientNet-B3 achieved the highest held-out test Macro F1 (0.6683) and was selected as the primary Foot Ulcer backbone. EfficientNet-B0 produced a nearly identical Macro F1 (0.6672) with substantially lower computational cost and is retained as a lightweight alternative.
+
+The next stage is explainability.
 
 ### Retina Module
 - ✓ Dataset preparation
@@ -46,7 +50,7 @@ The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline 
 - ✓ Class separability analysis
 - ✓ Dataset bias and shortcut analysis
 - ✓ Baseline framework
-- ⬜ Architecture benchmarking
+- ✓ Architecture benchmarking
 - ⬜ Explainability
 - ⬜ Probability calibration
 - ⬜ Uncertainty estimation
@@ -146,7 +150,11 @@ The final Retina module combines prediction, calibrated confidence, uncertainty 
 
 ## Foot Ulcer Module
 
-The Foot Ulcer module uses the ADPM V3.3 Diabetic Foot Ulcer Classification dataset, organized into four Wagner-based classes:
+The Foot Ulcer module has completed dataset preparation, data pipeline development, exploratory analysis, baseline evaluation, and architecture benchmarking. Explainability, calibration, uncertainty estimation, and module integration remain under development.
+
+### Dataset
+
+The module uses the ADPM V3.3 Diabetic Foot Ulcer Classification dataset, organized into four Wagner-based classes:
 
 | Class | Description |
 | :--- | :--- |
@@ -155,60 +163,54 @@ The Foot Ulcer module uses the ADPM V3.3 Diabetic Foot Ulcer Classification data
 | **Grade 3** | Deep ulcer with abscess, osteomyelitis, or joint sepsis |
 | **Grade 4** | Localized gangrene |
 
-### Dataset Construction
+The audited dataset contains 10,062 valid images at 224 × 224 resolution. Following duplicate filtering and source-group analysis, 10,050 canonical images were assigned to deterministic, leakage-aware splits:
 
-The audited dataset contains 10,062 valid JPEG RGB images at 224 × 224 resolution.
+- **Train**: 8,038 images
+- **Validation**: 1,006 images
+- **Test**: 1,006 images
+- **Source Groups**: 1,770 distinct source image clusters
 
-Following the Phase 10.1 audit, 10,050 canonical images were retained for downstream modeling. Exact duplicate handling, source-image grouping, near-duplicate analysis, and group-stratified splitting were completed during Phase 10.2.
+The final splits contain zero source-group overlap and zero exact-duplicate overlap.
 
-The final modeling population consists of:
+### Dataset Analysis
 
-- 8,038 training images
-- 1,006 validation images
-- 1,006 test images
-- 1,770 source-image groups
+Exploratory analysis examined statistical distributions, visual characteristics, image quality, potential shortcuts, and class separability.
 
-The final splits contain no source-group overlap and no exact duplicate overlap.
+The four Wagner grades are relatively balanced across the dataset. The primary visual challenge is substantial overlap between Grade 2 and Grade 3 ulcers. Quality variations and capture artifacts were retained to maintain alignment with realistic clinical imaging conditions.
 
-Patient identifiers are not provided by the distributed dataset. Therefore, patient-level separation cannot be established independently. The grouping strategy is based on recoverable source-image relationships and is documented as a dataset limitation.
+### Baseline
 
-The immutable raw dataset is maintained under `datasets/foot/raw/`.
+A ResNet-50 baseline model was evaluated under the frozen source-group split using standard cross-entropy training:
 
-### Exploratory Data Analysis
-
-Phase 10.3 examined the canonical modeling population across statistical, visual, image-quality, outlier, class-separability, and dataset-bias dimensions.
-
-The analysis found a relatively balanced four-class distribution and identified substantial visual overlap between Grades 2 and 3. Image-quality variation and capture-related artifacts were also documented rather than removed from the dataset.
-
-No samples were deleted as a result of the outlier analysis.
-
-The separability and shortcut analyses are used as diagnostic evidence for subsequent model development rather than as evidence of model performance.
-
-Detailed analyses and generated artifacts are maintained under `research/foot/` and `datasets/foot/metadata/`.
-
-### Baseline Framework
-
-Phase 10.4 established a pretrained ResNet-50 reference classifier using the frozen, source-group-stratified Foot Ulcer modeling population.
-
-The baseline achieved:
-
-- **Macro F1**: 0.6339
+- **Test Macro F1**: 0.6339
 - **Balanced Accuracy**: 0.6391
 - **Accuracy**: 0.6372
 - **Macro ROC-AUC**: 0.8423
 
-The Grade 2 / Grade 3 boundary produced the most prominent directional confusion in the frozen test evaluation. The baseline also exhibited rapid reduction in training loss relative to validation performance, indicating early overfitting under the evaluated training configuration.
+The baseline highlighted two key challenges: early validation performance saturation (overfitting risk) and substantial Grade 2 ↔ Grade 3 misclassification.
 
-Detailed methodology, training records, evaluation results, error analysis, and acceptance criteria are documented in:
+### Backbone Selection
 
-`research/foot/Volume_04_Baseline_Framework/`
+Five candidate architectures were evaluated under identical, controlled experimental conditions against the ResNet-50 baseline:
 
-Phase 10.4 has been completed and accepted. The next stage is:
+| Rank | Model | Macro F1 | Balanced Accuracy | Macro ROC-AUC | Parameters | Latency (CPU) |
+| :---: | :--- | ---: | ---: | ---: | ---: | ---: |
+| 🥇 | **EfficientNet-B3** | **0.6683** | **0.6672** | **0.8685** | **10.70M** | **70.39 ms** |
+| 🥈 | EfficientNet-B0 | 0.6672 | 0.6656 | 0.8431 | 4.01M | 37.89 ms |
+| 🥉 | ConvNeXt-Tiny | 0.6566 | 0.6562 | 0.8613 | 27.82M | 109.61 ms |
+| 4 | ResNet-50 (Baseline) | 0.6339 | 0.6391 | 0.8423 | 25.56M | 82.14 ms |
+| 5 | Swin-Tiny | 0.6266 | 0.6262 | 0.8269 | 27.52M | 129.09 ms |
+| 6 | ViT-B/16 | 0.5788 | 0.5878 | 0.8364 | 85.80M | 310.28 ms |
 
-**Phase 10.5 — Foot Ulcer Architecture Benchmarking**
+**Selection**: EfficientNet-B3 was selected as the primary backbone based on top performance across Macro F1, Balanced Accuracy, and Macro ROC-AUC, alongside strong Grade 2 recall (0.7114). EfficientNet-B0 is retained as a lightweight alternative (4.01M parameters, 37.89 ms latency).
 
-Dataset documentation is maintained under:
-`datasets/foot/README.md`
+### Calibration and Uncertainty
+
+Calibration (Temperature Scaling, Vector Scaling) and uncertainty estimation (MC Dropout, Risk-Coverage Analysis) are scheduled for Phase 10.7 and Phase 10.8.
+
+### Integration
+
+Integrated inference combining prediction, explainability, calibration, and uncertainty estimation will be established in Phase 10.9.
 
 ---
 
@@ -305,7 +307,7 @@ FusionMedAI/
 | 10.3.5 | Class Separability Analysis | ✅ |
 | 10.3.6 | Dataset Bias & Shortcut Analysis | ✅ |
 | 10.4 | Baseline Framework | ✅ |
-| 10.5 | Architecture Benchmarking | ⬜ |
+| 10.5 | Architecture Benchmarking | ✅ |
 | 10.6 | Explainability | ⬜ |
 | 10.7 | Probability Calibration | ⬜ |
 | 10.8 | Uncertainty Estimation | ⬜ |
@@ -402,7 +404,7 @@ The output demonstrates the integrated Retina inference interface, including mod
 ## Development Roadmap
 
 - **v1.0 (Retina Module)** — **Completed**. The Retina pipeline has progressed from dataset preparation through module integration and acceptance testing. ✅
-- **v2.0 (Foot Ulcer Module)** — **In Development**. Completed: Phase 10.1 (Audit), Phase 10.2 (Pipeline), Phase 10.3 (EDA & Quality), Phase 10.4 (Baseline Framework). Next: **Phase 10.5 — Architecture Benchmarking**. ⬜
+- **v2.0 (Foot Ulcer Module)** — **In Development**. Completed: Phase 10.1 (Audit), Phase 10.2 (Pipeline), Phase 10.3 (EDA & Quality), Phase 10.4 (Baseline Framework), and Phase 10.5 (Architecture Benchmarking). Selected backbone: EfficientNet-B3. Next: **Phase 10.6 — Explainability**. ⬜
 - **v3.0 (Clinical Module)** — **Planned**. Development of the independent clinical-data assessment module. ⬜
 - **v4.0 (ACARA-U Fusion)** — **Planned**. Integration of the Retina, Foot Ulcer, and Clinical modules through the ACARA-U uncertainty- and reliability-aware fusion framework. ⬜
 

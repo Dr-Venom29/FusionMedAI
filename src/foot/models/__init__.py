@@ -7,7 +7,14 @@ from src.foot.models.architectures import (
     FootSwinTiny,
     FootViTB16
 )
-from src.foot.models.factory import create_model, build_foot_baseline_model, MODEL_REGISTRY
+from src.foot.models.factory import (
+    create_model,
+    build_foot_baseline_model,
+    build_foot_final_model,
+    load_foot_final_model,
+    MODEL_REGISTRY,
+    FINAL_FOOT_MODEL_CHECKPOINT
+)
 
 __all__ = [
     "FootBaseClassifier",
@@ -19,5 +26,8 @@ __all__ = [
     "FootViTB16",
     "create_model",
     "build_foot_baseline_model",
-    "MODEL_REGISTRY"
+    "build_foot_final_model",
+    "load_foot_final_model",
+    "MODEL_REGISTRY",
+    "FINAL_FOOT_MODEL_CHECKPOINT"
 ]

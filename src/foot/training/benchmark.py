@@ -264,6 +264,47 @@ def run_architecture_benchmark(selected_models: List[str], profile_only: bool = 
     with open(base_benchmark_dir / "benchmark_results.json", "w") as f:
         json.dump(benchmark_summary_list, f, indent=2)
         
+    try:
+        excel_path = base_benchmark_dir / "benchmark_results.xlsx"
+        with pd.ExcelWriter(excel_path, engine="openpyxl") as writer:
+            df_bm.to_excel(writer, sheet_name="Benchmark Summary", index=False)
+            
+            # Class-wise F1 sheet
+            class_rows = [{
+                "Model": r["model_name"],
+                "Grade 1 F1": r["grade_1_f1"],
+                "Grade 2 F1": r["grade_2_f1"],
+                "Grade 3 F1": r["grade_3_f1"],
+                "Grade 4 F1": r["grade_4_f1"]
+            } for r in benchmark_summary_list]
+            pd.DataFrame(class_rows).to_excel(writer, sheet_name="Class-wise F1", index=False)
+            
+            # Computational profile sheet
+            prof_rows = [{
+                "Model": r["model_name"],
+                "Parameters (M)": r["total_params_m"],
+                "Model Size (MB)": r["param_size_mb"],
+                "Latency (ms)": r["avg_batch_latency_ms"],
+                "Throughput (fps)": r["throughput_fps"],
+                "Training Time (s)": r["training_time_sec"],
+                "Device": r["profiling_device"]
+            } for r in benchmark_summary_list]
+            pd.DataFrame(prof_rows).to_excel(writer, sheet_name="Computational Profile", index=False)
+            
+            # CIs sheet
+            ci_rows = [{
+                "Model": r["model_name"],
+                "Test Macro F1": r["test_macro_f1"],
+                "Macro F1 95% CI Lower": r["macro_f1_ci"][0],
+                "Macro F1 95% CI Upper": r["macro_f1_ci"][1],
+                "Balanced Accuracy": r["test_balanced_accuracy"],
+                "Bal Acc 95% CI Lower": r["balanced_accuracy_ci"][0],
+                "Bal Acc 95% CI Upper": r["balanced_accuracy_ci"][1]
+            } for r in benchmark_summary_list]
+            pd.DataFrame(ci_rows).to_excel(writer, sheet_name="Confidence Intervals", index=False)
+    except Exception as e:
+        print(f"  Warning: Could not save Excel workbook: {e}")
+        
     # Generate Comprehensive Markdown Summary Report
     md_lines = [
         "# Phase 10.5 — Foot Ulcer Architecture Benchmarking Summary Report",
