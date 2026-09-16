@@ -85,7 +85,7 @@ This document tracks the verification status of all datasets used throughout the
 - [x] Architecture benchmarking completed
 - [x] Explainability completed
 - [x] Probability calibration completed
-- [ ] Uncertainty estimation
+- [x] Uncertainty estimation
 
 ---
 
@@ -107,7 +107,7 @@ This document tracks the verification status of all datasets used throughout the
 | Dataset | Status |
 | :--- | :--- |
 | APTOS 2019 | Retina Module — Complete |
-| ADPM V3.3 | Foot Ulcer Module — In Development |
+| ADPM V3.3 | Foot Ulcer Module — Complete |
 | Clinical Risk Dataset | Planned |
 
 ---
@@ -171,12 +171,11 @@ Completed
 * Architecture benchmarking (Retina & Foot Ulcer)
 * Explainability (Retina & Foot Ulcer)
 * Probability calibration (Retina & Foot Ulcer)
-* Uncertainty estimation (Retina)
+* Uncertainty estimation (Retina & Foot Ulcer)
+* Module integration (Retina & Foot Ulcer)
 
 Pending
 
-* Foot Ulcer Uncertainty Estimation
-* Foot Ulcer Module Integration
 * Clinical Module Development
 * Multimodal Fusion Integration
 

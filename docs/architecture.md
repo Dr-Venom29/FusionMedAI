@@ -46,7 +46,7 @@ flowchart TD
 
 For the Retina Module, this workflow terminates in the final Retina Module integration and verification stage.
 
-The same methodology is currently being applied to the Foot Ulcer module, followed subsequently by the Clinical module.
+The same methodology has been completed for the Foot Ulcer module. The Clinical module is the next development stage.
 
 ---
 
@@ -55,7 +55,7 @@ The same methodology is currently being applied to the Foot Ulcer module, follow
 | Module | Status |
 | :--- | :--- |
 | Retina Module | Complete |
-| Foot Ulcer Module | In development |
+| Foot Ulcer Module | Complete |
 | Clinical Module | Planned |
 | ACARA-U Fusion | Planned |
 

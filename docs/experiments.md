@@ -97,8 +97,13 @@ The framework maintains:
 * Temperature Scaling
 * Vector Scaling — Selected
 
-### Uncertainty Estimation
-* Pending
+### Uncertainty Estimation — Completed
+* Monte Carlo Dropout
+* Convergence analysis
+* Predictive entropy
+* Predictive variance
+* Mutual information
+* Risk-coverage analysis
 
 ---
 

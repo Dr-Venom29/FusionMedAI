@@ -5,9 +5,9 @@
 In post-hoc uncertainty estimation for calibrated classifiers, two integration options exist:
 
 - **Option A (Uncalibrated MC -> Softmax -> Average -> Post-hoc Calibrate)**: Calibrates the averaged probability distribution post-hoc.
-- **Option B (Stochastic MC Logits -> Frozen Calibrator -> Softmax -> Average & Metrics)**: Applies frozen Vector Scaling ($w^{*}, b^{*}$) to every individual stochastic forward logit pass $z_t$ before softmax normalization:
+- **Option B (Stochastic MC Logits -> Frozen Calibrator -> Softmax -> Average & Metrics)**: Applies frozen Vector Scaling ($w^{\ast}, b^{\ast}$) to every individual stochastic forward logit pass $z_t$ before softmax normalization:
 
-$$ z'_{t, k} = w^{*}_k z_{t, k} + b^{*}_k, \quad p_{t, k} = \frac{\exp(z'_{t, k})}{\sum_{j=1}^4 \exp(z'_{t, j})} $$
+$$ z'_{t, k} = w_k^{\ast} z_{t, k} + b_k^{\ast}, \quad p_{t, k} = \frac{\exp(z'_{t, k})}{\sum_{j=1}^4 \exp(z'_{t, j})} $$
 
 Option B is selected as the canonical pipeline because it ensures every single stochastic pass yields a valid, calibrated probability distribution prior to uncertainty decomposition.
 
