@@ -49,7 +49,7 @@ The return dictionary of `FootModule.predict()` adheres to the unified FusionMed
 | `calib_probabilities` | `List[float]` | Length 4, $\sum = 1.0$ | Calibrated class probability vector |
 | `calib_entropy_norm` | `float` | $[0.0, 1.0]$ | Calibrated entropy normalized by $\log(4)$ |
 | `calib_margin` | `float` | $[0.0, 1.0]$ | Difference between top 2 calibrated probabilities |
-| `mc_passes_N` | `int` | $\ge 0$ | Number of stochastic passes executed ($N^*=10$) |
+| `mc_passes_N` | `int` | $\ge 0$ | Number of stochastic passes executed ($N^{*}=10$) |
 | `mc_predictive_entropy` | `float` | $\ge 0.0$ nats | Total predictive entropy $H(\bar{p})$ |
 | `mc_predictive_entropy_norm`| `float` | $[0.0, 1.0]$ | Normalized total entropy $H(\bar{p}) / \log(4)$ |
 | `mc_expected_entropy` | `float` | $\ge 0.0$ nats | Aleatoric expected entropy $\mathbb{E}[H(p)]$ |

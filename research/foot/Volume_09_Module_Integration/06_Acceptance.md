@@ -41,7 +41,7 @@ Before multimodal fusion layer development (ACARA-U), the output concepts of `Re
 | **Label String** | String Class Label | String Class Label | **MATCH** |
 | **Uncalibrated Probabilities** | `raw_probabilities` (Vector) | `raw_probabilities` (Vector) | **MATCH** |
 | **Calibrated Probabilities** | `calib_probabilities` (Vector) | `calib_probabilities` (Vector) | **MATCH** |
-| **Calibration Method** | Temperature Scaling ($T$) | Vector Scaling ($w^*, b^*$) | **COMPATIBLE** |
+| **Calibration Method** | Temperature Scaling ($T$) | Vector Scaling ($w^{*}, b^{*}$) | **COMPATIBLE** |
 | **Predictive Entropy** | `mc_predictive_entropy` | `mc_predictive_entropy` | **MATCH** |
 | **Predictive Variance** | `mc_predictive_variance` | `mc_predictive_variance` | **MATCH** |
 | **Mutual Information** | `mc_mutual_information` | `mc_mutual_information` | **MATCH** |

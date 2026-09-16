@@ -19,8 +19,8 @@ class FootModule:
 Upon initialization, `FootModule`:
 1. Resolves canonical filesystem paths for `best_model.pt`, `calibration.json`, and `uncertainty.json`.
 2. Instantiates `FootEfficientNetB3` and loads frozen checkpoint weights.
-3. Loads frozen Vector Scaling parameters ($w^*, b^*$) into `FootVectorScaler`.
-4. Reads frozen uncertainty configuration ($N^*=10$).
+3. Loads frozen Vector Scaling parameters ($w^{*}, b^{*}$) into `FootVectorScaler`.
+4. Reads frozen uncertainty configuration ($N^{*}=10$).
 5. Prepares `get_foot_val_transforms(image_size=224)` preprocessing pipeline.
 6. Instantiates `FootGradCAM` linked to target layer `backbone.features.8`.
 
@@ -40,7 +40,7 @@ def predict(
 
 ### Parameters:
 - `image` (`Union[str, Path, Image.Image]`): Path string, `Path` object, or pre-loaded PIL `Image.Image`.
-- `mc_passes` (`Optional[int]`): Number of Monte Carlo stochastic passes. If `None`, defaults to frozen $N^*=10$. If `0`, disables MC passes and returns deterministic metrics.
+- `mc_passes` (`Optional[int]`): Number of Monte Carlo stochastic passes. If `None`, defaults to frozen $N^{*}=10$. If `0`, disables MC passes and returns deterministic metrics.
 - `generate_cam` (`bool`): If `True`, computes Grad-CAM overlay and heatmap arrays. If `False`, skips CAM computation for accelerated inference.
 
 ---

@@ -11,8 +11,8 @@ The 12-point automated verification suite (`verification/foot/model/verify_modul
 | Test # | Requirement Description | Verification Method | Result | Status |
 | :---: | :--- | :--- | :---: | :---: |
 | **1** | Model Checkpoint Loading | Verify `best_model.pt` loads into `FootBaseClassifier` in `.eval()` mode | `nn.Module` loaded | **PASS** |
-| **2** | Calibration Artifact Loading | Verify `calibration.json` weights ($w^*$) & bias ($b^*$) load into `FootVectorScaler` | $w^*, b^* \in \mathbb{R}^4$ | **PASS** |
-| **3** | Uncertainty Config Verification | Verify default pass count $N^*=10$ loaded from `uncertainty.json` | $N^*=10$ | **PASS** |
+| **2** | Calibration Artifact Loading | Verify `calibration.json` weights ($w^{*}$) & bias ($b^{*}$) load into `FootVectorScaler` | $w^{*}, b^{*} \in \mathbb{R}^4$ | **PASS** |
+| **3** | Uncertainty Config Verification | Verify default pass count $N^{*}=10$ loaded from `uncertainty.json` | $N^{*}=10$ | **PASS** |
 | **4** | Input Validation & Error Handling | Test non-existent files and invalid types raise `FileNotFoundError`/`TypeError` | Exception caught | **PASS** |
 | **5** | Class Prediction Validity | Verify predicted class index $\hat{Y} \in \{0, 1, 2, 3\}$ and label string valid | $0 \le \hat{Y} < 4$ | **PASS** |
 | **6** | Probability Normalization | Verify $\sum p_{\text{raw}} = 1.0$ and $\sum p_{\text{calib}} = 1.0$ | $\sum p_k = 1.0 \pm 10^{-4}$ | **PASS** |

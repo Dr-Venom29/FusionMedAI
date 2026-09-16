@@ -12,7 +12,7 @@ Phase 10.8 establishes a principled, post-hoc prediction uncertainty estimation 
 
 To prevent data leakage and experimental drift:
 1. **Model Weights Frozen**: `experiments/foot/architecture_benchmark/efficientnet_b3/checkpoints/best_model.pt` is strictly frozen. No backpropagation or weight retraining is conducted.
-2. **Calibrator Parameters Frozen**: `experiments/foot/final_model/calibration.json` (Vector Scaling parameters $w^* = [1.0410, 1.0430, 0.8711, 1.1301], b^* = [0.0292, 0.0625, 0.0630, -0.1547]$) are strictly frozen.
+2. **Calibrator Parameters Frozen**: `experiments/foot/final_model/calibration.json` (Vector Scaling parameters $w^{*} = [1.0410, 1.0430, 0.8711, 1.1301], b^{*} = [0.0292, 0.0625, 0.0630, -0.1547]$) are strictly frozen.
 3. **Data Splits Frozen**: Validation set ($N=1,006$) is used exclusively for stochastic pass count convergence analysis; held-out test set ($N=1,006$) is evaluated strictly once for final reporting.
 
 ---

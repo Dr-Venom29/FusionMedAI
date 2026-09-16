@@ -7,7 +7,7 @@
 
 ## Executive Summary
 
-Phase 10.9 establishes the unified, self-contained inference interface (**`FootModule`**) for Diabetic Foot Ulcer (DFU) Wagner classification (`src/foot/foot_module.py`). The module integrates the frozen **EfficientNet-B3** primary classifier (`best_model.pt`), frozen **Vector Scaling** probability calibrator ($w^*, b^*$), stochastic **MC Dropout** uncertainty estimator ($N^*=10$ passes, Option B pipeline), and deterministic **Grad-CAM** explainability overlays (`backbone.features.8`).
+Phase 10.9 establishes the unified, self-contained inference interface (**`FootModule`**) for Diabetic Foot Ulcer (DFU) Wagner classification (`src/foot/foot_module.py`). The module integrates the frozen **EfficientNet-B3** primary classifier (`best_model.pt`), frozen **Vector Scaling** probability calibrator ($w^{*}, b^{*}$), stochastic **MC Dropout** uncertainty estimator ($N^{*}=10$ passes, Option B pipeline), and deterministic **Grad-CAM** explainability overlays (`backbone.features.8`).
 
 The interface supports both fast standard inference (`generate_cam=False`) and full explainable inference (`generate_cam=True`), incorporates boundary input validation safety, passes a 12-point automated verification suite (**12/12 PASS**), completes end-to-end acceptance across all 4 Wagner grades, and achieves schema contract parity with the existing `RetinaModule`.
 

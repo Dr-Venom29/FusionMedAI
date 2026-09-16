@@ -53,18 +53,18 @@ $$\mu = [0.4937, 0.3630, 0.3272], \quad \sigma = [0.1745, 0.1632, 0.1551]$$
 
 ### Stage 2 — Deterministic Inference & Vector Scaling
 Under `model.eval()`, the forward pass computes raw logits $z \in \mathbb{R}^4$. Calibrated logits $z'$ and probabilities $p_{\text{calib}}$ are produced using the frozen Vector Scaling parameters:
-$$z'_k = w^*_k \cdot z_k + b^*_k$$
+$$z'_k = w^{*}_k \cdot z_k + b^{*}_k$$
 $$p_{\text{calib}, k} = \frac{\exp(z'_k)}{\sum_{j=1}^4 \exp(z'_j)}$$
 
 ### Stage 3 — Stochastic MC Dropout Uncertainty Estimation
-When $N^*=10$, `enable_foot_mc_dropout(model)` sets `nn.Dropout` modules to `.train()` while preserving `BatchNorm` in `.eval()`. For each stochastic pass $t \in \{1 \dots N^*\}$, Vector Scaling is applied to pass logits $z_t$:
-$$z'_{t, k} = w^*_k \cdot z_{t, k} + b^*_k, \quad p_{t, k} = \text{softmax}(z'_t)_k$$
+When $N^{*}=10$, `enable_foot_mc_dropout(model)` sets `nn.Dropout` modules to `.train()` while preserving `BatchNorm` in `.eval()`. For each stochastic pass $t \in \{1 \dots N^{*}\}$, Vector Scaling is applied to pass logits $z_t$:
+$$z'_{t, k} = w^{*}_k \cdot z_{t, k} + b^{*}_k, \quad p_{t, k} = \text{softmax}(z'_t)_k$$
 
-Across $N^*=10$ passes, metrics are computed:
-- **Predictive Mean**: $\bar{p} = \frac{1}{N^*} \sum_t p_t$
+Across $N^{*}=10$ passes, metrics are computed:
+- **Predictive Mean**: $\bar{p} = \frac{1}{N^{*}} \sum_t p_t$
 - **Total Predictive Entropy**: $H(\bar{p}) = -\sum_k \bar{p}_k \log \bar{p}_k$
 - **Predictive Variance**: $\text{Var}(p) = \frac{1}{4} \sum_k \text{Var}_t(p_{t, k})$
-- **Epistemic Mutual Information**: $MI = H(\bar{p}) - \frac{1}{N^*} \sum_t H(p_t)$
+- **Epistemic Mutual Information**: $MI = H(\bar{p}) - \frac{1}{N^{*}} \sum_t H(p_t)$
 
 ### Stage 4 — Grad-CAM Explainability Overlay
 If `generate_cam=True`, `FootGradCAM` extracts spatial activation maps from `backbone.features.8` for predicted class $\hat{Y} = \arg\max(p_{\text{calib}})$. The normalized CAM map $M \in [0, 1]^{224 \times 224}$ is colored via OpenCV `COLORMAP_JET` and blended with original image $I_{\text{orig}}$:
