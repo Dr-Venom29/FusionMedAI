@@ -20,7 +20,7 @@ The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline 
 
 EfficientNet-B3 was selected as the primary Foot Ulcer backbone. Probability calibration was evaluated using Temperature Scaling and Vector Scaling, with Vector Scaling selected using validation negative log-likelihood under the predefined selection protocol.
 
-The next stage is **Phase 10.8 — Prediction Uncertainty Estimation**.
+Prediction uncertainty estimation has been completed using MC Dropout, with the final configuration selected through convergence analysis. Foot module integration is the next development stage.
 
 ### Retina Module
 - Dataset preparation — Completed
@@ -54,7 +54,7 @@ The next stage is **Phase 10.8 — Prediction Uncertainty Estimation**.
 - Architecture benchmarking — Completed
 - Explainability — Completed
 - Probability calibration — Completed
-- Prediction uncertainty estimation — In development
+- Prediction uncertainty estimation — Completed
 - Module integration — Planned
 
 ### Remaining Modules
@@ -154,7 +154,8 @@ The final Retina module combines prediction, calibrated confidence, uncertainty 
 
 ## Foot Ulcer Module
 
-The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline construction, exploratory data analysis, baseline model development, controlled architecture benchmarking, post-hoc explainability analysis, and probability calibration. Prediction uncertainty estimation and module integration are the next development stages.
+The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline construction, exploratory data analysis, baseline model development, controlled architecture benchmarking, post-hoc explainability analysis, probability calibration, and prediction uncertainty estimation. Foot module integration is the next development stage.
+
 
 ### Dataset
 
@@ -233,11 +234,20 @@ The selected calibration artifact is frozen under `experiments/foot/final_model/
 
 ### Uncertainty
 
-Prediction uncertainty estimation is the next development stage. The planned analysis will evaluate stochastic predictive uncertainty and risk-coverage behaviour for the selected Foot Ulcer model.
+Prediction uncertainty estimation was evaluated on the frozen EfficientNet-B3 model and frozen Vector Scaling calibrator using stochastic MC Dropout ($N^*=10$ passes under the selected Option B pipeline).
+
+On the held-out test set ($N=1,006$), Predictive Entropy achieved an AUROC of **0.7291** and AUPRC of **0.5391** for prediction-error detection. Predictive Variance achieved an AUROC of **0.6508** and AUPRC of **0.4472**, while Mutual Information achieved an AUROC of **0.6399** and AUPRC of **0.4424**.
+
+Selective prediction via risk-coverage rejection demonstrated a monotonic test error rate reduction from 32.31% (100% coverage) to 11.20% (50% coverage). Classwise analysis showed higher uncertainty for Grade 2 and Grade 3 than for Grade 4 in this evaluation.
+
+A total of **45 unique high-uncertainty test cases** were identified, with deterministic Grad-CAM overlays generated for qualitative inspection.
+
+The frozen uncertainty configuration is saved in `experiments/foot/final_model/uncertainty.json`.
 
 ### Integration
 
-Integrated Foot Ulcer inference will combine prediction, calibrated probabilities, uncertainty estimation, and Grad-CAM explanations after completion of the uncertainty stage.
+Foot Ulcer module integration is the next development stage, which will combine prediction, calibrated probabilities, uncertainty estimation, and Grad-CAM explanations into a unified inference output.
+
 
 Module integration will follow the same interface and verification principles established for the Retina module.
 
@@ -346,7 +356,7 @@ FusionMedAI/
 | 10.5 | Architecture Benchmarking | Completed |
 | 10.6 | Explainability | Completed |
 | 10.7 | Probability Calibration | Completed |
-| 10.8 | Prediction Uncertainty Estimation | In Development |
+| 10.8 | Prediction Uncertainty Estimation | Completed |
 | 10.9 | Module Integration | Planned |
 
 ---
@@ -440,7 +450,7 @@ The output demonstrates the integrated Retina inference interface, including mod
 ## Development Roadmap
 
 - **v1.0 (Retina Module)** — **Completed**. The Retina pipeline has progressed from dataset preparation through module integration and acceptance testing.
-- **v2.0 (Foot Ulcer Module)** — **In Development**. Completed: Phase 10.1 through Phase 10.7, including dataset audit, leakage-aware pipeline construction, EDA and quality analysis, baseline evaluation, architecture benchmarking, explainability, and probability calibration. Selected backbone: EfficientNet-B3. Next: Phase 10.8 — Prediction Uncertainty Estimation.
+- **v2.0 (Foot Ulcer Module)** — **In Development**. Completed: Phase 10.1 through Phase 10.8, including dataset audit, leakage-aware pipeline construction, EDA and quality analysis, baseline evaluation, architecture benchmarking, explainability, probability calibration, and prediction uncertainty estimation. Selected backbone: EfficientNet-B3. Next: Phase 10.9 — Module Integration.
 - **v3.0 (Clinical Module)** — **Planned**. Development of the independent clinical-data assessment module.
 - **v4.0 (ACARA-U Fusion)** — **Planned**. Integration of the Retina, Foot Ulcer, and Clinical modules through the ACARA-U uncertainty- and reliability-aware fusion framework.
 

@@ -107,7 +107,8 @@ class FootDFUDataset(Dataset):
                 "image_path": rel_image_path,
                 "abs_path": str(abs_image_path),
                 "source_image_id": str(row.get("source_image_id", id_code)),
-                "class_name": CLASS_NAMES.get(label, f"Grade_{label+1}")
+                "class_name": CLASS_NAMES[label] if isinstance(CLASS_NAMES, list) and 0 <= label < len(CLASS_NAMES) else (CLASS_NAMES.get(label, f"Grade_{label+1}") if isinstance(CLASS_NAMES, dict) else f"Grade_{label+1}")
+
             }
             return image, label, metadata
 

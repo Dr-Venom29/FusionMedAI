@@ -65,24 +65,22 @@ def create_foot_dataloaders(
     # 2. Instantiate Datasets
     train_dataset = FootDFUDataset(
         csv_file=train_csv,
-        img_dir=image_dir,
-        transform=train_transforms,
-        is_train=True
+        image_dir=image_dir,
+        transform=train_transforms
     )
     
     val_dataset = FootDFUDataset(
         csv_file=val_csv,
-        img_dir=image_dir,
-        transform=val_transforms,
-        is_train=False
+        image_dir=image_dir,
+        transform=val_transforms
     )
     
     test_dataset = FootDFUDataset(
         csv_file=test_csv,
-        img_dir=image_dir,
-        transform=test_transforms,
-        is_train=False
+        image_dir=image_dir,
+        transform=test_transforms
     )
+
     
     # 3. Configure Reproducible PyTorch Generator
     g = torch.Generator()
