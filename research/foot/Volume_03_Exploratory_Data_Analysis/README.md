@@ -10,16 +10,16 @@ The primary objective of Phase 10.3 is to characterize the statistical, visual, 
 
 ## Volume Structure
 
-1. **[01 Objectives](file:///d:/FusionMedAI/research/foot/Volume_03_Exploratory_Data_Analysis/01_Objectives.md)**: Goals, scope, and technical requirements for Phase 10.3.
-2. **[02 Dataset Statistics](file:///d:/FusionMedAI/research/foot/Volume_03_Exploratory_Data_Analysis/02_Dataset_Statistics.md)**: Quantitative analysis of sample sizes, pixel intensity distributions, channel means/stds, and dimension uniformity.
-3. **[03 Class Distribution](file:///d:/FusionMedAI/research/foot/Volume_03_Exploratory_Data_Analysis/03_Class_Distribution.md)**: Analysis of class distributions across Wagner Grades 1-4, imbalance ratio (1.18:1), and split preservation.
-4. **[04 Image Characteristics](file:///d:/FusionMedAI/research/foot/Volume_03_Exploratory_Data_Analysis/04_Image_Characteristics.md)**: Qualitative and colorimetric analysis across Wagner Grades, visual comparison grid, and Grade 2 vs Grade 3 surface overlap findings.
-5. **[05 Image Quality](file:///d:/FusionMedAI/research/foot/Volume_03_Exploratory_Data_Analysis/05_Image_Quality.md)**: Assessment of sharpness (Laplacian variance), brightness, contrast, saturation, and exposure clipping.
-6. **[06 Outlier Analysis](file:///d:/FusionMedAI/research/foot/Volume_03_Exploratory_Data_Analysis/06_Outlier_Analysis.md)**: Outlier investigation across 7 quality dimensions and zero-deletion retention policy.
-7. **[07 Class Separability](file:///d:/FusionMedAI/research/foot/Volume_03_Exploratory_Data_Analysis/07_Class_Separability.md)**: Feature space embedding analysis (ResNet50), PCA & t-SNE projections, Silhouette scores, and centroid distances.
-8. **[08 Bias & Shortcut Analysis](file:///d:/FusionMedAI/research/foot/Volume_03_Exploratory_Data_Analysis/08_Bias_and_Shortcut_Analysis.md)**: Non-clinical shortcut correlation audit and Roboflow naming artifact evaluation.
-9. **[09 Findings & Defensible Research Trail](file:///d:/FusionMedAI/research/foot/Volume_03_Exploratory_Data_Analysis/09_Findings.md)**: Defensible research decisions ("We observed X, therefore we decided Y because Z") and finalized preprocessing policies.
-10. **[10 Acceptance](file:///d:/FusionMedAI/research/foot/Volume_03_Exploratory_Data_Analysis/10_Acceptance.md)**: Formal acceptance gate sign-off and verification checklist.
+1. **[01 Objectives](01_Objectives.md)**: Goals, scope, and technical requirements for Phase 10.3.
+2. **[02 Dataset Statistics](02_Dataset_Statistics.md)**: Quantitative analysis of sample sizes, pixel intensity distributions, channel means/stds, and dimension uniformity.
+3. **[03 Class Distribution](03_Class_Distribution.md)**: Analysis of class distributions across Wagner Grades 1-4, imbalance ratio (1.18:1), and split preservation.
+4. **[04 Image Characteristics](04_Image_Characteristics.md)**: Qualitative and colorimetric analysis across Wagner Grades, visual comparison grid, and Grade 2 vs Grade 3 surface overlap findings.
+5. **[05 Image Quality](05_Image_Quality.md)**: Assessment of sharpness (Laplacian variance), brightness, contrast, saturation, and exposure clipping.
+6. **[06 Outlier Analysis](06_Outlier_Analysis.md)**: Outlier investigation across 7 quality dimensions and zero-deletion retention policy.
+7. **[07 Class Separability](07_Class_Separability.md)**: Feature space embedding analysis (ResNet50), PCA & t-SNE projections, Silhouette scores, and centroid distances.
+8. **[08 Bias & Shortcut Analysis](08_Bias_and_Shortcut_Analysis.md)**: Non-clinical shortcut correlation audit and Roboflow naming artifact evaluation.
+9. **[09 Findings & Defensible Research Trail](09_Findings.md)**: Defensible research decisions ("We observed X, therefore we decided Y because Z") and finalized preprocessing policies.
+10. **[10 Acceptance](10_Acceptance.md)**: Formal acceptance gate sign-off and verification checklist.
 
 ---
 

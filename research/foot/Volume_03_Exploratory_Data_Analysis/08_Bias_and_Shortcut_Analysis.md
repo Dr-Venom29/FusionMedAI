@@ -22,6 +22,8 @@ Non-clinical dimensions were evaluated against Wagner severity grades across all
 - **Assessment**: Roboflow naming prefixes do not correlate strongly with class labels.
 - **Leakage Prevention**: Group-stratified partitioning (Phase 10.2) placed all offline variants derived from the same source image strictly into the same partition.
 
+![Bias & Shortcut Correlation Analysis](images/bias_shortcut_analysis.png)
+
 ---
 
 ## 3. Mitigation Directives

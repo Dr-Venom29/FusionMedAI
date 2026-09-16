@@ -15,6 +15,8 @@ Quality profiling was executed across all **10,050 canonical images** using `src
 
 ## 2. Quality Dimension Findings
 
+![Image Quality Distribution](images/image_quality_distribution.png)
+
 1. **Sharpness & Focus**: Overall mean sharpness of **428.84 Laplacian variance**. 11.08% soft background skin blur is caused by shallow depth-of-field macro clinical photography focused on central wound beds.
 2. **Letterbox Borders**: 0.00% true artificial letterboxing detected.
 3. **Uniformity Across Partitions**: Quality metrics are perfectly aligned across Train, Val, and Test splits.

@@ -5,8 +5,15 @@
 As established in the selection framework, post-hoc calibration selection evaluates a multi-metric tradeoff between likelihood (NLL), error (ECE, MCE, Brier), prediction class behavior, and model parsimony.
 
 ### Decision Rule
-> **Primary Criterion**: Lower validation NLL.  
-> **Parsimony Tolerance Rule**: If Temperature Scaling validation NLL is within 0.005 of Vector Scaling validation NLL ($\text{NLL}_{\text{temp}} \le \text{NLL}_{\text{vec}} + 0.005$), Temperature Scaling is preferred for model parsimony (1 parameter vs 8 parameters) and strict prediction rank preservation. Otherwise, Vector Scaling is selected.
+
+- **Primary Criterion**: Lower validation NLL.
+- **Parsimony Tolerance Rule**: If Temperature Scaling validation NLL is within 0.005 of Vector Scaling validation NLL:
+
+$$
+\text{NLL}_{\text{temp}} \le \text{NLL}_{\text{vec}} + 0.005
+$$
+
+Temperature Scaling is preferred for model parsimony (1 parameter vs 8 parameters) and strict prediction rank preservation. Otherwise, Vector Scaling is selected.
 
 ---
 
@@ -15,7 +22,11 @@ As established in the selection framework, post-hoc calibration selection evalua
 1. **Validation NLL Comparison**:
    - Temperature Scaling Validation NLL: **0.8694**
    - Vector Scaling Validation NLL: **0.8044**
-   - Difference ($\Delta \text{NLL} = \text{NLL}_{\text{temp}} - \text{NLL}_{\text{vec}}$): **0.0650** ($> 0.005$)
+   - Difference:
+
+$$
+\Delta \text{NLL} = \text{NLL}_{\text{temp}} - \text{NLL}_{\text{vec}} = 0.0650 > 0.005
+$$
 
 2. **Held-Out Test Set Performance**:
    - Vector Scaling achieves lower test NLL ($0.8749$ vs $0.8785$).

@@ -19,6 +19,11 @@
 
 ### 4. Class Balance & Loss Weighting Policy
 - **We observed (X)**: Observed near-perfect class balance (Imbalance Ratio $1.18:1$; Grade 1: 23.55%, Grade 2: 24.45%, Grade 3: 27.83%, Grade 4: 24.17%).
+
+![Class Distribution](images/class_distribution.png)
+
+The four classes are relatively balanced, with Grade 3 having the largest number of canonical images.
+
 - **Therefore we decided (Y)**: Use standard epoch-based random shuffling with Cross-Entropy Loss or Sqrt Inverse Frequency weights (Grade 1: 1.0870, Grade 2: 1.0669, Grade 3: 1.0000, Grade 4: 1.0731).
 - **Because (Z)**: Heavy oversampling is unnecessary and risks overfitting to specific patient source groups.
 

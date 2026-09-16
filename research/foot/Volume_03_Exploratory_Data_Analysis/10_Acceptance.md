@@ -2,6 +2,7 @@
 
 ## 1. Acceptance Checklist
 
+```text
 ┌──────────────────────────────────────────────────────────┐
 │             FOOT EDA & QUALITY ACCEPTANCE GATE           │
 ├──────────────────────────────────────────────────────────┤
@@ -13,6 +14,17 @@
 │ Automated EDA Verification (verify_eda.py)       PASS    │
 │ FINAL EDA ACCEPTANCE GATE                        PASS    │
 └──────────────────────────────────────────────────────────┘
+```
+
+| Verification Item | Status |
+| :--- | :---: |
+| Dataset Characteristics Understood | **PASS** |
+| Quality Issues Classified | **PASS** |
+| Potential Biases Documented | **PASS** |
+| Zero Unjustified Image Deletions | **PASS** |
+| Preprocessing & Loss Policy Finalized | **PASS** |
+| Automated EDA Verification (`verify_eda.py`) | **PASS** |
+| **FINAL EDA ACCEPTANCE GATE** | **PASS** |
 
 ---
 

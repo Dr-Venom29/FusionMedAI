@@ -4,7 +4,9 @@
 
 All calibration diagnostics use a **fixed 10 equal-width bin protocol** across the confidence interval $[0.0, 1.0]$:
 
-$$\text{Bin}_m = \left[ \frac{m-1}{10}, \frac{m}{10} \right), \quad m = 1, \dots, 10$$
+$$
+\text{Bin}_m = \left[ \frac{m-1}{10}, \frac{m}{10} \right), \quad m = 1, \dots, 10
+$$
 
 The same 10 bins are applied identically across Raw Softmax, Temperature Scaling, and Vector Scaling to ensure fair and rigorous comparison.
 
@@ -13,19 +15,35 @@ The same 10 bins are applied identically across Raw Softmax, Temperature Scaling
 ## 3.2 Metric Definitions
 
 1. **Negative Log-Likelihood (NLL)**:
-   $$\text{NLL} = -\frac{1}{N} \sum_{i=1}^N \log \hat{p}(y_i | x_i)$$
+
+   $$
+   \text{NLL} = -\frac{1}{N} \sum_{i=1}^N \log \hat{p}(y_i | x_i)
+   $$
+
    *Primary likelihood metric (lower is better).*
 
 2. **Expected Calibration Error (ECE)**:
-   $$\text{ECE} = \sum_{m=1}^M \frac{|B_m|}{N} |\text{acc}(B_m) - \text{conf}(B_m)|$$
+
+   $$
+   \text{ECE} = \sum_{m=1}^M \frac{|B_m|}{N} |\text{acc}(B_m) - \text{conf}(B_m)|
+   $$
+
    *Primary calibration error metric (lower is better).*
 
 3. **Maximum Calibration Error (MCE)**:
-   $$\text{MCE} = \max_{m=1,\dots,M} |\text{acc}(B_m) - \text{conf}(B_m)|$$
+
+   $$
+   \text{MCE} = \max_{m=1,\dots,M} |\text{acc}(B_m) - \text{conf}(B_m)|
+   $$
+
    *Worst-bin calibration deviation (lower is better).*
 
 4. **Brier Score**:
-   $$\text{BS} = \frac{1}{N} \sum_{i=1}^N \sum_{c=1}^K (\hat{p}_{i,c} - y_{i,c})^2$$
+
+   $$
+   \text{BS} = \frac{1}{N} \sum_{i=1}^N \sum_{c=1}^K (\hat{p}_{i,c} - y_{i,c})^2
+   $$
+
    *Proper scoring rule for probability accuracy (lower is better).*
 
 5. **Performance Preservation Check**:

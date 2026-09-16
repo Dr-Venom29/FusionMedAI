@@ -14,8 +14,8 @@
   - Std: `[0.1745, 0.1632, 0.1551]`
 - **Random Seed**: `42`
 - **Batch Size**: `32`
-- **Optimizer**: `AdamW` ($\text{lr} = 1\text{e-}4$, $\text{weight\_decay} = 1\text{e-}4$)
-- **Scheduler**: `CosineAnnealingLR` ($T_{\text{max}} = 20$, $\eta_{\text{min}} = 1\text{e-}6$)
+- **Optimizer**: `AdamW` (`lr = 1e-4`, `weight_decay = 1e-4`)
+- **Scheduler**: `CosineAnnealingLR` (`T_max = 20`, `eta_min = 1e-6`)
 - **Loss Function**: Unweighted CrossEntropy Loss
 - **Checkpoint Selection Policy**: Minimum Validation Loss (`val_loss`) for early stopping and best model checkpoint selection.
 - **Primary Reporting Metric**: **Macro F1-Score** (Primary Benchmark Metric evaluated on frozen test partition).

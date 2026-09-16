@@ -74,8 +74,8 @@ All candidate architectures were evaluated under identical experimental conditio
 | Batch size | 32 |
 | Maximum epochs | 20 |
 | Loss function | Unweighted Cross-Entropy |
-| Optimizer | AdamW ($\text{lr} = 1\text{e-}4, \text{weight\_decay} = 1\text{e-}4$) |
-| Scheduler | CosineAnnealingLR ($T_{\text{max}} = 20, \eta_{\text{min}} = 1\text{e-}6$) |
+| Optimizer | `AdamW` (`lr = 1e-4`, `weight_decay = 1e-4`) |
+| Scheduler | `CosineAnnealingLR` (`T_max = 20`, `eta_min = 1e-6`) |
 | Early stopping | Enabled (Patience = 10) |
 | Checkpoint criterion | Minimum validation loss (`val_loss`) |
 | Primary selection metric | Test Macro F1 |

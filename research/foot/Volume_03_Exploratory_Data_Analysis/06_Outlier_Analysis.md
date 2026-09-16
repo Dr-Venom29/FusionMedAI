@@ -19,6 +19,8 @@ Canonical Population (10,050 images)
                 └── EXTREME_DARK: 24 images (0.24%)
 ```
 
+![Outlier Distribution](images/outlier_examples.png)
+
 > [!IMPORTANT]
 > **Data Retention Policy**: **NO OUTLIERS ARE AUTOMATICALLY DELETED**.
 > Retaining 100% of outlier images preserves patient source-group integrity and ensures evaluation reflects real-world clinical photography variation.

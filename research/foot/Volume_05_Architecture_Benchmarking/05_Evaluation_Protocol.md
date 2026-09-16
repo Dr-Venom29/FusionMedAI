@@ -4,7 +4,11 @@
 
 1. **Untouched Test Set Policy**: The frozen test set ($N=1,006$ images / 181 source groups) remained completely untouched during model training and early stopping decisions.
 2. **Post-Training Evaluation Order**:
-   $$\text{Train (20 Epochs)} \longrightarrow \text{Save Checkpoints} \longrightarrow \text{Load Best } \texttt{val\_loss} \text{ Checkpoint} \longrightarrow \text{Single Test Evaluation}$$
+
+$$
+\text{Train (20 Epochs)} \longrightarrow \text{Save Checkpoints} \longrightarrow \text{Load Best } \text{val\_loss} \text{ Checkpoint} \longrightarrow \text{Single Test Evaluation}
+$$
+
 3. **Primary Benchmark Metric**: **Test Macro F1-Score** across all 4 Wagner classes.
 4. **Checkpoint Selection Criterion**: Checkpoints were selected strictly using minimum validation loss (`val_loss`). Validation Macro F1 is reported for reference and was not used for model selection.
 5. **Bootstrap Confidence Intervals**: Image-level 95% Bootstrap Confidence Intervals ($B=1,000$ resamples, seed `42`) calculated for Macro F1 and Balanced Accuracy to quantify metric sampling uncertainty.

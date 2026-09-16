@@ -9,6 +9,8 @@ Class separability was evaluated by extracting 2,048-dimensional ImageNet pre-tr
 - **5-NN Class Agreement**: **`97.08%`**
 - **10-NN Class Agreement**: **`94.98%`**
 
+![Class Separability & Feature Space](images/class_separability.png)
+
 ---
 
 ## 2. Pairwise Centroid Cosine Distances

@@ -17,6 +17,8 @@ The canonical population consists of **10,050 images** grouped into **1,770 sour
 - **Min Class**: Grade 1 (2,367 images, 23.55%)
 - **Imbalance Ratio**: $\frac{2797}{2367} = \mathbf{1.18:1}$ (Near-perfect balance)
 
+![Class Distribution](images/class_distribution.png)
+
 ---
 
 ## 2. Partition Preservation

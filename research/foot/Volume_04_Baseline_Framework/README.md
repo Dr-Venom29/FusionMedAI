@@ -193,17 +193,14 @@ Grade 2 and Grade 3 remain difficult classes, consistent with the visual overlap
 
 The frozen test-set confusion matrix is:
 
-```text
-                 Predicted
-              G1   G2   G3   G4
+| Actual \ Predicted | Grade 1 | Grade 2 | Grade 3 | Grade 4 |
+| :--- | :---: | :---: | :---: | :---: |
+| **Grade 1** | **129** | 34 | 42 | 32 |
+| **Grade 2** | 24 | **139** | 65 | 18 |
+| **Grade 3** | 39 | 19 | **162** | 60 |
+| **Grade 4** | 10 | 6 | 16 | **211** |
 
-Actual G1    129   34   42   32
-Actual G2     24  139   65   18
-Actual G3     39   19  162   60
-Actual G4     10    6   16  211
-```
-
-![Foot DFU Baseline — ResNet-50 Confusion Matrix](file:///d:/FusionMedAI/research/foot/Volume_04_Baseline_Framework/images/confusion_matrix.png)
+![Foot DFU Baseline — ResNet-50 Confusion Matrix](images/confusion_matrix.png)
 
 The most prominent directional confusion is:
 - **Grade 2 → Grade 3**: 65 samples

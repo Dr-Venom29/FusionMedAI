@@ -17,6 +17,8 @@ Class-wise visual analysis was conducted using `src/foot/data/eda_class_visual_a
 
 - **Luminance Trend**: Mean luminance ($Y$) decreases steadily from Grade 1 ($0.4299$) to Grade 4 ($0.3832$) due to dark charcoal gangrene eschar formation.
 
+![Dataset RGB Distribution](images/dataset_rgb_distribution.png)
+
 ---
 
 ## 3. Grade 2 vs Grade 3 Surface Overlap Audit
