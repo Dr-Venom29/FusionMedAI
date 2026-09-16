@@ -120,6 +120,7 @@ papers/*.pdf
 # Temporary Files
 # ======================================
 
+scratch/
 *.tmp
 *.bak
 *.swp

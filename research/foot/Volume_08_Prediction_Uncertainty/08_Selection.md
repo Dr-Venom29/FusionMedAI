@@ -14,7 +14,7 @@ Based on empirical held-out test evaluation ($N=1,006$):
    - **Error Detection AUPRC**: **0.4472**
    - **Rationale**: Captures class probability instability across stochastic passes.
 
-3. **Empirical Pass Count**: **$N^* = 10$ MC Dropout Passes**
+3. **Empirical Pass Count**: **$N^{*} = 10$ MC Dropout Passes**
    - **Rationale**: Empirically selected via rule-based pass count convergence analysis ($\Delta H \le 10^{-3}$ nats, $\Delta \text{Var} \le 10^{-4}$).
 
 ---

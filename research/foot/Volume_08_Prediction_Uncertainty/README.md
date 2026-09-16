@@ -7,7 +7,7 @@
 
 ## Executive Summary
 
-Phase 10.8 establishes stochastic Monte Carlo (MC) Dropout uncertainty estimation for the primary Foot Ulcer classification model (**EfficientNet-B3**, frozen Phase 10.5 checkpoint) integrated with the frozen Phase 10.7 **Vector Scaling** calibrator. Using empirically selected $N^*=10$ stochastic passes under the calibrated Option B pipeline, the framework evaluates Predictive Mean ($\bar{p}$), Predictive Variance ($\text{Var}(p)$), Total Predictive Entropy ($H(\bar{p})$), Aleatoric Uncertainty ($\mathbb{E}[H(p_t)]$), and Epistemic Uncertainty / Mutual Information ($MI$).
+Phase 10.8 establishes stochastic Monte Carlo (MC) Dropout uncertainty estimation for the primary Foot Ulcer classification model (**EfficientNet-B3**, frozen Phase 10.5 checkpoint) integrated with the frozen Phase 10.7 **Vector Scaling** calibrator. Using empirically selected $N^{*}=10$ stochastic passes under the calibrated Option B pipeline, the framework evaluates Predictive Mean ($\bar{p}$), Predictive Variance ($\text{Var}(p)$), Total Predictive Entropy ($H(\bar{p})$), Aleatoric Uncertainty ($\mathbb{E}[H(p_t)]$), and Epistemic Uncertainty / Mutual Information ($MI$).
 
 The framework evaluates misclassification detection performance via Area Under the ROC Curve (AUROC) and Area Under the Precision-Recall Curve (AUPRC), disaggregates uncertainty across Wagner grades (G1, G2, G3, G4), inspects Grade 2 $\leftrightarrow$ Grade 3 boundary misclassifications, connects uncertainty to explainability via deterministic Grad-CAM heatmaps, and verifies selective prediction via risk-coverage rejection.
 

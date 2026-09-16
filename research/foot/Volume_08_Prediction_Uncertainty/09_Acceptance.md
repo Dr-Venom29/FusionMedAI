@@ -8,7 +8,7 @@
 | 2 | Frozen Vector Scaling Artifact Verified | Inspect `experiments/foot/final_model/calibration.json` | Verified |
 | 3 | MC Dropout Implementation Verified | `enable_foot_mc_dropout()` sets Dropout to `.train()`, BatchNorm to `.eval()` | Verified |
 | 4 | Pass-Count Convergence Evaluated | Validation set ($N=1,006$) evaluated for $N \in \{5 \dots 30\}$ | Verified |
-| 5 | Final $N^*$ Selected from Convergence | $N^*=10$ selected via rule-based stabilization ($\Delta H \le 10^{-3}$) | Verified |
+| 5 | Final $N^{*}$ Selected from Convergence | $N^{*}=10$ selected via rule-based stabilization ($\Delta H \le 10^{-3}$) | Verified |
 | 6 | Full 1,006-Image Test Evaluation Completed | Held-out test split evaluated under Option B pipeline | Verified |
 | 7 | Predictive Variance Calculated | Class variance averaged per sample | Verified |
 | 8 | Predictive Entropy Calculated | Shannon entropy of mean probabilities | Verified |

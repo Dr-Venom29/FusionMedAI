@@ -2,7 +2,7 @@
 
 ## 1. Held-Out Test Evaluation Protocol
 
-Using the frozen EfficientNet-B3 model, frozen Vector Scaling calibrator, and empirically selected $N^*=10$ MC Dropout pass count, uncertainty estimation was evaluated across the held-out test split ($N=1,006$ images).
+Using the frozen EfficientNet-B3 model, frozen Vector Scaling calibrator, and empirically selected $N^{*}=10$ MC Dropout pass count, uncertainty estimation was evaluated across the held-out test split ($N=1,006$ images).
 
 Misclassification error detection measures the ability of uncertainty metrics to assign higher scores to incorrect predictions ($Y \neq \hat{Y}$) than correct predictions ($Y = \hat{Y}$).
 

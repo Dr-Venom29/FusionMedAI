@@ -98,14 +98,13 @@ The framework follows several core engineering principles:
 
 ## Completed
 * **Retina Module** — Complete through integration and acceptance testing.
-* **Foot Ulcer Module** — Complete through prediction uncertainty estimation (Phase 10.8).
+* **Foot Ulcer Module** — Complete through module integration and acceptance testing (Phase 10.9).
 
 ## Current Development
-* **Foot Ulcer Module** — Module integration (Phase 10.9).
+* **Clinical Module** — Independent clinical-data assessment module.
 
 ## Planned
-* Clinical Module
-* ACARA-U Fusion Engine
+* **ACARA-U Fusion Engine** — Multimodal uncertainty-aware fusion layer.
 
 
 ---
