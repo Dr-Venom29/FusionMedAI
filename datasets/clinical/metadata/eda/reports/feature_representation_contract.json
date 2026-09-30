@@ -1,0 +1,348 @@
+{
+  "provenance": {
+    "analysis_population": "train",
+    "source_split": "datasets/clinical/processed/splits/train.csv",
+    "train_rows": 69519,
+    "train_patients": 48993,
+    "train_positive_rate": 0.11386815115292222
+  },
+  "identifiers": {
+    "encounter_id": {
+      "action": "DROP",
+      "reason": "Chronological/database sequence artifact"
+    },
+    "patient_nbr": {
+      "action": "DROP",
+      "reason": "High-cardinality patient identifier; grouping constraint only"
+    }
+  },
+  "zero_variance": {
+    "examide": {
+      "action": "DROP",
+      "reason": "Zero variance (100% 'No')"
+    },
+    "citoglipton": {
+      "action": "DROP",
+      "reason": "Zero variance (100% 'No')"
+    }
+  },
+  "numerical_features": {
+    "time_in_hospital": {
+      "action": "STANDARD_SCALE_OR_ROBUST",
+      "imputation": "None (complete)",
+      "skewness": 1.1399
+    },
+    "num_lab_procedures": {
+      "action": "STANDARD_SCALE_OR_ROBUST",
+      "imputation": "None (complete)",
+      "skewness": -0.2469
+    },
+    "num_procedures": {
+      "action": "STANDARD_SCALE_OR_ROBUST",
+      "imputation": "None (complete)",
+      "skewness": 1.3188
+    },
+    "num_medications": {
+      "action": "STANDARD_SCALE_OR_ROBUST",
+      "imputation": "None (complete)",
+      "skewness": 1.3564
+    },
+    "number_outpatient": {
+      "action": "STANDARD_SCALE_OR_ROBUST",
+      "imputation": "None (complete)",
+      "skewness": 8.4141
+    },
+    "number_emergency": {
+      "action": "STANDARD_SCALE_OR_ROBUST",
+      "imputation": "None (complete)",
+      "skewness": 27.4694
+    },
+    "number_inpatient": {
+      "action": "STANDARD_SCALE_OR_ROBUST",
+      "imputation": "None (complete)",
+      "skewness": 3.5606
+    },
+    "number_diagnoses": {
+      "action": "STANDARD_SCALE_OR_ROBUST",
+      "imputation": "None (complete)",
+      "skewness": -0.8685
+    }
+  },
+  "categorical_demographics": {
+    "race": {
+      "action": "ONE_HOT_ENCODE",
+      "handle_missing": "Keep '?' as Unknown category"
+    },
+    "gender": {
+      "action": "ONE_HOT_ENCODE",
+      "handle_missing": "Group Unknown/Invalid (3 cases)"
+    },
+    "age": {
+      "action": "ORDINAL_OR_ONE_HOT",
+      "handle_missing": "None"
+    },
+    "weight": {
+      "action": "DROP",
+      "reason": "96.88% missing; high sparsity"
+    }
+  },
+  "categorical_encounter_context": {
+    "admission_type_id": {
+      "action": "FREQUENCY_OR_ONE_HOT",
+      "handle_missing": "Map 5,6,8 to Missing"
+    },
+    "admission_source_id": {
+      "action": "FREQUENCY_OR_ONE_HOT",
+      "handle_missing": "Map 9,17,20 to Missing"
+    },
+    "medical_specialty": {
+      "action": "TOP_10_ONE_HOT",
+      "handle_missing": "Top 10 + Other + Missing"
+    }
+  },
+  "glycemic_monitoring": {
+    "max_glu_serum": {
+      "action": "ORDINAL_4_LEVEL",
+      "rule": "Preserve 'None' as distinct category 0"
+    },
+    "A1Cresult": {
+      "action": "ORDINAL_4_LEVEL",
+      "rule": "Preserve 'None' as distinct category 0"
+    }
+  },
+  "diagnoses": {
+    "diag_1": {
+      "action": "ICD9_CLINICAL_CHAPTER_ONE_HOT",
+      "n_chapters": 9
+    },
+    "diag_2": {
+      "action": "ICD9_CLINICAL_CHAPTER_ONE_HOT",
+      "n_chapters": 9
+    },
+    "diag_3": {
+      "action": "ICD9_CLINICAL_CHAPTER_ONE_HOT",
+      "n_chapters": 9
+    }
+  },
+  "medications": {
+    "metformin": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "repaglinide": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "nateglinide": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "chlorpropamide": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "glimepiride": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "acetohexamide": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "glipizide": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "glyburide": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "tolbutamide": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "pioglitazone": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "rosiglitazone": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "acarbose": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "miglitol": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "troglitazone": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "tolazamide": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "insulin": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "glyburide-metformin": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "glipizide-metformin": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "glimepiride-pioglitazone": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "metformin-rosiglitazone": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    },
+    "metformin-pioglitazone": {
+      "action": "ORDINAL_4_LEVEL",
+      "mapping": {
+        "No": 0,
+        "Steady": 1,
+        "Up": 2,
+        "Down": 3
+      }
+    }
+  },
+  "treatment_dynamics": {
+    "change": {
+      "action": "BINARY_ENCODE",
+      "mapping": {
+        "No": 0,
+        "Ch": 1
+      }
+    },
+    "diabetesMed": {
+      "action": "BINARY_ENCODE",
+      "mapping": {
+        "No": 0,
+        "Yes": 1
+      }
+    },
+    "payer_code": {
+      "action": "TOP_8_ONE_HOT",
+      "reason": "Administrative billing tag (39.52% missing)"
+    }
+  },
+  "target": {
+    "readmitted": {
+      "action": "BINARY_TARGET",
+      "mapping": {
+        "<30": 1,
+        ">30": 0,
+        "NO": 0
+      }
+    }
+  }
+}

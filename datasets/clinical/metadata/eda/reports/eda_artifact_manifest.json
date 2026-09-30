@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "analysis_population": "train",
+    "source_split": "datasets/clinical/processed/splits/train.csv",
+    "train_rows": 69519,
+    "train_patients": 48993,
+    "train_positive_rate": 0.11386815115292222
+  },
+  "artifacts": {
+    "datasets/clinical/metadata/eda/statistics/missingness_stats.csv": {
+      "size_bytes": 1578,
+      "sha256": "09feba7c22474de9e5522bc2d907a401427aed409aae505a6397ed83e38e06e1"
+    },
+    "datasets/clinical/metadata/eda/statistics/numerical_stats.csv": {
+      "size_bytes": 783,
+      "sha256": "117ba78db0332ccdde4405ae61f2d2464b95cef5cf7aae32363969b9105473c1"
+    },
+    "datasets/clinical/metadata/eda/statistics/categorical_stats.csv": {
+      "size_bytes": 441,
+      "sha256": "9e948fb408ed42e0154367712208f88190faa079b9e67a5641ae9c8ed7aedf8d"
+    },
+    "datasets/clinical/metadata/eda/statistics/medication_stats.csv": {
+      "size_bytes": 1215,
+      "sha256": "e08f3fa5755e6ae944627b98a3d894c18d9cde077b959e3fd07482e6fc248d77"
+    },
+    "datasets/clinical/metadata/eda/statistics/subgroup_stats.csv": {
+      "size_bytes": 1323,
+      "sha256": "f63806db514c747b3dc3bebbf062f8eba56bb8a0ef564df1c11fd53d3337c495"
+    },
+    "datasets/clinical/metadata/eda/reports/clinical_feature_groups_report.json": {
+      "size_bytes": 2430,
+      "sha256": "57746b5bda62dc638c2f2d5f1d0c1b17735dfbfa2acdd3b4cd47204d40cbc229"
+    },
+    "datasets/clinical/metadata/eda/reports/diagnosis_mapping_report.json": {
+      "size_bytes": 1817,
+      "sha256": "2f4f9fee0eb4de8f95b2d021fe1d4984bd0f8e65f557617bd5a51a469725035a"
+    },
+    "datasets/clinical/metadata/eda/reports/feature_association_report.json": {
+      "size_bytes": 3484,
+      "sha256": "d72f27d9a2a2904d39d51476d8d4cd46ec224d046955affa9ee3dc72f0f25a5a"
+    },
+    "datasets/clinical/metadata/eda/reports/outlier_analysis_report.json": {
+      "size_bytes": 1876,
+      "sha256": "e634b1651752ab16af7b73098bac11500bfd2761f9b05401f576ad07406fd7e7"
+    },
+    "datasets/clinical/metadata/eda/reports/feature_representation_contract.json": {
+      "size_bytes": 7676,
+      "sha256": "cae433419922f6af5464253d7468418beafe6baf5843798071365a414f96a67a"
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "provenance": {
+    "analysis_population": "train",
+    "source_split": "datasets/clinical/processed/splits/train.csv",
+    "train_rows": 69519,
+    "train_patients": 48993,
+    "train_positive_rate": 0.11386815115292222
+  },
+  "domains": {
+    "1_demographics": {
+      "attributes": [
+        "race",
+        "gender",
+        "age",
+        "weight"
+      ],
+      "usable_count": 3,
+      "dropped": [
+        "weight"
+      ]
+    },
+    "2_encounter_context": {
+      "attributes": [
+        "admission_type_id",
+        "discharge_disposition_id",
+        "admission_source_id",
+        "medical_specialty"
+      ],
+      "usable_count": 3
+    },
+    "3_prior_utilization": {
+      "attributes": [
+        "number_outpatient",
+        "number_emergency",
+        "number_inpatient"
+      ],
+      "usable_count": 3
+    },
+    "4_clinical_intensity": {
+      "attributes": [
+        "time_in_hospital",
+        "num_lab_procedures",
+        "num_procedures",
+        "num_medications",
+        "number_diagnoses"
+      ],
+      "usable_count": 5
+    },
+    "5_icd9_diagnoses": {
+      "attributes": [
+        "diag_1",
+        "diag_2",
+        "diag_3"
+      ],
+      "usable_count": 3
+    },
+    "6_glycemic_labs": {
+      "attributes": [
+        "max_glu_serum",
+        "A1Cresult"
+      ],
+      "usable_count": 2
+    },
+    "7_pharmacotherapy": {
+      "attributes": [
+        "metformin",
+        "repaglinide",
+        "nateglinide",
+        "chlorpropamide",
+        "glimepiride",
+        "acetohexamide",
+        "glipizide",
+        "glyburide",
+        "tolbutamide",
+        "pioglitazone",
+        "rosiglitazone",
+        "acarbose",
+        "miglitol",
+        "troglitazone",
+        "tolazamide",
+        "examide",
+        "citoglipton",
+        "insulin",
+        "glyburide-metformin",
+        "glipizide-metformin",
+        "glimepiride-pioglitazone",
+        "metformin-rosiglitazone",
+        "metformin-pioglitazone"
+      ],
+      "usable_count": 21,
+      "zero_variance_dropped": [
+        "examide",
+        "citoglipton"
+      ]
+    },
+    "8_treatment_dynamics": {
+      "attributes": [
+        "change",
+        "diabetesMed"
+      ],
+      "usable_count": 2
+    },
+    "9_administrative": {
+      "attributes": [
+        "payer_code"
+      ],
+      "usable_count": 1
+    }
+  }
+}

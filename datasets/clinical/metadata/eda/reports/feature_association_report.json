@@ -1,0 +1,119 @@
+{
+  "provenance": {
+    "analysis_population": "train",
+    "source_split": "datasets/clinical/processed/splits/train.csv",
+    "train_rows": 69519,
+    "train_patients": 48993,
+    "train_positive_rate": 0.11386815115292222
+  },
+  "pairwise_spearman_correlation": {
+    "time_in_hospital": {
+      "time_in_hospital": 1.0,
+      "num_lab_procedures": 0.3405,
+      "num_procedures": 0.1874,
+      "num_medications": 0.4622,
+      "number_outpatient": -0.01,
+      "number_emergency": -0.0,
+      "number_inpatient": 0.0963,
+      "number_diagnoses": 0.2388
+    },
+    "num_lab_procedures": {
+      "time_in_hospital": 0.3405,
+      "num_lab_procedures": 1.0,
+      "num_procedures": 0.0173,
+      "num_medications": 0.2501,
+      "number_outpatient": -0.0227,
+      "number_emergency": 0.0079,
+      "number_inpatient": 0.0429,
+      "number_diagnoses": 0.17
+    },
+    "num_procedures": {
+      "time_in_hospital": 0.1874,
+      "num_lab_procedures": 0.0173,
+      "num_procedures": 1.0,
+      "num_medications": 0.35,
+      "number_outpatient": -0.028,
+      "number_emergency": -0.0422,
+      "number_inpatient": -0.0637,
+      "number_diagnoses": 0.0659
+    },
+    "num_medications": {
+      "time_in_hospital": 0.4622,
+      "num_lab_procedures": 0.2501,
+      "num_procedures": 0.35,
+      "num_medications": 1.0,
+      "number_outpatient": 0.0798,
+      "number_emergency": 0.0458,
+      "number_inpatient": 0.1029,
+      "number_diagnoses": 0.2968
+    },
+    "number_outpatient": {
+      "time_in_hospital": -0.01,
+      "num_lab_procedures": -0.0227,
+      "num_procedures": -0.028,
+      "num_medications": 0.0798,
+      "number_outpatient": 1.0,
+      "number_emergency": 0.1776,
+      "number_inpatient": 0.1542,
+      "number_diagnoses": 0.115
+    },
+    "number_emergency": {
+      "time_in_hospital": -0.0,
+      "num_lab_procedures": 0.0079,
+      "num_procedures": -0.0422,
+      "num_medications": 0.0458,
+      "number_outpatient": 0.1776,
+      "number_emergency": 1.0,
+      "number_inpatient": 0.2198,
+      "number_diagnoses": 0.0947
+    },
+    "number_inpatient": {
+      "time_in_hospital": 0.0963,
+      "num_lab_procedures": 0.0429,
+      "num_procedures": -0.0637,
+      "num_medications": 0.1029,
+      "number_outpatient": 0.1542,
+      "number_emergency": 0.2198,
+      "number_inpatient": 1.0,
+      "number_diagnoses": 0.1364
+    },
+    "number_diagnoses": {
+      "time_in_hospital": 0.2388,
+      "num_lab_procedures": 0.17,
+      "num_procedures": 0.0659,
+      "num_medications": 0.2968,
+      "number_outpatient": 0.115,
+      "number_emergency": 0.0947,
+      "number_inpatient": 0.1364,
+      "number_diagnoses": 1.0
+    }
+  },
+  "target_spearman_correlation": {
+    "time_in_hospital": 0.0532,
+    "num_lab_procedures": 0.0248,
+    "num_procedures": -0.0081,
+    "num_medications": 0.0466,
+    "number_outpatient": 0.0368,
+    "number_emergency": 0.0653,
+    "number_inpatient": 0.144,
+    "number_diagnoses": 0.0523
+  },
+  "collinear_pairs": [
+    {
+      "pair": [
+        "time_in_hospital",
+        "num_medications"
+      ],
+      "spearman_r": 0.4566,
+      "clinical_context": "Stay duration polypharmacy accumulation"
+    },
+    {
+      "pair": [
+        "number_emergency",
+        "number_inpatient"
+      ],
+      "spearman_r": 0.2678,
+      "clinical_context": "Acute hospital healthcare utilization"
+    }
+  ]
+}

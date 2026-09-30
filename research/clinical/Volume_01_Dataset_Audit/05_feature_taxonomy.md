@@ -5,46 +5,18 @@
 The dataset contains **50 raw CSV columns**: **47 predictive/input attributes**, **2 identifier fields**, and **1 target field**, categorized across **9 clinical and operational domains**:
 
 ```mermaid
-mindmap
-  root((50 Raw CSV Columns))
-    Identifiers [2 fields]
-      encounter_id
-      patient_nbr
-    Demographics [4 attributes]
-      race
-      gender
-      age
-      weight
-    Encounter Context [4 attributes]
-      admission_type_id
-      discharge_disposition_id
-      admission_source_id
-      medical_specialty
-    Hospital Utilization [4 attributes]
-      time_in_hospital
-      number_outpatient
-      number_emergency
-      number_inpatient
-    Diagnostic & Clinical Intensity [4 attributes]
-      num_lab_procedures
-      num_procedures
-      num_medications
-      number_diagnoses
-    ICD-9 Diagnoses [3 attributes]
-      diag_1
-      diag_2
-      diag_3
-    Glycemic Monitoring Labs [2 attributes]
-      max_glu_serum
-      A1Cresult
-    Pharmacotherapy Regimen [23 attributes]
-      23 Specific Anti-Diabetic Agents
-    Treatment Dynamics & Admin [3 attributes]
-      change
-      diabetesMed
-      payer_code
-    Target [1 field]
-      readmitted
+flowchart TD
+    ROOT["50 Raw CSV Columns"]
+    ROOT --> G1["Identifiers (2)<br/>encounter_id, patient_nbr"]
+    ROOT --> G2["Demographics (4)<br/>race, gender, age, weight"]
+    ROOT --> G3["Encounter Context (4)<br/>admission_type_id, discharge_disposition_id, admission_source_id, medical_specialty"]
+    ROOT --> G4["Hospital Utilization (4)<br/>time_in_hospital, number_outpatient, number_emergency, number_inpatient"]
+    ROOT --> G5["Diagnostic Intensity (4)<br/>num_lab_procedures, num_procedures, num_medications, number_diagnoses"]
+    ROOT --> G6["ICD-9 Diagnoses (3)<br/>diag_1, diag_2, diag_3"]
+    ROOT --> G7["Glycemic Labs (2)<br/>max_glu_serum, A1Cresult"]
+    ROOT --> G8["Pharmacotherapy Regimen (23)<br/>23 Anti-Diabetic Agents"]
+    ROOT --> G9["Treatment Dynamics & Admin (3)<br/>change, diabetesMed, payer_code"]
+    ROOT --> G10["Target Field (1)<br/>readmitted"]
 ```
 
 ---

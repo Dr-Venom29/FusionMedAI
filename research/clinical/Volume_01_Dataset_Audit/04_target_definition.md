@@ -5,10 +5,11 @@
 In the UCI Diabetes 130-US Hospitals dataset, the target column is named `readmitted`. It encodes whether the patient had an inpatient hospital readmission recorded in the participating hospital network following the current discharge, and within what time horizon:
 
 ```mermaid
-pie title Raw Distribution of Target (readmitted)
-    "NO (No readmission recorded in participating network)" : 54864
-    ">30 (Readmitted after 30 days)" : 35545
-    "<30 (Early readmission within 30 days)" : 11357
+xychart-beta
+    title "Raw Distribution of Target readmitted (N = 101,766)"
+    x-axis ["NO (No readmit)", ">30 (Late readmit)", "<30 (Early readmit)"]
+    y-axis "Encounters" 0 --> 60000
+    bar [54864, 35545, 11357]
 ```
 
 ### Quantitative Raw Target Distribution

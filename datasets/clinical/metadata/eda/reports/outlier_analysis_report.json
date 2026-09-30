@@ -1,0 +1,68 @@
+{
+  "provenance": {
+    "analysis_population": "train",
+    "source_split": "datasets/clinical/processed/splits/train.csv",
+    "train_rows": 69519,
+    "train_patients": 48993,
+    "train_positive_rate": 0.11386815115292222
+  },
+  "extreme_value_policy": "Zero sample deletion; preserve high-acuity clinical cases",
+  "features": {
+    "time_in_hospital": {
+      "p99": 13.0,
+      "max": 14.0,
+      "count_above_p99": 694,
+      "action": "RETAIN",
+      "rationale": "Valid high-acuity clinical variation"
+    },
+    "num_lab_procedures": {
+      "p99": 84.0,
+      "max": 132.0,
+      "count_above_p99": 638,
+      "action": "RETAIN",
+      "rationale": "Valid high-acuity clinical variation"
+    },
+    "num_procedures": {
+      "p99": 6.0,
+      "max": 6.0,
+      "count_above_p99": 0,
+      "action": "RETAIN",
+      "rationale": "Valid high-acuity clinical variation"
+    },
+    "num_medications": {
+      "p99": 43.0,
+      "max": 81.0,
+      "count_above_p99": 673,
+      "action": "RETAIN",
+      "rationale": "Valid high-acuity clinical variation"
+    },
+    "number_outpatient": {
+      "p99": 5.0,
+      "max": 40.0,
+      "count_above_p99": 615,
+      "action": "RETAIN",
+      "rationale": "Valid high-acuity clinical variation"
+    },
+    "number_emergency": {
+      "p99": 3.0,
+      "max": 76.0,
+      "count_above_p99": 609,
+      "action": "RETAIN",
+      "rationale": "Valid high-acuity clinical variation"
+    },
+    "number_inpatient": {
+      "p99": 6.0,
+      "max": 21.0,
+      "count_above_p99": 468,
+      "action": "RETAIN",
+      "rationale": "Valid high-acuity clinical variation"
+    },
+    "number_diagnoses": {
+      "p99": 9.0,
+      "max": 16.0,
+      "count_above_p99": 70,
+      "action": "RETAIN",
+      "rationale": "Valid high-acuity clinical variation"
+    }
+  }
+}

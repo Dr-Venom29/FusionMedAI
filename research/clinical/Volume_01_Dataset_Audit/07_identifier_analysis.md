@@ -20,9 +20,11 @@ However, `patient_nbr` is **strictly required for dataset partitioning and group
 A central architectural finding of this audit is that **the UCI Diabetes dataset is encounter-level rather than an independent-patient dataset**.
 
 ```mermaid
-pie title Patient Cohort by Encounter Frequency
-    "Single Encounter (1 visit): 54,745 patients" : 54745
-    "Repeat Encounters (2-40 visits): 16,773 patients" : 16773
+xychart-beta
+    title "Patient Cohort by Encounter Frequency (N = 71,518 Patients)"
+    x-axis ["Single Encounter (76.5%)", "Repeat Encounters (23.5%)"]
+    y-axis "Unique Patients" 0 --> 60000
+    bar [54745, 16773]
 ```
 
 ### Encounter Distribution Across Patients

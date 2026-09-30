@@ -1,0 +1,71 @@
+{
+  "split_stats": {
+    "train": {
+      "encounters": 69519,
+      "patients": 48993,
+      "target_NO": 36812,
+      "target_gt30": 24791,
+      "target_lt30": 7916,
+      "pos_rate": 0.11386815115292222
+    },
+    "val": {
+      "encounters": 14911,
+      "patients": 10498,
+      "target_NO": 7854,
+      "target_gt30": 5317,
+      "target_lt30": 1740,
+      "pos_rate": 0.11669237475689088
+    },
+    "test": {
+      "encounters": 14913,
+      "patients": 10499,
+      "target_NO": 7861,
+      "target_gt30": 5394,
+      "target_lt30": 1658,
+      "pos_rate": 0.11117816670019447
+    }
+  },
+  "diagnosis_categories": {
+    "diag_1": {
+      "Circulatory": 20822,
+      "Other": 11252,
+      "Respiratory": 9808,
+      "Digestive": 6549,
+      "Diabetes": 6081,
+      "Injury_Poisoning": 4758,
+      "Musculoskeletal": 3485,
+      "Genitourinary": 3435,
+      "Neoplasms": 2181,
+      "Supplementary_External": 1134,
+      "Missing/Unknown": 14
+    },
+    "diag_2": {
+      "Circulatory": 21787,
+      "Other": 16379,
+      "Diabetes": 8891,
+      "Respiratory": 7344,
+      "Genitourinary": 5694,
+      "Digestive": 2843,
+      "Supplementary_External": 1775,
+      "Injury_Poisoning": 1659,
+      "Neoplasms": 1628,
+      "Musculoskeletal": 1258,
+      "Missing/Unknown": 261
+    },
+    "diag_3": {
+      "Circulatory": 20795,
+      "Other": 16368,
+      "Diabetes": 11869,
+      "Respiratory": 4926,
+      "Genitourinary": 4482,
+      "Supplementary_External": 3565,
+      "Digestive": 2690,
+      "Musculoskeletal": 1335,
+      "Injury_Poisoning": 1322,
+      "Neoplasms": 1137,
+      "Missing/Unknown": 1030
+    }
+  },
+  "n_numerical_features": 8,
+  "n_medications_prescribed": 21
+}

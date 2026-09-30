@@ -1,0 +1,12 @@
+feature,cardinality,top_category,top_category_pct,unknown_or_missing_pct
+race,6,Caucasian,74.6271,2.3245
+gender,3,Female,53.6544,0.0043
+age,10,[70-80),25.5714,0.0
+admission_type_id,8,1,52.6144,0.0
+admission_source_id,17,7,56.1357,0.0
+medical_specialty,72,?,48.7579,48.7579
+max_glu_serum,4,None,94.8518,94.8518
+A1Cresult,4,None,83.0521,83.0521
+change,2,No,53.4329,0.0
+diabetesMed,2,Yes,77.4853,0.0
+payer_code,18,?,39.8323,39.8323

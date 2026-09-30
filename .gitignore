@@ -22,7 +22,7 @@ __pycache__/
 # Raw datasets
 datasets/*/raw/
 datasets/raw/
-datasets/clinical/
+datasets/clinical/*.csv
 
 # Generated/processed data
 datasets/*/processed/
@@ -35,10 +35,6 @@ datasets/interim/
 !datasets/*/metadata/**
 !datasets/metadata/
 !datasets/metadata/**
-
-# Keep dataset documentation
-!datasets/README.md
-!datasets/*/README.md
 
 # ======================================
 # Experiments
