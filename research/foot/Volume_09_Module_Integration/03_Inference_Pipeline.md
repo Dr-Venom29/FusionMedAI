@@ -77,10 +77,29 @@ $$
 
 Across $N^{\ast} = 10$ passes, metrics are computed:
 
-- **Predictive Mean**: $\bar{p} = \frac{1}{N^{\ast}} \sum_{t=1}^{N^{\ast}} p_t$
-- **Total Predictive Entropy**: $H(\bar{p}) = -\sum_{k=1}^4 \bar{p}_k \log \bar{p}_k$
-- **Predictive Variance**: $\text{Var}(p) = \frac{1}{4} \sum_{k=1}^4 \text{Var}_t(p_{t, k})$
-- **Epistemic Mutual Information**: $MI = H(\bar{p}) - \frac{1}{N^{\ast}} \sum_{t=1}^{N^{\ast}} H(p_t)$
+- **Predictive Mean ($\bar{p}$)**:
+
+  $$
+  \bar{p} = \frac{1}{N^{\ast}} \sum_{t=1}^{N^{\ast}} p_t
+  $$
+
+- **Total Predictive Entropy ($H(\bar{p})$)**:
+
+  $$
+  H(\bar{p}) = -\sum_{k=1}^4 \bar{p}_k \log \bar{p}_k
+  $$
+
+- **Predictive Variance ($\text{Var}(p)$)**:
+
+  $$
+  \text{Var}(p) = \frac{1}{4} \sum_{k=1}^4 \text{Var}_t(p_{t, k})
+  $$
+
+- **Epistemic Mutual Information ($MI$)**:
+
+  $$
+  MI = H(\bar{p}) - \frac{1}{N^{\ast}} \sum_{t=1}^{N^{\ast}} H(p_t)
+  $$
 
 ### Stage 4 — Grad-CAM Explainability Overlay
 
