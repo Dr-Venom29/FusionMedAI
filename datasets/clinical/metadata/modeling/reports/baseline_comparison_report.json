@@ -1,0 +1,66 @@
+{
+  "provenance": {
+    "analysis_population": "train",
+    "train_rows": 69519,
+    "val_rows": 14911,
+    "test_rows": 14913,
+    "random_seed": 42
+  },
+  "comparison_table": [
+    {
+      "model": "logistic_regression",
+      "val_roc_auc": 0.6456,
+      "val_pr_auc": 0.2084,
+      "val_brier_score": 0.0996,
+      "val_log_loss": 0.3456,
+      "test_roc_auc": 0.6446,
+      "test_pr_auc": 0.1969,
+      "test_brier_score": 0.0958,
+      "test_log_loss": 0.3356
+    },
+    {
+      "model": "logistic_regression_elasticnet",
+      "val_roc_auc": 0.6458,
+      "val_pr_auc": 0.2086,
+      "val_brier_score": 0.0996,
+      "val_log_loss": 0.3456,
+      "test_roc_auc": 0.6445,
+      "test_pr_auc": 0.1971,
+      "test_brier_score": 0.0958,
+      "test_log_loss": 0.3356
+    },
+    {
+      "model": "random_forest",
+      "val_roc_auc": 0.6497,
+      "val_pr_auc": 0.2113,
+      "val_brier_score": 0.0999,
+      "val_log_loss": 0.3464,
+      "test_roc_auc": 0.6422,
+      "test_pr_auc": 0.1991,
+      "test_brier_score": 0.0959,
+      "test_log_loss": 0.3362
+    },
+    {
+      "model": "xgboost",
+      "val_roc_auc": 0.6496,
+      "val_pr_auc": 0.2143,
+      "val_brier_score": 0.0992,
+      "val_log_loss": 0.344,
+      "test_roc_auc": 0.6466,
+      "test_pr_auc": 0.2037,
+      "test_brier_score": 0.0953,
+      "test_log_loss": 0.3338
+    },
+    {
+      "model": "lightgbm",
+      "val_roc_auc": 0.6489,
+      "val_pr_auc": 0.2178,
+      "val_brier_score": 0.0991,
+      "val_log_loss": 0.3439,
+      "test_roc_auc": 0.6461,
+      "test_pr_auc": 0.2038,
+      "test_brier_score": 0.0953,
+      "test_log_loss": 0.3339
+    }
+  ]
+}

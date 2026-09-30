@@ -1,0 +1,97 @@
+{
+  "provenance": {
+    "analysis_population": "train",
+    "random_seed": 42,
+    "n_models_trained": 5
+  },
+  "artifacts": {
+    "datasets/clinical/metadata/modeling/metrics/calibration_metrics.csv": {
+      "size_bytes": 4641,
+      "sha256": "723dfbdd070ca3d214902f0e4453648744bed494f673f5c92a8fc8b2246dff29"
+    },
+    "datasets/clinical/metadata/modeling/metrics/test_metrics.json": {
+      "size_bytes": 28298,
+      "sha256": "0d152f9f23b1b9f004397910f7791beed7c1a2c00b3adcb75c57b002d212d8b0"
+    },
+    "datasets/clinical/metadata/modeling/metrics/threshold_metrics.csv": {
+      "size_bytes": 6682,
+      "sha256": "86f2a98b187bbde8af23084892a587bc531ac85aa1e7bb4e07fdf07e8485d551"
+    },
+    "datasets/clinical/metadata/modeling/metrics/validation_metrics.json": {
+      "size_bytes": 28297,
+      "sha256": "0ead0c7a35214870ed645c9f8835863f412b26897955aca69d1a09ab0bc157e2"
+    },
+    "datasets/clinical/metadata/modeling/model_configs/lightgbm_config.json": {
+      "size_bytes": 289,
+      "sha256": "d3dbfbc163bbcf1f8a2cd68b67ec9ce7a476a30ca1b3906a3b4f45d57a1da662"
+    },
+    "datasets/clinical/metadata/modeling/model_configs/logistic_regression_config.json": {
+      "size_bytes": 220,
+      "sha256": "e788f53f47794f26df0c9e80f98ed57f6b2d05d03fe29bc011cfea24d7f9b260"
+    },
+    "datasets/clinical/metadata/modeling/model_configs/logistic_regression_elasticnet_config.json": {
+      "size_bytes": 233,
+      "sha256": "566b3452e398d539cb20207016f283898600e9587a7b2b358b7f32809a39b219"
+    },
+    "datasets/clinical/metadata/modeling/model_configs/random_forest_config.json": {
+      "size_bytes": 229,
+      "sha256": "07ea4cc0561dce5f01df692da5b92862651dd3d4e4b2f35404de481714a4ba32"
+    },
+    "datasets/clinical/metadata/modeling/model_configs/xgboost_config.json": {
+      "size_bytes": 276,
+      "sha256": "cb9f1e378d86d2aff42631bcef937cbc4a99fe760bccf9aa936018ab28e36ef2"
+    },
+    "datasets/clinical/metadata/modeling/predictions/lightgbm_test.csv": {
+      "size_bytes": 618104,
+      "sha256": "b4faac58ad3981a57a67935a6a13b55efd2125f060b5dda329d7fac5ddf259e6"
+    },
+    "datasets/clinical/metadata/modeling/predictions/lightgbm_val.csv": {
+      "size_bytes": 618093,
+      "sha256": "b2e9afe4fdce72ffcbd3371bdfb0094fce5ec189b5694ee019cf12ce3976c654"
+    },
+    "datasets/clinical/metadata/modeling/predictions/logistic_regression_elasticnet_test.csv": {
+      "size_bytes": 617910,
+      "sha256": "ebe3e326d7177c12a9b82a9be2a77a62f83e428e55d7c97d22e804c936e56ba8"
+    },
+    "datasets/clinical/metadata/modeling/predictions/logistic_regression_elasticnet_val.csv": {
+      "size_bytes": 617948,
+      "sha256": "039c7f39e2ac38fd71e414950cbd4b08f9d9ced5845ca7f3d3691d6fa461c4aa"
+    },
+    "datasets/clinical/metadata/modeling/predictions/logistic_regression_test.csv": {
+      "size_bytes": 617875,
+      "sha256": "b0f6efe3e172f5445df6b9a73b17563dfcf1b5821e815191fcf4d5b0538a72a0"
+    },
+    "datasets/clinical/metadata/modeling/predictions/logistic_regression_val.csv": {
+      "size_bytes": 617956,
+      "sha256": "1700b846f79992cd82cda4dac9c317da1d8423ff3c72c7945d1f9e21eab9472d"
+    },
+    "datasets/clinical/metadata/modeling/predictions/random_forest_test.csv": {
+      "size_bytes": 617787,
+      "sha256": "7916b3a605e04b9b46a28ef555176a6f9671168efccb04c0c944dcc5b1521a39"
+    },
+    "datasets/clinical/metadata/modeling/predictions/random_forest_val.csv": {
+      "size_bytes": 617760,
+      "sha256": "6218ac3a95875ab49dc3e8d4bfa686a0eac17d270490b5f8203f992cf2afd888"
+    },
+    "datasets/clinical/metadata/modeling/predictions/xgboost_test.csv": {
+      "size_bytes": 487956,
+      "sha256": "3b41d0bfcff235c118a66c9215b152921fa3cbbdae49f883dfdef66c7920785b"
+    },
+    "datasets/clinical/metadata/modeling/predictions/xgboost_val.csv": {
+      "size_bytes": 488094,
+      "sha256": "77a6cea6d40cea82eeece5f14aaa8d6ef216bdf2a08a96deba574548fdca3c70"
+    },
+    "datasets/clinical/metadata/modeling/preprocessing_metadata.json": {
+      "size_bytes": 5181,
+      "sha256": "4d46087ebf3035043ffefa029c74337db1b73bcc6dc9dd66e00206dd3f8ae776"
+    },
+    "datasets/clinical/metadata/modeling/reports/baseline_comparison_report.json": {
+      "size_bytes": 1699,
+      "sha256": "facd8449f6280d14000514c303588e8b67d7ce870f1fa029863f479116e686da"
+    },
+    "datasets/clinical/metadata/modeling/reports/error_analysis_report.json": {
+      "size_bytes": 65002,
+      "sha256": "9d33ab3dcf6f80ffd5e27b65db56cc6759ce2bebd422710790d4b56364ffa96c"
+    }
+  }
+}

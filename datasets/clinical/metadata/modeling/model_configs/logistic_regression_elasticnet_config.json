@@ -1,0 +1,12 @@
+{
+  "model_name": "logistic_regression_elasticnet",
+  "config": {
+    "penalty": "elasticnet",
+    "C": 1.0,
+    "l1_ratio": 0.5,
+    "solver": "saga",
+    "max_iter": 500,
+    "random_state": 42
+  },
+  "is_fitted": true
+}
