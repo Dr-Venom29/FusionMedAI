@@ -14,7 +14,7 @@ flowchart TD
         C --> D[Feature Taxonomy & Domain Mapping]
         D --> E[Missingness & Informative Absence Audit]
         E --> F[Identifier & Patient Clustering Analysis]
-        F --> G[Leakage Risk Register]
+        F --> G[Cohort Eligibility & Leakage Risk Register]
         G --> H[Clinical Limitations Formalization]
         H --> I[Cryptographic Freeze & Data Contract]
     end
@@ -34,7 +34,7 @@ The audit addresses ten fundamental questions required for reproducible, leak-fr
 5. **Missingness Representation**: How is missingness encoded across different variables (e.g., `'?'` vs `'None'` vs administrative IDs), and why is missingness itself informative?
 6. **Variable Taxonomy**: Which variables represent identifiers, demographics, admission contexts, hospital utilization, laboratory results, diagnoses, and medication regimens?
 7. **Identifier Discipline**: How must identifier fields (`encounter_id`, `patient_nbr`) be handled during modeling and splitting?
-8. **Leakage Risks**: Which variables or data structures could expose post-admission information or break train/validation/test isolation?
+8. **Cohort Eligibility & Leakage Risks**: Which variables or data structures require cohort filtering (e.g., expired/hospice cases) or could break train/validation/test isolation?
 9. **Clinical & Epidemiological Limitations**: What systematic biases, unmeasured confounders, and structural boundaries must be transparently disclosed in research publications?
 10. **Dataset Fingerprint**: What exact cryptographic hashes (SHA-256) and environmental configurations freeze this dataset against silent drift?
 
@@ -54,7 +54,7 @@ In clinical medicine, diagnostic and therapeutic tests are not ordered at random
 Each document in this audit owns a distinct analytical scope:
 - `03_schema_audit.md` answers: *"What is this column?"*
 - `07_identifier_analysis.md` answers: *"Should this column participate in modeling?"*
-- `08_leakage_risk_register.md` answers: *"Could this column expose information unavailable at prediction time?"*
+- `08_leakage_risk_register.md` answers: *"Could this column expose information unavailable at prediction time or distort cohort eligibility?"*
 
 ### Principle IV: Cryptographic Determinism
 All artifacts, file sizes, row counts, column counts, and checksums are deterministically verified via automated unit verification (`verification/clinical/data/verify_dataset_audit.py`).
@@ -68,13 +68,13 @@ Phase C1 concludes with a formal 11-point gate:
 | Gate Check | Evaluation Criterion | Target Status |
 | :--- | :--- | :---: |
 | **Dataset identity** | Verification of UCI Diabetes 130-US Hospitals (1999–2008) source | **PASS** |
-| **Dataset integrity** | 101,766 rows, 50 columns, 0 malformed lines | **PASS** |
+| **Dataset integrity** | 101,766 rows, 50 columns: 47 predictive attributes + 2 identifiers + 1 target | **PASS** |
 | **Schema verified** | 50/50 column dtypes, unique value counts, zero-variance columns audited | **PASS** |
 | **Target frozen** | Exact 3-class distribution and binary 30-day early readmission definition | **PASS** |
-| **Feature taxonomy** | Partition of 50 features into 9 clinical/operational domains | **PASS** |
+| **Feature taxonomy** | Partition of 50 columns into 9 clinical/operational domains | **PASS** |
 | **Missingness documented** | Explicit mapping of `'?'`, `'None'`, and administrative missingness codes | **PASS** |
 | **Identifiers classified** | Classification of `encounter_id` and `patient_nbr`; repeat clustering documented | **PASS** |
-| **Leakage candidates identified** | Exhaustive register of expired/hospice cases, patient overlap, and chronology | **PASS** |
+| **Leakage candidates identified** | Register of expired/hospice structural determinism, patient overlap, and chronology | **PASS** |
 | **Clinical limitations** | Explicit cataloging of EHR observational biases for paper publication | **PASS** |
 | **Dataset fingerprint frozen** | Deterministic SHA-256 hashes computed and frozen | **PASS** |
 | **Reproducibility** | Automated Python verification test runs and passes with exit code 0 | **PASS** |

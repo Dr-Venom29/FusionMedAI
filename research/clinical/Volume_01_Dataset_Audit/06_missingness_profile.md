@@ -23,7 +23,7 @@ Seven features use the string character `'?'` to denote uncollected or missing d
 
 | Feature Name | Column Data Type | Count of `'?'` | Missingness % | Clinical Interpretation of Absence |
 | :--- | :--- | :---: | :---: | :--- |
-| `weight` | `object` | 98,569 | **96.86%** | Body weight was rarely entered into structured fields across participating hospitals. Practically uninformative in raw state. |
+| `weight` | `object` | 98,569 | **96.86%** | Body weight was rarely entered into structured fields across participating hospitals. |
 | `medical_specialty` | `object` | 49,949 | **49.08%** | Specialty omitted or handled by general hospitalist services without subspecialty coding. |
 | `payer_code` | `object` | 40,256 | **39.56%** | Non-clinical administrative insurance billing tag omitted or suppressed for privacy. |
 | `race` | `object` | 2,273 | **2.23%** | Patient declined to report, or registrar omitted racial demographic field. |
@@ -35,7 +35,7 @@ Seven features use the string character `'?'` to denote uncollected or missing d
 
 ## 3. Informative Absence: `'None'` in Laboratory Tests
 
-In many tabular ML pipelines, the string `'None'` in `max_glu_serum` or `A1Cresult` is mistakenly parsed as a null/missing value and imputed. **This violates clinical reality:**
+In many tabular ML pipelines, the string `'None'` in `max_glu_serum` or `A1Cresult` is mistakenly parsed as a null/missing value and imputed.
 
 ### 3.1 `A1Cresult` (Glycated Hemoglobin)
 - `'None'`: **84,748 encounters (83.28%)**
@@ -43,15 +43,14 @@ In many tabular ML pipelines, the string `'None'` in `max_glu_serum` or `A1Cresu
 - `'Norm'`: 4,990 encounters (4.90%)
 - `'>7'`: 3,812 encounters (3.75%)
 
-**Clinical Meaning**: Clinicians do not order HbA1c tests randomly. Under ADA guidelines, HbA1c is ordered when chronic glycemic control is questionable or requires adjustment. If a patient is stable, an HbA1c test may not be ordered during a short acute stay. As demonstrated by Strack et al. (2014), patients whose HbA1c was measured and resulted in medication change had distinct readmission patterns compared to unmeasured patients. Treating `'None'` as missing data destroys this behavioral signal.
-
 ### 3.2 `max_glu_serum` (Serum Glucose Test)
 - `'None'`: **96,420 encounters (94.75%)**
 - `'Norm'`: 2,597 encounters (2.55%)
 - `'>200'`: 1,485 encounters (1.46%)
 - `'>300'`: 1,264 encounters (1.24%)
 
-**Clinical Meaning**: Routine serum glucose lab panels are distinguished from acute point-of-care capillary checks. A high serum glucose result ($>200$ or $>300$ mg/dL) indicates acute hyperosmolar or uncontrolled states. `'None'` indicates that standard protocol panels were deemed sufficient without standalone serum lab elevation profiling.
+**Defensible Clinical Interpretation**:
+`'None'` indicates that the corresponding test result was not recorded for the encounter. This state is retained explicitly because test ordering/measurement itself may carry clinical information (Missing Not At Random — MNAR). As demonstrated in clinical literature (*Strack et al., 2014*), patients who received glycemic testing had distinct readmission patterns compared to unmeasured patients. Treating `'None'` as generic missing data and imputing values would destroy this behavioral signal.
 
 ---
 
@@ -84,5 +83,5 @@ The lookup file `IDS_mapping.csv` reveals that integer ID fields explicitly desi
 ## 5. Audit Policy & Pre-Modeling Stance
 
 1. **No Blind Imputation**: In Phase C1, no imputation is applied.
-2. **Explicit Semantic Encoding**: During subsequent pipeline development (Phase C2), `'None'` in lab tests must be treated as a valid categorical state ("Not Measured / Not Ordered") rather than imputed using mean/mode/KNN methods.
-3. **'?' Preservation**: The `'?'` string must be explicitly mapped to `"Unknown"` or a dedicated categorical level to retain missingness indicators for tree-based models.
+2. **Explicit Semantic Encoding**: During subsequent pipeline development (Phase C2), `'None'` in lab tests must be treated as a valid categorical state ("Not Measured / Not Recorded") rather than imputed.
+3. **'?' Preservation**: The `'?'` string must be explicitly mapped to `"Unknown"` or a dedicated categorical level to retain missingness indicators for modeling.

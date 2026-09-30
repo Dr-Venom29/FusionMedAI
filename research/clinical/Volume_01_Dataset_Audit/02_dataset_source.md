@@ -45,7 +45,7 @@ The dataset is stored in the canonical local repository location under `datasets
 
 | File Name | Physical Size (Bytes) | Cryptographic Hash (SHA-256) | Record Count | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| `diabetic_data.csv` | 19,159,383 bytes (18.27 MB) | `0689e7ec031237dc63031b938805c48377748761a3b26acab621567afa24df97` | 101,766 rows | Main clinical encounter data table |
+| `diabetic_data.csv` | 19,159,383 bytes (18.27 MB) | `0689e7ec031237dc63031b938805c48377748761a3b26acab621567afa24df97` | 101,766 rows | Main clinical encounter data table (50 columns: 47 predictive attributes + 2 identifiers + 1 target) |
 | `IDS_mapping.csv` | 2,547 bytes (2.49 KB) | `f1bb82b471cb34649352597572c9b1fb00bd27f77b9f5a22a03dc3eb1039749e` | 69 lines | Lookup table for integer ID descriptions |
 
 ---

@@ -2,7 +2,7 @@
 
 ## 1. Schema Overview
 
-The raw file `diabetic_data.csv` comprises **101,766 encounter rows** across **50 attributes**. Every column has been audited for its physical data type, cardinality (number of distinct values), missingness representation, and unexpected values.
+The raw file `diabetic_data.csv` comprises **101,766 encounter rows** across **50 CSV columns** (47 predictive/input attributes, 2 identifier fields, and 1 target field). Every column has been audited for its physical data type, cardinality (number of distinct values), missingness representation, and unexpected values.
 
 ---
 
@@ -10,8 +10,8 @@ The raw file `diabetic_data.csv` comprises **101,766 encounter rows** across **5
 
 | # | Column Name | Raw Dtype | Cardinality | Missing Repr. | Distinct Examples / Range | Description ("What is this column?") |
 | :- | :--- | :--- | :- | :--- | :--- | :--- |
-| 1 | `encounter_id` | `int64` | 101,766 | None | 12570 to 443867222 | Unique numerical identifier for each hospital encounter |
-| 2 | `patient_nbr` | `int64` | 71,518 | None | 135 to 189502619 | Unique numerical identifier for each individual patient |
+| 1 | `encounter_id` | `int64` | 101,766 | None | 12570 to 443867222 | Unique numerical identifier for each hospital encounter (Identifier) |
+| 2 | `patient_nbr` | `int64` | 71,518 | None | 135 to 189502619 | De-identified surrogate identifier used to link multiple encounters belonging to the same patient (Identifier) |
 | 3 | `race` | `object` | 6 | `'?'` (2,273) | Caucasian, AfricanAmerican, ?, Hispanic, Other, Asian | Reported racial demographic category of the patient |
 | 4 | `gender` | `object` | 3 | Invalid (3) | Female (54,708), Male (47,055), Unknown/Invalid (3) | Administrative gender of the patient |
 | 5 | `age` | `object` | 10 | None | `[0-10)`, `[10-20)`, ..., `[90-100)` | 10-year age band at encounter admission |
@@ -59,14 +59,14 @@ The raw file `diabetic_data.csv` comprises **101,766 encounter rows** across **5
 | 47 | `metformin-pioglitazone` | `object` | 2 | None | No (101,765), Steady (1) | Combination oral medication |
 | 48 | `change` | `object` | 2 | None | No (54,755), Ch (47,011) | Change in any diabetic medication dosage or prescription |
 | 49 | `diabetesMed` | `object` | 2 | None | Yes (78,363), No (23,403) | Any diabetic medication prescribed or administered |
-| 50 | `readmitted` | `object` | 3 | None | NO (54,864), >30 (35,545), <30 (11,357) | **Hospital Readmission Target** |
+| 50 | `readmitted` | `object` | 3 | None | NO (54,864), >30 (35,545), <30 (11,357) | **Hospital Readmission Target Field** |
 
 ---
 
-## 3. Zero-Variance & Degenerate Columns
+## 3. Zero-Variance & Constant Columns
 
 Two medication columns contain **exactly one constant value across all 101,766 rows**:
 - `examide`: 100.0% `'No'` (101,766 encounters)
 - `citoglipton`: 100.0% `'No'` (101,766 encounters)
 
-**Audit Finding**: Neither `examide` nor `citoglipton` provides any discriminative variance or clinical information. They must be logged for removal during pipeline construction in Phase C2, but remain intact in the frozen raw dataset.
+**Audit Finding**: Neither `examide` nor `citoglipton` provides any discriminative variance or predictive information. They are logged for removal during pipeline construction in Phase C2, but remain preserved in the raw data table.

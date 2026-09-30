@@ -28,5 +28,10 @@ datasets/
 │   ├── interim/
 │   ├── processed/
 │   └── metadata/
-
+│
+├── clinical/
+│   ├── diabetic_data.csv     # Raw UCI Diabetes data (immutable / frozen)
+│   ├── IDS_mapping.csv       # Admission/Discharge ID lookups
+│   └── README.md             # Clinical dataset audit & specification
+│
 └── README.md

@@ -2,22 +2,22 @@
 
 ## 1. Raw Target Attribute: `readmitted`
 
-In the UCI Diabetes 130-US Hospitals dataset, the target column is named `readmitted`. It encodes whether the patient was readmitted to an inpatient hospital facility following the current discharge, and within what time horizon:
+In the UCI Diabetes 130-US Hospitals dataset, the target column is named `readmitted`. It encodes whether the patient had an inpatient hospital readmission recorded in the participating hospital network following the current discharge, and within what time horizon:
 
 ```mermaid
 pie title Raw Distribution of Target (readmitted)
-    "NO (No Readmission Recorded)" : 54864
+    "NO (No readmission recorded in participating network)" : 54864
     ">30 (Readmitted after 30 days)" : 35545
-    "<30 (Early Readmission within 30 days)" : 11357
+    "<30 (Early readmission within 30 days)" : 11357
 ```
 
 ### Quantitative Raw Target Distribution
 
 | Raw Value | Clinical Meaning | Encounter Count | Percentage of Total |
 | :--- | :--- | :---: | :---: |
-| `'NO'` | No readmission recorded in the 130-hospital network | 54,864 | 53.91% |
-| `'>30'` | Readmitted to an inpatient facility more than 30 days post-discharge | 35,545 | 34.93% |
-| `'<30'` | **Early readmission to an inpatient facility within 30 days post-discharge** | 11,357 | 11.16% |
+| `'NO'` | No readmission recorded in the dataset's participating hospital network | 54,864 | 53.91% |
+| `'>30'` | Readmission recorded after 30 days post-discharge | 35,545 | 34.93% |
+| `'<30'` | **Early readmission recorded within 30 days post-discharge** | 11,357 | 11.16% |
 | **Total** | | **101,766** | **100.00%** |
 
 ---
@@ -25,7 +25,7 @@ pie title Raw Distribution of Target (readmitted)
 ## 2. Mathematical Task Formulation
 
 ### Primary Task: 30-Day Early Readmission Prediction (Binary)
-In clinical medicine, health policy (e.g., Centers for Medicare & Medicaid Services [CMS] Hospital Readmissions Reduction Program [HRRP]), and clinical AI benchmarking, **unplanned readmission within 30 days** is the gold-standard quality and risk metric. Readmissions after 30 days are generally considered distinct disease progression or unrelated episodes rather than discharge-related care failures.
+Thirty-day readmission is a widely used hospital quality and risk-prediction endpoint and is the target explicitly supported by the UCI dataset. Readmissions after 30 days are generally considered distinct disease progression or unrelated episodes rather than discharge-related care failures.
 
 We formally define the primary clinical prediction target $y_i \in \{0, 1\}$ for encounter $i$ as:
 
@@ -43,8 +43,14 @@ $$y_i^{\text{3-class}} \in \{0: \text{'NO'}, 1: \text{'>30'}, 2: \text{'<30'}\}$
 
 ---
 
-## 3. Clinical & Epidemiological Justification
+## 3. Prediction-Time Boundary
 
-1. **CMS Alignment**: 30-day readmissions represent actionable clinical risk where post-discharge monitoring, glycemic management adjustments, and outpatient care coordination directly reduce morbidity.
-2. **ACARA-U Decision Fusion**: In the FusionMedAI framework, the clinical module outputs calibrated risk probabilities $P(\text{Readmission}_{<30\text{d}} \mid X_{\text{clinical}})$ and associated epistemic uncertainty. This risk score is fused with the Wagner ulcer grade risk (Foot module) and diabetic retinopathy stage risk (Retina module) to form a unified systemic diabetes severity profile.
-3. **No Target Inversion**: We strictly reject inventing artificial medical targets (e.g., synthetic mortality or arbitrary composite scores) not supported by the underlying data schema. The task is strictly defined as hospital-supported 30-day readmission.
+The primary task is defined at the **point of discharge planning**. Therefore, features representing information accumulated during the completed inpatient encounter (e.g., total length of stay, total procedures, cumulative medication count, and in-hospital medication alterations) may be used, provided that they are available before the prediction is issued.
+
+**Important Operational Constraint**: This formulation represents a **Discharge-Time Risk Stratification Task** and must not be interpreted as an admission-time readmission prediction task.
+
+---
+
+## 4. Multimodal Fusion Context (ACARA-U)
+
+In the FusionMedAI framework, the clinical module outputs calibrated risk probabilities $P(\text{Readmission}_{<30\text{d}} \mid X_{\text{clinical}})$ and associated epistemic uncertainty. This risk score is fused with the Wagner ulcer grade risk (Foot module) and diabetic retinopathy stage risk (Retina module) to form a unified systemic diabetes severity profile.

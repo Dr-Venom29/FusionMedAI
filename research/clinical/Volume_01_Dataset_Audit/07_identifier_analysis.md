@@ -4,10 +4,10 @@
 
 The dataset contains two primary identifier fields:
 - `encounter_id` (Unique per hospital visit; $N = 101,766$)
-- `patient_nbr` (Unique per human patient; $N = 71,518$)
+- `patient_nbr` (De-identified surrogate identifier used to link multiple encounters belonging to the same patient; $N = 71,518$)
 
 **Strict Audit Decision**:
-Neither `encounter_id` nor `patient_nbr` may be used as input features in predictive modeling.
+Neither `encounter_id` nor `patient_nbr` may be used as input predictive features in machine learning models.
 - `encounter_id` carries arbitrary database sequencing artifacts and chronological drift.
 - `patient_nbr` would lead to high-cardinality memorization and fatal overfitting to specific patient identities.
 
@@ -54,7 +54,7 @@ pie title Patient Cohort by Encounter Frequency
 If records are randomly split at the encounter level (standard $k$-fold cross-validation or simple `train_test_split`), encounters from the same patient will be distributed across both training and test partitions:
 
 ```
-[FATAL LEAKAGE PATTERN - Random Encounter Split]
+[LEAKAGE PATTERN - Random Encounter Split]
 Patient A, Encounter 1 (Admitted Jan 2005) --> TRAIN SET
 Patient A, Encounter 2 (Admitted Feb 2005) --> TEST SET (Model memorizes Patient A's baseline!)
 ```
@@ -63,4 +63,4 @@ Patient A, Encounter 2 (Admitted Feb 2005) --> TEST SET (Model memorizes Patient
 - **Group-Stratified Splitting**: All data splits (train, validation, test) must use `GroupKFold` or `StratifiedGroupKFold` grouped strictly by `patient_nbr`.
 - **Zero Patient Overlap**:
   $$\text{Patients}(\mathcal{D}_{\text{train}}) \cap \text{Patients}(\mathcal{D}_{\text{val}}) \cap \text{Patients}(\mathcal{D}_{\text{test}}) = \emptyset$$
-- **Encounter-Subset Strategy Option**: In clinical literature (e.g., Strack et al. 2014), studies often evaluate the *first encounter only* per patient ($N = 71,518$) or evaluate full grouped encounter cohorts. Both configurations must preserve strict patient-level boundary isolation.
+- **Encounter-Subset Strategy Option**: In clinical literature (*Strack et al., 2014*), studies often evaluate the *first encounter only* per patient ($N = 71,518$) or evaluate full grouped encounter cohorts. Both configurations must preserve strict patient-level boundary isolation.

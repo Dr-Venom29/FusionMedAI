@@ -20,7 +20,7 @@ def find_repo_root():
         curr = parent
     if os.path.exists(os.path.join(os.getcwd(), "datasets", "clinical", "diabetic_data.csv")):
         return os.getcwd()
-    return "d:/FusionMedAI"
+    return os.path.abspath(".")
 
 REPO_ROOT = find_repo_root()
 DATA_PATH = os.path.join(REPO_ROOT, "datasets", "clinical", "diabetic_data.csv")
@@ -64,7 +64,7 @@ def run_c1_verification():
         ids_df = pd.read_csv(IDS_PATH)
         if len(df_raw) == EXPECTED_ROWS and len(df_raw.columns) == EXPECTED_COLS:
             results["Dataset integrity"] = "PASS"
-            print(f"  -> Integrity verified: {len(df_raw):,} rows, {len(df_raw.columns)} columns.")
+            print(f"  -> Integrity verified: {len(df_raw):,} rows, 50 columns (47 predictive + 2 identifiers + 1 target).")
         else:
             results["Dataset integrity"] = "FAIL"
             print(f"  -> ERROR: Shape mismatch ({len(df_raw)}, {len(df_raw.columns)}) vs expected ({EXPECTED_ROWS}, {EXPECTED_COLS}).")
@@ -94,7 +94,7 @@ def run_c1_verification():
     if actual_cols == expected_cols and zero_var_cols == ['examide', 'citoglipton']:
         results["Schema verified"] = "PASS"
         print(f"  -> 50/50 columns match expected schema.")
-        print(f"  -> Zero-variance columns audited: {zero_var_cols}")
+        print(f"  -> Zero-variance attributes audited: {zero_var_cols}")
     else:
         results["Schema verified"] = "FAIL"
         print(f"  -> Schema mismatch or unexpected zero-variance columns.")
@@ -106,7 +106,7 @@ def run_c1_verification():
     if target_counts == expected_target:
         results["Target frozen"] = "PASS"
         print(f"  -> Target counts verified:")
-        print(f"     * 'NO'  : {target_counts['NO']:,} ({target_counts['NO']/EXPECTED_ROWS*100:.2f}%)")
+        print(f"     * 'NO'  : {target_counts['NO']:,} ({target_counts['NO']/EXPECTED_ROWS*100:.2f}%) [No readmission recorded in participating network]")
         print(f"     * '>30' : {target_counts['>30']:,} ({target_counts['>30']/EXPECTED_ROWS*100:.2f}%)")
         print(f"     * '<30' : {target_counts['<30']:,} ({target_counts['<30']/EXPECTED_ROWS*100:.2f}%) [Primary Target: 30-day early readmission]")
     else:
@@ -116,33 +116,31 @@ def run_c1_verification():
     # 5. Feature Taxonomy
     print("\n[Gate 5/11] Checking Feature Taxonomy Coverage...")
     taxonomy = {
-        "identifiers": ['encounter_id', 'patient_nbr'],
-        "demographics": ['race', 'gender', 'age', 'weight'],
-        "encounter_context": ['admission_type_id', 'discharge_disposition_id', 'admission_source_id', 'time_in_hospital', 'medical_specialty'],
-        "prior_utilization": ['number_outpatient', 'number_emergency', 'number_inpatient'],
-        "clinical_intensity": ['num_lab_procedures', 'num_procedures', 'num_medications', 'number_diagnoses'],
-        "diagnoses": ['diag_1', 'diag_2', 'diag_3'],
-        "glycemic_labs": ['max_glu_serum', 'A1Cresult'],
-        "medications": [
+        "1_identifiers": ['encounter_id', 'patient_nbr'],
+        "2_demographics": ['race', 'gender', 'age', 'weight'],
+        "3_encounter_context": ['admission_type_id', 'discharge_disposition_id', 'admission_source_id', 'medical_specialty'],
+        "4_prior_utilization": ['time_in_hospital', 'number_outpatient', 'number_emergency', 'number_inpatient'],
+        "5_clinical_intensity": ['num_lab_procedures', 'num_procedures', 'num_medications', 'number_diagnoses'],
+        "6_diagnoses": ['diag_1', 'diag_2', 'diag_3'],
+        "7_glycemic_labs": ['max_glu_serum', 'A1Cresult'],
+        "8_pharmacotherapy": [
             'metformin', 'repaglinide', 'nateglinide', 'chlorpropamide', 'glimepiride',
             'acetohexamide', 'glipizide', 'glyburide', 'tolbutamide', 'pioglitazone',
             'rosiglitazone', 'acarbose', 'miglitol', 'troglitazone', 'tolazamide',
             'examide', 'citoglipton', 'insulin', 'glyburide-metformin', 'glipizide-metformin',
             'glimepiride-pioglitazone', 'metformin-rosiglitazone', 'metformin-pioglitazone'
         ],
-        "treatment_management": ['change', 'diabetesMed'],
-        "administrative": ['payer_code'],
-        "target": ['readmitted']
+        "9_treatment_admin_target": ['change', 'diabetesMed', 'payer_code', 'readmitted']
     }
     all_tax_cols = []
     for grp, cols in taxonomy.items():
         all_tax_cols.extend(cols)
-    if set(all_tax_cols) == set(df_raw.columns) and len(all_tax_cols) == 50:
+    if set(all_tax_cols) == set(df_raw.columns) and len(all_tax_cols) == 50 and len(taxonomy) == 9:
         results["Feature taxonomy"] = "PASS"
-        print(f"  -> 50 features categorized across {len(taxonomy)} clinical/operational domains.")
+        print(f"  -> 47 predictive attributes + 2 identifiers + 1 target categorized across {len(taxonomy)} clinical/operational domains.")
     else:
         results["Feature taxonomy"] = "FAIL"
-        print(f"  -> Taxonomy missing columns or has extra columns.")
+        print(f"  -> Taxonomy missing columns or domain mismatch.")
 
     # 6. Missingness Documented
     print("\n[Gate 6/11] Checking Missingness Profiling...")
@@ -150,7 +148,7 @@ def run_c1_verification():
     none_lab_missing = {col: int((df_raw[col] == 'None').sum()) for col in ['max_glu_serum', 'A1Cresult']}
     if len(q_missing) == 7 and 'weight' in q_missing and 'payer_code' in q_missing and 'medical_specialty' in q_missing:
         results["Missingness documented"] = "PASS"
-        print(f"  -> 7 '?' columns verified: {q_missing}")
+        print(f"  -> 7 '?' unrecorded columns verified: {q_missing}")
         print(f"  -> Lab unmeasured ('None') indicators verified: {none_lab_missing}")
     else:
         results["Missingness documented"] = "FAIL"
@@ -163,22 +161,24 @@ def run_c1_verification():
     if n_enc == EXPECTED_ENCOUNTERS and n_pat == EXPECTED_PATIENTS:
         results["Identifiers classified"] = "PASS"
         print(f"  -> Encounter-level dataset verified: {n_enc:,} encounters across {n_pat:,} unique patients.")
-        print(f"  -> Single encounter patients: {int((df_raw['patient_nbr'].value_counts() == 1).sum()):,} (76.55%)")
-        print(f"  -> Multiple encounter patients: {int((df_raw['patient_nbr'].value_counts() > 1).sum()):,} (23.45%)")
+        print(f"  -> Single-encounter patients: {int((df_raw['patient_nbr'].value_counts() == 1).sum()):,} (76.55%)")
+        print(f"  -> Repeat-encounter patients: {int((df_raw['patient_nbr'].value_counts() > 1).sum()):,} (23.45%)")
     else:
         results["Identifiers classified"] = "FAIL"
         print(f"  -> Identifier mismatch: encounters={n_enc}, patients={n_pat}")
 
     # 8. Leakage Candidates Identified
-    print("\n[Gate 8/11] Checking Leakage Risk Candidates...")
-    expired_hospice_count = int(df_raw['discharge_disposition_id'].isin([11, 13, 14, 19, 20, 21]).sum())
-    if expired_hospice_count == 2423:
+    print("\n[Gate 8/11] Checking Leakage Risk Candidates & Cohort Eligibility...")
+    expired_count = int(df_raw['discharge_disposition_id'].isin([11, 19, 20]).sum())
+    hospice_count = int(df_raw['discharge_disposition_id'].isin([13, 14]).sum())
+    total_ineligible = expired_count + hospice_count
+    if total_ineligible == 2423:
         results["Leakage candidates identified"] = "PASS"
-        print(f"  -> Expired/Hospice discharge cases verified: {expired_hospice_count:,} records.")
-        print(f"  -> Leakage registers documented (Discharge status, Patient clustering, Chronology).")
+        print(f"  -> Expired/Hospice cases audited: {total_ineligible:,} records ({expired_count:,} expired, {hospice_count:,} hospice).")
+        print(f"  -> Cohort eligibility & leakage register documented (Discharge status, Patient clustering, Chronology).")
     else:
         results["Leakage candidates identified"] = "FAIL"
-        print(f"  -> Unexpected count of expired/hospice records: {expired_hospice_count}")
+        print(f"  -> Unexpected count of expired/hospice records: {total_ineligible}")
 
     # 9. Clinical Limitations
     print("\n[Gate 9/11] Checking Clinical Limitations Documentation...")

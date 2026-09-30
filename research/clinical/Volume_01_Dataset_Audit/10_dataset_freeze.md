@@ -12,8 +12,9 @@ flowchart TD
         
         P1["Primary Target: 30-Day Early Readmission (Binary: '<30' vs other)"]
         P2["Patient Isolation: Zero Patient Overlap across Train/Val/Test"]
-        P3["Missingness Preservation: 'None' in Labs Treated as Clinical State"]
-        P4["Discharge Exclusion: Expired/Hospice (N=2,423) Flagged/Excluded"]
+        P3["Missingness Preservation: 'None' in Labs Treated as Valid Category"]
+        P4["Cohort Eligibility: 2,423 Expired/Hospice Cases Explicitly Handled"]
+        P5["Prediction-Time Boundary: Defined at Discharge Planning"]
     end
 ```
 
@@ -21,9 +22,9 @@ flowchart TD
 
 ## 2. Cryptographic Fingerprint & File Invariants
 
-| File Identifier | Path Relative to Repository | Physical Size | Exact Record Count | Column Count | Cryptographic Hash (SHA-256) |
+| File Identifier | Path Relative to Repository | Physical Size | Exact Record Count | Column Breakdown | Cryptographic Hash (SHA-256) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Primary Encounter Table** | `datasets/clinical/diabetic_data.csv` | 19,159,383 bytes | 101,766 rows | 50 columns | `0689e7ec031237dc63031b938805c48377748761a3b26acab621567afa24df97` |
+| **Primary Encounter Table** | `datasets/clinical/diabetic_data.csv` | 19,159,383 bytes | 101,766 rows | 50 columns (47 predictive + 2 identifiers + 1 target) | `0689e7ec031237dc63031b938805c48377748761a3b26acab621567afa24df97` |
 | **Identifier Mapping Table** | `datasets/clinical/IDS_mapping.csv` | 2,547 bytes | 69 lines | 2 columns | `f1bb82b471cb34649352597572c9b1fb00bd27f77b9f5a22a03dc3eb1039749e` |
 
 ---
@@ -37,7 +38,7 @@ flowchart TD
 - **Primary Target Prevalence ($y = 1$, `<30` days)**: $11,357$ encounters ($11.16\%$)
 - **Negative Target Prevalence ($y = 0$, `>30` or `NO`)**: $90,409$ encounters ($88.84\%$)
 - **Expired/Hospice Encounter Count**: $2,423$ encounters ($2.38\%$)
-- **Zero-Variance Features**: `examide` (100% 'No'), `citoglipton` (100% 'No')
+- **Zero-Variance Attributes**: `examide` (100% 'No'), `citoglipton` (100% 'No')
 
 ---
 
@@ -72,7 +73,7 @@ Leakage candidates identified PASS
 Clinical limitations          PASS
 Dataset fingerprint frozen    PASS
 Reproducibility               PASS
-──────────────────────────────────────────────────────────────────────
+----------------------------------------------------------------------
 C1 OVERALL STATUS             PASS
 ======================================================================
 ```

@@ -16,7 +16,7 @@ In publishing research utilizing the UCI Diabetes 130-US Hospitals dataset, rigo
 
 ### 2. Out-of-Network Readmission Censoring
 - Readmission events are captured **only if the patient returned to one of the 130 participating Cerner-affiliated hospital facilities**.
-- **Epidemiological Implication**: Patients who relocated, sought care at non-participating healthcare systems, or presented to rival hospital networks are recorded as `readmitted = 'NO'`. This causes right-censoring and potential underestimation of true community-wide readmission rates.
+- **Epidemiological Implication**: Patients who relocated, sought care at non-participating healthcare systems, or presented to un-affiliated hospital networks are recorded as `readmitted = 'NO'`. A `'NO'` label should not be interpreted as proof that no readmission occurred outside the participating hospital network.
 
 ---
 
