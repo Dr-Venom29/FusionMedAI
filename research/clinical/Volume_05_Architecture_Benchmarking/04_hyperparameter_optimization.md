@@ -99,7 +99,7 @@ The 15 Bayesian TPE optimization trials logged in `experiments/clinical/catboost
 xychart-beta
     title "CatBoost 15-Trial HPO Trajectory (Validation PR-AUC vs Trial)"
     x-axis [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-    y-axis "Val PR-AUC" 0.205 0.222
+    y-axis "Val PR-AUC" 0.205 --> 0.222
     line [0.2143, 0.2098, 0.2185, 0.2117, 0.2109, 0.2139, 0.2081, 0.2104, 0.2100, 0.2140, 0.2161, 0.2158, 0.2141, 0.2143, 0.2160]
 ```
 

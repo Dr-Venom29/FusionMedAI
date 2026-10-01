@@ -68,9 +68,9 @@ Prediction uncertainty estimation was completed using MC Dropout, with the final
 - Locked clinical preprocessing (C4) — Completed
 - Architecture benchmarking & HPO (C5) — Completed
 - Model explainability & TreeSHAP (C6) — Completed
-- Probability calibration (C7) — Planned
-- Prediction uncertainty estimation (C8) — Planned
-- Robustness & subgroup auditing (C9) — Planned
+- Probability calibration (C7) — Completed
+- Prediction uncertainty estimation (C8) — Completed
+- Robustness & subgroup auditing (C9) — Planned (Next)
 - External clinical validation (C10) — Planned
 - Clinical module integration (C11) — Planned
 
@@ -217,11 +217,33 @@ Key findings from the Phase C7 calibration evaluation:
 - **Decision Curve Analysis (DCA)**: Calibrated predictions demonstrate positive net benefit over both "Treat All" and "Treat None" default clinical policies across the verified decision threshold window $\theta \in [0.05, 0.25]$. At $\theta = 0.15$, the model captures $40.05\%$ of readmissions while reducing intervention workload by $76.37\%$.
 - **Non-Causal Calibration Scope**: Calibrated probabilities approximate conditional event rates under retrospective cohort conditions and do not establish causal treatment effects or deterministic individual certainties.
 
+### Prediction Uncertainty Estimation (C8)
+
+Predictive uncertainty was quantified for the frozen CatBoost candidate model using a **50-member Bootstrap Ensemble** trained on resampled training draws ($N_{\text{train}}=69,519$) and evaluated on the locked test partition ($N_{\text{test}}=14,913, D=119$):
+
+| Metric | Measured Test Value | Description / Operational Role |
+| :--- | :---: | :--- |
+| **Ensemble Size ($M$)** | $50\text{ models}$ | Selected by empirical convergence audit ($\rho = 0.9994$ ranking correlation). |
+| **Mean Predictive Uncertainty ($\sigma_p$)** | $0.0219$ | Average standard deviation of predicted readmission risk across bootstrap resamples. |
+| **Median Predictive Uncertainty** | $0.0162$ | Skewed distribution (IQR: $[0.0114, 0.0249]$, 90th percentile: $0.0421$). |
+| **Error Detection AUROC ($\theta=0.20$)** | **$0.7116$** | Uncertainty reliably discriminates between correct and incorrect classifications. |
+| **Error Detection AUPRC ($\theta=0.20$)** | **$0.3256$** | $+119.6\%$ improvement over random error guessing baseline ($0.1483$). |
+| **Risk-Coverage AURC** | **$0.0763$** | Quantifies selective classification efficacy across progressive rejection thresholds. |
+| **Excess AURC (E-AURC)** | **$0.0647$** | Distance to theoretical oracle selective predictor ($\text{AURC}_{\text{oracle}} = 0.0116$). |
+| **Error Rate at 80% Coverage** | **$10.23\%$** | $31.0\%$ error reduction achieved by rejecting the $20\%$ most uncertain encounters. |
+
+Key findings from the Phase C8 uncertainty estimation:
+- **Error Identification**: Encounters misclassified by the model exhibit an average uncertainty of $\sigma_p = 0.0357$ compared to $\sigma_p = 0.0195$ for correct cases ($p < 10^{-100}$), validating uncertainty as a reliable automated failure indicator.
+- **Selective Classification**: Progressively abstaining on uncertain predictions reduces residual error from $14.83\%$ (full cohort) to $10.23\%$ at $80\%$ coverage and $7.77\%$ at $50\%$ coverage.
+- **Threshold Ambiguity Tiers**: Stratified encounters into 6 operational tiers around $\theta = 0.20$, isolating the $6.14\%$ of cases located in the decision-boundary ambiguity zone ($\theta \pm 0.03$ with high variance).
+- **Phenotype Divergence**: Prior Inpatient $= 0$ encounters exhibit low baseline variance ($\mu_{\sigma} = 0.0160$), whereas Prior Inpatient $\ge 1$ encounters experience higher epistemic spread ($\mu_{\sigma} = 0.0336$, Error AUROC: $0.7048$).
+- **Multimodal Schema**: Formalized the `ClinicalOutput` schema containing prediction, calibrated probability, predictive standard deviation, 95% predictive interval $[q_{2.5}, q_{97.5}]$, and decision tier.
+
 ### Interpretation of Results
 
-The C5-C7 experiments demonstrate that gradient-boosted trees provide strong, stable tabular discrimination, interpretable attributions aligned with clinical risk factors, and reliable probability calibration on the locked 119-dimensional representation.
+The C5-C8 experiments demonstrate that gradient-boosted trees provide strong tabular discrimination, interpretable attributions aligned with clinical risk factors, reliable probability calibration, and validated predictive uncertainty on the locked 119-dimensional representation.
 
-The results support using the frozen CatBoost model as the clinical candidate for subsequent prediction uncertainty estimation (C8) and multimodal integration.
+The results support using the frozen CatBoost ensemble as the clinical candidate for subsequent robustness auditing (C9) and multimodal integration.
 
 This result should not be interpreted as evidence of clinical effectiveness. External validation, prospective evaluation, calibration assessment on independent populations, and clinical utility analysis remain future work.
 
@@ -238,6 +260,7 @@ The clinical pipeline records:
 - HPO results
 - TreeSHAP explainability attributions and figures
 - Probability calibration tables, reliability diagrams, and DCA curves
+- Bootstrap ensemble uncertainty metrics, risk-coverage curves, and ambiguity tiers
 - experiment artifacts
 - cryptographic manifest information (SHA-256)
 
@@ -247,7 +270,7 @@ Detailed clinical experiments are documented under:
 
 ### Remaining Work
 
-- Clinical module — C5 benchmarking, C6 explainability, and C7 probability calibration completed; prediction uncertainty estimation (C8), subgroup auditing (C9), external validation (C10), and module integration (C11) remain
+- Clinical module — C5 benchmarking, C6 explainability, C7 calibration, and C8 uncertainty estimation completed; subgroup & robustness auditing (C9), external validation (C10), and module integration (C11) remain
 - ACARA-U multimodal fusion — Planned
 - Final multimodal validation — Planned
 

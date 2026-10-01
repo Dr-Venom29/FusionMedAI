@@ -35,7 +35,7 @@ The table below provides the full head-to-head empirical results on both Validat
 xychart-beta
     title "Test Discrimination Scoreboard: ROC-AUC vs. PR-AUC"
     x-axis ["CatBoost", "XGBoost", "LightGBM", "LogReg (L2)", "LogReg (EN)", "Random Forest", "TabNet"]
-    y-axis "Score" 0.15 0.70
+    y-axis "Score" 0.15 --> 0.70
     bar [0.6472, 0.6467, 0.6461, 0.6446, 0.6445, 0.6422, 0.6252]
     line [0.2038, 0.2035, 0.2038, 0.1969, 0.1971, 0.1991, 0.1887]
 ```

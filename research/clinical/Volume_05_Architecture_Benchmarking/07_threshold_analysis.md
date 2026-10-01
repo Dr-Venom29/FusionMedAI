@@ -36,7 +36,7 @@ Evaluated on the locked test partition ($N=14,913$, $N_{\text{pos}}=1,664$, $N_{
 xychart-beta
     title "Sensitivity, Specificity, and PPV vs. Clinical Threshold theta (CatBoost)"
     x-axis [0.10, 0.12, 0.15, 0.18, 0.20, 0.25, 0.30, 0.40, 0.50]
-    y-axis "Percentage (%)" 0 100
+    y-axis "Percentage (%)" 0 --> 100
     line [67.4, 51.9, 33.5, 21.9, 16.5, 7.8, 3.5, 0.7, 0.1]
     line [51.8, 67.3, 82.3, 91.1, 94.1, 97.8, 99.2, 99.9, 100.0]
     line [15.0, 16.6, 19.2, 23.6, 25.8, 30.7, 35.8, 44.0, 50.0]

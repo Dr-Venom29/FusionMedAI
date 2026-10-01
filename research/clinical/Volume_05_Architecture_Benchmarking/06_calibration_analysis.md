@@ -49,7 +49,7 @@ Evaluated on the locked test partition ($N=14,913$, $1,664$ positive readmission
 xychart-beta
     title "Expected vs. Observed Probabilities Across Deciles (CatBoost vs LightGBM)"
     x-axis ["D1: [0-.05]", "D2: [.05-.08]", "D3: [.08-.10]", "D4: [.10-.12]", "D5: [.12-.15]", "D6: [.15-.18]", "D7: [.18-.22]", "D8: [.22-.27]", "D9: [.27-.35]", "D10: [.35-.70]"]
-    y-axis "Observed Positive Rate" 0.00 0.45
+    y-axis "Observed Positive Rate" 0.00 --> 0.45
     bar [0.038, 0.061, 0.084, 0.106, 0.132, 0.161, 0.198, 0.241, 0.298, 0.412]
     line [0.039, 0.063, 0.086, 0.108, 0.134, 0.164, 0.201, 0.245, 0.302, 0.415]
 ```

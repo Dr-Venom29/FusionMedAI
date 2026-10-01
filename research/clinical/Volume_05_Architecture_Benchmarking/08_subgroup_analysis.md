@@ -67,7 +67,7 @@ Patients were stratified into three broad life stages: Younger ($<50\text{ years
 xychart-beta
     title "CatBoost ROC-AUC by Primary Diagnosis Category"
     x-axis ["Circulatory", "Respiratory", "Diabetes", "Digestive", "Injury", "Genitourinary", "Musculoskeletal", "Neoplasms"]
-    y-axis "ROC-AUC" 0.55 0.70
+    y-axis "ROC-AUC" 0.55 --> 0.70
     bar [0.654, 0.648, 0.658, 0.639, 0.641, 0.635, 0.628, 0.647]
 ```
 

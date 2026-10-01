@@ -36,7 +36,7 @@ Every model consumes the identical $119$-dimensional feature space:
 xychart-beta
     title "Feature Space Dimension Distribution (Total D=119)"
     x-axis ["Medications", "ICD-9 Chapters", "Context/Admin", "Demographics", "Numerical", "Treatment Dyn", "Glycemic/Age"]
-    y-axis "Feature Dimensions" 0 45
+    y-axis "Feature Dimensions" 0 --> 45
     bar [42, 33, 21, 8, 8, 4, 3]
 ```
 

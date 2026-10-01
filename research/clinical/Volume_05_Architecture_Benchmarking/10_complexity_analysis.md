@@ -31,7 +31,7 @@ All seven default Phase C5 architectures were benchmarked on standardized single
 xychart-beta
     title "Efficiency Pareto Frontier: Test ROC-AUC vs. Inference Latency (ms/1k)"
     x-axis ["LogReg (EN)", "LogReg (L2)", "XGBoost", "CatBoost", "LightGBM", "TabNet", "Random Forest"]
-    y-axis "Test ROC-AUC" 0.620 0.655
+    y-axis "Test ROC-AUC" 0.620 --> 0.655
     bar [0.6445, 0.6446, 0.6467, 0.6472, 0.6461, 0.6252, 0.6422]
 ```
 

@@ -37,7 +37,7 @@ Global importance is quantified by the mean absolute SHAP value $\frac{1}{N}\sum
 xychart-beta
     title "Top 10 Global Feature Importances (Mean Absolute SHAP)"
     x-axis ["inpatient", "age", "length_stay", "num_diag", "payer_missing", "insulin", "num_meds", "diab_med", "procedures", "emergency"]
-    y-axis "Mean |SHAP|" 0.00 0.32
+    y-axis "Mean |SHAP|" 0.00 --> 0.32
     bar [0.2851, 0.1000, 0.0814, 0.0668, 0.0510, 0.0472, 0.0449, 0.0437, 0.0409, 0.0379]
 ```
 
