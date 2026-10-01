@@ -13,7 +13,7 @@ modules for diabetic disease analysis and combining their outputs through an
 uncertainty-aware multimodal fusion layer.
 
 The framework currently includes completed retinal imaging and diabetic
-foot-ulcer pipelines, and a completed clinical tabular benchmarking phase.
+foot-ulcer pipelines, and completed clinical tabular benchmarking and explainability phases.
 The multimodal fusion layer remains under development.
 
 ---
@@ -62,42 +62,73 @@ Prediction uncertainty estimation was completed using MC Dropout, with the final
 - Module integration — Completed
 
 ### Clinical Module
+- Dataset preparation & audit (C1) — Completed
+- Patient-level canonical splitting (C2) — Completed
+- Clinical feature representation (C3) — Completed
+- Locked clinical preprocessing (C4) — Completed
+- Architecture benchmarking & HPO (C5) — Completed
+- Model explainability & TreeSHAP (C6) — Completed
+- Probability calibration (C7) — Planned
+- Prediction uncertainty estimation (C8) — Planned
+- Robustness & subgroup auditing (C9) — Planned
+- External clinical validation (C10) — Planned
+- Clinical module integration (C11) — Planned
 
-The Clinical module has completed its initial tabular architecture benchmarking
-phase using a frozen 119-dimensional clinical representation and patient-level
-partitioned train/validation/test splits.
+## Clinical Module
 
-Evaluated architectures:
+The Clinical module evaluates structured clinical data for readmission-risk prediction using a frozen, patient-level evaluation protocol.
+
+The C5 benchmarking phase uses:
+
+- 99,343 total encounters
+- 48,993 patients in the training partition
+- 10,498 patients in validation
+- 10,499 patients in test
+- 119-dimensional clinical representation
+- patient-level train/validation/test partitioning
+
+The test partition contains 14,913 encounters, including 1,664 positive readmission cases.
+
+### Clinical Research Pipeline
+
+The clinical module was developed as a controlled benchmarking pipeline rather than a single-model experiment:
+
+1. Frozen canonical dataset splits
+2. Locked clinical preprocessing
+3. 119-dimensional feature representation
+4. Baseline and architecture benchmarking
+5. Computational complexity profiling
+6. Clinical subgroup analysis
+7. Validation-only hyperparameter optimization
+8. Consolidated empirical audit
+
+The test partition was not used during hyperparameter search.
+
+### Architecture Benchmarking
+
+Seven tabular architectures were evaluated under the same frozen representation and patient-level splits:
+
+| Architecture | Test ROC-AUC | Test PR-AUC | Test Brier | Test ECE |
+|---|---:|---:|---:|---:|
+| CatBoost | 0.6472 | 0.2038 | 0.0953 | 0.0066 |
+| XGBoost | 0.6467 | 0.2035 | 0.0953 | 0.0051 |
+| LightGBM | 0.6461 | 0.2038 | 0.0953 | 0.0045 |
+| Logistic Regression (L2) | 0.6446 | 0.1969 | 0.0958 | 0.0080 |
+| Logistic Regression (ElasticNet) | 0.6445 | 0.1971 | 0.0958 | 0.0084 |
+| Random Forest | 0.6422 | 0.1991 | 0.0959 | 0.0098 |
+| TabNet | 0.6252 | 0.1887 | 0.0962 | 0.0105 |
+
+The tree-based models produced similar discrimination on the frozen test partition. CatBoost achieved the highest baseline test ROC-AUC.
+
+### Hyperparameter Optimization
+
+Validation-only HPO was conducted for:
 
 - CatBoost
 - XGBoost
 - LightGBM
-- Logistic Regression (L2)
-- Logistic Regression (ElasticNet)
-- Random Forest
-- TabNet
 
-Hyperparameter optimization was evaluated for CatBoost, XGBoost, and LightGBM
-using validation-only optimization.
-
-The benchmark also includes:
-
-- ROC-AUC and PR-AUC
-- Brier score and log loss
-- Expected Calibration Error (ECE)
-- Threshold-based sensitivity, specificity and PPV
-- Training time
-- Inference latency
-- Model artifact size
-- Computational complexity profiling
-- Clinical subgroup analysis
-- Cryptographic experiment manifests
-
-#### Clinical Benchmarking Result
-
-The C5 benchmark found similar discrimination among the tree-based models,
-with CatBoost providing the strongest test ROC-AUC among the evaluated
-architectures.
+CatBoost used a bounded 15-trial search over tree depth, learning rate, iterations, L2 regularization, and subsampling.
 
 The tuned CatBoost configuration achieved:
 
@@ -106,15 +137,99 @@ The tuned CatBoost configuration achieved:
 - Test Brier score: 0.0952
 - Test ECE: 0.0053
 
-LightGBM provided the lowest measured ECE (0.0045) and fastest training time
-(0.58 s) in the benchmark.
+Relative to the default CatBoost configuration, the tuned model increased test ROC-AUC from 0.6472 to 0.6504 and test PR-AUC from 0.2038 to 0.2063.
 
-Detailed experimental results are documented in `research/`.
+The tuned configuration was selected using validation data only.
+
+### Computational Analysis
+
+A separate complexity benchmark measured training time, inference latency, and serialized model size.
+
+Observed results included:
+
+| Architecture | Train Time | Latency / 1k | Size |
+|---|---:|---:|---:|
+| Logistic Regression | 2.09 s | 1.13 ms | 1.8 KB |
+| Random Forest | 2.58 s | 44.83 ms | 5,519.4 KB |
+| XGBoost | 1.20 s | 1.65 ms | 260.2 KB |
+| LightGBM | 0.58 s | 3.18 ms | 318.2 KB |
+| CatBoost | 3.87 s | 2.35 ms | 415.6 KB |
+| TabNet | 77.27 s | 19.93 ms | 1,099.7 KB |
+
+These measurements are reported as empirical benchmark results on the evaluation environment and are not intended as hardware-independent performance guarantees.
+
+### Clinical Subgroup Analysis
+
+Subgroup analysis was performed for the CatBoost clinical model across validation and test partitions.
+
+The analysis evaluates model behaviour across clinically relevant subgroups rather than relying only on aggregate metrics.
+
+### Calibration
+
+Calibration was evaluated using:
+
+- Brier score
+- Log loss
+- Expected Calibration Error (ECE)
+
+Among the baseline architectures, LightGBM produced the lowest measured test ECE at 0.0045.
+
+The benchmark therefore reports both discrimination and probability-quality metrics rather than relying on ROC-AUC alone.
+
+### Model Explainability (TreeSHAP)
+
+Post-hoc interpretability analysis was conducted on the frozen CatBoost candidate model (`depth=4`, `learning_rate=0.1383`, `iterations=350`, `l2_leaf_reg=2.911`, `subsample=0.655`) using exact TreeSHAP across the locked test partition ($N=14,913, D=119$) without test-label inputs:
+
+| Rank | Feature | Clinical Domain | Mean \|SHAP\| | Attribution Share | Cumulative Share | Directionality ($r$) |
+| :---: | :--- | :--- | :---: | :---: | :---: | :---: |
+| 1 | `number_inpatient` | Prior Healthcare Utilization | $0.2851$ | $22.43\%$ | $22.43\%$ | $+0.9531$ |
+| 2 | `age_ordinal` | Age & Glycemic Monitoring | $0.1000$ | $7.86\%$ | $30.29\%$ | $+0.8604$ |
+| 3 | `time_in_hospital` | Acute Clinical Complexity | $0.0814$ | $6.41\%$ | $36.70\%$ | $+0.6754$ |
+| 4 | `number_diagnoses` | Acute Clinical Complexity | $0.0668$ | $5.26\%$ | $41.95\%$ | $+0.9582$ |
+| 5 | `payer_code_grouped_Missing` | Encounter Context & Admin | $0.0510$ | $4.01\%$ | $45.96\%$ | $+0.9533$ |
+| 6 | `insulin_exposure` | Diabetic Medications | $0.0472$ | $3.71\%$ | $49.68\%$ | $+0.9292$ |
+| 7 | `num_medications` | Acute Clinical Complexity | $0.0449$ | $3.54\%$ | $53.21\%$ | $+0.5969$ |
+| 8 | `diabetesMed_binary` | Treatment Dynamics | $0.0437$ | $3.44\%$ | $56.65\%$ | $+0.9757$ |
+| 9 | `num_procedures` | Acute Clinical Complexity | $0.0409$ | $3.22\%$ | $59.87\%$ | $-0.7700$ |
+| 10 | `number_emergency` | Prior Healthcare Utilization | $0.0379$ | $2.98\%$ | $62.86\%$ | $+0.5749$ |
+
+Key findings from the explainability audit include:
+- **Taxonomy Concentration**: Prior Healthcare Utilization ($26.22\%$) and Acute Clinical Complexity ($21.23\%$) together account for $47.45\%$ of total mean absolute SHAP attribution across $8$ compact features.
+- **Attribution Ranking Stability**: Near-perfect ranking correlation between validation and test partitions ($\rho = 0.9994$, $p = 3.86 \times 10^{-172}$) with $100\%$ Top-20 feature overlap.
+- **Demographic Attribution**: Explicit demographic variables (race, gender) contribute $1.91\%$ of total attribution, with similar attribution magnitudes observed across female and male cohorts.
+- **Local & Error Case Profiling**: Audited positive, negative, false-positive, and false-negative case attributions under the primary $\theta=0.20$ operating threshold.
+- **Non-Causal Associative Scope**: SHAP attributions reflect additive contributions in model log-odds space within this dataset and do not establish causal clinical mechanisms or treatment effects.
+
+### Interpretation of Results
+
+The C5-C6 experiments demonstrate that gradient-boosted trees provide strong, stable tabular discrimination and interpretable attributions aligned with clinical risk factors on the locked 119-dimensional representation.
+
+The results support using the frozen CatBoost model as the clinical candidate for subsequent probability calibration, uncertainty estimation, and multimodal integration.
+
+This result should not be interpreted as evidence of clinical effectiveness. External validation, prospective evaluation, calibration assessment on independent populations, and clinical utility analysis remain future work.
+
+### Reproducibility and Experiment Integrity
+
+Each benchmarking run exports experiment artifacts and a cryptographic manifest.
+
+The clinical pipeline records:
+
+- model configuration
+- validation and test metrics
+- computational measurements
+- subgroup analysis outputs
+- HPO results
+- TreeSHAP explainability attributions and figures
+- experiment artifacts
+- cryptographic manifest information (SHA-256)
+
+Detailed clinical experiments are documented under:
+
+`research/clinical/`
 
 ### Remaining Work
 
-- Clinical module — C5 benchmarking completed; further clinical validation and
-  integration remain
+- Clinical module — C5 benchmarking & C6 explainability completed; probability calibration (C7), uncertainty estimation (C8), subgroup auditing (C9), external validation (C10), and module integration (C11) remain
 - ACARA-U multimodal fusion — Planned
 - Final multimodal validation — Planned
 
@@ -132,7 +247,7 @@ Each modality is developed and evaluated independently before integration. The c
 
 - **Retina Module** — diabetic retinopathy assessment from fundus images.
 - **Foot Ulcer Module** — Wagner-grade classification from diabetic foot-ulcer images.
-- **Clinical Module** — structured clinical risk assessment; C5 benchmarking completed.
+- **Clinical Module** — structured clinical readmission-risk assessment; C5 benchmarking & C6 explainability completed.
 - **ACARA-U Fusion Engine** — uncertainty- and reliability-aware aggregation of modality outputs; under development.
 
 The fusion layer is designed to operate on modality-level risk, confidence, reliability, and uncertainty information rather than directly combining raw modality features.
@@ -363,10 +478,12 @@ FusionMedAI/
 │   └── architecture_v1.png
 ├── experiments/
 │   ├── retina/
-│   └── foot/
-│       ├── architecture_benchmark/
-│       ├── explainability/
-│       └── final_model/
+│   ├── foot/
+│   │   ├── architecture_benchmark/
+│   │   ├── explainability/
+│   │   └── final_model/
+│   └── clinical/
+│       └── benchmarking/
 ├── notebooks/
 │   ├── retina/
 │   └── foot/
@@ -378,7 +495,11 @@ FusionMedAI/
 │   └── fusion/
 ├── src/
 │   ├── retina/
-│   └── foot/
+│   ├── foot/
+│   └── clinical/
+│       ├── modeling/
+│       ├── benchmarking/
+│       └── ...
 ├── verification/
 │   ├── retina/
 │   │   ├── data/
@@ -425,6 +546,22 @@ FusionMedAI/
 | 10.7 | Probability Calibration | Completed |
 | 10.8 | Prediction Uncertainty Estimation | Completed |
 | 10.9 | Module Integration | Completed |
+
+### Clinical
+
+| Phase | Topic | Status |
+|---|---|---|
+| C1 | Clinical Dataset Preparation | Completed |
+| C2 | Patient-Level Canonical Splitting | Completed |
+| C3 | Clinical Feature Representation | Completed |
+| C4 | Locked Clinical Preprocessing | Completed |
+| C5 | Architecture Benchmarking & HPO | Completed |
+| C6 | Model Explainability (TreeSHAP) | Completed |
+| C7 | Probability Calibration | Planned |
+| C8 | Prediction Uncertainty Estimation | Planned |
+| C9 | Robustness & Subgroup Auditing | Planned |
+| C10 | External Clinical Validation | Planned |
+| C11 | Clinical Module Integration | Planned |
 
 ---
 
@@ -485,6 +622,7 @@ The raw dataset is treated as immutable. Dataset cleaning, canonicalization, gro
 Verification scripts are maintained independently from the training code under `verification/`:
 - `verification/retina/data/` & `verification/retina/model/`
 - `verification/foot/data/` & `verification/foot/model/`
+- `verification/clinical/data/` & `verification/clinical/model/`
 
 The framework verifies components including:
 - Dataset integrity
@@ -532,7 +670,7 @@ The output demonstrates the integrated Foot Ulcer inference interface, including
 
 - **v1.0 (Retina Module)** — **Completed**. The Retina pipeline has progressed from dataset preparation through module integration and acceptance testing.
 - **v2.0 (Foot Ulcer Module)** — **Completed**. The Foot Ulcer pipeline has progressed from dataset audit through probability calibration, uncertainty estimation, module integration, and acceptance testing.
-- **v3.0 (Clinical Module)** — **Planned**. Development of the independent clinical-data assessment module.
+- **v3.0 (Clinical Module)** — **C5 Benchmarking & C6 Explainability Completed**. The clinical pipeline has progressed through patient-level splitting, locked preprocessing, architecture benchmarking, computational profiling, subgroup analysis, validation-only HPO, and TreeSHAP explainability.
 - **v4.0 (ACARA-U Fusion)** — **Planned**. Integration of the Retina, Foot Ulcer, and Clinical modules through the ACARA-U uncertainty- and reliability-aware fusion framework.
 
 ---
