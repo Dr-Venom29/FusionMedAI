@@ -1,13 +1,13 @@
-"""Baseline Tabular Model Definitions and Interface for Clinical Readmission Prediction.
+"""Clinical Tabular Baseline Model Definitions and Interface (Phase C4).
 
 Provides unified interface across all four baseline classifiers:
-- fit(X_train, y_train)
+- fit(X_train, y_train, eval_set=None)
 - predict_proba(X) -> np.ndarray (N, 2)
 - predict(X, threshold=0.5) -> np.ndarray (N,)
 """
 
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, Tuple
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
@@ -25,7 +25,7 @@ class BaseClinicalModel(ABC):
         self.is_fitted: bool = False
 
     @abstractmethod
-    def fit(self, X_train: np.ndarray, y_train: np.ndarray) -> "BaseClinicalModel":
+    def fit(self, X_train: np.ndarray, y_train: np.ndarray, eval_set: Optional[Tuple[np.ndarray, np.ndarray]] = None) -> "BaseClinicalModel":
         """Fit the model on training feature matrix and target vector."""
         pass
 
@@ -79,7 +79,7 @@ class LogisticRegressionModel(BaseClinicalModel):
             random_state=random_state,
         )
 
-    def fit(self, X_train: np.ndarray, y_train: np.ndarray) -> "LogisticRegressionModel":
+    def fit(self, X_train: np.ndarray, y_train: np.ndarray, eval_set: Optional[Tuple[np.ndarray, np.ndarray]] = None) -> "LogisticRegressionModel":
         self.model.fit(X_train, y_train)
         self.is_fitted = True
         return self
@@ -115,7 +115,7 @@ class RandomForestModel(BaseClinicalModel):
             n_jobs=n_jobs,
         )
 
-    def fit(self, X_train: np.ndarray, y_train: np.ndarray) -> "RandomForestModel":
+    def fit(self, X_train: np.ndarray, y_train: np.ndarray, eval_set: Optional[Tuple[np.ndarray, np.ndarray]] = None) -> "RandomForestModel":
         self.model.fit(X_train, y_train)
         self.is_fitted = True
         return self
@@ -156,7 +156,7 @@ class XGBoostModel(BaseClinicalModel):
             n_jobs=n_jobs,
         )
 
-    def fit(self, X_train: np.ndarray, y_train: np.ndarray) -> "XGBoostModel":
+    def fit(self, X_train: np.ndarray, y_train: np.ndarray, eval_set: Optional[Tuple[np.ndarray, np.ndarray]] = None) -> "XGBoostModel":
         self.model.fit(X_train, y_train)
         self.is_fitted = True
         return self
@@ -200,7 +200,7 @@ class LightGBMModel(BaseClinicalModel):
             n_jobs=n_jobs,
         )
 
-    def fit(self, X_train: np.ndarray, y_train: np.ndarray) -> "LightGBMModel":
+    def fit(self, X_train: np.ndarray, y_train: np.ndarray, eval_set: Optional[Tuple[np.ndarray, np.ndarray]] = None) -> "LightGBMModel":
         self.model.fit(X_train, y_train)
         self.is_fitted = True
         return self

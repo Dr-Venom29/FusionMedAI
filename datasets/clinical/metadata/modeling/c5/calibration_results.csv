@@ -1,0 +1,17 @@
+bin,bin_lower,bin_upper,count,observed_frequency,mean_predicted_prob,calibration_gap,model,split
+1,0.0,0.1,7595,0.075,0.0751,0.0001,catboost_default,val
+2,0.1,0.2,6188,0.1393,0.1327,0.0066,catboost_default,val
+3,0.2,0.3,859,0.2352,0.2325,0.0027,catboost_default,val
+4,0.3,0.4,193,0.3212,0.3462,0.025,catboost_default,val
+5,0.4,0.5,55,0.5636,0.4411,0.1226,catboost_default,val
+6,0.5,0.6,14,0.5,0.5405,0.0405,catboost_default,val
+7,0.6,0.7,5,1.0,0.6483,0.3517,catboost_default,val
+8,0.7,0.8,2,0.5,0.7694,0.2694,catboost_default,val
+1,0.0,0.1,7628,0.0704,0.0753,0.0049,catboost_default,test
+2,0.1,0.2,6213,0.135,0.1331,0.002,catboost_default,test
+3,0.2,0.3,811,0.217,0.2328,0.0157,catboost_default,test
+4,0.3,0.4,169,0.3195,0.3388,0.0193,catboost_default,test
+5,0.4,0.5,47,0.5319,0.4427,0.0892,catboost_default,test
+6,0.5,0.6,31,0.6774,0.5503,0.1271,catboost_default,test
+7,0.6,0.7,8,0.375,0.6315,0.2565,catboost_default,test
+8,0.7,0.8,6,0.5,0.7318,0.2318,catboost_default,test
