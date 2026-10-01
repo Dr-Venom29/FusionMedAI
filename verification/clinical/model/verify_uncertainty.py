@@ -150,6 +150,8 @@ def verify_uncertainty_pipeline() -> bool:
         "risk_coverage_curve.png",
         "threshold_uncertainty_scatter.png",
         "convergence_analysis.png",
+        "local_case_profiles.png",
+        "clinical_output_pipeline.png",
     ]
     figs_exp_ok = all((exp_root / "figures" / f).exists() for f in fig_names)
     figs_res_ok = all((research_root / "figures" / f).exists() for f in fig_names)
@@ -172,7 +174,7 @@ def verify_uncertainty_pipeline() -> bool:
     docs_ok = all((research_root / d).exists() for d in expected_docs)
 
     if figs_exp_ok and figs_res_ok and docs_ok:
-        print(f"[PASS 9/10] Research Volume 08 Sync Verified: 4 publication figures and all 13 markdown documents present.")
+        print(f"[PASS 9/10] Research Volume 08 Sync Verified: 6 publication figures and all 13 markdown documents present.")
         checks_passed += 1
     else:
         print(f"[FAIL 9/10] Missing research documentation or mirrored figures.")

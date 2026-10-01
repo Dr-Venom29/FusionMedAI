@@ -109,10 +109,10 @@ graph TD
 ## 5. Algorithmic Suite & Seed Control
 All stochastic initializations, tree subsampling, and Optuna sampling enforce `random_state = 42`.
 The 7 architectures evaluated under Phase C5 are:
-1. `logistic_regression` (Scikit-Learn `L-BFGS`, L2 Penalty, $C=1.0$)
-2. `logistic_regression_elasticnet` (Scikit-Learn `SAGA`, $l_1\text{-ratio}=0.5$)
-3. `random_forest` (Scikit-Learn, $100\text{ trees}$, $\text{max\_depth}=12$)
-4. `xgboost` (`XGBClassifier`, $\text{depth}=5$, $\eta=0.05$, $\text{colsample}=0.8$)
-5. `lightgbm` (`LGBMClassifier`, $\text{num\_leaves}=31$, $\eta=0.05$, $\text{subsample}=0.8$)
-6. `catboost` (`CatBoostClassifier`, $\text{depth}=6$, $\text{iterations}=300$, $\text{l2\_reg}=3.0$)
-7. `tabnet` (`TabNetClassifier`, $N_d=N_a=16$, $N_{\text{steps}}=3$, $\gamma=1.3$)
+1. `logistic_regression` (Scikit-Learn `L-BFGS`, L2 Penalty, `C=1.0`)
+2. `logistic_regression_elasticnet` (Scikit-Learn `SAGA`, `l1_ratio=0.5`)
+3. `random_forest` (Scikit-Learn, 100 trees, `max_depth=12`)
+4. `xgboost` (`XGBClassifier`, `max_depth=5`, `learning_rate=0.05`, `colsample_bytree=0.8`)
+5. `lightgbm` (`LGBMClassifier`, `num_leaves=31`, `learning_rate=0.05`, `subsample=0.8`)
+6. `catboost` (`CatBoostClassifier`, `depth=6`, `iterations=300`, `l2_leaf_reg=3.0`)
+7. `tabnet` (`TabNetClassifier`, `n_d=16`, `n_a=16`, `n_steps=3`, `gamma=1.3`)

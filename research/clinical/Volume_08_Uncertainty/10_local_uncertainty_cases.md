@@ -20,7 +20,13 @@ To demonstrate how Phase C6 (SHAP Explanations), Phase C7 (Isotonic Calibrated P
 
 ---
 
-## 3. Case Synthesis & Clinical Value of Uncertainty
+## 3. Visual Diagnosis: Patient Prediction Envelopes
+
+![Representative Patient Case Profiles](figures/local_case_profiles.png)
+
+---
+
+## 4. Case Synthesis & Clinical Value of Uncertainty
 
 ### 3.1 Resolving Boundary Ambiguity (Case 5)
 In Case 5, the point prediction is $\bar{p} = 0.2191$ (flagged as positive at $\theta = 0.20$). However, the 95% bootstrap interval is $[0.1376, 0.2832]$. Recognizing that the lower bound dips well below the threshold alerts clinicians that the positive call is subject to parameter uncertainty, prompting secondary review rather than mandatory high-cost intervention.

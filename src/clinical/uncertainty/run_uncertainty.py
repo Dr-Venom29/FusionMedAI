@@ -454,11 +454,24 @@ def run_pipeline():
     fig4 = exp_figures_dir / "convergence_analysis.png"
     plot_convergence(df_conv, fig4)
 
+    # Additional Visual I/O and Local Cases Diagrams
+    from src.clinical.uncertainty.plot_visual_examples import plot_local_cases_chart, plot_clinical_io_pipeline
+    plot_local_cases_chart()
+    plot_clinical_io_pipeline()
+
     # Mirror figures to Research Volume
     res_fig_dir = RESEARCH_DIR / "figures"
     res_fig_dir.mkdir(parents=True, exist_ok=True)
-    for fig_path in [fig1, fig2, fig3, fig4]:
-        shutil.copy2(fig_path, res_fig_dir / fig_path.name)
+    all_figs = [
+        "error_detection_distributions.png",
+        "risk_coverage_curve.png",
+        "threshold_uncertainty_scatter.png",
+        "convergence_analysis.png",
+        "local_case_profiles.png",
+        "clinical_output_pipeline.png",
+    ]
+    for fig_name in all_figs:
+        shutil.copy2(exp_figures_dir / fig_name, res_fig_dir / fig_name)
 
     # 9. Build Cryptographic Manifest
     manifest_dict = {

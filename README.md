@@ -239,11 +239,40 @@ Key findings from the Phase C8 uncertainty estimation:
 - **Phenotype Divergence**: Prior Inpatient $= 0$ encounters exhibit low baseline variance ($\mu_{\sigma} = 0.0160$), whereas Prior Inpatient $\ge 1$ encounters experience higher epistemic spread ($\mu_{\sigma} = 0.0336$, Error AUROC: $0.7048$).
 - **Multimodal Schema**: Formalized the `ClinicalOutput` schema containing prediction, calibrated probability, predictive standard deviation, 95% predictive interval $[q_{2.5}, q_{97.5}]$, and decision tier.
 
+### Model Robustness, Subgroup Audit & Distribution Shift (C9)
+
+The frozen clinical pipeline (CatBoost HPO + Isotonic Calibrator + 50-member Bootstrap Uncertainty Ensemble) was evaluated across multi-dimensional distribution shifts without retraining or re-fitting:
+
+| Scenario / Shift Domain | Sample Size ($N$) | Test ROC-AUC | $\Delta \text{ROC-AUC}$ | Calibration Slope | Mean Uncertainty ($\sigma_p$) | $\Delta \mu_{\sigma}$ | Error Rate ($\theta=0.20$) | Error Detection AUROC |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Nominal Test Reference** | 14,913 | **$0.6494$** | — | **$0.8617$** | **$0.0219$** | — | **$14.38\%$** | **$0.7053$** |
+| **Missingness +10% MCAR** | 14,913 | $0.6266$ | $-0.0229$ | $0.6884$ | $0.0316$ | $+44.3\%$ | $14.39\%$ | $0.6768$ |
+| **Missingness +25% MCAR** | 14,913 | $0.6038$ | $-0.0456$ | $0.4324$ | $0.0418$ | $+90.6\%$ | $13.57\%$ | $0.6430$ |
+| **Missingness +50% MCAR** | 14,913 | $0.5663$ | $-0.0831$ | $0.0278$ | $0.0491$ | $+124.2\%$ | $12.23\%$ | $0.5916$ |
+| **Targeted Glycemic Mask** | 14,913 | $0.6470$ | $-0.0024$ | $0.7863$ | $0.0293$ | $+33.6\%$ | $15.32\%$ | $0.7190$ |
+| **Targeted Meds Mask** | 14,913 | $0.6445$ | $-0.0049$ | $0.8164$ | $0.0199$ | $-9.1\%$ | $13.50\%$ | $0.6879$ |
+| **Targeted Utilization Mask** | 14,913 | **$0.5795$** | **$-0.0699$** | $0.6030$ | **$0.0150$** | **$-31.6\%$** | $11.12\%$ | **$0.5638$** |
+| **Demographic: Female** | 8,079 | **$0.6661$** | $+0.0166$ | **$0.9675$** | $0.0223$ | $+1.6\%$ | $14.28\%$ | $0.7156$ |
+| **Demographic: Male** | 6,834 | $0.6311$ | $-0.0184$ | $0.7379$ | $0.0215$ | $-1.9\%$ | $14.50\%$ | $0.6935$ |
+| **Demographic: Age $<50$** | 2,363 | **$0.7048$** | $+0.0554$ | $0.7311$ | $0.0240$ | $+9.5\%$ | $13.92\%$ | $0.7607$ |
+| **Demographic: African American** | 2,775 | **$0.6643$** | $+0.0148$ | **$0.9665$** | $0.0218$ | $-0.4\%$ | $14.88\%$ | $0.7431$ |
+| **Temporal: Early Era (1999–2003)** | 7,456 | **$0.6627$** | $+0.0133$ | **$0.9022$** | $0.0212$ | $-3.3\%$ | $14.40\%$ | $0.7037$ |
+| **Temporal: Late Era (2004–2008)** | 7,457 | $0.6371$ | $-0.0123$ | $0.8414$ | $0.0226$ | $+3.3\%$ | $14.36\%$ | $0.7073$ |
+
+Key findings from the Phase C9 robustness and distribution shift audit:
+- **Uncertainty as an Empirical Shift-Sensitivity Signal**: Mean predictive uncertainty inflates systematically under random MCAR missingness ($+44.3\%$ at $10\%$, $+90.6\%$ at $25\%$, $+124.2\%$ at $50\%$), demonstrating that bootstrap dispersion actively signals out-of-distribution information loss under broad degradation.
+- **Resilience to Feature Omission**: The model maintains high discrimination ($\text{ROC-AUC} \ge 0.644$) when laboratory glycemic assays (A1C, glucose) or medication variables are omitted, demonstrating strong signal redundancy.
+- **Structural Tabular Vulnerability (Uncertainty Blind Spot)**: Complete loss of prior hospitalization history (`number_inpatient`) produces severe discrimination loss ($\text{ROC-AUC} = 0.5795$) while deceptively reducing uncertainty ($\sigma_p = 0.0150$), demonstrating that low uncertainty does not guarantee prediction reliability and highlighting the clinical imperative of multimodal fusion safeguards (ACARA-U).
+- **Intersectional Calibration Parity**: Isotonic calibration slopes demonstrate high parity across African American ($\beta = 0.9665$) and Female ($\beta = 0.9675$) cohorts within this dataset.
+- **Longitudinal Evaluation**: Chronological progression across 1999–2008 demonstrates a measurable decrease in discrimination ($\Delta \text{ROC-AUC} = -0.0256$ between early and late eras) while calibration slopes remained well-behaved ($\beta = 0.9022 \to 0.8414$).
+- **Silent Failure Catalog**: Identified $1,065$ high-confidence silent failure cases (Q4: low $\sigma_p$, uncaptured readmissions) primarily driven by zero-inpatient history patients with unexpected post-discharge acute events.
+- **Governance Limitations**: MCAR is synthetic stress testing; subgroup audits are observational and do not establish absolute fairness; results on this locked test set do not establish external cross-dataset generalization (reserved for C10).
+
 ### Interpretation of Results
 
-The C5-C8 experiments demonstrate that gradient-boosted trees provide strong tabular discrimination, interpretable attributions aligned with clinical risk factors, reliable probability calibration, and validated predictive uncertainty on the locked 119-dimensional representation.
+The C5-C9 experiments demonstrate that gradient-boosted trees provide strong tabular discrimination, interpretable attributions aligned with clinical risk factors, reliable probability calibration, validated predictive uncertainty, and quantified robustness under data degradation and population shifts on the locked 119-dimensional representation.
 
-The results support using the frozen CatBoost ensemble as the clinical candidate for subsequent robustness auditing (C9) and multimodal integration.
+The results support using the frozen CatBoost ensemble as the clinical candidate for subsequent external validation (C10) and multimodal integration.
 
 This result should not be interpreted as evidence of clinical effectiveness. External validation, prospective evaluation, calibration assessment on independent populations, and clinical utility analysis remain future work.
 
@@ -261,6 +290,7 @@ The clinical pipeline records:
 - TreeSHAP explainability attributions and figures
 - Probability calibration tables, reliability diagrams, and DCA curves
 - Bootstrap ensemble uncertainty metrics, risk-coverage curves, and ambiguity tiers
+- Robustness degradation matrices, shift detection curves, and silent failure catalogs
 - experiment artifacts
 - cryptographic manifest information (SHA-256)
 
@@ -270,7 +300,7 @@ Detailed clinical experiments are documented under:
 
 ### Remaining Work
 
-- Clinical module — C5 benchmarking, C6 explainability, C7 calibration, and C8 uncertainty estimation completed; subgroup & robustness auditing (C9), external validation (C10), and module integration (C11) remain
+- Clinical module — C5 benchmarking, C6 explainability, C7 calibration, C8 uncertainty estimation, and C9 robustness & distribution shift auditing completed; external validation (C10) and module integration (C11) remain
 - ACARA-U multimodal fusion — Planned
 - Final multimodal validation — Planned
 

@@ -21,7 +21,15 @@ We define an uncertainty threshold at the 75th percentile ($\sigma_{\text{thresh
 
 ---
 
-## 3. Operational Insights
+## 3. Visual Diagnosis: Threshold Uncertainty & Decision Tiers
+
+The figure below (generated as `figures/threshold_uncertainty_scatter.png`) illustrates the distribution of patient encounters across the six operational decision tiers around the $\theta = 0.20$ threshold:
+
+![Threshold Uncertainty Scatter & Decision Tiers](figures/threshold_uncertainty_scatter.png)
+
+---
+
+## 4. Operational Insights
 
 1. **Low-Intensity CDS Coverage ($72.76\%$)**:
    Almost three-quarters of all hospital discharges fall into the **Low Risk / Low Uncertainty** tier, where the model exhibits high parameter stability and lower baseline readmission frequency ($8.99\%$).

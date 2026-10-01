@@ -6,6 +6,8 @@ The final multimodal architecture of **FusionMedAI** requires the Clinical Tabul
 
 Phase C8 formalizes the exact schema, cleanly separating **derived operational confidence** from **quantitative bootstrap uncertainty dispersion**.
 
+![Clinical Tabular Inference Pipeline](figures/clinical_output_pipeline.png)
+
 ---
 
 ## 2. Standardized JSON Output Contract

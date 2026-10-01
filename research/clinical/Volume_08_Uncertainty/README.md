@@ -30,6 +30,19 @@ We implement a **50-member Bootstrap CatBoost Ensemble** trained on resampled tr
 
 ---
 
+## Visual Diagnostic Figures
+
+| Figure | Description | Primary Document |
+| :--- | :--- | :--- |
+| ![Error Detection](figures/error_detection_distributions.png) | **Error Detection Distributions & ROC Curve**: Empirical separation ($\mu_{\sigma} = 0.0357$ vs $0.0195$, $\text{AUROC} = 0.7116$) | [05_error_detection.md](05_error_detection.md) |
+| ![Risk-Coverage](figures/risk_coverage_curve.png) | **Selective Risk-Coverage Curve**: Monotonic error reduction ($14.83\% \to 5.03\%$, $\text{AURC} = 0.0763$) | [06_risk_coverage.md](06_risk_coverage.md) |
+| ![Threshold Uncertainty](figures/threshold_uncertainty_scatter.png) | **Threshold Ambiguity & 6 Decision Tiers**: Scatter of probability vs uncertainty around $\theta = 0.20$ | [08_threshold_uncertainty.md](08_threshold_uncertainty.md) |
+| ![Convergence Analysis](figures/convergence_analysis.png) | **Ensemble Size Convergence**: Spearman ranking correlation and AUROC plateau ($M=5 \to 50$) | [09_convergence_analysis.md](09_convergence_analysis.md) |
+| ![Patient Cases](figures/local_case_profiles.png) | **Local Patient Case Profiles**: 95% bootstrap prediction intervals across 7 clinical cases | [10_local_uncertainty_cases.md](10_local_uncertainty_cases.md) |
+| ![Clinical Output Pipeline](figures/clinical_output_pipeline.png) | **ClinicalOutput Interface Pipeline**: Integration into downstream multimodal fusion | [11_clinical_output_contract.md](11_clinical_output_contract.md) |
+
+---
+
 ## Uncertainty Architecture Workflow
 
 ```mermaid
