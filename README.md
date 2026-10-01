@@ -286,7 +286,7 @@ Seven tabular architectures were benchmarked on the frozen 119-dimensional repre
 
 Post-hoc interpretability on the frozen CatBoost model ($N=14,913, D=119$) without test labels:
 
-| Rank | Feature | Clinical Group | Mean |SHAP| | Attribution Share | Cumulative Share | Directionality ($r$) |
+| Rank | Feature | Clinical Group | Mean \|SHAP\| | Attribution Share | Cumulative Share | Directionality ($r$) |
 | :---: | :--- | :--- | :---: | :---: | :---: | :---: |
 | 1 | `number_inpatient` | Prior Healthcare Utilization | $0.2851$ | $22.43\%$ | $22.43\%$ | $+0.9531$ |
 | 2 | `age_ordinal` | Age & Glycemic Monitoring | $0.1000$ | $7.86\%$ | $30.29\%$ | $+0.8604$ |
@@ -298,6 +298,7 @@ Post-hoc interpretability on the frozen CatBoost model ($N=14,913, D=119$) witho
 | 8 | `diabetesMed_binary` | Treatment Dynamics | $0.0437$ | $3.44\%$ | $56.65\%$ | $+0.9757$ |
 | 9 | `num_procedures` | Acute Clinical Complexity | $0.0409$ | $3.22\%$ | $59.87\%$ | $-0.7700$ |
 | 10 | `number_emergency` | Prior Healthcare Utilization | $0.0379$ | $2.98\%$ | $62.86\%$ | $+0.5749$ |
+
 
 - **Taxonomy Concentration**: Prior Healthcare Utilization ($26.22\%$) and Acute Clinical Complexity ($21.23\%$) account for $47.45\%$ of total attribution.
 - **Ranking Stability**: Validation vs locked-test attribution ranking correlation $\rho = 0.9994$ ($p = 3.86 \times 10^{-172}$) with $100\%$ Top-20 feature overlap.
