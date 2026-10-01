@@ -39,8 +39,21 @@ class CatBoostModel(BaseClinicalModel):
         thread_count: int = -1,
         train_dir: Optional[str] = None,
     ):
-        target_train_dir = train_dir or str(REPO_ROOT / "datasets" / "clinical" / "metadata" / "modeling" / "catboost_info")
-        Path(target_train_dir).mkdir(parents=True, exist_ok=True)
+        if train_dir is not None:
+            target_train_dir = Path(train_dir)
+        elif Path("/kaggle/working").exists():
+            target_train_dir = Path("/kaggle/working/catboost_info")
+        else:
+            target_train_dir = (
+                REPO_ROOT
+                / "datasets"
+                / "clinical"
+                / "metadata"
+                / "modeling"
+                / "catboost_info"
+            )
+        target_train_dir.mkdir(parents=True, exist_ok=True)
+        target_train_dir = str(target_train_dir)
         config = {
             "iterations": iterations,
             "depth": depth,
