@@ -8,9 +8,13 @@ Retina • Foot Ulcer • Clinical • Multimodal Fusion
 [![PyTorch 2.4](https://img.shields.io/badge/pytorch-2.4-orange.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-FusionMedAI is a research framework for developing and evaluating independent AI modules for diabetic disease analysis and subsequently combining their outputs through an uncertainty-aware multimodal fusion layer.
+FusionMedAI is a research framework for developing and evaluating independent AI
+modules for diabetic disease analysis and combining their outputs through an
+uncertainty-aware multimodal fusion layer.
 
-The framework currently includes a completed retinal imaging pipeline and an independently developed diabetic foot-ulcer pipeline. The clinical module and multimodal fusion layer remain under development.
+The framework currently includes completed retinal imaging and diabetic
+foot-ulcer pipelines, and a completed clinical tabular benchmarking phase.
+The multimodal fusion layer remains under development.
 
 ---
 
@@ -57,9 +61,62 @@ Prediction uncertainty estimation was completed using MC Dropout, with the final
 - Prediction uncertainty estimation — Completed
 - Module integration — Completed
 
-### Remaining Modules
-- Clinical module — Planned
+### Clinical Module
+
+The Clinical module has completed its initial tabular architecture benchmarking
+phase using a frozen 119-dimensional clinical representation and patient-level
+partitioned train/validation/test splits.
+
+Evaluated architectures:
+
+- CatBoost
+- XGBoost
+- LightGBM
+- Logistic Regression (L2)
+- Logistic Regression (ElasticNet)
+- Random Forest
+- TabNet
+
+Hyperparameter optimization was evaluated for CatBoost, XGBoost, and LightGBM
+using validation-only optimization.
+
+The benchmark also includes:
+
+- ROC-AUC and PR-AUC
+- Brier score and log loss
+- Expected Calibration Error (ECE)
+- Threshold-based sensitivity, specificity and PPV
+- Training time
+- Inference latency
+- Model artifact size
+- Computational complexity profiling
+- Clinical subgroup analysis
+- Cryptographic experiment manifests
+
+#### Clinical Benchmarking Result
+
+The C5 benchmark found similar discrimination among the tree-based models,
+with CatBoost providing the strongest test ROC-AUC among the evaluated
+architectures.
+
+The tuned CatBoost configuration achieved:
+
+- Test ROC-AUC: 0.6504
+- Test PR-AUC: 0.2063
+- Test Brier score: 0.0952
+- Test ECE: 0.0053
+
+LightGBM provided the lowest measured ECE (0.0045) and fastest training time
+(0.58 s) in the benchmark.
+
+Detailed experimental results are documented in `research/`.
+
+### Remaining Work
+
+- Clinical module — C5 benchmarking completed; further clinical validation and
+  integration remain
 - ACARA-U multimodal fusion — Planned
+- Final multimodal validation — Planned
 
 ---
 
@@ -75,7 +132,7 @@ Each modality is developed and evaluated independently before integration. The c
 
 - **Retina Module** — diabetic retinopathy assessment from fundus images.
 - **Foot Ulcer Module** — Wagner-grade classification from diabetic foot-ulcer images.
-- **Clinical Module** — structured clinical risk assessment; under development.
+- **Clinical Module** — structured clinical risk assessment; C5 benchmarking completed.
 - **ACARA-U Fusion Engine** — uncertainty- and reliability-aware aggregation of modality outputs; under development.
 
 The fusion layer is designed to operate on modality-level risk, confidence, reliability, and uncertainty information rather than directly combining raw modality features.
