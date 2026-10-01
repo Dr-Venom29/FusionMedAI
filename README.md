@@ -1,186 +1,292 @@
 # FusionMedAI
 
-> Explainable Multi-Modal AI Framework for Diabetic Disease Analysis
-
-Retina • Foot Ulcer • Clinical • Multimodal Fusion
+> Research framework for multimodal diabetes-related risk assessment using independent imaging and clinical prediction models.
 
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120/)
 [![PyTorch 2.4](https://img.shields.io/badge/pytorch-2.4-orange.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-FusionMedAI is a research framework for developing and evaluating independent AI
-modules for diabetic disease analysis and combining their outputs through an
-uncertainty-aware multimodal fusion layer.
+---
 
-The framework currently includes completed retinal imaging and diabetic
-foot-ulcer pipelines, and completed clinical tabular benchmarking and explainability phases.
-The multimodal fusion layer remains under development.
+## Abstract
+
+FusionMedAI investigates whether independently developed retinal, diabetic foot-ulcer, and structured clinical models can provide complementary risk information for diabetes-related assessment.
+
+The project treats each modality as an independent prediction problem. Each model is evaluated for discrimination, calibration, interpretability, uncertainty, and robustness before its output is considered for decision-level multimodal fusion.
+
+```mermaid
+flowchart TD
+    subgraph Modalities["Independent Modality Models"]
+        R["Retinal Imaging (Fundus)"]
+        F["Foot-Ulcer Imaging (Wagner Grade)"]
+        C["Structured Clinical Data (119-D EHR)"]
+    end
+    
+    subgraph Outputs["Reliability-Aware Outputs"]
+        RO["Retina: p_cal, Entropy, Grad-CAM"]
+        FO["Foot: p_cal, Variance, Grad-CAM"]
+        CO["Clinical: p_cal, σ_p, TreeSHAP, Shift Alerts"]
+    end
+    
+    R --> RO
+    F --> FO
+    C --> CO
+    
+    RO --> Fusion["Decision-Level Multimodal Fusion (ACARA-U)"]
+    FO --> Fusion
+    CO --> Fusion
+    
+    Fusion --> Unified["Unified Multimodal Assessment"]
+```
+
+The repository is organized as a research system rather than as a single end-to-end black-box classifier. Experimental procedures, evaluation artifacts, verification suites, and frozen model contracts are maintained alongside the implementation.
 
 ---
 
-## Current Status
+## Research Question
 
-The Foot Ulcer module has completed dataset preparation, leakage-aware pipeline construction, exploratory data analysis, baseline model development, controlled architecture benchmarking, post-hoc explainability analysis, probability calibration, prediction uncertainty estimation, and module integration.
+The project investigates:
 
-EfficientNet-B3 was selected as the primary Foot Ulcer backbone. Probability calibration was evaluated using Temperature Scaling and Vector Scaling, with Vector Scaling selected using validation negative log-likelihood under the predefined selection protocol.
+> **Can independently validated, calibrated, interpretable, and uncertainty-aware prediction models provide complementary information for multimodal diabetes-related risk assessment?**
 
-Prediction uncertainty estimation was completed using MC Dropout, with the final configuration selected through convergence analysis. The integrated Foot module provides prediction, calibrated probabilities, uncertainty estimates, and Grad-CAM explanations through a unified inference interface.
+This question is divided into two distinct levels:
 
-### Retina Module
-- Dataset preparation — Completed
-- Data pipeline — Completed
-- Exploratory data analysis and dataset quality assessment — Completed
-- Baseline framework — Completed
-- Architecture benchmarking — Completed
-- Grad-CAM explainability — Completed
-- Probability calibration — Completed
-- Uncertainty estimation — Completed
-- Module integration — Completed
-- Acceptance testing — Completed
+1. **Modality-Level Validity**: Can each input modality produce a prediction whose discrimination, calibration, explanation, uncertainty, and robustness are empirically characterized and verified?
+2. **Fusion-Level Validity**: Can those independently characterized predictions later be combined at the decision level without treating predictions from different retrospective datasets as if they originated from the same patient?
 
-### Foot Ulcer Module
-- Dataset acquisition and audit — Completed
-- Canonical dataset construction — Completed
-- Source-image grouping — Completed
-- Duplicate and near-duplicate analysis — Completed
-- Group-stratified train/validation/test splitting — Completed
-- Dataset implementation — Completed
-- Image preprocessing and augmentation pipeline — Completed
-- DataLoader implementation — Completed
-- End-to-end pipeline verification — Completed
-- Statistical profiling — Completed
-- Class-wise visual analysis — Completed
-- Image quality analysis — Completed
-- Outlier analysis — Completed
-- Class separability analysis — Completed
-- Dataset bias and shortcut analysis — Completed
-- Baseline framework — Completed
-- Architecture benchmarking — Completed
-- Explainability — Completed
-- Probability calibration — Completed
-- Prediction uncertainty estimation — Completed
-- Module integration — Completed
+The second question is intentionally separated from modality development.
 
-### Clinical Module
-- Dataset preparation & audit (C1) — Completed
-- Patient-level canonical splitting (C2) — Completed
-- Clinical feature representation (C3) — Completed
-- Locked clinical preprocessing (C4) — Completed
-- Architecture benchmarking & HPO (C5) — Completed
-- Model explainability & TreeSHAP (C6) — Completed
-- Probability calibration (C7) — Completed
-- Prediction uncertainty estimation (C8) — Completed
-- Robustness & subgroup auditing (C9) — Planned (Next)
-- External clinical validation (C10) — Planned
-- Clinical module integration (C11) — Planned
+---
 
-## Clinical Module
+## System Architecture
 
-The Clinical module evaluates structured clinical data for readmission-risk prediction using a frozen, patient-level evaluation protocol.
+![System Architecture](docs/architecture.png)
 
-The C5 benchmarking phase uses:
+*Figure 1. FusionMedAI research architecture.*
 
-- 99,343 total encounters
-- 48,993 patients in the training partition
-- 10,498 patients in validation
-- 10,499 patients in test
-- 119-dimensional clinical representation
-- patient-level train/validation/test partitioning
+The system follows independent modality development followed by decision-level fusion:
 
-The test partition contains 14,913 encounters, including 1,664 positive readmission cases.
+```text
+                         Input Modalities
+                              │
+             ┌────────────────┼────────────────┐
+             │                │                │
+             ▼                ▼                ▼
+          Retina             Foot           Clinical
+          Images            Images           EHR
+             │                │                │
+             ▼                ▼                ▼
+        Modality-Specific Prediction Models
+             │                │                │
+             ▼                ▼                ▼
+        Probability + Uncertainty + Explanation
+             │                │                │
+             └────────────────┼────────────────┘
+                              ▼
+                    Decision-Level Fusion
+                              │
+                              ▼
+                       Unified Output
+```
+
+The fusion layer is designed to operate on model outputs and their reliability information, rather than directly concatenating heterogeneous raw inputs.
+
+---
+
+## Research Methodology
+
+Each modality follows a controlled evaluation sequence:
+
+```mermaid
+flowchart TD
+    A["Dataset Definition & Quality Audit"] --> B["Data Integrity & Leakage Analysis"]
+    B --> C["Preprocessing & Representation Contract"]
+    C --> D["Exploratory Data Analysis"]
+    D --> E["Baseline Framework"]
+    E --> F["Architecture Benchmarking"]
+    F --> G["Validation-Only Model Selection"]
+    G --> H["Post-Hoc Explainability"]
+    H --> I["Probability Calibration"]
+    I --> J["Uncertainty Quantification"]
+    J --> K["Robustness & Subgroup Auditing"]
+    K --> L["End-to-End Inference Integration"]
+    L --> M["Automated Verification Gate"]
+```
 
 ### Clinical Research Pipeline
 
-The clinical module was developed as a controlled benchmarking pipeline rather than a single-model experiment:
+The clinical modality follows this methodology particularly closely because structured healthcare data introduces challenges involving missingness, repeated encounters, class imbalance, temporal shifts, probability distortion, and silent failure modes:
 
-1. Frozen canonical dataset splits
-2. Locked clinical preprocessing
-3. 119-dimensional feature representation
-4. Baseline and architecture benchmarking
-5. Computational complexity profiling
-6. Clinical subgroup analysis
-7. Validation-only hyperparameter optimization
-8. Consolidated empirical audit
+```mermaid
+flowchart TD
+    D1["UCI Diabetes Dataset (101,766 encounters)"] --> S1["Patient-Level Canonical Split (Train / Val / Test)"]
+    S1 --> P1["Locked Preprocessor (119-D Representation Contract)"]
+    P1 --> M1["Frozen CatBoost HPO Model"]
+    M1 --> BR["Raw Prediction & Margin"]
+    BR --> E1["Exact TreeSHAP Attribution Decomposition"]
+    BR --> C1["Isotonic Calibration Mapping"]
+    BR --> U1["50-Member Bootstrap Uncertainty Ensemble"]
+    BR --> R1["Robustness & Shift Safeguards (Blind-Spot Detection)"]
+    E1 --> INT["ClinicalInferenceService (C10 Integration)"]
+    C1 --> INT
+    U1 --> INT
+    R1 --> INT
+    INT --> OUT["Standardized ClinicalOutput Schema"]
+```
 
-The test partition was not used during hyperparameter search.
+---
 
-### Architecture Benchmarking
+## Empirical Results Summary Dashboard
 
-Seven tabular architectures were evaluated under the same frozen representation and patient-level splits:
+A consolidated summary of principal findings across the research program:
 
-| Architecture | Test ROC-AUC | Test PR-AUC | Test Brier | Test ECE |
-|---|---:|---:|---:|---:|
-| CatBoost | 0.6472 | 0.2038 | 0.0953 | 0.0066 |
-| XGBoost | 0.6467 | 0.2035 | 0.0953 | 0.0051 |
-| LightGBM | 0.6461 | 0.2038 | 0.0953 | 0.0045 |
-| Logistic Regression (L2) | 0.6446 | 0.1969 | 0.0958 | 0.0080 |
-| Logistic Regression (ElasticNet) | 0.6445 | 0.1971 | 0.0958 | 0.0084 |
-| Random Forest | 0.6422 | 0.1991 | 0.0959 | 0.0098 |
-| TabNet | 0.6252 | 0.1887 | 0.0962 | 0.0105 |
+| Analysis Dimension | Evaluated Modality / Experiment | Primary Metric / Result | Interpretation & Scope Note |
+| :--- | :--- | :---: | :--- |
+| **Retina Discrimination** | APTOS 2019 (EfficientNet-B3) | **$84.20\%$ Acc / $0.9233$ QWK** | Highest overall trade-off among 5 architectures ($10.70\text{M}$ params). |
+| **Retina Calibration** | Temperature Scaling ($N=367$) | **$\text{ECE} = 0.0241$** | Preserved rank ordering while aligning confidence. |
+| **Retina Uncertainty** | MC Dropout ($N^*=25$) | **$\text{Error AUROC} = 0.8443$** | Strong discrimination between correct and misclassified fundus scans. |
+| **Foot Ulcer Discrimination** | ADPM V3.3 (EfficientNet-B3) | **$\text{Macro F1} = 0.6683$** | Wagner 4-class held-out test evaluation ($N=1,006$). |
+| **Foot Ulcer Calibration** | Vector Scaling ($N=1,006$) | **$\text{ECE} = 0.0313$** | $26.18\%$ relative ECE reduction over uncalibrated baseline. |
+| **Foot Ulcer Uncertainty** | MC Dropout ($N^*=10$) | **$\text{Entropy AUROC} = 0.7291$** | Risk-coverage selective prediction reduces error from $32.3\%$ to $11.2\%$. |
+| **Clinical Discrimination** | CatBoost HPO ($N_{\text{test}}=14,913$) | **$\text{ROC-AUC} = 0.6494$** | Reflects retrospective tabular readmission task complexity ($D=119$). |
+| **Clinical Probability Quality** | Raw CatBoost Test ECE | **$\text{ECE} = 0.0032$** | Isotonic chosen on validation NLL; Beta achieved test slope $0.9720$. |
+| **Clinical Attribution Stability** | TreeSHAP Validation vs Test | **$\rho = 0.9994$** ($100\%$ Top-20) | Inpatient history ($22.43\%$) & complexity ($21.23\%$) dominate margin. |
+| **Clinical Uncertainty** | 50-Bootstrap CatBoost Ensemble | **$\text{Error AUROC} = 0.7116$** | Misclassified cases exhibit $\sigma_p = 0.0357$ vs $0.0195$ for correct cases. |
+| **Selective Classification** | Risk-Coverage at 80% Coverage | **$10.23\%$ Error Rate** | $31.0\%$ error reduction achieved by rejecting $20\%$ most uncertain cases. |
+| **Shift Sensitivity Signal** | Random Missingness ($50\%$ MCAR) | **$\sigma_p = 0.0491$ ($+124.2\%$)** | Predictive dispersion systematically inflates under information loss. |
+| **Uncertainty Blind Spot** | Masked Prior Inpatient History | **$\text{ROC-AUC} = 0.5795, \sigma_p = 0.0150$** | Severe discrimination loss with deceptively low uncertainty (Q4 failure). |
+| **End-to-End Throughput** | Local CPU Batch Inference ($N=14,913$) | **$3,345.7\text{ encounters/sec}$** | Local CPU software benchmark; not a clinical deployment claim. |
 
-The tree-based models produced similar discrimination on the frozen test partition. CatBoost achieved the highest baseline test ROC-AUC.
+---
 
-### Hyperparameter Optimization
+## Modality Design
 
-Validation-only HPO was conducted for:
+### 1. Retinal Imaging Modality
 
-- CatBoost
-- XGBoost
-- LightGBM
+The Retina pipeline evaluates diabetic retinopathy severity from fundus imaging using the APTOS 2019 dataset ($3,662$ images across 5 severity stages).
 
-CatBoost used a bounded 15-trial search over tree depth, learning rate, iterations, L2 regularization, and subsampling.
+#### Backbone Benchmarking
+Five deep learning architectures were evaluated under a controlled, leakage-aware protocol on the held-out test partition ($N=367$):
 
-The tuned CatBoost configuration achieved:
+| Rank | Model Architecture | Test Accuracy | Balanced Acc | Macro F1 | Quadratic Weighted Kappa (QWK) | Test ROC-AUC | Parameters | GPU Latency |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 1 | **EfficientNet-B3** (Selected) | **84.20%** | 67.22% | 0.6813 | **0.9233** | 0.9457 | 10.70M | 12.64 ms |
+| 2 | **ConvNeXt-Tiny** | 81.20% | **72.05%** | **0.6893** | 0.9145 | **0.9587** | 27.82M | **5.65 ms** |
+| 3 | **EfficientNet-B0** | 79.29% | 67.68% | 0.6505 | 0.9101 | 0.9353 | **4.01M** | 8.08 ms |
+| 4 | **Swin-Tiny** | 78.75% | 66.35% | 0.6406 | 0.8973 | 0.9516 | 27.52M | 12.89 ms |
+| 5 | **ViT-B/16** | 77.38% | 58.01% | 0.5804 | 0.8656 | 0.9225 | 85.80M | 15.16 ms |
 
-- Test ROC-AUC: 0.6504
-- Test PR-AUC: 0.2063
-- Test Brier score: 0.0952
-- Test ECE: 0.0053
+- **Calibration & Uncertainty**: Temperature Scaling calibrates multi-class softmax distributions ($\text{ECE} = 0.0241$). 25-pass MC Dropout quantifies predictive entropy, mutual information, and predictive variance ($\text{Error Detection AUROC} = 0.8443$).
+- **Explainability**: Spatial Grad-CAM visualizes pathological features (microaneurysms, hemorrhages, hard exudates).
 
-Relative to the default CatBoost configuration, the tuned model increased test ROC-AUC from 0.6472 to 0.6504 and test PR-AUC from 0.2038 to 0.2063.
+---
 
-The tuned configuration was selected using validation data only.
+### 2. Diabetic Foot Ulcer Modality
 
-### Computational Analysis
+The Foot Ulcer pipeline classifies wound severity across four Wagner grades using the ADPM V3.3 dataset ($10,062$ audited images grouped into $1,770$ canonical source-image patient clusters to prevent identity leakage):
 
-A separate complexity benchmark measured training time, inference latency, and serialized model size.
+| Class | Clinical Description | Train Images | Val Images | Test Images |
+| :--- | :--- | :---: | :---: | :---: |
+| **Grade 1** | Superficial ulcer | 1,985 | 248 | 248 |
+| **Grade 2** | Deep ulcer without bone involvement | 2,042 | 255 | 255 |
+| **Grade 3** | Deep ulcer with abscess, osteomyelitis, joint sepsis | 2,015 | 252 | 252 |
+| **Grade 4** | Localized gangrene / necrosis | 1,996 | 251 | 251 |
+| **Total** | **4-Class Partitioned Cohort** | **8,038** | **1,006** | **1,006** |
 
-Observed results included:
+#### Backbone Benchmarking
+Six candidate models were evaluated under identical controlled conditions against the ResNet-50 baseline on the held-out test partition ($N=1,006$):
 
-| Architecture | Train Time | Latency / 1k | Size |
-|---|---:|---:|---:|
-| Logistic Regression | 2.09 s | 1.13 ms | 1.8 KB |
-| Random Forest | 2.58 s | 44.83 ms | 5,519.4 KB |
-| XGBoost | 1.20 s | 1.65 ms | 260.2 KB |
-| LightGBM | 0.58 s | 3.18 ms | 318.2 KB |
-| CatBoost | 3.87 s | 2.35 ms | 415.6 KB |
-| TabNet | 77.27 s | 19.93 ms | 1,099.7 KB |
+| Rank | Model Architecture | Macro F1 | Balanced Accuracy | Macro ROC-AUC | Parameters | Latency (GPU, T4) |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: |
+| 1 | **EfficientNet-B3** (Selected) | **0.6683** | **0.6672** | **0.8685** | **10.70M** | **70.39 ms** |
+| 2 | **EfficientNet-B0** | 0.6672 | 0.6656 | 0.8431 | 4.01M | 37.89 ms |
+| 3 | **ConvNeXt-Tiny** | 0.6566 | 0.6562 | 0.8613 | 27.82M | 109.61 ms |
+| 4 | **ResNet-50** (Baseline) | 0.6339 | 0.6391 | 0.8423 | 23.51M | — |
+| 5 | **Swin-Tiny** | 0.6266 | 0.6262 | 0.8269 | 27.52M | 129.09 ms |
+| 6 | **ViT-B/16** | 0.5788 | 0.5878 | 0.8364 | 85.80M | 310.28 ms |
 
-These measurements are reported as empirical benchmark results on the evaluation environment and are not intended as hardware-independent performance guarantees.
+#### Probability Calibration & Uncertainty
+Evaluated on frozen EfficientNet-B3 on the held-out test partition ($N=1,006$):
 
-### Clinical Subgroup Analysis
+| Calibration Method | Test NLL | Test ECE | Accuracy | Macro F1 | Balanced Accuracy |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Raw Uncalibrated** | 0.8779 | 0.0424 | 0.6690 | 0.6683 | 0.6672 |
+| **Temperature Scaling** | 0.8785 | 0.0388 | 0.6690 | 0.6683 | 0.6672 |
+| **Vector Scaling** (Selected) | **0.8749** | **0.0313** | **0.6769** | **0.6758** | **0.6753** |
 
-Subgroup analysis was performed for the CatBoost clinical model across validation and test partitions.
+- **Uncertainty Quantification**: 10-pass MC Dropout evaluated for error detection ($\text{Entropy AUROC} = 0.7291$, $\text{Entropy AUPRC} = 0.5391$; $\text{Variance AUROC} = 0.6508$, $\text{Mutual Info AUROC} = 0.6399$).
+- **Selective Prediction**: Risk-coverage rejection progressively reduces test error rate from $32.31\%$ (100% coverage) to $11.20\%$ (50% coverage).
+- **Explainability**: Spatial Grad-CAM at `backbone.features[8]` passes parameter randomization sanity checks ($\rho = 0.0000$).
 
-The analysis evaluates model behaviour across clinically relevant subgroups rather than relying only on aggregate metrics.
+---
 
-### Calibration
+### 3. Structured Clinical Tabular Modality
 
-Calibration was evaluated using:
+The Clinical modality evaluates structured hospital EHR data for 30-day diabetic readmission risk using the UCI Diabetes 130-US Hospitals dataset ($101,766$ encounters across 130 facilities, 1999–2008).
+- **Data Partitions**: Patient-level canonical splitting prevents cross-partition identity leakage:
+  - **Training Partition**: 69,519 encounters (48,993 patients)
+  - **Validation Partition**: 14,911 encounters (10,498 patients)
+  - **Locked Test Partition**: 14,913 encounters (10,499 patients; 1,664 positive readmissions)
+- **119-D Representation Contract**: Encodes demographics, admission types, discharge dispositions, encounter durations, laboratory assays, ICD-9 diagnostic chapters, and 23 diabetic medication dynamics.
 
-- Brier score
-- Log loss
-- Expected Calibration Error (ECE)
 
-Among the baseline architectures, LightGBM produced the lowest measured test ECE at 0.0045.
+---
 
-The benchmark therefore reports both discrimination and probability-quality metrics rather than relying on ROC-AUC alone.
+## Clinical Risk Model & Evaluation Framework
 
-### Model Explainability (TreeSHAP)
+The clinical module is evaluated across five distinct dimensions rather than relying on discrimination alone:
 
-Post-hoc interpretability analysis was conducted on the frozen CatBoost candidate model (`depth=4`, `learning_rate=0.1383`, `iterations=350`, `l2_leaf_reg=2.911`, `subsample=0.655`) using exact TreeSHAP across the locked test partition ($N=14,913, D=119$) without test-label inputs:
+```text
+1. Discrimination:        ROC-AUC, PR-AUC, Sensitivity, Specificity
+2. Probability Quality:   Validation/Test Log Loss, Brier Score, ECE, Calibration Slope, DCA Net Benefit
+3. Interpretability:      Exact TreeSHAP, Expected Base Value, Feature Directionality, Error Profiling
+4. Prediction Uncertainty: Bootstrap Dispersion (σ_p), 95% Predictive Interval, Aleatoric Entropy, Ambiguity Tiers
+5. Robustness & Shift:    MCAR Missingness, Domain Omission, Subgroup Parity, Longitudinal Drift, Silent Failures
+```
 
-| Rank | Feature | Clinical Domain | Mean \|SHAP\| | Attribution Share | Cumulative Share | Directionality ($r$) |
+### Frozen Model Configuration
+
+The selected clinical architecture is a tuned CatBoost classifier:
+
+| Parameter | Frozen Value | Verification Status |
+| :--- | :---: | :--- |
+| **Model Architecture** | `CatBoostClassifier` (Symmetric Oblivious Trees) | Frozen |
+| **Tree Depth** | `4` | Locked |
+| **Learning Rate** | `0.1383` | Locked |
+| **Iterations** | `350` | Locked |
+| **L2 Leaf Regularization** | `2.911` | Locked |
+| **Subsample Ratio** | `0.655` | Locked |
+| **Random Seed** | `42` | Locked |
+| **Feature Dimension** | `119` | Contract Verified |
+
+---
+
+## Detailed Clinical Empirical Results
+
+### 1. Tabular Architecture Benchmarking & HPO
+
+Seven tabular architectures were benchmarked on the frozen 119-dimensional representation:
+
+| Architecture | Test ROC-AUC | Test PR-AUC | Test Brier | Test ECE | Train Time | Latency / 1k | Serialized Size |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **CatBoost (HPO Tuned)** | **0.6504** | **0.2063** | **0.0952** | 0.0053 | 3.87 s | 2.35 ms | 415.6 KB |
+| **CatBoost (Baseline)** | 0.6472 | 0.2038 | 0.0953 | 0.0066 | 3.87 s | 2.35 ms | 415.6 KB |
+| **XGBoost** | 0.6467 | 0.2035 | 0.0953 | 0.0051 | 1.20 s | 1.65 ms | 260.2 KB |
+| **LightGBM** | 0.6461 | 0.2038 | 0.0953 | **0.0045** | **0.58 s** | 3.18 ms | 318.2 KB |
+| **Logistic Regression (L2)** | 0.6446 | 0.1969 | 0.0958 | 0.0080 | 2.09 s | **1.13 ms** | **1.8 KB** |
+| **Logistic Regression (ElasticNet)** | 0.6445 | 0.1971 | 0.0958 | 0.0084 | 2.45 s | 1.15 ms | 1.8 KB |
+| **Random Forest** | 0.6422 | 0.1991 | 0.0959 | 0.0098 | 2.58 s | 44.83 ms | 5,519.4 KB |
+| **TabNet** | 0.6252 | 0.1887 | 0.0962 | 0.0105 | 77.27 s | 19.93 ms | 1,099.7 KB |
+
+*Note: The moderate ROC-AUC ($0.6504$) reflects the inherent complexity of retrospective tabular 30-day readmission prediction and is reported as a primary scientific finding rather than obscured.*
+
+---
+
+### 2. Model Explainability (Exact TreeSHAP)
+
+Post-hoc interpretability on the frozen CatBoost model ($N=14,913, D=119$) without test labels:
+
+| Rank | Feature | Clinical Group | Mean \|SHAP\| | Attribution Share | Cumulative Share | Directionality ($r$) |
 | :---: | :--- | :--- | :---: | :---: | :---: | :---: |
 | 1 | `number_inpatient` | Prior Healthcare Utilization | $0.2851$ | $22.43\%$ | $22.43\%$ | $+0.9531$ |
 | 2 | `age_ordinal` | Age & Glycemic Monitoring | $0.1000$ | $7.86\%$ | $30.29\%$ | $+0.8604$ |
@@ -193,16 +299,15 @@ Post-hoc interpretability analysis was conducted on the frozen CatBoost candidat
 | 9 | `num_procedures` | Acute Clinical Complexity | $0.0409$ | $3.22\%$ | $59.87\%$ | $-0.7700$ |
 | 10 | `number_emergency` | Prior Healthcare Utilization | $0.0379$ | $2.98\%$ | $62.86\%$ | $+0.5749$ |
 
-Key findings from the explainability audit include:
-- **Taxonomy Concentration**: Prior Healthcare Utilization ($26.22\%$) and Acute Clinical Complexity ($21.23\%$) together account for $47.45\%$ of total mean absolute SHAP attribution across $8$ compact features.
-- **Attribution Ranking Stability**: Near-perfect ranking correlation between validation and test partitions ($\rho = 0.9994$, $p = 3.86 \times 10^{-172}$) with $100\%$ Top-20 feature overlap.
-- **Demographic Attribution**: Explicit demographic variables (race, gender) contribute $1.91\%$ of total attribution, with similar attribution magnitudes observed across female and male cohorts.
-- **Local & Error Case Profiling**: Audited positive, negative, false-positive, and false-negative case attributions under the primary $\theta=0.20$ operating threshold.
-- **Non-Causal Associative Scope**: SHAP attributions reflect additive contributions in model log-odds space within this dataset and do not establish causal clinical mechanisms or treatment effects.
+- **Taxonomy Concentration**: Prior Healthcare Utilization ($26.22\%$) and Acute Clinical Complexity ($21.23\%$) account for $47.45\%$ of total attribution.
+- **Ranking Stability**: Validation vs locked-test attribution ranking correlation $\rho = 0.9994$ ($p = 3.86 \times 10^{-172}$) with $100\%$ Top-20 feature overlap.
+- **Scope Note**: SHAP attributions reflect additive contributions in model log-odds margin space and do not establish causal clinical mechanisms.
 
-### Probability Calibration & Risk Reliability (C7)
+---
 
-Post-hoc calibration was evaluated on the frozen CatBoost candidate model to assess risk probability reliability on the locked test partition ($N=14,913, D=119$) using validation-only parameter fitting ($N_{\text{val}}=14,911$):
+### 3. Probability Calibration & Decision Utility
+
+Post-hoc calibration evaluated across four transformation methods on the frozen CatBoost model:
 
 | Method | Val Log Loss | Val Brier | Val ECE | Test Log Loss | Test Brier | Test ECE | Test Slope | Test PR-AUC | Test ROC-AUC |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -211,39 +316,33 @@ Post-hoc calibration was evaluated on the frozen CatBoost candidate model to ass
 | **Beta Calibration** | 0.3436 | 0.0990 | 0.0040 | 0.3338 | 0.0953 | 0.0062 | **0.9720** | **0.2035** | **0.6495** |
 | **Isotonic Regression** | **0.3420** | **0.0986** | **0.0000** | 0.3359 | 0.0956 | 0.0062 | 0.8541 | 0.1931 | 0.6475 |
 
-Key findings from the Phase C7 calibration evaluation:
-- **Optimization Trade-offs & Status**: Isotonic Regression was selected under the pre-registered minimum-validation-NLL criterion ($\text{Val NLL} = 0.3420$, $\text{Val ECE} = 0.0000$). On out-of-sample test data, Beta Calibration achieved the strongest parametric calibration slope ($0.9720$) while strictly preserving continuous rank discrimination ($\text{PR-AUC} = 0.2035$), whereas the raw model retained the lowest test ECE ($0.0032$). No single calibrator is declared universally superior or permanently frozen solely from this experiment; deployment selection will be finalized after Phase C8 uncertainty analysis.
-- **Subgroup Calibration Reliability**: Evaluated across Inpatient history ($\ge 1$), Gender (Male, Female), and Age cohorts ($<50, 50-70, \ge 70$), showing no major subgroup calibration degradation under the evaluated ECE criterion ($\text{ECE} < 0.030$).
-- **Decision Curve Analysis (DCA)**: Calibrated predictions demonstrate positive net benefit over both "Treat All" and "Treat None" default clinical policies across the verified decision threshold window $\theta \in [0.05, 0.25]$. At $\theta = 0.15$, the model captures $40.05\%$ of readmissions while reducing intervention workload by $76.37\%$.
-- **Non-Causal Calibration Scope**: Calibrated probabilities approximate conditional event rates under retrospective cohort conditions and do not establish causal treatment effects or deterministic individual certainties.
+- **Protocol Selection vs Out-of-Sample Behavior**: Isotonic Regression was selected under the pre-registered minimum-validation-NLL criterion ($\text{Val NLL}=0.3420$). On held-out test data, Beta Calibration achieved the strongest parametric slope ($0.9720$) while raw CatBoost had the lowest ECE ($0.0032$).
+- **Decision Curve Analysis**: Positive clinical net benefit demonstrated over default policies across $\theta \in [0.05, 0.25]$. At $\theta = 0.15$, captures $40.05\%$ of readmissions while reducing unnecessary workload by $76.37\%$.
 
-### Prediction Uncertainty Estimation (C8)
+---
 
-Predictive uncertainty was quantified for the frozen CatBoost candidate model using a **50-member Bootstrap Ensemble** trained on resampled training draws ($N_{\text{train}}=69,519$) and evaluated on the locked test partition ($N_{\text{test}}=14,913, D=119$):
+### 4. Prediction Uncertainty Quantification
 
-| Metric | Measured Test Value | Description / Operational Role |
+Predictive uncertainty quantified using a **50-member Bootstrap Ensemble** evaluated on the locked test partition ($N=14,913$):
+
+| Uncertainty Metric | Measured Test Value | Operational Function |
 | :--- | :---: | :--- |
-| **Ensemble Size ($M$)** | $50\text{ models}$ | Selected by empirical convergence audit ($\rho = 0.9994$ ranking correlation). |
-| **Mean Predictive Uncertainty ($\sigma_p$)** | $0.0219$ | Average standard deviation of predicted readmission risk across bootstrap resamples. |
+| **Bootstrap Ensemble Size ($M$)** | $50\text{ models}$ | Selected by empirical convergence audit ($\rho = 0.9994$). |
+| **Mean Predictive Uncertainty ($\sigma_p$)** | $0.0219$ | Average standard deviation of predicted readmission probability. |
 | **Median Predictive Uncertainty** | $0.0162$ | Skewed distribution (IQR: $[0.0114, 0.0249]$, 90th percentile: $0.0421$). |
-| **Error Detection AUROC ($\theta=0.20$)** | **$0.7116$** | Uncertainty reliably discriminates between correct and incorrect classifications. |
-| **Error Detection AUPRC ($\theta=0.20$)** | **$0.3256$** | $+119.6\%$ improvement over random error guessing baseline ($0.1483$). |
-| **Risk-Coverage AURC** | **$0.0763$** | Quantifies selective classification efficacy across progressive rejection thresholds. |
+| **Error Detection AUROC ($\theta=0.20$)** | **$0.7116$** | Quantifies ability of uncertainty to identify model misclassifications. |
+| **Error Detection AUPRC ($\theta=0.20$)** | **$0.3256$** | $+119.6\%$ improvement over random baseline ($0.1483$). |
+| **Risk-Coverage AURC** | **$0.0763$** | Area under the risk-coverage selective prediction curve. |
 | **Excess AURC (E-AURC)** | **$0.0647$** | Distance to theoretical oracle selective predictor ($\text{AURC}_{\text{oracle}} = 0.0116$). |
-| **Error Rate at 80% Coverage** | **$10.23\%$** | $31.0\%$ error reduction achieved by rejecting the $20\%$ most uncertain encounters. |
+| **Error Rate at 80% Coverage** | **$10.23\%$** | $31.0\%$ relative error reduction achieved by rejecting top $20\%$ uncertain cases. |
 
-Key findings from the Phase C8 uncertainty estimation:
-- **Error Identification**: Encounters misclassified by the model exhibit an average uncertainty of $\sigma_p = 0.0357$ compared to $\sigma_p = 0.0195$ for correct cases ($p < 10^{-100}$), validating uncertainty as a reliable automated failure indicator.
-- **Selective Classification**: Progressively abstaining on uncertain predictions reduces residual error from $14.83\%$ (full cohort) to $10.23\%$ at $80\%$ coverage and $7.77\%$ at $50\%$ coverage.
-- **Threshold Ambiguity Tiers**: Stratified encounters into 6 operational tiers around $\theta = 0.20$, isolating the $6.14\%$ of cases located in the decision-boundary ambiguity zone ($\theta \pm 0.03$ with high variance).
-- **Phenotype Divergence**: Prior Inpatient $= 0$ encounters exhibit low baseline variance ($\mu_{\sigma} = 0.0160$), whereas Prior Inpatient $\ge 1$ encounters experience higher epistemic spread ($\mu_{\sigma} = 0.0336$, Error AUROC: $0.7048$).
-- **Multimodal Schema**: Formalized the `ClinicalOutput` schema containing prediction, calibrated probability, predictive standard deviation, 95% predictive interval $[q_{2.5}, q_{97.5}]$, and decision tier.
+---
 
-### Model Robustness, Subgroup Audit & Distribution Shift (C9)
+### 5. Robustness, Subgroup Audit & Distribution Shift
 
-The frozen clinical pipeline (CatBoost HPO + Isotonic Calibrator + 50-member Bootstrap Uncertainty Ensemble) was evaluated across multi-dimensional distribution shifts without retraining or re-fitting:
+Evaluated across 11 distribution shift scenarios without model retraining or re-fitting:
 
-| Scenario / Shift Domain | Sample Size ($N$) | Test ROC-AUC | $\Delta \text{ROC-AUC}$ | Calibration Slope | Mean Uncertainty ($\sigma_p$) | $\Delta \mu_{\sigma}$ | Error Rate ($\theta=0.20$) | Error Detection AUROC |
+| Scenario / Shift Domain | Cohort Size ($N$) | Test ROC-AUC | $\Delta \text{ROC-AUC}$ | Calibration Slope | Mean Uncertainty ($\sigma_p$) | $\Delta \mu_{\sigma}$ | Error Rate ($\theta=0.20$) | Error AUROC |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Nominal Test Reference** | 14,913 | **$0.6494$** | — | **$0.8617$** | **$0.0219$** | — | **$14.38\%$** | **$0.7053$** |
 | **Missingness +10% MCAR** | 14,913 | $0.6266$ | $-0.0229$ | $0.6884$ | $0.0316$ | $+44.3\%$ | $14.39\%$ | $0.6768$ |
@@ -259,274 +358,224 @@ The frozen clinical pipeline (CatBoost HPO + Isotonic Calibrator + 50-member Boo
 | **Temporal: Early Era (1999–2003)** | 7,456 | **$0.6627$** | $+0.0133$ | **$0.9022$** | $0.0212$ | $-3.3\%$ | $14.40\%$ | $0.7037$ |
 | **Temporal: Late Era (2004–2008)** | 7,457 | $0.6371$ | $-0.0123$ | $0.8414$ | $0.0226$ | $+3.3\%$ | $14.36\%$ | $0.7073$ |
 
-Key findings from the Phase C9 robustness and distribution shift audit:
-- **Uncertainty as an Empirical Shift-Sensitivity Signal**: Mean predictive uncertainty inflates systematically under random MCAR missingness ($+44.3\%$ at $10\%$, $+90.6\%$ at $25\%$, $+124.2\%$ at $50\%$), demonstrating that bootstrap dispersion actively signals out-of-distribution information loss under broad degradation.
-- **Resilience to Feature Omission**: The model maintains high discrimination ($\text{ROC-AUC} \ge 0.644$) when laboratory glycemic assays (A1C, glucose) or medication variables are omitted, demonstrating strong signal redundancy.
-- **Structural Tabular Vulnerability (Uncertainty Blind Spot)**: Complete loss of prior hospitalization history (`number_inpatient`) produces severe discrimination loss ($\text{ROC-AUC} = 0.5795$) while deceptively reducing uncertainty ($\sigma_p = 0.0150$), demonstrating that low uncertainty does not guarantee prediction reliability and highlighting the clinical imperative of multimodal fusion safeguards (ACARA-U).
-- **Intersectional Calibration Parity**: Isotonic calibration slopes demonstrate high parity across African American ($\beta = 0.9665$) and Female ($\beta = 0.9675$) cohorts within this dataset.
-- **Longitudinal Evaluation**: Chronological progression across 1999–2008 demonstrates a measurable decrease in discrimination ($\Delta \text{ROC-AUC} = -0.0256$ between early and late eras) while calibration slopes remained well-behaved ($\beta = 0.9022 \to 0.8414$).
-- **Silent Failure Catalog**: Identified $1,065$ high-confidence silent failure cases (Q4: low $\sigma_p$, uncaptured readmissions) primarily driven by zero-inpatient history patients with unexpected post-discharge acute events.
-- **Governance Limitations**: MCAR is synthetic stress testing; subgroup audits are observational and do not establish absolute fairness; results on this locked test set do not establish external cross-dataset generalization (reserved for C10).
-
-### Interpretation of Results
-
-The C5-C9 experiments demonstrate that gradient-boosted trees provide strong tabular discrimination, interpretable attributions aligned with clinical risk factors, reliable probability calibration, validated predictive uncertainty, and quantified robustness under data degradation and population shifts on the locked 119-dimensional representation.
-
-The results support using the frozen CatBoost ensemble as the clinical candidate for subsequent external validation (C10) and multimodal integration.
-
-This result should not be interpreted as evidence of clinical effectiveness. External validation, prospective evaluation, calibration assessment on independent populations, and clinical utility analysis remain future work.
-
-### Reproducibility and Experiment Integrity
-
-Each benchmarking run exports experiment artifacts and a cryptographic manifest.
-
-The clinical pipeline records:
-
-- model configuration
-- validation and test metrics
-- computational measurements
-- subgroup analysis outputs
-- HPO results
-- TreeSHAP explainability attributions and figures
-- Probability calibration tables, reliability diagrams, and DCA curves
-- Bootstrap ensemble uncertainty metrics, risk-coverage curves, and ambiguity tiers
-- Robustness degradation matrices, shift detection curves, and silent failure catalogs
-- experiment artifacts
-- cryptographic manifest information (SHA-256)
-
-Detailed clinical experiments are documented under:
-
-`research/clinical/`
-
-### Remaining Work
-
-- Clinical module — C5 benchmarking, C6 explainability, C7 calibration, C8 uncertainty estimation, and C9 robustness & distribution shift auditing completed; external validation (C10) and module integration (C11) remain
-- ACARA-U multimodal fusion — Planned
-- Final multimodal validation — Planned
+- **Empirical Sensitivity Signal**: Predictive uncertainty actively inflates under random MCAR degradation ($+44.3\%$ at $10\%$, $+124.2\%$ at $50\%$).
+- **Tabular Uncertainty Blind Spot**: Masking `number_inpatient` drops ROC-AUC to $0.5795$ while uncertainty paradoxically decreases to $\sigma_p = 0.0150$, showing that low uncertainty does not guarantee prediction reliability and motivating multimodal decision guardrails.
+- **Intersectional Parity**: High calibration slope parity observed across African American ($\beta = 0.9665$) and Female ($\beta = 0.9675$) cohorts.
 
 ---
 
-## Architecture
+### 6. End-to-End Clinical Integration (C10)
 
-![System Architecture](docs/architecture.png)
+The clinical components are assembled into a unified inference service ([`ClinicalInferenceService`](file:///d:/FusionMedAI/src/clinical/inference/service.py)):
 
-*Figure 1. Architecture of the FusionMedAI framework.*
+| Evaluation Dimension | Metric / Result | Technical Detail |
+| :--- | :---: | :--- |
+| **Local CPU Batch Throughput** | **$3,345.7\text{ encounters/sec}$** | Full locked test set ($N=14,913$) evaluated in $4.46\text{ seconds}$ on CPU. |
+| **Output Schema Conformance** | **$100.0\%$ Compliant** | Strictly conforms to the frozen `ClinicalOutput` schema contract. |
+| **Exact TreeSHAP Additivity** | **$\text{Abs Error} = 8.88 \times 10^{-16}$** | Exact margin consistency verified: $\phi_0 + \sum \phi_j = f(x) = -3.948183$ ($\text{tol}=10^{-6}$). |
+| **Calibration Integration** | Dynamic Mapping | Verifies monotone mapping ($p_{\text{raw}}=0.0123 \to p_{\text{cal}}=0.0000$ lower boundary). |
+| **Uncertainty & Ambiguity Tiers** | $\sigma_p \in [0.005, 0.080]$ | Operational stratification into 6 tiers around the decision threshold $\theta = 0.20$. |
+| **Shift & Blind-Spot Guardrails** | Active Triggering | Emits warnings for zero-inpatient history cases under low predicted risk. |
+| **Input Validation Safeguards** | Zero-Crash Rejection | Catches malformed fields and physiological bound violations via `ClinicalValidationError`. |
 
-FusionMedAI is organized as a sequence of independent modality-specific pipelines followed by a multimodal fusion stage.
-
-Each modality is developed and evaluated independently before integration. The current architecture comprises:
-
-- **Retina Module** — diabetic retinopathy assessment from fundus images.
-- **Foot Ulcer Module** — Wagner-grade classification from diabetic foot-ulcer images.
-- **Clinical Module** — structured clinical readmission-risk assessment; C5 benchmarking & C6 explainability completed.
-- **ACARA-U Fusion Engine** — uncertainty- and reliability-aware aggregation of modality outputs; under development.
-
-The fusion layer is designed to operate on modality-level risk, confidence, reliability, and uncertainty information rather than directly combining raw modality features.
+*Scope Declaration: Phase C10 establishes technical end-to-end integration and internal contract verification; it is not external or prospective clinical validation.*
 
 ---
 
-## Research Methodology
+## Modality Inference Examples
 
-The project follows the same general development sequence for each modality:
+### Example 1: Retinal Fundus Imaging
 
-```mermaid
-flowchart TD
-    A[Dataset Preparation] --> B[Data Pipeline]
-    B --> C[EDA & Dataset Quality]
-    C --> D[Baseline Framework]
-    D --> E[Architecture Benchmarking]
-    E --> F[Explainability]
-    F --> G[Probability Calibration]
-    G --> H[Uncertainty Estimation]
-    H --> I[Module Integration]
-    I --> J[Multimodal Fusion]
+#### Input Fundus Scan
+![Retina Input](docs/examples/retina_input.png)
+
+#### Unified Prediction & Explanation Output
+![Retina Output](docs/examples/retina_output.png)
+
+The output demonstrates integrated multi-class prediction, calibrated softmax probability, MC Dropout predictive entropy, and spatial Grad-CAM visualization of retinal lesion features.
+
+---
+
+### Example 2: Diabetic Foot Ulcer Imaging
+
+#### Input Foot Ulcer Image
+![Foot Ulcer Input](docs/examples/foot_input.png)
+
+#### Unified Prediction & Explanation Output
+![Foot Ulcer Output](docs/examples/foot_output.png)
+
+The output demonstrates Wagner-grade prediction, Vector Scaling calibrated confidence, MC Dropout predictive variance, selective classification status, and spatial Grad-CAM attribution focusing on visible wound margin regions.
+
+---
+
+### Example 3: Structured Clinical Tabular Data
+
+#### Visual Inference Summary Card
+![Clinical Output](docs/examples/clinical_output.png)
+
+#### Raw Clinical Input (`encounter_dict`)
+```json
+{
+  "encounter_id": "enc_8849201",
+  "patient_nbr": "pat_5419283",
+  "race": "Caucasian",
+  "gender": "Female",
+  "age": "[70-80)",
+  "admission_type_id": 1,
+  "discharge_disposition_id": 1,
+  "admission_source_id": 7,
+  "time_in_hospital": 6,
+  "payer_code": "MC",
+  "medical_specialty": "InternalMedicine",
+  "num_lab_procedures": 48,
+  "num_procedures": 1,
+  "num_medications": 18,
+  "number_outpatient": 0,
+  "number_emergency": 1,
+  "number_inpatient": 2,
+  "diag_1": "250.6",
+  "diag_2": "401.9",
+  "diag_3": "428.0",
+  "number_diagnoses": 9,
+  "max_glu_serum": "None",
+  "A1Cresult": ">8",
+  "insulin": "Up",
+  "metformin": "Steady",
+  "change": "Ch",
+  "diabetesMed": "Yes"
+}
 ```
 
-This separation is intentional. Dataset validation, model evaluation, calibration, uncertainty estimation, explainability, and integration are treated as separate research stages rather than being combined into a single training workflow.
+#### Standardized Output (`ClinicalOutput`)
+```json
+{
+  "modality": "clinical_tabular",
+  "encounter_id": "enc_8849201",
+  "prediction": 0,
+  "probability": 0.1803,
+  "calibrated_probability": 0.1805,
+  "calibration_method": "Isotonic_Regression",
+  "confidence": "low",
+  "uncertainty": {
+    "method": "bootstrap_ensemble",
+    "std_probability": 0.0190,
+    "percentile_in_cohort": 31.67,
+    "is_high_uncertainty": false,
+    "predictive_interval_95": {
+      "lower": 0.1506,
+      "upper": 0.2250
+    },
+    "aleatoric_entropy": 0.6806
+  },
+  "decision_tier": "Near Threshold / Low Uncertainty",
+  "operating_threshold": 0.20,
+  "feature_attributions": [
+    {
+      "feature": "number_inpatient",
+      "shap_value": 0.4739,
+      "rank": 1,
+      "feature_value": 1.0970
+    },
+    {
+      "feature": "A1Cresult_ordinal",
+      "shap_value": -0.1206,
+      "rank": 2,
+      "feature_value": 3.0
+    },
+    {
+      "feature": "number_emergency",
+      "shap_value": 0.1120,
+      "rank": 3,
+      "feature_value": 0.8589
+    },
+    {
+      "feature": "diag_1_chapter_Diabetes",
+      "shap_value": 0.0737,
+      "rank": 4,
+      "feature_value": 1.0
+    },
+    {
+      "feature": "metformin_exposure",
+      "shap_value": -0.0661,
+      "rank": 5,
+      "feature_value": 1.0
+    }
+  ],
+  "shift_detection": {
+    "is_degraded": false,
+    "missingness_ratio": 0.0217,
+    "blind_spot_warning": false,
+    "shift_alerts": []
+  },
+  "model_provenance": {
+    "model_name": "CatBoost_HPO_Bootstrap_Ensemble",
+    "ensemble_size": 50,
+    "frozen_calibrator": "Isotonic_Regression",
+    "version": "clinical_c10_v1.0",
+    "manifest_sha256": "c10_verified_e2e"
+  }
+}
+```
 
 ---
 
-## Retina Module
+## Current Research Position & Next Stage
 
-The Retina module has completed its full independent development cycle.
+### Current Research Position
+The independent modality pipelines have completed their internal evaluations through module-level integration:
+- **Retina Module**: Completed backbone benchmarking, Temperature Scaling calibration, MC Dropout uncertainty, and Grad-CAM integration.
+- **Foot Ulcer Module**: Completed leakage-aware source grouping, EfficientNet-B3 selection, Vector Scaling calibration, MC Dropout selective classification, and Grad-CAM integration.
+- **Clinical Modality**: Completed through Phase C10 (Clinical Integration & End-to-End Validation). The frozen clinical pipeline integrates point prediction, exact TreeSHAP attributions, Isotonic probability calibration, 50-member bootstrap uncertainty estimation, distribution-shift and blind-spot safeguards, input validation, and standardized `ClinicalOutput` generation.
 
-### Dataset
-The module uses the APTOS 2019 diabetic retinopathy dataset. The dataset is not distributed with this repository and must be obtained separately.
+### Next Research Stage — ACARA-U Multimodal Fusion *(Designed & Planned — Not Yet Implemented)*
+The next major research stage is **ACARA-U**, the decision-level multimodal fusion layer of FusionMedAI.
 
-### Dataset Analysis
+ACARA-U is designed to combine the independently developed modality outputs into a unified multimodal prediction system:
 
-The Retina pipeline included dataset quality assessment, class-distribution analysis, preprocessing validation, and leakage-aware evaluation. The data pipeline was verified before model benchmarking, with the final model evaluated on a frozen test set under a controlled experimental protocol.
+```text
+Retina (Fundus) ──────┐
+                      │
+Foot Ulcer (Wagner) ──┼──→ ACARA-U Fusion Engine ──→ Unified Clinical Output
+                      │    (Not Yet Implemented)
+Clinical (119-D EHR) ─┘
+```
 
-### Backbone Selection
-Five architectures were evaluated under a controlled benchmarking procedure:
-- EfficientNet-B0
-- EfficientNet-B3
-- ConvNeXt-Tiny
-- Swin-Tiny
-- ViT-B/16
+The purpose of this stage is not simply to concatenate three model outputs. ACARA-U will investigate whether the independently developed modalities provide complementary risk signals and how their individual confidence, uncertainty, and reliability metrics should dynamically weight the final fused prediction.
 
-| Rank | Model | Accuracy | Balanced Acc. | Macro F1 | QWK | ROC-AUC | Parameters | Latency (GPU) |
-| :---: | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1 | **EfficientNet-B3** | **84.20%** | 67.22% | 0.6813 | **0.9233** | 0.9457 | 10.70M | 12.64 ms |
-| 2 | ConvNeXt-Tiny | 81.20% | **72.05%** | **0.6893** | 0.9145 | **0.9587** | 27.82M | **5.65 ms** |
-| 3 | EfficientNet-B0 | 79.29% | 67.68% | 0.6505 | 0.9101 | 0.9353 | **4.01M** | 8.08 ms |
-| 4 | Swin-Tiny | 78.75% | 66.35% | 0.6406 | 0.8973 | 0.9516 | 27.52M | 12.89 ms |
-| 5 | ViT-B/16 | 77.38% | 58.01% | 0.5804 | 0.8656 | 0.9225 | 85.80M | 15.16 ms |
-
-**Selected backbone**: EfficientNet-B3
-
-EfficientNet-B3 was retained as the final Retina backbone based on the overall benchmark evaluation, including classification performance, quadratic weighted kappa, parameter count, and computational requirements.
-
-The complete methodology and benchmark results are documented in Research Volume V — Architecture Benchmarking.
-
-### Calibration and Uncertainty
-The final Retina model uses:
-- Temperature Scaling for probability calibration
-- MC Dropout for predictive uncertainty estimation
-- Predictive entropy
-- Mutual information
-- Risk-coverage analysis
-- Grad-CAM for visual explanation
-
-On the frozen Retina test set, MC predictive variance achieved an AUROC of 0.8443 for prediction-error detection. The MC Dropout configuration was evaluated for convergence, with 25 stochastic passes selected for the final implementation.
-
-### Integration
-The final Retina module combines prediction, calibrated confidence, uncertainty estimation, and Grad-CAM into a unified inference output. The integrated module has passed its acceptance tests.
+The planned evaluation framework will investigate:
+- **Individual-Modality Baseline References**: Establishing standalone single-modality reference bounds.
+- **Pairwise Modality Fusion**: Evaluating dual-modality interaction (Retina + Clinical, Foot + Clinical, Retina + Foot).
+- **Three-Modality Fusion**: Complete multimodal decision-level aggregation (Retina + Foot + Clinical).
+- **Systematic Modality Ablations**: Quantifying marginal utility contributions per modality.
+- **Missing-Modality Scenarios**: Verifying graceful degradation when one or two modalities are unavailable.
+- **Reliability & Uncertainty Weighting**: Dynamically scaling decision authority based on modality predictive dispersion ($\sigma_p$, predictive entropy).
+- **Fusion Probability Calibration**: Assessing post-fusion calibration slope and ECE.
+- **Fusion Robustness Auditing**: Evaluating multi-source distribution shifts and synthetic stress tests.
+- **Final End-to-End Evaluation**: End-to-end integration and acceptance testing of the complete multimodal framework.
 
 ---
 
-## Foot Ulcer Module
-
-The Foot Ulcer module has completed its independent development and integration cycle, from dataset audit through unified inference and acceptance testing.
+## Reproducibility & Verification Gates
 
 
-### Dataset
+The repository maintains strict verification gates for all research phases. Verification scripts are located under `verification/`:
 
-The module uses the ADPM V3.3 Diabetic Foot Ulcer Classification dataset, organized into four Wagner-based classes:
+- **Retina Gates**: Data integrity, DataLoader pipeline, architecture benchmarking, Grad-CAM, calibration, uncertainty, and acceptance testing (`verification/retina/`).
+- **Foot Ulcer Gates**: Source-image grouping, duplicate audits, stratified splitting, Grad-CAM sanity checks, Vector Scaling, MC Dropout, and module integration (`verification/foot/`).
+- **Clinical Gates**: 119-D representation, TreeSHAP exact additivity, calibration monotonicity, bootstrap convergence, shift sensitivity, and end-to-end integration (`verification/clinical/`).
 
-| Class | Description |
-| :--- | :--- |
-| **Grade 1** | Superficial ulcer |
-| **Grade 2** | Deep ulcer without bone involvement |
-| **Grade 3** | Deep ulcer with abscess, osteomyelitis, or joint sepsis |
-| **Grade 4** | Localized gangrene |
-
-The audited dataset contains 10,062 valid images. Exact duplicate resolution produced 10,050 canonical images grouped into 1,770 source-image groups.
-
-The final leakage-aware splits contain:
-
-- **Train**: 8,038 images
-- **Validation**: 1,006 images
-- **Test**: 1,006 images
-
-No source-image group overlaps occur between the final splits, and no exact duplicates cross split boundaries.
-
-### Dataset Analysis
-
-Exploratory analysis examined statistical distributions, visual characteristics, image quality, potential shortcuts, and class separability.
-
-The four Wagner grades are relatively balanced across the dataset. The primary visual challenge is substantial overlap between Grade 2 and Grade 3 ulcers. Quality variations and capture artifacts were retained to maintain alignment with realistic clinical imaging conditions.
-
-### Baseline
-
-A ResNet-50 baseline model was evaluated under the frozen source-group split using standard cross-entropy training:
-
-- **Test Macro F1**: 0.6339
-- **Balanced Accuracy**: 0.6391
-- **Accuracy**: 0.6372
-- **Macro ROC-AUC**: 0.8423
-
-The baseline highlighted two key challenges: early validation performance saturation (overfitting risk) and substantial Grade 2 ↔ Grade 3 misclassification.
-
-### Backbone Selection
-
-Five candidate architectures were evaluated under identical, controlled experimental conditions against the ResNet-50 baseline:
-
-| Rank | Model | Macro F1 | Balanced Accuracy | Macro ROC-AUC | Parameters | Latency (GPU, T4) |
-| :---: | :--- | ---: | ---: | ---: | ---: | ---: |
-| 1 | **EfficientNet-B3** | **0.6683** | **0.6672** | **0.8685** | **10.70M** | **70.39 ms** |
-| 2 | EfficientNet-B0 | 0.6672 | 0.6656 | 0.8431 | 4.01M | 37.89 ms |
-| 3 | ConvNeXt-Tiny | 0.6566 | 0.6562 | 0.8613 | 27.82M | 109.61 ms |
-| 4 | ResNet-50 (Baseline Reference) | 0.6339 | 0.6391 | 0.8423 | 23.51M | — |
-| 5 | Swin-Tiny | 0.6266 | 0.6262 | 0.8269 | 27.52M | 129.09 ms |
-| 6 | ViT-B/16 | 0.5788 | 0.5878 | 0.8364 | 85.80M | 310.28 ms |
-
-**Selection**: EfficientNet-B3 was selected as the primary Foot Ulcer backbone based on the predefined primary metric of held-out test Macro F1, with Balanced Accuracy, Macro ROC-AUC, class-wise performance, and computational cost considered as secondary criteria. EfficientNet-B0 remains a lightweight alternative. Its test Macro F1 of 0.6672 was only 0.0011 below EfficientNet-B3 (0.6683), while requiring substantially fewer parameters and lower inference latency.
-
-### Explainability
-
-Post-hoc spatial attribution analysis using Grad-CAM was performed across the complete held-out test set ($N=1,006$). Target layer representations (`backbone.features[8]`) were empirically verified, producing localized attributions focused on visible wound bed and margin regions (mean high-attribution area fraction $= 19.61\%$). Model randomization sanity checking produced a Pearson correlation coefficient of 0.0000, indicating that the attribution maps were not preserved after model parameter randomization under the predefined sanity-check protocol. These results evaluate attribution sensitivity to model parameters; they do not establish lesion localization accuracy or clinical validity.
-
-### Calibration
-
-Probability calibration was performed using post-hoc Temperature Scaling and Vector Scaling on the frozen EfficientNet-B3 model.
-
-Calibration parameters were fitted exclusively on the validation set and evaluated on the held-out test set.
-
-Vector Scaling was selected because it achieved lower validation NLL than Temperature Scaling under the predefined selection protocol.
-
-| Method | Test NLL | Test ECE | Accuracy | Macro F1 | Balanced Accuracy |
-| :--- | ---: | ---: | ---: | ---: | ---: |
-| Raw | 0.8779 | 0.0424 | 0.6690 | 0.6683 | 0.6672 |
-| Temperature Scaling | 0.8785 | 0.0388 | 0.6690 | 0.6683 | 0.6672 |
-| **Vector Scaling** | **0.8749** | **0.0313** | **0.6769** | **0.6758** | **0.6753** |
-
-Vector Scaling reduced test ECE from 0.0424 to 0.0313, corresponding to a 26.18% relative reduction.
-
-The selected calibration artifact is frozen under `experiments/foot/final_model/calibration.json`.
-
-### Uncertainty
-
-Prediction uncertainty estimation was evaluated on the frozen EfficientNet-B3 model and frozen Vector Scaling calibrator using stochastic MC Dropout ($N^{*}=10$ passes under the selected Option B pipeline).
-
-On the held-out test set ($N=1,006$), Predictive Entropy achieved an AUROC of **0.7291** and AUPRC of **0.5391** for prediction-error detection. Predictive Variance achieved an AUROC of **0.6508** and AUPRC of **0.4472**, while Mutual Information achieved an AUROC of **0.6399** and AUPRC of **0.4424**.
-
-Selective prediction via risk-coverage rejection demonstrated a monotonic test error rate reduction from 32.31% (100% coverage) to 11.20% (50% coverage). Classwise analysis showed higher uncertainty for Grade 2 and Grade 3 than for Grade 4 in this evaluation.
-
-A total of **45 unique high-uncertainty test cases** were identified, with deterministic Grad-CAM overlays generated for qualitative inspection.
-
-The frozen uncertainty configuration is saved in `experiments/foot/final_model/uncertainty.json`.
-
-### Integration
-
-The Foot Ulcer module is integrated through `src/foot/foot_module.py`.
-
-The unified interface combines:
-
-- EfficientNet-B3 inference
-- Vector Scaling probability calibration
-- MC Dropout uncertainty estimation ($N^*=10$)
-- Grad-CAM explanation
-- Input validation
-- Unified modality output schema
-
-The module supports both standard inference and explainable inference modes and has passed the 12-point automated verification suite and end-to-end acceptance testing across all four Wagner grades.
-
-The Foot module output schema was also verified for contract parity with the existing `RetinaModule`, providing a consistent interface for future multimodal fusion.
+Every experimental execution generates cryptographic SHA-256 manifests linking model weights, evaluation tables, figures, and dataset partitions.
 
 ---
 
-## Core Infrastructure
+## Limitations
 
-The repository provides reusable infrastructure for dataset validation, model development, evaluation, and verification:
-
-- Dataset validation
-- Metadata generation
-- Deterministic dataset splitting
-- DataLoader and preprocessing pipelines
-- Model training
-- Checkpoint management
-- Inference
-- Architecture benchmarking
-- Experiment tracking
-- Grad-CAM
-- Probability calibration
-- MC Dropout uncertainty estimation
-- Risk-coverage analysis
-- Pipeline verification
-- Model acceptance testing
-
-Modality-specific implementations remain isolated under their respective source directories.
+1. **Retrospective Dataset Scope**: The clinical dataset originates from a historical 1999–2008 hospital cohort. Its empirical distributions and coding practices should not be assumed to match modern inpatient populations.
+2. **Internal vs External Validation**: All reported evaluation metrics are derived from internal, patient-split locked test partitions. They do not constitute prospective or multi-center external clinical validation.
+3. **Non-Causal Interpretability**: TreeSHAP and Grad-CAM attributions reflect statistical associations within the trained models. They do not identify causal clinical mechanisms or treatment effects.
+4. **Calibration Protocol Nuances**: Isotonic regression was selected on validation NLL, but exhibits boundary discretization ($p_{\text{cal}}=0.0000$ on lowest-risk cases) and lower out-of-sample slope than parametric Beta calibration ($0.8541$ vs $0.9720$).
+5. **Uncertainty Blind Spots**: While bootstrap dispersion detects random missingness and high-variance encounters, it fails to inflate when key structural variables (`number_inpatient`) are omitted, emphasizing the necessity of multimodal input-completeness safeguards.
+6. **Decision-Level Multimodal Formulation**: Because available open datasets do not contain paired retina, foot ulcer, and EHR records for the same individual patients, multimodal fusion is strictly formulated at the decision level using reliability-aware outputs rather than artificial patient-level feature joining.
 
 ---
 
@@ -540,209 +589,126 @@ FusionMedAI/
 │   │   ├── interim/
 │   │   ├── processed/
 │   │   └── metadata/
-│   └── foot/
+│   ├── foot/
+│   │   ├── raw/
+│   │   ├── interim/
+│   │   ├── processed/
+│   │   └── metadata/
+│   └── clinical/
 │       ├── raw/
-│       ├── interim/
-│       ├── processed/
-│       └── metadata/
+│       └── processed/splits/
 ├── docs/
-│   └── architecture_v1.png
+│   ├── architecture.png
+│   └── examples/
+│       ├── retina_input.png
+│       ├── retina_output.png
+│       ├── foot_input.png
+│       ├── foot_output.png
+│       └── clinical_output.png
 ├── experiments/
 │   ├── retina/
 │   ├── foot/
-│   │   ├── architecture_benchmark/
-│   │   ├── explainability/
-│   │   └── final_model/
 │   └── clinical/
-│       └── benchmarking/
-├── notebooks/
-│   ├── retina/
-│   └── foot/
-├── reports/
+│       ├── benchmarking/
+│       ├── explainability/
+│       ├── calibration/
+│       ├── uncertainty/
+│       ├── robustness/
+│       └── integration/
 ├── research/
 │   ├── retina/
+│   │   ├── Volume_01_Dataset_Preparation/
+│   │   └── ...
 │   ├── foot/
-│   ├── clinical/
-│   └── fusion/
+│   │   ├── Volume_01_Dataset_Preparation/
+│   │   └── ...
+│   └── clinical/
+│       ├── Volume_01_Dataset_Integrity/
+│       ├── Volume_02_Data_Pipeline/
+│       ├── Volume_03_Exploratory_Data_Analysis/
+│       ├── Volume_04_Baseline_Framework/
+│       ├── Volume_05_Architecture_Benchmarking/
+│       ├── Volume_06_Explainability/
+│       ├── Volume_07_Probability_Calibration/
+│       ├── Volume_08_Uncertainty/
+│       └── Volume_09_Robustness_Fairness/
 ├── src/
 │   ├── retina/
 │   ├── foot/
 │   └── clinical/
+│       ├── preprocessing/
 │       ├── modeling/
-│       ├── benchmarking/
-│       └── ...
+│       ├── explainability/
+│       ├── calibration/
+│       ├── uncertainty/
+│       ├── robustness/
+│       └── inference/
 ├── verification/
 │   ├── retina/
-│   │   ├── data/
-│   │   └── model/
-│   └── foot/
-│       ├── data/
-│       └── model/
+│   ├── foot/
+│   └── clinical/
+├── requirements.txt
 ├── LICENSE
-└── requirements.txt
+└── README.md
 ```
 
 ---
 
 ## Research Documentation
 
-### Retina
-| Volume | Topic | Status |
-| :--- | :--- | :---: |
-| **I** | Dataset Preparation | Completed |
-| **II** | Data Pipeline | Completed |
-| **III** | Exploratory Data Analysis | Completed |
-| **IV** | Baseline Framework | Completed |
-| **V** | Architecture Benchmarking | Completed |
-| **VI** | Model Explainability | Completed |
-| **VII** | Probability Calibration | Completed |
-| **VIII** | Prediction Uncertainty Estimation | Completed |
-| **IX** | Module Integration & Finalization | Completed |
+The complete experimental record, methodology descriptions, mathematical formulations, and validation logs are maintained in the research volumes:
 
-### Foot Ulcer
+### Retinal Imaging Series
+- **Volume I**: Dataset Preparation & Quality Audit
+- **Volume II**: Data Pipeline & Preprocessing
+- **Volume III**: Exploratory Data Analysis & Statistical Profiling
+- **Volume IV**: Baseline Framework Implementation
+- **Volume V**: Controlled Architecture Benchmarking
+- **Volume VI**: Post-Hoc Model Explainability (Grad-CAM)
+- **Volume VII**: Probability Calibration & Decision Analysis
+- **Volume VIII**: Prediction Uncertainty Estimation (MC Dropout)
+- **Volume IX**: Module Integration & Acceptance Testing
 
-| Phase | Topic | Status |
-|---|---|---|
-| 10.1 | Dataset Preparation & Audit | Completed |
-| 10.2 | Data Pipeline | Completed |
-| 10.3.1 | Dataset Statistical Profiling | Completed |
-| 10.3.2 | Class-Wise Visual Analysis | Completed |
-| 10.3.3 | Image Quality Analysis | Completed |
-| 10.3.4 | Outlier Analysis | Completed |
-| 10.3.5 | Class Separability Analysis | Completed |
-| 10.3.6 | Dataset Bias & Shortcut Analysis | Completed |
-| 10.4 | Baseline Framework | Completed |
-| 10.5 | Architecture Benchmarking | Completed |
-| 10.6 | Explainability | Completed |
-| 10.7 | Probability Calibration | Completed |
-| 10.8 | Prediction Uncertainty Estimation | Completed |
-| 10.9 | Module Integration | Completed |
+### Diabetic Foot Ulcer Series
+- **Volume I–IV**: Dataset Acquisition, Canonical Grouping & Baseline Benchmarking
+- **Volume V**: Architecture Benchmarking (EfficientNet-B3 Selection)
+- **Volume VI**: Explainability & Sanity Checking (Grad-CAM)
+- **Volume VII**: Probability Calibration (Vector Scaling)
+- **Volume VIII**: Prediction Uncertainty & Risk-Coverage (MC Dropout)
+- **Volume IX**: Module Integration & Parity Verification
 
-### Clinical
-
-| Phase | Topic | Status |
-|---|---|---|
-| C1 | Clinical Dataset Preparation | Completed |
-| C2 | Patient-Level Canonical Splitting | Completed |
-| C3 | Clinical Feature Representation | Completed |
-| C4 | Locked Clinical Preprocessing | Completed |
-| C5 | Architecture Benchmarking & HPO | Completed |
-| C6 | Model Explainability (TreeSHAP) | Completed |
-| C7 | Probability Calibration | Planned |
-| C8 | Prediction Uncertainty Estimation | Planned |
-| C9 | Robustness & Subgroup Auditing | Planned |
-| C10 | External Clinical Validation | Planned |
-| C11 | Clinical Module Integration | Planned |
+### Structured Clinical EHR Series
+- **Volume 01**: Dataset Integrity & Historical Cohort Profiling
+- **Volume 02**: Patient-Level Canonical Splitting & Leakage Prevention
+- **Volume 03**: Exploratory Data Analysis & Representation Space
+- **Volume 04**: Tabular Baseline Framework
+- **Volume 05**: Architecture Benchmarking & Validation-Only HPO
+- **Volume 06**: Post-Hoc Explainability & Feature Grouping (TreeSHAP)
+- **Volume 07**: Probability Calibration & Net Benefit Analysis
+- **Volume 08**: Epistemic Uncertainty Quantification & Ambiguity Tiers
+- **Volume 09**: Robustness, Subgroup Parity & Distribution Shift Auditing
 
 ---
 
 ## Installation & Setup
 
-### Requirements
-- Python 3.12
-- PyTorch 2.4
-
-Create a virtual environment and install project dependencies:
-
 ```bash
+# Clone the repository
 git clone https://github.com/Dr-Venom29/FusionMedAI.git
 cd FusionMedAI
 
+# Create virtual environment
 python -m venv venv
 
-# On Windows:
+# Activate virtual environment
+# Windows:
 venv\Scripts\activate
-# On Linux/macOS:
+# Linux/macOS:
 source venv/bin/activate
 
+# Install dependencies
 pip install -r requirements.txt
 ```
-
-### Dataset Setup
-
-#### Retina
-The APTOS 2019 dataset must be obtained separately.
-
-Expected structure:
-```directory
-datasets/
-└── retina/
-    └── raw/
-        └── aptos2019/
-            ├── train.csv
-            └── train_images/
-                ├── 000c1434d8d8.png
-                ├── 001639a39701.png
-                └── ...
-```
-
-#### Foot Ulcer
-The Foot Ulcer dataset is maintained separately under:
-```directory
-datasets/
-└── foot/
-    └── raw/
-```
-
-The raw dataset is treated as immutable. Dataset cleaning, canonicalization, grouping, and final modeling splits are generated into the corresponding `processed/`, `interim/`, and `metadata/` directories.
-
----
-
-## Verification
-
-Verification scripts are maintained independently from the training code under `verification/`:
-- `verification/retina/data/` & `verification/retina/model/`
-- `verification/foot/data/` & `verification/foot/model/`
-- `verification/clinical/data/` & `verification/clinical/model/`
-
-The framework verifies components including:
-- Dataset integrity
-- Pipeline construction
-- Model initialization
-- Training and backpropagation
-- Checkpoint loading
-- Inference
-- Explainability
-- Calibration
-- Uncertainty estimation
-- Module-level acceptance
-
-The project does not treat successful model training alone as sufficient validation. Each completed research stage has its own verification criteria.
-
----
-
-## Example Retina Inference
-
-### Input Fundus Scan
-![Retina Input](docs/examples/retina_input.png)
-
-### Unified Prediction & Explanation Output
-![Retina Output](docs/examples/retina_output.png)
-
-The output demonstrates the integrated Retina inference interface, including model prediction, calibrated confidence, uncertainty information, and Grad-CAM explanation.
-
----
-
-## Example Foot Ulcer Inference
-
-### Input Foot Ulcer Image
-
-![Foot Ulcer Input](docs/examples/foot_input.png)
-
-### Unified Prediction & Explanation Output
-
-![Foot Ulcer Output](docs/examples/foot_output.png)
-
-The output demonstrates the integrated Foot Ulcer inference interface, including Wagner-grade prediction, calibrated confidence, uncertainty information, and Grad-CAM explanation.
-
----
-
-## Development Roadmap
-
-- **v1.0 (Retina Module)** — **Completed**. The Retina pipeline has progressed from dataset preparation through module integration and acceptance testing.
-- **v2.0 (Foot Ulcer Module)** — **Completed**. The Foot Ulcer pipeline has progressed from dataset audit through probability calibration, uncertainty estimation, module integration, and acceptance testing.
-- **v3.0 (Clinical Module)** — **C5 Benchmarking & C6 Explainability Completed**. The clinical pipeline has progressed through patient-level splitting, locked preprocessing, architecture benchmarking, computational profiling, subgroup analysis, validation-only HPO, and TreeSHAP explainability.
-- **v4.0 (ACARA-U Fusion)** — **Planned**. Integration of the Retina, Foot Ulcer, and Clinical modules through the ACARA-U uncertainty- and reliability-aware fusion framework.
 
 ---
 

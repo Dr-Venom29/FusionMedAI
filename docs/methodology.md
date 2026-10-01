@@ -2,127 +2,141 @@
 
 ## Overview
 
-FusionMedAI is a modular research framework for multimodal diabetic disease analysis. The project follows a staged research methodology in which each module is independently developed, validated, and benchmarked before integration into the final multimodal fusion system.
+FusionMedAI is a modular research framework for multimodal diabetic disease analysis. The project follows a staged research methodology in which each modality is independently developed, validated, and benchmarked before its outputs are considered for decision-level integration through the ACARA-U Multimodal Fusion layer.
 
-Each stage is evaluated separately so that dataset, model, calibration, uncertainty, and integration results can be inspected independently.
+Each stage is evaluated separately so that dataset integrity, model discrimination, calibration, interpretability, uncertainty, robustness, and integration characteristics can be inspected and audited independently.
 
 ---
 
-# Research Methodology
+## Research Methodology
 
-The development process follows the pipeline below:
+The development and evaluation process follows the staged research sequence below:
 
 ```mermaid
 flowchart TD
-    DatasetPrep[Dataset Preparation]
-    --> DataPipeline[Data Pipeline]
-    --> EDA[Exploratory Data Analysis]
-    --> BaselineFramework[Baseline Framework]
-    --> ArchitectureBenchmarking[Architecture Benchmarking]
-    --> Explainability
-    --> Calibration
-    --> UncertaintyEstimation[Uncertainty Estimation]
-    --> ModuleCompletion[Module Completion]
-    --> MultimodalFusion[ACARA-U Fusion]
+    DatasetPrep["Dataset Preparation & Quality Audit"]
+    --> DataPipeline["Data Pipeline & Leakage Analysis"]
+    --> EDA["Exploratory Data Analysis"]
+    --> BaselineFramework["Baseline Model Development"]
+    --> Benchmarking["Architecture Benchmarking & Model Selection"]
+    --> Explainability["Post-Hoc Explainability (Grad-CAM / TreeSHAP)"]
+    --> Calibration["Probability Calibration & Decision Curves"]
+    --> UncertaintyEstimation["Prediction Uncertainty Quantification"]
+    --> Robustness["Robustness & Distribution-Shift Analysis"]
+    --> Integration["Inference Integration & Contract Packaging"]
+    --> Verification["Automated Acceptance Verification Gate"]
+    --> MultimodalFusion["ACARA-U Decision-Level Fusion"]
 ```
 
-Each stage is verified before progressing to the next stage.
+Each major stage includes a corresponding verification procedure before its results are accepted into the permanent research record.
 
 ---
 
-# Module Independence
+## Module Independence
 
-FusionMedAI consists of independent diagnostic modules:
+FusionMedAI consists of three independent diagnostic and prognostic modalities:
+- **Retina Module** (Fundus Imaging)
+- **Foot Ulcer Module** (Wound Bed Imaging)
+- **Clinical Tabular Module** (Structured EHR Records)
 
-* Retina Module
-* Foot Ulcer Module
-* Clinical Module
+Each module is developed and evaluated independently. The common methodology comprises:
+- Dataset preparation, audit, and quality assessment
+- Data preprocessing and representation contract verification
+- Exploratory data analysis and feature characterization
+- Baseline model development
+- Controlled architecture benchmarking and validation-only optimization
+- Post-hoc explainability analysis
+- Post-hoc probability calibration and decision curve analysis
+- Epistemic and predictive uncertainty quantification
+- Robustness, subgroup parity, and distribution-shift analysis, where applicable
+- Module-level integration and automated acceptance verification
 
-Each module performs:
-
-* Dataset preparation
-* Data preprocessing
-* Model training
-* Evaluation
-* Explainability
-* Probability Calibration
-* Uncertainty Estimation
-
-independently before multimodal integration.
-
----
-
-# Dataset Alignment Statement
-
-## Important Research Assumption
-
-FusionMedAI **does not perform patient-level multimodal learning.**
-
-The public datasets used throughout the project originate from different patient populations and therefore cannot be directly merged into a single patient-level dataset.
-
-Consequently, patient identities are never assumed to correspond across datasets.
+The exact evaluation protocol is tailored to the data characteristics of each modality (e.g., spatial convolutional activations for images, tabular tree ensembles and marginal log-odds additivity for structured EHR data).
 
 ---
 
-# Decision-Level Fusion (ACARA-U)
+## Dataset Alignment & Non-Causal Scope
 
-Instead of combining raw patient data, FusionMedAI adopts a **decision-level fusion** strategy.
+### Research Scope Boundary
+**FusionMedAI does not perform artificial patient-level multi-modal feature concatenation.**
 
-Each module independently produces:
-
-* Disease prediction
-* Confidence score
-* Reliability score
-* Uncertainty estimate
-
-These outputs are subsequently aggregated by the ACARA-U Fusion Engine to generate a unified assessment.
-
-This methodology avoids introducing artificial patient correspondences while maintaining methodological validity.
+The public retrospective datasets used across the project originate from different patient cohorts and healthcare institutions. Consequently:
+- Patient identities are never assumed to correspond across datasets.
+- Raw tabular features and raw pixel tensors are never concatenated into a single joint representation.
+- Multimodal integration is strictly formulated at the decision level using validated modality predictions and reliability metrics.
 
 ---
 
-# Engineering Principles
+## Decision-Level Fusion (ACARA-U)
 
-The framework follows several core engineering principles:
+Each independently validated module exposes its point prediction together with the reliability, uncertainty, and feature attribution information supported by its evaluation pipeline:
 
-* Modular software architecture
-* Reproducible experimentation
-* Configuration-driven execution
-* Comprehensive verification
-* Experiment versioning
-* Clinically relevant evaluation metrics
+```mermaid
+flowchart TD
+    subgraph Inputs["Independently Validated Modality Outputs"]
+        R["Retina: Calibrated Probability, Predictive Entropy, Grad-CAM"]
+        F["Foot Ulcer: Calibrated Probability, MC Variance, Grad-CAM"]
+        C["Clinical: Calibrated Probability, Bootstrap σ_p, TreeSHAP, Shift Flags"]
+    end
 
----
+    R --> ACARA["ACARA-U Fusion Engine"]
+    F --> ACARA
+    C --> ACARA
 
-# Current Project Status
+    ACARA --> Assessment["Unified Multimodal Decision Output"]
+```
 
-## Completed
-* **Retina Module** — Complete through integration and acceptance testing.
-* **Foot Ulcer Module** — Complete through module integration and acceptance testing (Phase 10.9).
-
-## Current Development
-* **Clinical Module** — Independent clinical-data assessment module.
-
-## Planned
-* **ACARA-U Fusion Engine** — Multimodal uncertainty-aware fusion layer.
-
+The ACARA-U Fusion Engine will investigate uncertainty-aware decision aggregation across the validated modality outputs. This design preserves scientific validity while enabling reliability-weighted consensus.
 
 ---
 
-# Future Methodology
+## Engineering & Research Principles
 
-Once all individual modules have been validated, the final FusionMedAI methodology will integrate their outputs through the ACARA-U Fusion Engine using uncertainty-aware decision aggregation rather than feature-level patient fusion.
-
-This approach avoids assuming that records from different public datasets belong to the same patients.
+The framework adheres to core engineering and scientific standards:
+- **Modular Software Architecture**: Source code, experiments, research documentation, and verification suites remain strictly isolated.
+- **Reproducible Experimentation**: Deterministic random seeds, fixed partition manifests, and automated execution scripts ensure reproducibility.
+- **Configuration-Driven Execution**: Hyperparameters and model settings are declared in structured configurations.
+- **Verification at Each Major Stage**: Independent test scripts verify mathematical properties (e.g., TreeSHAP additivity tolerance, calibration monotonicity).
+- **Cryptographic Versioning**: SHA-256 manifests link models, evaluation tables, and figures.
+- **Explicit Scope Boundaries**: Clear separation between internal locked-test verification and external clinical validation.
 
 ---
 
-# Architecture Benchmarking
+## Current Project Status
 
-FusionMedAI compares different model architectures under a fixed training and evaluation protocol. The benchmark records both classification metrics and computational measurements.
+### Completed
+- **Retina Module**: Complete through architecture benchmarking (EfficientNet-B3), Temperature Scaling, MC Dropout uncertainty, Grad-CAM, and module integration.
+- **Foot Ulcer Module**: Complete through leakage-aware grouping, EfficientNet-B3 selection, Vector Scaling, MC Dropout selective prediction, and module integration.
+- **Clinical Tabular Module**: Complete through Phase C10 (Clinical Integration & End-to-End Validation). The frozen pipeline integrates CatBoost HPO point prediction, exact TreeSHAP attributions, Isotonic probability calibration, 50-member bootstrap uncertainty estimation, distribution-shift and blind-spot safeguards, input validation, and standardized `ClinicalOutput` schema generation.
 
-## Benchmarking Protocol
-- **Frozen Environment**: All architectures are subjected to the exact same dataset, train/val/test splits, batch size, epochs, and random seeds.
-- **Identical Optimization**: The specified optimizer, scheduler, and loss function are kept fixed across the benchmarked architectures.
-- **Hardware Efficiency Tracking**: Beyond diagnostic metrics (Accuracy, QWK, ROC-AUC), models are profiled for parameter count, FLOPs, MACs, peak VRAM, inference latency, and throughput.
-- **Model Selection**: Model selection considers the predefined evaluation metrics together with measured computational characteristics such as parameter count, memory usage, and inference latency.
+### Next Research Stage
+- **ACARA-U Fusion Engine**: Decision-level multimodal fusion combining independently validated modality outputs (Designed & Planned — Not Yet Implemented).
+
+---
+
+## Architecture Benchmarking Principles
+
+For image-based and tabular modules, candidate architectures are compared under a controlled training and evaluation protocol:
+
+- **Controlled Comparison**: Architectures within each benchmark use identical dataset splits and prescribed training configurations.
+- **Metric Consistency**: Classification, calibration, and ranking metrics are computed using standardized evaluation pipelines.
+- **Computational Profiling**: Parameter count, FLOPs, MACs, peak VRAM, inference latency, throughput, and serialized model size are programmatically measured.
+- **Predefined Selection Criteria**: Model selection is based on primary metrics and constraints registered prior to test evaluation (e.g., held-out Macro F1 for Foot Ulcer; validation NLL for Clinical HPO).
+- **Reproducibility**: Random seeds, configurations, and benchmark artifacts are recorded with each experiment run.
+
+---
+
+## Next Research Stage: ACARA-U Fusion
+
+With the Retina, Foot Ulcer, and Clinical modules independently validated, the next research stage is the **ACARA-U Fusion Engine**.
+
+ACARA-U will operate at the decision level and consume outputs from the validated modality-specific pipelines.
+
+The fusion study will evaluate:
+- Whether prediction, calibration, reliability, and uncertainty information can be combined into a unified assessment without assuming patient-level correspondence across datasets.
+- Pairwise and three-way fusion dynamics.
+- Modality ablation and missing-modality tolerance.
+- Dynamic weighting driven by modality predictive dispersion ($\sigma_p$, predictive entropy).
+- Multimodal distribution-shift robustness and stress testing.
+
+The fusion stage will be evaluated independently from the modality-specific experiments.

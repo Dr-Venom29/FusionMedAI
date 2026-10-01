@@ -60,8 +60,8 @@ generating resampled evaluation cohorts of size $N=14,913$ with specified demogr
 For each shift scenario $s$, performance and reliability metrics are compared against nominal test values:
 
 1. **Discrimination Shift**:
-   $$\Delta \text{ROC-AUC} = \text{ROC-AUC}_s - \text{ROC-AUC}_{\text{nominal}}$$
-   $$\Delta \text{PR-AUC} = \text{PR-AUC}_s - \text{PR-AUC}_{\text{nominal}}$$
+   $$\Delta \text{AUC}_{\text{ROC}} = \text{AUC}_{\text{ROC}, s} - \text{AUC}_{\text{ROC}, \text{nominal}}$$
+   $$\Delta \text{AUC}_{\text{PR}} = \text{AUC}_{\text{PR}, s} - \text{AUC}_{\text{PR}, \text{nominal}}$$
 
 2. **Calibration Slope Degradation**:
    $$\Delta \text{Slope} = \text{Slope}_s - \text{Slope}_{\text{nominal}}$$
@@ -71,5 +71,5 @@ For each shift scenario $s$, performance and reliability metrics are compared ag
    $$\Delta \text{ECE} = \text{ECE}_s - \text{ECE}_{\text{nominal}}$$
 
 4. **Uncertainty Inflation Response**:
-   $$\Delta \mu_{\sigma} = \mathbb{E}_{s}[\sigma_p] - \mathbb{E}_{\text{nominal}}[\sigma_p]$$
-   $$\text{Inflation Ratio} = \frac{\mathbb{E}_{s}[\sigma_p]}{\mathbb{E}_{\text{nominal}}[\sigma_p]}$$
+   $$\Delta \mu_{\sigma} = \mathbb{E}_s[\sigma_p] - \mathbb{E}_{\text{nominal}}[\sigma_p]$$
+   $$\text{Inflation Ratio} = \frac{\mathbb{E}_s[\sigma_p]}{\mathbb{E}_{\text{nominal}}[\sigma_p]}$$

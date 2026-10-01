@@ -2,119 +2,110 @@
 
 ## Overview
 
-Preprocessing converts each modality's input data into the representation required by its model while keeping preprocessing specific to that modality.
+Preprocessing converts each modality's raw input data into the structured representation required by its downstream model while maintaining strict data isolation between modalities.
 
-Each module maintains an independent preprocessing pipeline tailored to its respective data modality.
-
----
-
-## Current Module Status
-
-| Module | Preprocessing Status |
-| :--- | :--- |
-| **Retina Module** | Baseline preprocessing finalized and validated through architecture benchmarking. |
-| **Foot Ulcer Module** | Validated and used throughout baseline training and architecture benchmarking. |
-| **Clinical Module** | Planned |
-| **ACARA-U Fusion** | Planned |
+Each module maintains an independent preprocessing pipeline tailored to its specific data characteristics (pixel tensors for vision modalities; structured 119-dimensional feature vectors for clinical EHR data).
 
 ---
 
-# Retina Module
+## Current Module Preprocessing Status
 
-### Current Baseline
-
-The finalized Retina Module continues to use the validated baseline preprocessing configuration established during the controlled benchmarking phase. The same preprocessing configuration was retained during architecture benchmarking, explainability, probability calibration, and uncertainty estimation to ensure experimental consistency.
-
-The current Retina Module applies a lightweight preprocessing pipeline consisting of:
-
-* Image resizing to 224 × 224
-* Tensor conversion
-* ImageNet normalization
-* Standard data augmentation (Training)
-
-This baseline intentionally avoids additional enhancement techniques to establish a reproducible reference for future experiments.
-
-### Planned Experiments
-
-Future preprocessing studies include:
-
-* Circular fundus cropping
-* Black border removal
-* CLAHE
-* Ben Graham preprocessing
-* Illumination normalization
-* Dataset-specific normalization
-* Higher image resolutions
+| Module | Preprocessing Status | Representation Contract |
+| :--- | :--- | :--- |
+| **Retina Module** | Finalized & Validated | $224 \times 224 \times 3$ RGB tensor, ImageNet normalized |
+| **Foot Ulcer Module** | Finalized & Validated | $224 \times 224 \times 3$ RGB tensor, dataset-specific normalized |
+| **Clinical Module** | Finalized & Validated (C1–C10) | Frozen 119-dimensional tabular representation contract |
+| **ACARA-U Fusion** | Next Research Stage | Decision-level output schema (`ClinicalOutput`, Retina, Foot) |
 
 ---
 
-# Foot Ulcer Module
+## 1. Retina Module
 
-### Current Implementation
+### Validated Baseline Preprocessing
+The finalized Retina Module applies a lightweight, reproducible preprocessing pipeline established during the controlled benchmarking phase. The same configuration was retained for explainability, probability calibration, and uncertainty estimation to avoid introducing preprocessing confounders:
 
-The validated Foot Ulcer preprocessing pipeline was used for baseline training and architecture benchmarking:
+- **Resize**: $224 \times 224$ pixels
+- **Tensor Conversion**: Scaled to $[0, 1]$ floating-point range
+- **Normalization**: ImageNet statistics ($\mu = [0.485, 0.456, 0.406]$, $\sigma = [0.229, 0.224, 0.225]$)
+- **Data Augmentation (Training Only)**: Random horizontal/vertical flips, subtle rotation
+- **Deterministic Validation & Test**: Direct resize, tensor conversion, and normalization with zero stochastic transforms
 
-- **Training Pipeline**:
-  - Resize to 224 × 224 RGB
-  - Random Rotation: $\pm 15^\circ$
-  - Random Horizontal Flip: $p=0.5$
-  - Color Jitter (brightness=0.2, contrast=0.2, saturation=0.1)
-  - Observed dataset normalization (`mean = [0.4937, 0.3630, 0.3272]`, `std = [0.1745, 0.1632, 0.1551]`)
-- **Validation / Test Pipeline**:
-  - Resize to 224 × 224 RGB
-  - Observed dataset normalization (100% Deterministic; 0% stochastic augmentation)
-
----
-
-# Clinical Module
-
-Planned preprocessing includes:
-
-* Missing value handling
-* Feature normalization
-* Categorical encoding
-* Feature engineering
-* Outlier analysis
-* Clinical variable standardization
-
-Implementation pending.
+### Future Preprocessing Experiments
+Prospective preprocessing extensions for fundus imaging may investigate:
+- Circular fundus cropping and black border removal
+- Contrast Limited Adaptive Histogram Equalization (CLAHE)
+- Ben Graham local color subtraction preprocessing
+- Dataset-specific illumination normalization
+- Higher spatial resolutions ($384 \times 384, 512 \times 512$)
 
 ---
 
-# ACARA-U Fusion
+## 2. Diabetic Foot Ulcer Module
 
-The ACARA-U Fusion stage will operate on outputs produced by the individual modality modules.
+### Validated Preprocessing Configuration
+The validated Foot Ulcer preprocessing pipeline was utilized for baseline training, architecture benchmarking, and module integration:
 
-Planned inputs include:
+#### Training Pipeline
+- **Resize**: $224 \times 224$ RGB
+- **Random Rotation**: $\pm 15^\circ$
+- **Random Horizontal Flip**: $p = 0.5$
+- **Color Jitter**: Brightness = $0.2$, Contrast = $0.2$, Saturation = $0.1$
+- **Dataset-Specific Normalization**:
+  - $\mu = [0.4937, 0.3630, 0.3272]$
+  - $\sigma = [0.1745, 0.1632, 0.1551]$
 
-* Modality-level risk
-* Confidence
-* Reliability
-* Uncertainty
+#### Validation & Test Pipeline
+- **Resize**: $224 \times 224$ RGB
+- **Dataset Normalization**: Applied identically using training statistics
+- **Stochastic Augmentation**: None (100% deterministic evaluation)
 
-Implementation pending.
+---
+
+## 3. Structured Clinical Tabular Module
+
+### Validated Clinical Preprocessing (Phase C4 & C10)
+The Clinical Module operates on the frozen **119-dimensional representation** established by the clinical modeling pipeline (`ClinicalPreprocessor` with standard scaling on numerical columns):
+
+- **Schema & Feature-Order Validation**: Strict enforcement of required columns and ordering.
+- **Missing-Value Imputation**: Deterministic zero-imputation / grouped categorical assignment according to the frozen preprocessor state.
+- **Physiological Bounds Validation**: Range checks for encounter lengths, lab counts, procedure counts, and medication exposures.
+- **Representation Dimensionality**: Exact verification of $D=119$ features.
+- **Error Handling**: Input validation layer rejects malformed encounters via `ClinicalValidationError` with zero unhandled runtime exceptions.
+
+The clinical preprocessing and inference contract is frozen and verified across single-encounter and batch workflows ($N=14,913$).
+
+---
+
+## 4. ACARA-U Multimodal Fusion
+
+ACARA-U is the next research stage after independent validation of the Retina, Foot Ulcer, and Clinical modules.
+
+The fusion layer will operate on **modality-level outputs** rather than raw patient features:
+- Modality-specific point predictions and class logits
+- Validation-calibrated probabilities ($p_{\text{cal}}$)
+- Predictive uncertainty dispersion ($\sigma_p$, predictive entropy)
+- Feature and spatial attributions (TreeSHAP rankings, Grad-CAM maps)
+- Data-quality and distribution-shift alerts
+
+*Note: The exact ACARA-U input contract will be defined and verified during the fusion experiments. No multimodal fusion results are currently reported.*
 
 ---
 
 ## Design Principles
 
-All preprocessing pipelines follow the same engineering principles:
-
-* Modular implementation
-* Reproducibility
-* Configuration-driven execution
-* Independent experimentation
-* Verification before training
+All preprocessing pipelines follow strict engineering and scientific principles:
+- **Modular Implementation**: Preprocessing logic is encapsulated within modality-specific packages (`src/retina/`, `src/foot/`, `src/clinical/`).
+- **Reproducibility**: Deterministic evaluation on validation and test partitions.
+- **Configuration-Driven Execution**: Preprocessing parameters are declared in versioned configuration files.
+- **Verification at Each Major Stage**: Input validators and transform pipelines are verified by automated test suites.
 
 ---
 
 ## Future Work
 
-Subsequent project phases will evaluate preprocessing strategies experimentally and quantify their impact on:
+Future preprocessing studies will evaluate alternative transformations within the individual modality pipelines where scientifically justified:
+- Impact of artifact filtering on calibration quality.
+- Influence of normalization techniques on predictive uncertainty.
+- Computational efficiency and inference latency profiling.
 
-* Classification performance
-* Robustness
-* Generalization
-* Computational efficiency
-
-The final preprocessing configuration for each module will be selected based on empirical benchmark results rather than fixed assumptions.
+Changes to preprocessing will be evaluated comparatively against the established frozen baselines.
