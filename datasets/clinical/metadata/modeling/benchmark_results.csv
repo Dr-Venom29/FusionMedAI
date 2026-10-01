@@ -1,2 +1,2 @@
 model,val_roc_auc,val_pr_auc,val_brier_score,val_log_loss,val_ece,val_sensitivity_th20,val_specificity_th20,val_ppv_th20,test_roc_auc,test_pr_auc,test_brier_score,test_log_loss,test_ece,test_sensitivity_th20,test_specificity_th20,test_ppv_th20,train_time_sec,inference_latency_ms_per_1000,parameter_count
-catboost_default,0.653,0.2196,0.0989,0.3432,0.0039,0.177,0.9377,0.273,0.6477,0.2045,0.0952,0.3337,0.0052,0.1701,0.9404,0.2631,3.274,2.337,
+catboost_default,0.653,0.2196,0.0989,0.3432,0.0039,0.177,0.9377,0.273,0.6477,0.2045,0.0952,0.3337,0.0052,0.1701,0.9404,0.2631,3.262,2.125,

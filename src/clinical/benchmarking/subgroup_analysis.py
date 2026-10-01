@@ -117,8 +117,8 @@ def run_subgroup_analysis_standalone(
 
     repo_root = Path(__file__).resolve().parents[3]
     splits_dir = repo_root / "datasets" / "clinical" / "processed" / "splits"
-    c5_base = repo_root / "datasets" / "clinical" / "metadata" / "modeling" / "c5"
-    c5_base.mkdir(parents=True, exist_ok=True)
+    modeling_base = repo_root / "datasets" / "clinical" / "metadata" / "modeling"
+    modeling_base.mkdir(parents=True, exist_ok=True)
 
     print("\n[1/3] Loading canonical splits & fitting preprocessor...")
     df_train = pd.read_csv(splits_dir / "train.csv")
@@ -155,7 +155,7 @@ def run_subgroup_analysis_standalone(
 
     all_sub = sub_val + sub_test
     df_sub = pd.DataFrame(all_sub)
-    out_path = c5_base / "subgroup_results.csv"
+    out_path = modeling_base / "subgroup_results.csv"
     df_sub.to_csv(out_path, index=False)
 
     print(f"\n[3/3] Subgroup analysis ({len(df_sub)} rows) saved to: {out_path.relative_to(repo_root)}")

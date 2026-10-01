@@ -37,7 +37,10 @@ class CatBoostModel(BaseClinicalModel):
         early_stopping_rounds: Optional[int] = 30,
         verbose: int = 0,
         thread_count: int = -1,
+        train_dir: Optional[str] = None,
     ):
+        target_train_dir = train_dir or str(REPO_ROOT / "datasets" / "clinical" / "metadata" / "modeling" / "catboost_info")
+        Path(target_train_dir).mkdir(parents=True, exist_ok=True)
         config = {
             "iterations": iterations,
             "depth": depth,
@@ -48,6 +51,7 @@ class CatBoostModel(BaseClinicalModel):
             "early_stopping_rounds": early_stopping_rounds,
             "verbose": verbose,
             "thread_count": thread_count,
+            "train_dir": target_train_dir,
         }
         super().__init__(model_name="catboost", config=config)
         self.early_stopping_rounds = early_stopping_rounds
@@ -63,6 +67,7 @@ class CatBoostModel(BaseClinicalModel):
             verbose=verbose,
             thread_count=thread_count,
             eval_metric="Logloss",
+            train_dir=target_train_dir,
         )
 
     def fit(
@@ -100,8 +105,8 @@ def run_catboost_standalone(
     print("=" * 70)
 
     splits_dir = REPO_ROOT / "datasets" / "clinical" / "processed" / "splits"
-    c5_base = REPO_ROOT / "datasets" / "clinical" / "metadata" / "modeling" / "c5"
-    configs_dir = c5_base / "model_configs"
+    modeling_base = REPO_ROOT / "datasets" / "clinical" / "metadata" / "modeling"
+    configs_dir = modeling_base / "model_configs"
     configs_dir.mkdir(parents=True, exist_ok=True)
 
     print("\n[1/3] Loading canonical splits & fitting locked preprocessor...")

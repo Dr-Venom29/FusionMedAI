@@ -9,7 +9,8 @@
     "random_state": 42,
     "early_stopping_rounds": 30,
     "verbose": 0,
-    "thread_count": -1
+    "thread_count": -1,
+    "train_dir": "D:\\FusionMedAI\\datasets\\clinical\\metadata\\modeling\\catboost_info"
   },
   "is_fitted": true
 }

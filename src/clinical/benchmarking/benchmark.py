@@ -142,11 +142,11 @@ def run_benchmark(model_filter: str = "catboost", run_hpo: bool = False) -> Dict
 
     # 1. Directory Structure Setup
     splits_dir = REPO_ROOT / "datasets" / "clinical" / "processed" / "splits"
-    c5_base = REPO_ROOT / "datasets" / "clinical" / "metadata" / "modeling" / "c5"
-    configs_dir = c5_base / "model_configs"
-    manifests_dir = c5_base / "manifests"
+    modeling_base = REPO_ROOT / "datasets" / "clinical" / "metadata" / "modeling"
+    configs_dir = modeling_base / "model_configs"
+    manifests_dir = modeling_base / "manifests"
 
-    for d in [c5_base, configs_dir, manifests_dir]:
+    for d in [modeling_base, configs_dir, manifests_dir]:
         d.mkdir(parents=True, exist_ok=True)
 
     # 2. Load Frozen C2 Splits
@@ -289,30 +289,30 @@ def run_benchmark(model_filter: str = "catboost", run_hpo: bool = False) -> Dict
     # 6. Export CSV Artifacts
     print("\n[Step 5/8] Exporting Tabular Artifacts...")
     df_benchmark = pd.DataFrame(benchmark_rows)
-    df_benchmark.to_csv(c5_base / "benchmark_results.csv", index=False)
+    df_benchmark.to_csv(modeling_base / "benchmark_results.csv", index=False)
 
     if not df_hpo_trials.empty:
-        df_hpo_trials.to_csv(c5_base / "hyperparameter_results.csv", index=False)
+        df_hpo_trials.to_csv(modeling_base / "hyperparameter_results.csv", index=False)
     else:
         pd.DataFrame(columns=["model", "trial_number", "val_pr_auc", "val_roc_auc"]).to_csv(
-            c5_base / "hyperparameter_results.csv", index=False
+            modeling_base / "hyperparameter_results.csv", index=False
         )
 
-    pd.DataFrame(calibration_records).to_csv(c5_base / "calibration_results.csv", index=False)
-    pd.DataFrame(threshold_records).to_csv(c5_base / "threshold_results.csv", index=False)
-    pd.DataFrame(subgroup_records).to_csv(c5_base / "subgroup_results.csv", index=False)
-    pd.DataFrame(complexity_records).to_csv(c5_base / "complexity_results.csv", index=False)
+    pd.DataFrame(calibration_records).to_csv(modeling_base / "calibration_results.csv", index=False)
+    pd.DataFrame(threshold_records).to_csv(modeling_base / "threshold_results.csv", index=False)
+    pd.DataFrame(subgroup_records).to_csv(modeling_base / "subgroup_results.csv", index=False)
+    pd.DataFrame(complexity_records).to_csv(modeling_base / "complexity_results.csv", index=False)
 
     # 7. Cryptographic Manifest Generation
-    print("\n[Step 6/8] Generating C5 Cryptographic Manifest...")
+    print("\n[Step 6/8] Generating Cryptographic Manifest...")
     manifest_artifacts = {}
     csv_artifacts = [
-        c5_base / "benchmark_results.csv",
-        c5_base / "hyperparameter_results.csv",
-        c5_base / "calibration_results.csv",
-        c5_base / "threshold_results.csv",
-        c5_base / "subgroup_results.csv",
-        c5_base / "complexity_results.csv",
+        modeling_base / "benchmark_results.csv",
+        modeling_base / "hyperparameter_results.csv",
+        modeling_base / "calibration_results.csv",
+        modeling_base / "threshold_results.csv",
+        modeling_base / "subgroup_results.csv",
+        modeling_base / "complexity_results.csv",
     ]
     csv_artifacts.extend(list(configs_dir.glob("*.json")))
 
@@ -325,7 +325,7 @@ def run_benchmark(model_filter: str = "catboost", run_hpo: bool = False) -> Dict
 
     manifest_payload = {
         "provenance": {
-            "phase": "C5",
+            "pipeline": "clinical_benchmarking",
             "analysis_population": "train",
             "random_seed": 42,
             "train_rows": len(df_train),
@@ -337,20 +337,20 @@ def run_benchmark(model_filter: str = "catboost", run_hpo: bool = False) -> Dict
         "artifacts": manifest_artifacts,
     }
 
-    manifest_file = manifests_dir / "c5_manifest.json"
+    manifest_file = manifests_dir / "benchmarking_manifest.json"
     with open(manifest_file, "w") as f:
         json.dump(manifest_payload, f, indent=2)
 
-    print(f"  -> C5 Manifest locked with {len(manifest_artifacts)} artifacts at {manifest_file.relative_to(REPO_ROOT)}")
+    print(f"  -> Manifest locked with {len(manifest_artifacts)} artifacts at {manifest_file.relative_to(REPO_ROOT)}")
     print("\n" + "=" * 75)
-    print("Phase C5 Architecture Benchmarking Complete!")
+    print("Clinical Architecture Benchmarking Complete!")
     print("=" * 75)
 
     return manifest_payload
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Clinical Tabular Architecture Benchmarking (Phase C5)")
+    parser = argparse.ArgumentParser(description="Clinical Tabular Architecture Benchmarking")
     parser.add_argument(
         "--model",
         type=str,

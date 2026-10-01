@@ -184,8 +184,8 @@ def run_hpo_standalone(
 
     repo_root = Path(__file__).resolve().parents[3]
     splits_dir = repo_root / "datasets" / "clinical" / "processed" / "splits"
-    c5_base = repo_root / "datasets" / "clinical" / "metadata" / "modeling" / "c5"
-    c5_base.mkdir(parents=True, exist_ok=True)
+    modeling_base = repo_root / "datasets" / "clinical" / "metadata" / "modeling"
+    modeling_base.mkdir(parents=True, exist_ok=True)
 
     print("\n[1/3] Loading canonical splits & fitting locked preprocessor...")
     df_train = pd.read_csv(splits_dir / "train.csv")
@@ -211,7 +211,7 @@ def run_hpo_standalone(
         hpo_dfs.append(tn_df)
 
     df_out = pd.concat(hpo_dfs, ignore_index=True) if hpo_dfs else pd.DataFrame()
-    out_path = c5_base / "hyperparameter_results.csv"
+    out_path = modeling_base / "hyperparameter_results.csv"
     df_out.to_csv(out_path, index=False)
     print(f"\n[3/3] HPO trials saved to: {out_path.relative_to(repo_root)}")
     return df_out

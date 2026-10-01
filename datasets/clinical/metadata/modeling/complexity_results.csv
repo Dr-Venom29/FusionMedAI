@@ -1,2 +1,2 @@
 model,train_time_seconds,inference_time_total_seconds,inference_latency_ms_per_1000,throughput_samples_per_sec,serialized_size_kb,parameter_count
-catboost_default,3.274,0.0023,2.337,427866.1,475.24,
+catboost_default,3.262,0.0021,2.125,470486.4,475.46,
