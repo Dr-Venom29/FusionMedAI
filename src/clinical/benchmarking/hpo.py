@@ -213,7 +213,11 @@ def run_hpo_standalone(
     df_out = pd.concat(hpo_dfs, ignore_index=True) if hpo_dfs else pd.DataFrame()
     out_path = modeling_base / "hyperparameter_results.csv"
     df_out.to_csv(out_path, index=False)
-    print(f"\n[3/3] HPO trials saved to: {out_path.relative_to(repo_root)}")
+    try:
+        out_rel = out_path.relative_to(repo_root)
+    except ValueError:
+        out_rel = out_path
+    print(f"\n[3/3] HPO trials saved to: {out_rel}")
     return df_out
 
 

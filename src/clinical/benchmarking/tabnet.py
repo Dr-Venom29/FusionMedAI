@@ -190,7 +190,11 @@ def run_tabnet_standalone(
     cfg_path = configs_dir / "tabnet_default_config.json"
     with open(cfg_path, "w") as f:
         json.dump(model.get_config(), f, indent=2)
-    print(f"\n  -> Config saved to: {cfg_path.relative_to(repo_root)}")
+    try:
+        cfg_rel = cfg_path.relative_to(repo_root)
+    except ValueError:
+        cfg_rel = cfg_path
+    print(f"\n  -> Config saved to: {cfg_rel}")
 
     return {
         "model": "tabnet",

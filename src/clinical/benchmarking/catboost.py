@@ -156,7 +156,11 @@ def run_catboost_standalone(
     cfg_path = configs_dir / "catboost_default_config.json"
     with open(cfg_path, "w") as f:
         json.dump(model.get_config(), f, indent=2)
-    print(f"\n  -> Config saved to: {cfg_path.relative_to(REPO_ROOT)}")
+    try:
+        cfg_rel = cfg_path.relative_to(REPO_ROOT)
+    except ValueError:
+        cfg_rel = cfg_path
+    print(f"\n  -> Config saved to: {cfg_rel}")
 
     return {
         "model": "catboost",

@@ -159,7 +159,11 @@ def run_subgroup_analysis_standalone(
     out_path = modeling_base / "subgroup_results.csv"
     df_sub.to_csv(out_path, index=False)
 
-    print(f"\n[3/3] Subgroup analysis ({len(df_sub)} rows) saved to: {out_path.relative_to(repo_root)}")
+    try:
+        out_rel = out_path.relative_to(repo_root)
+    except ValueError:
+        out_rel = out_path
+    print(f"\n[3/3] Subgroup analysis ({len(df_sub)} rows) saved to: {out_rel}")
     return df_sub
 
 

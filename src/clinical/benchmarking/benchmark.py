@@ -318,7 +318,10 @@ def run_benchmark(model_filter: str = "catboost", run_hpo: bool = False) -> Dict
     csv_artifacts.extend(list(configs_dir.glob("*.json")))
 
     for fpath in sorted(csv_artifacts):
-        rel = fpath.relative_to(REPO_ROOT).as_posix()
+        try:
+            rel = fpath.relative_to(REPO_ROOT).as_posix()
+        except ValueError:
+            rel = fpath.as_posix()
         manifest_artifacts[rel] = {
             "size_bytes": fpath.stat().st_size,
             "sha256": sha256_file(fpath),
@@ -342,7 +345,11 @@ def run_benchmark(model_filter: str = "catboost", run_hpo: bool = False) -> Dict
     with open(manifest_file, "w") as f:
         json.dump(manifest_payload, f, indent=2)
 
-    print(f"  -> Manifest locked with {len(manifest_artifacts)} artifacts at {manifest_file.relative_to(REPO_ROOT)}")
+    try:
+        manifest_rel = manifest_file.relative_to(REPO_ROOT).as_posix()
+    except ValueError:
+        manifest_rel = manifest_file.as_posix()
+    print(f"  -> Manifest locked with {len(manifest_artifacts)} artifacts at {manifest_rel}")
     print("\n" + "=" * 75)
     print("Clinical Architecture Benchmarking Complete!")
     print("=" * 75)

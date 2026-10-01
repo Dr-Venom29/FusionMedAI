@@ -144,7 +144,11 @@ def run_complexity_audit_standalone(model_name: str = "all") -> pd.DataFrame:
     df_prof = pd.DataFrame(records)
     out_path = modeling_base / "complexity_results.csv"
     df_prof.to_csv(out_path, index=False)
-    print(f"\n[3/3] Complexity profile saved to: {out_path.relative_to(repo_root)}")
+    try:
+        out_rel = out_path.relative_to(repo_root)
+    except ValueError:
+        out_rel = out_path
+    print(f"\n[3/3] Complexity profile saved to: {out_rel}")
     return df_prof
 
 
