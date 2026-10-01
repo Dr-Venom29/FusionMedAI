@@ -21,6 +21,7 @@ from src.clinical.modeling.metrics import (
     compute_classification_metrics,
     compute_calibration_metrics,
 )
+from src.clinical.benchmarking.runtime import get_runtime_output_root
 
 
 class CatBoostModel(BaseClinicalModel):
@@ -39,21 +40,9 @@ class CatBoostModel(BaseClinicalModel):
         thread_count: int = -1,
         train_dir: Optional[str] = None,
     ):
-        if train_dir is not None:
-            target_train_dir = Path(train_dir)
-        elif Path("/kaggle/working").exists():
-            target_train_dir = Path("/kaggle/working/catboost_info")
-        else:
-            target_train_dir = (
-                REPO_ROOT
-                / "datasets"
-                / "clinical"
-                / "metadata"
-                / "modeling"
-                / "catboost_info"
-            )
-        target_train_dir.mkdir(parents=True, exist_ok=True)
-        target_train_dir = str(target_train_dir)
+        output_root = get_runtime_output_root(REPO_ROOT)
+        target_train_dir = train_dir or str(output_root / "catboost_info")
+        Path(target_train_dir).mkdir(parents=True, exist_ok=True)
         config = {
             "iterations": iterations,
             "depth": depth,
@@ -118,8 +107,8 @@ def run_catboost_standalone(
     print("=" * 70)
 
     splits_dir = REPO_ROOT / "datasets" / "clinical" / "processed" / "splits"
-    modeling_base = REPO_ROOT / "datasets" / "clinical" / "metadata" / "modeling"
-    configs_dir = modeling_base / "model_configs"
+    output_root = get_runtime_output_root(REPO_ROOT)
+    configs_dir = output_root / "model_configs"
     configs_dir.mkdir(parents=True, exist_ok=True)
 
     print("\n[1/3] Loading canonical splits & fitting locked preprocessor...")

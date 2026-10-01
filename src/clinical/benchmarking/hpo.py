@@ -177,6 +177,7 @@ def run_hpo_standalone(
     import argparse
     from pathlib import Path
     from src.clinical.modeling.preprocessing import ClinicalPreprocessor
+    from src.clinical.benchmarking.runtime import get_runtime_output_root
 
     print("=" * 70)
     print(f"FusionMedAI: Standalone Bounded Validation HPO ({model_name.upper()})")
@@ -184,8 +185,7 @@ def run_hpo_standalone(
 
     repo_root = Path(__file__).resolve().parents[3]
     splits_dir = repo_root / "datasets" / "clinical" / "processed" / "splits"
-    modeling_base = repo_root / "datasets" / "clinical" / "metadata" / "modeling"
-    modeling_base.mkdir(parents=True, exist_ok=True)
+    modeling_base = get_runtime_output_root(repo_root)
 
     print("\n[1/3] Loading canonical splits & fitting locked preprocessor...")
     df_train = pd.read_csv(splits_dir / "train.csv")

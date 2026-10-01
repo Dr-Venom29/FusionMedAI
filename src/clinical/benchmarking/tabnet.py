@@ -129,13 +129,15 @@ def run_tabnet_standalone(
         compute_calibration_metrics,
     )
 
+    from src.clinical.benchmarking.runtime import get_runtime_output_root
+
     print("=" * 70)
     print("FusionMedAI: Standalone TabNet Classifier Evaluation")
     print("=" * 70)
 
     repo_root = Path(__file__).resolve().parents[3]
     splits_dir = repo_root / "datasets" / "clinical" / "processed" / "splits"
-    modeling_base = repo_root / "datasets" / "clinical" / "metadata" / "modeling"
+    modeling_base = get_runtime_output_root(repo_root)
     configs_dir = modeling_base / "model_configs"
     configs_dir.mkdir(parents=True, exist_ok=True)
 

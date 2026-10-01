@@ -47,6 +47,7 @@ from src.clinical.benchmarking.hpo import (
     run_catboost_hpo,
     run_tabnet_hpo,
 )
+from src.clinical.benchmarking.runtime import get_runtime_output_root
 
 
 def sha256_file(filepath: Path) -> str:
@@ -142,7 +143,7 @@ def run_benchmark(model_filter: str = "catboost", run_hpo: bool = False) -> Dict
 
     # 1. Directory Structure Setup
     splits_dir = REPO_ROOT / "datasets" / "clinical" / "processed" / "splits"
-    modeling_base = REPO_ROOT / "datasets" / "clinical" / "metadata" / "modeling"
+    modeling_base = get_runtime_output_root(REPO_ROOT)
     configs_dir = modeling_base / "model_configs"
     manifests_dir = modeling_base / "manifests"
 
