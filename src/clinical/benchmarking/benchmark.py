@@ -64,6 +64,7 @@ def build_models_suite(
     X_val: np.ndarray,
     y_val: np.ndarray,
     random_state: int = 42,
+    output_dir: Optional[Path] = None,
 ) -> tuple[Dict[str, BaseClinicalModel], pd.DataFrame]:
     """Assemble the models to evaluate based on target model and HPO flag."""
     models: Dict[str, BaseClinicalModel] = {}
@@ -89,8 +90,15 @@ def build_models_suite(
 
     # CatBoost handling
     if model_name in ["all", "catboost"]:
+        cb_train_dir = str(output_dir / "catboost_info") if output_dir else None
         models["catboost_default"] = CatBoostModel(
-            iterations=300, depth=6, learning_rate=0.05, l2_leaf_reg=3.0, random_state=random_state, verbose=0
+            iterations=300,
+            depth=6,
+            learning_rate=0.05,
+            l2_leaf_reg=3.0,
+            random_state=random_state,
+            verbose=0,
+            train_dir=cb_train_dir,
         )
         if run_hpo:
             print("  -> Running bounded validation HPO for CatBoost (15 trials)...")
@@ -104,6 +112,7 @@ def build_models_suite(
                 subsample=cb_best.get("subsample", 0.8),
                 random_state=random_state,
                 verbose=0,
+                train_dir=cb_train_dir,
             )
 
     # TabNet handling
@@ -152,11 +161,11 @@ def run_benchmark(model_filter: str = "catboost", run_hpo: bool = False) -> Dict
 
     # 1. Directory Structure Setup
     splits_dir = REPO_ROOT / "datasets" / "clinical" / "processed" / "splits"
-    modeling_base = get_runtime_output_root(REPO_ROOT)
-    configs_dir = modeling_base / "model_configs"
-    manifests_dir = modeling_base / "manifests"
+    c5_base = get_runtime_output_root(REPO_ROOT, "benchmark")
+    configs_dir = c5_base / "model_configs"
+    manifests_dir = c5_base / "manifests"
 
-    for d in [modeling_base, configs_dir, manifests_dir]:
+    for d in [c5_base, configs_dir, manifests_dir]:
         d.mkdir(parents=True, exist_ok=True)
 
     # 2. Load Frozen C2 Splits
@@ -299,30 +308,30 @@ def run_benchmark(model_filter: str = "catboost", run_hpo: bool = False) -> Dict
     # 6. Export CSV Artifacts
     print("\n[Step 5/8] Exporting Tabular Artifacts...")
     df_benchmark = pd.DataFrame(benchmark_rows)
-    df_benchmark.to_csv(modeling_base / "benchmark_results.csv", index=False)
+    df_benchmark.to_csv(c5_base / "benchmark_results.csv", index=False)
 
     if not df_hpo_trials.empty:
-        df_hpo_trials.to_csv(modeling_base / "hyperparameter_results.csv", index=False)
+        df_hpo_trials.to_csv(c5_base / "hyperparameter_results.csv", index=False)
     else:
         pd.DataFrame(columns=["model", "trial_number", "val_pr_auc", "val_roc_auc"]).to_csv(
-            modeling_base / "hyperparameter_results.csv", index=False
+            c5_base / "hyperparameter_results.csv", index=False
         )
 
-    pd.DataFrame(calibration_records).to_csv(modeling_base / "calibration_results.csv", index=False)
-    pd.DataFrame(threshold_records).to_csv(modeling_base / "threshold_results.csv", index=False)
-    pd.DataFrame(subgroup_records).to_csv(modeling_base / "subgroup_results.csv", index=False)
-    pd.DataFrame(complexity_records).to_csv(modeling_base / "complexity_results.csv", index=False)
+    pd.DataFrame(calibration_records).to_csv(c5_base / "calibration_results.csv", index=False)
+    pd.DataFrame(threshold_records).to_csv(c5_base / "threshold_results.csv", index=False)
+    pd.DataFrame(subgroup_records).to_csv(c5_base / "subgroup_results.csv", index=False)
+    pd.DataFrame(complexity_records).to_csv(c5_base / "complexity_results.csv", index=False)
 
     # 7. Cryptographic Manifest Generation
     print("\n[Step 6/8] Generating Cryptographic Manifest...")
     manifest_artifacts = {}
     csv_artifacts = [
-        modeling_base / "benchmark_results.csv",
-        modeling_base / "hyperparameter_results.csv",
-        modeling_base / "calibration_results.csv",
-        modeling_base / "threshold_results.csv",
-        modeling_base / "subgroup_results.csv",
-        modeling_base / "complexity_results.csv",
+        c5_base / "benchmark_results.csv",
+        c5_base / "hyperparameter_results.csv",
+        c5_base / "calibration_results.csv",
+        c5_base / "threshold_results.csv",
+        c5_base / "subgroup_results.csv",
+        c5_base / "complexity_results.csv",
     ]
     csv_artifacts.extend(list(configs_dir.glob("*.json")))
 

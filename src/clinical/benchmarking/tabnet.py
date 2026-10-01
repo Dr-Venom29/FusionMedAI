@@ -137,8 +137,8 @@ def run_tabnet_standalone(
 
     repo_root = Path(__file__).resolve().parents[3]
     splits_dir = repo_root / "datasets" / "clinical" / "processed" / "splits"
-    modeling_base = get_runtime_output_root(repo_root)
-    configs_dir = modeling_base / "model_configs"
+    output_root = get_runtime_output_root(repo_root, "tabnet")
+    configs_dir = output_root / "model_configs"
     configs_dir.mkdir(parents=True, exist_ok=True)
 
     print("\n[1/3] Loading canonical splits & fitting locked preprocessor...")

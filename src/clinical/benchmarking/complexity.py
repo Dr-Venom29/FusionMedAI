@@ -98,7 +98,7 @@ def run_complexity_audit_standalone(model_name: str = "all") -> pd.DataFrame:
 
     repo_root = Path(__file__).resolve().parents[3]
     splits_dir = repo_root / "datasets" / "clinical" / "processed" / "splits"
-    modeling_base = get_runtime_output_root(repo_root)
+    output_root = get_runtime_output_root(repo_root, "complexity")
 
     print("\n[1/3] Loading canonical splits & fitting preprocessor...")
     df_train = pd.read_csv(splits_dir / "train.csv")
@@ -147,7 +147,7 @@ def run_complexity_audit_standalone(model_name: str = "all") -> pd.DataFrame:
         print(f"     Fit Time: {prof['train_time_seconds']:.2f}s | Latency (1k): {prof['inference_latency_ms_per_1000']:.2f}ms | Disk Size: {prof['serialized_size_kb']:.1f} KB")
 
     df_prof = pd.DataFrame(records)
-    out_path = modeling_base / "complexity_results.csv"
+    out_path = output_root / "complexity_results.csv"
     df_prof.to_csv(out_path, index=False)
     try:
         out_rel = out_path.relative_to(repo_root)

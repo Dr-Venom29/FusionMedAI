@@ -40,9 +40,10 @@ class CatBoostModel(BaseClinicalModel):
         thread_count: int = -1,
         train_dir: Optional[str] = None,
     ):
-        output_root = get_runtime_output_root(REPO_ROOT)
-        target_train_dir = train_dir or str(output_root / "catboost_info")
-        Path(target_train_dir).mkdir(parents=True, exist_ok=True)
+        output_root = get_runtime_output_root(REPO_ROOT, "catboost")
+        train_dir_path = Path(train_dir) if train_dir is not None else output_root / "catboost_info"
+        train_dir_path.mkdir(parents=True, exist_ok=True)
+        target_train_dir = str(train_dir_path)
         config = {
             "iterations": iterations,
             "depth": depth,
@@ -107,7 +108,7 @@ def run_catboost_standalone(
     print("=" * 70)
 
     splits_dir = REPO_ROOT / "datasets" / "clinical" / "processed" / "splits"
-    output_root = get_runtime_output_root(REPO_ROOT)
+    output_root = get_runtime_output_root(REPO_ROOT, "catboost")
     configs_dir = output_root / "model_configs"
     configs_dir.mkdir(parents=True, exist_ok=True)
 
@@ -132,6 +133,7 @@ def run_catboost_standalone(
         random_state=random_state,
         early_stopping_rounds=30,
         verbose=0,
+        train_dir=str(output_root / "catboost_info"),
     )
     t0 = time.perf_counter()
     model.fit(X_train, y_train, eval_set=(X_val, y_val))

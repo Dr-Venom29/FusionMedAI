@@ -186,7 +186,7 @@ def run_hpo_standalone(
 
     repo_root = Path(__file__).resolve().parents[3]
     splits_dir = repo_root / "datasets" / "clinical" / "processed" / "splits"
-    modeling_base = get_runtime_output_root(repo_root)
+    output_root = get_runtime_output_root(repo_root, "hpo")
 
     print("\n[1/3] Loading canonical splits & fitting locked preprocessor...")
     df_train = pd.read_csv(splits_dir / "train.csv")
@@ -212,7 +212,7 @@ def run_hpo_standalone(
         hpo_dfs.append(tn_df)
 
     df_out = pd.concat(hpo_dfs, ignore_index=True) if hpo_dfs else pd.DataFrame()
-    out_path = modeling_base / "hyperparameter_results.csv"
+    out_path = output_root / "hyperparameter_results.csv"
     df_out.to_csv(out_path, index=False)
     try:
         out_rel = out_path.relative_to(repo_root)
