@@ -9,3 +9,8 @@ shap
 albumentations
 timm
 reportlab
+xgboost
+lightgbm
+catboost
+optuna
+pytorch-tabnet

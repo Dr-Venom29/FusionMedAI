@@ -11,7 +11,6 @@ from sklearn.metrics import average_precision_score, roc_auc_score
 import optuna
 
 from src.clinical.benchmarking.catboost import CatBoostModel
-from src.clinical.benchmarking.tabnet import TabNetModel
 
 optuna.logging.set_verbosity(optuna.logging.WARNING)
 
@@ -85,6 +84,8 @@ def run_tabnet_hpo(
     random_state: int = 42,
 ) -> Tuple[Dict[str, Any], pd.DataFrame]:
     """Perform bounded HPO for TabNet using validation PR-AUC as optimization target."""
+    from src.clinical.benchmarking.tabnet import TabNetModel
+
     trial_records = []
 
     def objective(trial: optuna.Trial) -> float:

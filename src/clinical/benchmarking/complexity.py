@@ -89,7 +89,6 @@ def run_complexity_audit_standalone(model_name: str = "all") -> pd.DataFrame:
     from src.clinical.modeling.models import get_baseline_models
     from src.clinical.modeling.preprocessing import ClinicalPreprocessor
     from src.clinical.benchmarking.catboost import CatBoostModel
-    from src.clinical.benchmarking.tabnet import TabNetModel
 
     from src.clinical.benchmarking.runtime import get_runtime_output_root
 
@@ -124,14 +123,20 @@ def run_complexity_audit_standalone(model_name: str = "all") -> pd.DataFrame:
     if model_name in ["all", "catboost"]:
         models_to_test["catboost"] = CatBoostModel(iterations=300, depth=6, random_state=42, verbose=0)
     if model_name in ["all", "tabnet"]:
-        models_to_test["tabnet"] = TabNetModel(max_epochs=40, patience=8, random_state=42, verbose=0)
+        try:
+            from src.clinical.benchmarking.tabnet import TabNetModel
+            models_to_test["tabnet"] = TabNetModel(max_epochs=40, patience=8, random_state=42, verbose=0)
+        except ImportError:
+            if model_name == "tabnet":
+                raise
+            print("  -> [Notice] pytorch-tabnet not installed; skipping TabNet.")
 
     print(f"\n[2/3] Profiling complexity for {len(models_to_test)} architectures...")
     records = []
     for name, mdl in models_to_test.items():
         print(f"  -> Fitting and profiling '{name}'...")
         t0 = time.perf_counter()
-        if isinstance(mdl, (CatBoostModel, TabNetModel)):
+        if isinstance(mdl, CatBoostModel) or type(mdl).__name__ == "TabNetModel":
             mdl.fit(X_train, y_train, eval_set=(X_val, y_val))
         else:
             mdl.fit(X_train, y_train)

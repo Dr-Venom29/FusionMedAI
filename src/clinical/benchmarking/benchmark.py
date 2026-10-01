@@ -34,7 +34,6 @@ from src.clinical.modeling.models import (
     get_baseline_models,
 )
 from src.clinical.benchmarking.catboost import CatBoostModel
-from src.clinical.benchmarking.tabnet import TabNetModel
 from src.clinical.modeling.metrics import (
     compute_classification_metrics,
     compute_threshold_metrics,
@@ -43,9 +42,7 @@ from src.clinical.modeling.metrics import (
 from src.clinical.benchmarking.complexity import audit_model_complexity
 from src.clinical.benchmarking.subgroup_analysis import evaluate_clinical_subgroups
 from src.clinical.benchmarking.hpo import (
-    run_hpo_search,
     run_catboost_hpo,
-    run_tabnet_hpo,
 )
 from src.clinical.benchmarking.runtime import get_runtime_output_root
 
@@ -111,25 +108,37 @@ def build_models_suite(
 
     # TabNet handling
     if model_name in ["all", "tabnet"]:
-        models["tabnet_default"] = TabNetModel(
-            n_d=16, n_a=16, n_steps=3, gamma=1.3, learning_rate=0.02, max_epochs=40, patience=8, random_state=random_state, verbose=0
-        )
-        if run_hpo:
-            print("  -> Running bounded validation HPO for TabNet (10 trials)...")
-            tn_best, tn_df = run_tabnet_hpo(X_train, y_train, X_val, y_val, n_trials=10, random_state=random_state)
-            hpo_dfs.append(tn_df)
-            models["tabnet_tuned"] = TabNetModel(
-                n_d=tn_best.get("n_d", 16),
-                n_a=tn_best.get("n_a", 16),
-                n_steps=tn_best.get("n_steps", 3),
-                gamma=tn_best.get("gamma", 1.3),
-                lambda_sparse=tn_best.get("lambda_sparse", 1e-3),
-                learning_rate=tn_best.get("learning_rate", 0.02),
-                max_epochs=40,
-                patience=8,
-                random_state=random_state,
-                verbose=0,
+        try:
+            from src.clinical.benchmarking.tabnet import TabNetModel
+            from src.clinical.benchmarking.hpo import run_tabnet_hpo
+
+            models["tabnet_default"] = TabNetModel(
+                n_d=16, n_a=16, n_steps=3, gamma=1.3, learning_rate=0.02, max_epochs=40, patience=8, random_state=random_state, verbose=0
             )
+            if run_hpo:
+                print("  -> Running bounded validation HPO for TabNet (10 trials)...")
+                tn_best, tn_df = run_tabnet_hpo(X_train, y_train, X_val, y_val, n_trials=10, random_state=random_state)
+                hpo_dfs.append(tn_df)
+                models["tabnet_tuned"] = TabNetModel(
+                    n_d=tn_best.get("n_d", 16),
+                    n_a=tn_best.get("n_a", 16),
+                    n_steps=tn_best.get("n_steps", 3),
+                    gamma=tn_best.get("gamma", 1.3),
+                    lambda_sparse=tn_best.get("lambda_sparse", 1e-3),
+                    learning_rate=tn_best.get("learning_rate", 0.02),
+                    max_epochs=40,
+                    patience=8,
+                    random_state=random_state,
+                    verbose=0,
+                )
+        except ImportError as e:
+            if model_name == "tabnet":
+                raise ImportError(
+                    "TabNet dependencies (pytorch-tabnet) are not installed. "
+                    "Install them with `pip install pytorch-tabnet`."
+                ) from e
+            else:
+                print("  -> [Notice] TabNet dependencies (pytorch-tabnet) not found; skipping TabNet for '--model all'.")
 
     df_hpo = pd.concat(hpo_dfs, ignore_index=True) if hpo_dfs else pd.DataFrame()
     return models, df_hpo
@@ -201,7 +210,7 @@ def run_benchmark(model_filter: str = "catboost", run_hpo: bool = False) -> Dict
         t_start = time.perf_counter()
         
         # Fit with validation early stopping for CatBoost / TabNet if supported
-        if isinstance(model, (CatBoostModel, TabNetModel)):
+        if isinstance(model, CatBoostModel) or type(model).__name__ == "TabNetModel":
             model.fit(X_train, y_train, eval_set=(X_val, y_val))
         else:
             model.fit(X_train, y_train)
