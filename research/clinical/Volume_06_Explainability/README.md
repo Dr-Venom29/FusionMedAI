@@ -3,7 +3,7 @@
 ## Overview
 This volume documents the formal model explainability and post-hoc feature attribution analysis for the Clinical Modality of **FusionMedAI** (Phase C6).
 
-Following the rigorous selection protocol in Phase C5, the **CatBoost HPO Tuned** model ($\text{depth}=4$, $\text{learning\_rate}=0.1383$, $\text{iterations}=350$, $\text{l2\_leaf\_reg}=2.911$, $\text{subsample}=0.655$, $\text{random\_seed}=42$) was frozen as the candidate tabular backbone ($0.6504$ Test ROC-AUC, $0.2063$ Test PR-AUC). 
+Following the rigorous selection protocol in Phase C5, the **CatBoost HPO Tuned** model (`depth=4`, `learning_rate=0.1383`, `iterations=350`, `l2_leaf_reg=2.911`, `subsample=0.655`, `random_seed=42`) was frozen as the candidate tabular backbone ($0.6504$ Test ROC-AUC, $0.2063$ Test PR-AUC). 
 
 Phase C6 investigates the exact clinical decision rules, global feature attributions, directionality patterns, clinical taxonomy group contributions, and local patient encounter explanations using exact **TreeSHAP** (Tree-based Shapley Additive Explanations).
 

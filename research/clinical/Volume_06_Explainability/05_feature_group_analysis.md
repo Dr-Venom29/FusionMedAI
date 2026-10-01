@@ -26,7 +26,7 @@ To provide actionable clinical insight, the 119 preprocessed dimensions are cate
 xychart-beta
     title "Aggregate Relative SHAP Contribution by Clinical Group (%)"
     x-axis ["Prior Utilization", "Acute Complexity", "ICD-9 Diagnoses", "Context/Admin", "Age/Glycemic", "Diabetic Meds", "Treatment Dyn", "Demographics"]
-    y-axis "Relative Share (%)" 0 30
+    y-axis "Relative Share (%)" 0 --> 30
     bar [26.22, 21.23, 15.25, 13.51, 10.07, 7.93, 3.88, 1.91]
 ```
 

@@ -42,7 +42,7 @@ To verify that feature attributions are not artifacts of sampling variance or ov
 xychart-beta
     title "Cumulative Feature Contribution (%) vs Feature Rank"
     x-axis ["Top 1", "Top 3", "Top 5", "Top 10", "Top 15", "Top 20", "Top 30", "Top 50", "Top 119"]
-    y-axis "Cumulative Share (%)" 0 100
+    y-axis "Cumulative Share (%)" 0 --> 100
     line [22.43, 36.70, 45.96, 62.86, 74.30, 80.15, 87.42, 94.10, 100.00]
 ```
 

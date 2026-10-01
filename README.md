@@ -200,11 +200,28 @@ Key findings from the explainability audit include:
 - **Local & Error Case Profiling**: Audited positive, negative, false-positive, and false-negative case attributions under the primary $\theta=0.20$ operating threshold.
 - **Non-Causal Associative Scope**: SHAP attributions reflect additive contributions in model log-odds space within this dataset and do not establish causal clinical mechanisms or treatment effects.
 
+### Probability Calibration & Risk Reliability (C7)
+
+Post-hoc calibration was evaluated on the frozen CatBoost candidate model to assess risk probability reliability on the locked test partition ($N=14,913, D=119$) using validation-only parameter fitting ($N_{\text{val}}=14,911$):
+
+| Method | Val Log Loss | Val Brier | Val ECE | Test Log Loss | Test Brier | Test ECE | Test Slope | Test PR-AUC | Test ROC-AUC |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Raw CatBoost** | 0.3437 | 0.0990 | 0.0048 | **0.3338** | **0.0953** | **0.0032** | 0.9492 | **0.2035** | **0.6495** |
+| **Platt Scaling** | 0.3436 | 0.0990 | 0.0030 | 0.3339 | 0.0954 | 0.0054 | 0.9661 | **0.2035** | **0.6495** |
+| **Beta Calibration** | 0.3436 | 0.0990 | 0.0040 | 0.3338 | 0.0953 | 0.0062 | **0.9720** | **0.2035** | **0.6495** |
+| **Isotonic Regression** | **0.3420** | **0.0986** | **0.0000** | 0.3359 | 0.0956 | 0.0062 | 0.8541 | 0.1931 | 0.6475 |
+
+Key findings from the Phase C7 calibration evaluation:
+- **Optimization Trade-offs & Status**: Isotonic Regression was selected under the pre-registered minimum-validation-NLL criterion ($\text{Val NLL} = 0.3420$, $\text{Val ECE} = 0.0000$). On out-of-sample test data, Beta Calibration achieved the strongest parametric calibration slope ($0.9720$) while strictly preserving continuous rank discrimination ($\text{PR-AUC} = 0.2035$), whereas the raw model retained the lowest test ECE ($0.0032$). No single calibrator is declared universally superior or permanently frozen solely from this experiment; deployment selection will be finalized after Phase C8 uncertainty analysis.
+- **Subgroup Calibration Reliability**: Evaluated across Inpatient history ($\ge 1$), Gender (Male, Female), and Age cohorts ($<50, 50-70, \ge 70$), showing no major subgroup calibration degradation under the evaluated ECE criterion ($\text{ECE} < 0.030$).
+- **Decision Curve Analysis (DCA)**: Calibrated predictions demonstrate positive net benefit over both "Treat All" and "Treat None" default clinical policies across the verified decision threshold window $\theta \in [0.05, 0.25]$. At $\theta = 0.15$, the model captures $40.05\%$ of readmissions while reducing intervention workload by $76.37\%$.
+- **Non-Causal Calibration Scope**: Calibrated probabilities approximate conditional event rates under retrospective cohort conditions and do not establish causal treatment effects or deterministic individual certainties.
+
 ### Interpretation of Results
 
-The C5-C6 experiments demonstrate that gradient-boosted trees provide strong, stable tabular discrimination and interpretable attributions aligned with clinical risk factors on the locked 119-dimensional representation.
+The C5-C7 experiments demonstrate that gradient-boosted trees provide strong, stable tabular discrimination, interpretable attributions aligned with clinical risk factors, and reliable probability calibration on the locked 119-dimensional representation.
 
-The results support using the frozen CatBoost model as the clinical candidate for subsequent probability calibration, uncertainty estimation, and multimodal integration.
+The results support using the frozen CatBoost model as the clinical candidate for subsequent prediction uncertainty estimation (C8) and multimodal integration.
 
 This result should not be interpreted as evidence of clinical effectiveness. External validation, prospective evaluation, calibration assessment on independent populations, and clinical utility analysis remain future work.
 
@@ -220,6 +237,7 @@ The clinical pipeline records:
 - subgroup analysis outputs
 - HPO results
 - TreeSHAP explainability attributions and figures
+- Probability calibration tables, reliability diagrams, and DCA curves
 - experiment artifacts
 - cryptographic manifest information (SHA-256)
 
@@ -229,7 +247,7 @@ Detailed clinical experiments are documented under:
 
 ### Remaining Work
 
-- Clinical module — C5 benchmarking & C6 explainability completed; probability calibration (C7), uncertainty estimation (C8), subgroup auditing (C9), external validation (C10), and module integration (C11) remain
+- Clinical module — C5 benchmarking, C6 explainability, and C7 probability calibration completed; prediction uncertainty estimation (C8), subgroup auditing (C9), external validation (C10), and module integration (C11) remain
 - ACARA-U multimodal fusion — Planned
 - Final multimodal validation — Planned
 

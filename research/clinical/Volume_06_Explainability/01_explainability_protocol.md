@@ -13,7 +13,7 @@ Phase C6 investigates the decision logic and risk attribution mechanics of the t
 | Dimension | Specification | Verification Check |
 | :--- | :--- | :---: |
 | **Model Architecture** | `CatBoostClassifier` (Symmetric Oblivious Trees) | Frozen |
-| **Tuned Hyperparameters** | $\text{depth}=4$, $\text{learning\_rate}=0.1383$, $\text{iterations}=350$, $\text{l2\_leaf\_reg}=2.911$, $\text{subsample}=0.655$, $\text{random\_seed}=42$ | Locked |
+| **Tuned Hyperparameters** | `depth=4`, `learning_rate=0.1383`, `iterations=350`, `l2_leaf_reg=2.911`, `subsample=0.655`, `random_seed=42` | Locked |
 | **Feature Dimension** | $D = 119$ preprocessed clinical features (`ClinicalPreprocessor`) | Preserved |
 | **Training Partition** | $N_{\text{train}} = 69,519$ encounters ($48,993$ unique patients) | Locked |
 | **Validation Partition** | $N_{\text{val}} = 14,911$ encounters ($10,498$ unique patients) | Locked |

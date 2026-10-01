@@ -137,14 +137,27 @@ def verify_explainability_pipeline() -> bool:
     else:
         print(f"[FAIL 9/10] Manifest File Missing: {manifest_file}")
 
-    # 10. Check Research Volume Sync
-    res_manifest = research_root / "c6_manifest.json"
-    res_global_csv = research_root / "02_Global_Feature_Importance.csv"
-    if res_manifest.exists() and res_global_csv.exists():
-        print(f"[PASS 10/10] Research Volume 06 Directory Synchronized: CSVs, figures, and manifests mapped to {research_root}")
+    # 10. Check Research Volume 06 Documentation Sync
+    expected_docs = [
+        "README.md",
+        "01_explainability_protocol.md",
+        "02_shap_methodology.md",
+        "03_global_feature_importance.md",
+        "04_feature_directionality.md",
+        "05_feature_group_analysis.md",
+        "06_local_case_analysis.md",
+        "07_error_case_analysis.md",
+        "08_subgroup_explanation.md",
+        "09_shap_stability.md",
+        "10_conclusion.md",
+    ]
+    missing_docs = [doc for doc in expected_docs if not (research_root / doc).exists()]
+    res_fig = research_root / "figures" / "shap_bar.png"
+    if not missing_docs and res_fig.exists():
+        print(f"[PASS 10/10] Research Volume 06 Documentation Verified: All {len(expected_docs)} documents and figures present.")
         checks_passed += 1
     else:
-        print(f"[FAIL 10/10] Research Volume 06 Missing Artifacts")
+        print(f"[FAIL 10/10] Research Volume 06 Missing Documentation or Figures: {missing_docs}")
 
     print("-" * 80)
     print(f"VERIFICATION STATUS: {checks_passed} / {total_checks} CHECKS PASSED")
