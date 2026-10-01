@@ -153,7 +153,7 @@ A consolidated summary of principal findings across the research program:
 | **Clinical Attribution Stability** | TreeSHAP Validation vs Test | **$\rho = 0.9994$** ($100\%$ Top-20) | Inpatient history ($22.43\%$) & complexity ($21.23\%$) dominate margin. |
 | **Clinical Uncertainty** | 50-Bootstrap CatBoost Ensemble | **$\text{Error AUROC} = 0.7116$** | Misclassified cases exhibit $\sigma_p = 0.0357$ vs $0.0195$ for correct cases. |
 | **Selective Classification** | Risk-Coverage at 80% Coverage | **$10.23\%$ Error Rate** | $31.0\%$ error reduction achieved by rejecting $20\%$ most uncertain cases. |
-| **Shift Sensitivity Signal** | Random Missingness ($50\%$ MCAR) | **$\sigma_p = 0.0491$ ($+124.2\%$)** | Predictive dispersion systematically inflates under information loss. |
+| **Shift Sensitivity Signal** | Random Missingness ($50\%$ MCAR) | **σ_p = 0.0491 (+124.2%)** | Predictive dispersion systematically inflates under information loss. |
 | **Uncertainty Blind Spot** | Masked Prior Inpatient History | **$\text{ROC-AUC} = 0.5795, \sigma_p = 0.0150$** | Severe discrimination loss with deceptively low uncertainty (Q4 failure). |
 | **End-to-End Throughput** | Local CPU Batch Inference ($N=14,913$) | **$3,345.7\text{ encounters/sec}$** | Local CPU software benchmark; not a clinical deployment claim. |
 
@@ -286,7 +286,7 @@ Seven tabular architectures were benchmarked on the frozen 119-dimensional repre
 
 Post-hoc interpretability on the frozen CatBoost model ($N=14,913, D=119$) without test labels:
 
-| Rank | Feature | Clinical Group | Mean \|SHAP\| | Attribution Share | Cumulative Share | Directionality ($r$) |
+| Rank | Feature | Clinical Group | Mean |SHAP| | Attribution Share | Cumulative Share | Directionality ($r$) |
 | :---: | :--- | :--- | :---: | :---: | :---: | :---: |
 | 1 | `number_inpatient` | Prior Healthcare Utilization | $0.2851$ | $22.43\%$ | $22.43\%$ | $+0.9531$ |
 | 2 | `age_ordinal` | Age & Glycemic Monitoring | $0.1000$ | $7.86\%$ | $30.29\%$ | $+0.8604$ |
@@ -342,21 +342,21 @@ Predictive uncertainty quantified using a **50-member Bootstrap Ensemble** evalu
 
 Evaluated across 11 distribution shift scenarios without model retraining or re-fitting:
 
-| Scenario / Shift Domain | Cohort Size ($N$) | Test ROC-AUC | $\Delta \text{ROC-AUC}$ | Calibration Slope | Mean Uncertainty ($\sigma_p$) | $\Delta \mu_{\sigma}$ | Error Rate ($\theta=0.20$) | Error AUROC |
+| Scenario / Shift Domain | Cohort (N) | Test ROC-AUC | Δ ROC-AUC | Calibration Slope | Mean Uncertainty (σ_p) | Δ Mean σ_p | Error Rate (θ=0.20) | Error AUROC |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Nominal Test Reference** | 14,913 | **$0.6494$** | — | **$0.8617$** | **$0.0219$** | — | **$14.38\%$** | **$0.7053$** |
-| **Missingness +10% MCAR** | 14,913 | $0.6266$ | $-0.0229$ | $0.6884$ | $0.0316$ | $+44.3\%$ | $14.39\%$ | $0.6768$ |
-| **Missingness +25% MCAR** | 14,913 | $0.6038$ | $-0.0456$ | $0.4324$ | $0.0418$ | $+90.6\%$ | $13.57\%$ | $0.6430$ |
-| **Missingness +50% MCAR** | 14,913 | $0.5663$ | $-0.0831$ | $0.0278$ | $0.0491$ | $+124.2\%$ | $12.23\%$ | $0.5916$ |
-| **Targeted Glycemic Mask** | 14,913 | $0.6470$ | $-0.0024$ | $0.7863$ | $0.0293$ | $+33.6\%$ | $15.32\%$ | $0.7190$ |
-| **Targeted Meds Mask** | 14,913 | $0.6445$ | $-0.0049$ | $0.8164$ | $0.0199$ | $-9.1\%$ | $13.50\%$ | $0.6879$ |
-| **Targeted Utilization Mask** | 14,913 | **$0.5795$** | **$-0.0699$** | $0.6030$ | **$0.0150$** | **$-31.6\%$** | $11.12\%$ | **$0.5638$** |
-| **Demographic: Female** | 8,079 | **$0.6661$** | $+0.0166$ | **$0.9675$** | $0.0223$ | $+1.6\%$ | $14.28\%$ | $0.7156$ |
-| **Demographic: Male** | 6,834 | $0.6311$ | $-0.0184$ | $0.7379$ | $0.0215$ | $-1.9\%$ | $14.50\%$ | $0.6935$ |
-| **Demographic: Age $<50$** | 2,363 | **$0.7048$** | $+0.0554$ | $0.7311$ | $0.0240$ | $+9.5\%$ | $13.92\%$ | $0.7607$ |
-| **Demographic: African American** | 2,775 | **$0.6643$** | $+0.0148$ | **$0.9665$** | $0.0218$ | $-0.4\%$ | $14.88\%$ | $0.7431$ |
-| **Temporal: Early Era (1999–2003)** | 7,456 | **$0.6627$** | $+0.0133$ | **$0.9022$** | $0.0212$ | $-3.3\%$ | $14.40\%$ | $0.7037$ |
-| **Temporal: Late Era (2004–2008)** | 7,457 | $0.6371$ | $-0.0123$ | $0.8414$ | $0.0226$ | $+3.3\%$ | $14.36\%$ | $0.7073$ |
+| **Nominal Test Reference** | 14,913 | **0.6494** | — | **0.8617** | **0.0219** | — | **14.38%** | **0.7053** |
+| **Missingness +10% MCAR** | 14,913 | 0.6266 | -0.0229 | 0.6884 | 0.0316 | +44.3% | 14.39% | 0.6768 |
+| **Missingness +25% MCAR** | 14,913 | 0.6038 | -0.0456 | 0.4324 | 0.0418 | +90.6% | 13.57% | 0.6430 |
+| **Missingness +50% MCAR** | 14,913 | 0.5663 | -0.0831 | 0.0278 | 0.0491 | +124.2% | 12.23% | 0.5916 |
+| **Targeted Glycemic Mask** | 14,913 | 0.6470 | -0.0024 | 0.7863 | 0.0293 | +33.6% | 15.32% | 0.7190 |
+| **Targeted Meds Mask** | 14,913 | 0.6445 | -0.0049 | 0.8164 | 0.0199 | -9.1% | 13.50% | 0.6879 |
+| **Targeted Utilization Mask** | 14,913 | **0.5795** | **-0.0699** | 0.6030 | **0.0150** | **-31.6%** | 11.12% | **0.5638** |
+| **Demographic: Female** | 8,079 | **0.6661** | +0.0166 | **0.9675** | 0.0223 | +1.6% | 14.28% | 0.7156 |
+| **Demographic: Male** | 6,834 | 0.6311 | -0.0184 | 0.7379 | 0.0215 | -1.9% | 14.50% | 0.6935 |
+| **Demographic: Age <50** | 2,363 | **0.7048** | +0.0554 | 0.7311 | 0.0240 | +9.5% | 13.92% | 0.7607 |
+| **Demographic: African American** | 2,775 | **0.6643** | +0.0148 | **0.9665** | 0.0218 | -0.4% | 14.88% | 0.7431 |
+| **Temporal: Early Era (1999–2003)** | 7,456 | **0.6627** | +0.0133 | **0.9022** | 0.0212 | -3.3% | 14.40% | 0.7037 |
+| **Temporal: Late Era (2004–2008)** | 7,457 | 0.6371 | -0.0123 | 0.8414 | 0.0226 | +3.3% | 14.36% | 0.7073 |
 
 - **Empirical Sensitivity Signal**: Predictive uncertainty actively inflates under random MCAR degradation ($+44.3\%$ at $10\%$, $+124.2\%$ at $50\%$).
 - **Tabular Uncertainty Blind Spot**: Masking `number_inpatient` drops ROC-AUC to $0.5795$ while uncertainty paradoxically decreases to $\sigma_p = 0.0150$, showing that low uncertainty does not guarantee prediction reliability and motivating multimodal decision guardrails.
@@ -372,7 +372,7 @@ The clinical components are assembled into a unified inference service ([`Clinic
 | :--- | :---: | :--- |
 | **Local CPU Batch Throughput** | **$3,345.7\text{ encounters/sec}$** | Full locked test set ($N=14,913$) evaluated in $4.46\text{ seconds}$ on CPU. |
 | **Output Schema Conformance** | **$100.0\%$ Compliant** | Strictly conforms to the frozen `ClinicalOutput` schema contract. |
-| **Exact TreeSHAP Additivity** | **$\text{Abs Error} = 8.88 \times 10^{-16}$** | Exact margin consistency verified: $\phi_0 + \sum \phi_j = f(x) = -3.948183$ ($\text{tol}=10^{-6}$). |
+| **Exact TreeSHAP Additivity** | **Abs Error = 8.88e-16** | Exact margin consistency verified: $\phi_0 + \sum \phi_j = f(x) = -3.948183$ ($\text{tol}=10^{-6}$). |
 | **Calibration Integration** | Dynamic Mapping | Verifies monotone mapping ($p_{\text{raw}}=0.0123 \to p_{\text{cal}}=0.0000$ lower boundary). |
 | **Uncertainty & Ambiguity Tiers** | $\sigma_p \in [0.005, 0.080]$ | Operational stratification into 6 tiers around the decision threshold $\theta = 0.20$. |
 | **Shift & Blind-Spot Guardrails** | Active Triggering | Emits warnings for zero-inpatient history cases under low predicted risk. |
