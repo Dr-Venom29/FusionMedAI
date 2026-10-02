@@ -47,7 +47,7 @@ flowchart TD
 
 ### 3.1 Input Contract Invariance & Disambiguation
 All three modalities emit identical 8-tuple contracts:
-$$\langle \text{risk},\; \text{calibrated\_probability},\; \text{confidence},\; \text{uncertainty},\; \text{quality},\; \text{availability},\; \text{reliability},\; \text{model\_version} \rangle$$
+$$\langle \text{risk},\; \text{calibrated}\_\text{probability},\; \text{confidence},\; \text{uncertainty},\; \text{quality},\; \text{availability},\; \text{reliability},\; \text{model}\_\text{version} \rangle$$
 - `calibrated_probability` represents the full class posterior distribution vector.
 - `risk` represents the documented scalar risk projection $r_i \in [0, 1]$.
 - `reliability` ($R_i$) is frozen as $R_i = \frac{1}{2}(\text{AUC}_i + (1 - \text{ECE}_i))$.

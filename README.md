@@ -127,7 +127,7 @@ flowchart TD
     BR --> C1["Isotonic Calibration Mapping"]
     BR --> U1["50-Member Bootstrap Uncertainty Ensemble"]
     BR --> R1["Robustness & Shift Safeguards (Blind-Spot Detection)"]
-    E1 --> INT["ClinicalInferenceService (C10 Integration)"]
+    E1 --> INT["ClinicalInferenceService"]
     C1 --> INT
     U1 --> INT
     R1 --> INT
@@ -143,7 +143,7 @@ A consolidated summary of principal findings across the research program:
 | Analysis Dimension | Evaluated Modality / Experiment | Primary Metric / Result | Interpretation & Scope Note |
 | :--- | :--- | :---: | :--- |
 | **Retina Discrimination** | APTOS 2019 (EfficientNet-B3) | **$84.20\%$ Acc / $0.9233$ QWK** | Highest overall trade-off among 5 architectures ($10.70\text{M}$ params). |
-| **Retina Calibration** | Temperature Scaling ($N=367$) | **$\text{ECE} = 0.0241$** | Preserved rank ordering while aligning confidence. |
+| **Retina Calibration** | Temperature Scaling ($N=366$) | **$\text{ECE} = 0.0241$** | Preserved rank ordering while aligning confidence. |
 | **Retina Uncertainty** | MC Dropout ($N^*=25$) | **$\text{Error AUROC} = 0.8443$** | Strong discrimination between correct and misclassified fundus scans. |
 | **Foot Ulcer Discrimination** | ADPM V3.3 (EfficientNet-B3) | **$\text{Macro F1} = 0.6683$** | Wagner 4-class held-out test evaluation ($N=1,006$). |
 | **Foot Ulcer Calibration** | Vector Scaling ($N=1,006$) | **$\text{ECE} = 0.0313$** | $26.18\%$ relative ECE reduction over uncalibrated baseline. |
@@ -365,7 +365,7 @@ Evaluated across 11 distribution shift scenarios without model retraining or re-
 
 ---
 
-### 6. End-to-End Clinical Integration (C10)
+### 6. End-to-End Clinical Integration & Verification
 
 The clinical components are assembled into a unified inference service ([`ClinicalInferenceService`](src/clinical/inference/service.py)):
 
@@ -379,7 +379,7 @@ The clinical components are assembled into a unified inference service ([`Clinic
 | **Shift & Blind-Spot Guardrails** | Active Triggering | Emits warnings for zero-inpatient history cases under low predicted risk. |
 | **Input Validation Safeguards** | Zero-Crash Rejection | Catches malformed fields and physiological bound violations via `ClinicalValidationError`. |
 
-*Scope Declaration: Phase C10 establishes technical end-to-end integration and internal contract verification; it is not external or prospective clinical validation.*
+*Scope Declaration: End-to-end integration establishes internal technical integration and contract verification; it does not constitute prospective clinical validation.*
 
 ---
 
@@ -393,7 +393,7 @@ The clinical components are assembled into a unified inference service ([`Clinic
 #### Unified Prediction & Explanation Output
 ![Retina Output](docs/examples/retina_output.png)
 
-The output demonstrates integrated multi-class prediction, calibrated softmax probability, MC Dropout predictive entropy, and spatial Grad-CAM visualization of retinal lesion features.
+The output demonstrates integrated multi-class prediction, calibrated softmax probability, MC Dropout predictive variance, and spatial Grad-CAM visualization of retinal lesion features.
 
 ---
 
@@ -405,7 +405,7 @@ The output demonstrates integrated multi-class prediction, calibrated softmax pr
 #### Unified Prediction & Explanation Output
 ![Foot Ulcer Output](docs/examples/foot_output.png)
 
-The output demonstrates Wagner-grade prediction, Vector Scaling calibrated confidence, MC Dropout predictive variance, selective classification status, and spatial Grad-CAM attribution focusing on visible wound margin regions.
+The output demonstrates Wagner-grade prediction, Vector Scaling calibrated confidence, MC Dropout predictive entropy, selective classification status, and spatial Grad-CAM attribution focusing on visible wound margin regions.
 
 ---
 
@@ -512,8 +512,8 @@ The output demonstrates Wagner-grade prediction, Vector Scaling calibrated confi
     "model_name": "CatBoost_HPO_Bootstrap_Ensemble",
     "ensemble_size": 50,
     "frozen_calibrator": "Isotonic_Regression",
-    "version": "clinical_c10_v1.0",
-    "manifest_sha256": "c10_verified_e2e"
+    "version": "clinical_inference_v1.0",
+    "manifest_sha256": "clinical_verified_e2e"
   }
 }
 ```
@@ -526,11 +526,12 @@ The output demonstrates Wagner-grade prediction, Vector Scaling calibrated confi
 The independent modality pipelines and initial fusion infrastructure have completed their internal evaluations:
 - **Retina Module**: Completed backbone benchmarking, Temperature Scaling calibration, MC Dropout predictive variance ($N=25$), and Grad-CAM integration.
 - **Foot Ulcer Module**: Completed leakage-aware source grouping, EfficientNet-B3 selection, Vector Scaling calibration, MC Dropout predictive entropy ($N=10$), and Grad-CAM integration.
-- **Clinical Modality**: Completed through Phase C10 (Clinical Integration & End-to-End Validation). *Note: C10 research uncertainty analysis evaluated a 50-member bootstrap ensemble, whereas the C11 fusion contract utilizes a frozen 20-member bootstrap configuration for standardized modality output.*
+- **Clinical Modality**: Completed through end-to-end integration and internal contract validation. *Note: Clinical research uncertainty analysis evaluated a 50-member bootstrap ensemble, whereas the fusion contract utilizes a frozen 20-member bootstrap configuration for standardized modality output.*
 - **Phase C11.0 — Research Protocol Freeze**: Sealed (Final Freeze v1.1a) protocol, two-tier evaluation framework, and hard availability gating rules ($A_i=0 \implies w_i=0$).
 - **Phase C11.1 — Unified Modality Output Contract**: Implemented immutable 8-tuple contract dataclass (`ModalityOutput`) and verified adapters for Retina, Foot, and Clinical.
 - **Phase C11.2 — Unified Input Quality & Availability Layer**: Implemented deterministic input-quality ($Q_i$) and availability ($A_i$) estimators (Laplacian sharpness + illumination for Retina, unsupervised Otsu CNR + Sobel gradient-magnitude boundary clarity for Foot, canonical 119-D feature completeness for Clinical).
-- **Phase C11.3 — Global Reliability Layer**: Next scheduled milestone ($R_i = \frac{1}{2}(\text{AUC}_i + 1 - \text{ECE}_i)$).
+- **Phase C11.3 — Global Modality Reliability Layer**: Computed and frozen historical validation reliability priors ($R_R=0.929956, R_F=0.922266, R_C=0.825382$) via uniform $R_i = \frac{1}{2}(\text{AUC}_i + 1 - \text{ECE}_i)$ under 10-bin equal-frequency calibration.
+- **Phase C11.4 — ACARA-U v2 Dynamic Router**: Next scheduled milestone ($z_i = \alpha C_i + \beta R_i - \gamma U_i + \eta Q_i$, $A_i=0 \implies w_i=0$).
 - **ACARA-U Multimodal Decision Fusion**: Planned subsequent milestone.
 
 ### Next Research Stage — ACARA-U Multimodal Fusion *(Designed & Planned — Not Yet Implemented)*
@@ -640,14 +641,16 @@ FusionMedAI/
 │   │   └── Volume_09_Robustness_Fairness/
 │   └── fusion/
 │       ├── Volume_01_Research_Protocol/
-│       └── Volume_02_Quality_Layer/
+│       ├── Volume_02_Quality_Layer/
+│       └── Volume_03_Global_Reliability/
 ├── src/
 │   ├── retina/
 │   ├── foot/
 │   ├── clinical/
 │   └── fusion/
 │       ├── contracts/
-│       └── quality/
+│       ├── quality/
+│       └── reliability/
 ├── verification/
 │   ├── retina/
 │   ├── foot/
@@ -655,7 +658,8 @@ FusionMedAI/
 │   └── fusion/
 │       ├── protocol/
 │       ├── contract/
-│       └── quality/
+│       ├── quality/
+│       └── reliability/
 ├── requirements.txt
 ├── LICENSE
 └── README.md
