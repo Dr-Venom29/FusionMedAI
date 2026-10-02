@@ -367,7 +367,7 @@ Evaluated across 11 distribution shift scenarios without model retraining or re-
 
 ### 6. End-to-End Clinical Integration (C10)
 
-The clinical components are assembled into a unified inference service ([`ClinicalInferenceService`](file:///d:/FusionMedAI/src/clinical/inference/service.py)):
+The clinical components are assembled into a unified inference service ([`ClinicalInferenceService`](src/clinical/inference/service.py)):
 
 | Evaluation Dimension | Metric / Result | Technical Detail |
 | :--- | :---: | :--- |

@@ -47,7 +47,7 @@ flowchart TD
 
 ### 3.1 Input Contract Invariance & Disambiguation
 All three modalities emit identical 8-tuple contracts:
-$$\langle \text{risk},\; \text{calibrated\_probability},\; \text{confidence},\; \text{uncertainty},\; \text{quality},\; \text{availability},\; \text{reliability},\; \text{model\_version} \rangle$$
+$$\langle \text{risk}, \text{calibrated\_probability}, \text{confidence}, \text{uncertainty}, \text{quality}, \text{availability}, \text{reliability}, \text{model\_version} \rangle$$
 - `calibrated_probability` represents the full class posterior distribution vector.
 - `risk` represents the documented scalar risk projection $r_i \in [0, 1]$.
 - `reliability` ($R_i$) is frozen as $R_i = \frac{1}{2}(\text{AUC}_i + (1 - \text{ECE}_i))$.
@@ -76,13 +76,13 @@ Baseline B1 is formally defined as the **Reliability-Selected Unimodal Baseline*
 
 ---
 
-## 4. Document Index in C11_00_Research_Protocol
+## 4. Document Index in Volume_01_Research_Protocol
 
 | Document | Focus Area | Key Formalizations (Final Freeze) |
 | :--- | :--- | :--- |
-| [`01_Protocol_Overview.md`](file:///d:/FusionMedAI/research/fusion/C11_00_Research_Protocol/01_Protocol_Overview.md) | Scope & Governance | Actual frozen backbones, 19-phase sequence, Two-Tier evaluation governance |
-| [`02_Mathematical_Formulation.md`](file:///d:/FusionMedAI/research/fusion/C11_00_Research_Protocol/02_Mathematical_Formulation.md) | Router & Metric Mathematics | Hard masking ($A_i=0 \implies w_i=0$), normalized $U_i$ and $C_i$, $R_{\text{fusion}}$ vs $DCRI$ |
-| [`03_Input_Output_Contracts.md`](file:///d:/FusionMedAI/research/fusion/C11_00_Research_Protocol/03_Input_Output_Contracts.md) | Contract Specifications | `calibrated_probability` vs scalar `risk`, $R_i = \frac{1}{2}(\text{AUC}_i + 1 - \text{ECE}_i)$ |
-| [`04_Experimental_Ladder_Baselines.md`](file:///d:/FusionMedAI/research/fusion/C11_00_Research_Protocol/04_Experimental_Ladder_Baselines.md) | Baselines & Modality Configurations | B1-B6 ladder, reliability-selected unimodal B1, 7 operational subsets |
-| [`05_Methodological_Boundaries.md`](file:///d:/FusionMedAI/research/fusion/C11_00_Research_Protocol/05_Methodological_Boundaries.md) | Ground Truth & Disjointness | Two-tier evaluation, prohibition of composite patient ground truth & voting ground truth |
-| [`06_Split_Hygiene_and_Tuning.md`](file:///d:/FusionMedAI/research/fusion/C11_00_Research_Protocol/06_Split_Hygiene_and_Tuning.md) | Hyperparameter Hygiene | Pure behavioral validation tuning ($\mathcal{L}_{\text{degrade}}$, volatility, monotonicity), zero synthetic target tuning |
+| [`01_Protocol_Overview.md`](./01_Protocol_Overview.md) | Scope & Governance | Actual frozen backbones, 19-phase sequence, Two-Tier evaluation governance |
+| [`02_Mathematical_Formulation.md`](./02_Mathematical_Formulation.md) | Router & Metric Mathematics | Hard masking ($A_i=0 \implies w_i=0$), normalized $U_i$ and $C_i$, $R_{\text{fusion}}$ vs $DCRI$ |
+| [`03_Input_Output_Contracts.md`](./03_Input_Output_Contracts.md) | Contract Specifications | `calibrated_probability` vs scalar `risk`, $R_i = \frac{1}{2}(\text{AUC}_i + 1 - \text{ECE}_i)$ |
+| [`04_Experimental_Ladder_Baselines.md`](./04_Experimental_Ladder_Baselines.md) | Baselines & Modality Configurations | B1-B6 ladder, reliability-selected unimodal B1, 7 operational subsets |
+| [`05_Methodological_Boundaries.md`](./05_Methodological_Boundaries.md) | Ground Truth & Disjointness | Two-tier evaluation, prohibition of composite patient ground truth & voting ground truth |
+| [`06_Split_Hygiene_and_Tuning.md`](./06_Split_Hygiene_and_Tuning.md) | Hyperparameter Hygiene | Pure behavioral validation tuning ($\mathcal{L}_{\text{degrade}}$, volatility, monotonicity), zero synthetic target tuning |

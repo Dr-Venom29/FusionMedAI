@@ -1,7 +1,7 @@
 # 08 — Foot Dataset Class Implementation (Phase 10.2.7)
 
 ## 1. Class Architecture
-Module [src/foot/data/dataset.py](file:///d:/FusionMedAI/src/foot/data/dataset.py) defines the `FootDFUDataset` PyTorch `Dataset` class.
+Module [src/foot/data/dataset.py](../../../src/foot/data/dataset.py) defines the `FootDFUDataset` PyTorch `Dataset` class.
 
 ## 2. Key Features & Interface
 - **Lazy Loading**: Opens images on demand with `PIL.Image.open().convert("RGB")`.

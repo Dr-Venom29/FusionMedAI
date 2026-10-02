@@ -78,12 +78,18 @@ tensorboard/
 runs/
 
 # ======================================
-# Cache
+# Cache & Testing
 # ======================================
 
 .cache/
 .pytest_cache/
+**/.pytest_cache/
 .mypy_cache/
+**/.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.cover
 
 # ======================================
 # Environment

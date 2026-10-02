@@ -17,6 +17,6 @@ Script `src/foot/data/resolve_exact_duplicates.py` processed all 10,062 raw imag
 | **Cross-Class Exact Conflicts** | **0** | **0% label conflicts** across exact duplicate groups |
 
 ## 3. Output Artifacts
-- **Script**: [src/foot/data/resolve_exact_duplicates.py](file:///d:/FusionMedAI/src/foot/data/resolve_exact_duplicates.py)
-- **Report**: [datasets/foot/metadata/duplicate_resolution.json](file:///d:/FusionMedAI/datasets/foot/metadata/duplicate_resolution.json)
-- **Manifest**: [datasets/foot/metadata/statistics/foot_duplicate_resolution.csv](file:///d:/FusionMedAI/datasets/foot/metadata/statistics/foot_duplicate_resolution.csv)
+- **Script**: [src/foot/data/resolve_exact_duplicates.py](../../../src/foot/data/resolve_exact_duplicates.py)
+- **Report**: [datasets/foot/metadata/duplicate_resolution.json](../../../datasets/foot/metadata/duplicate_resolution.json)
+- **Manifest**: [datasets/foot/metadata/statistics/foot_duplicate_resolution.csv](../../../datasets/foot/metadata/statistics/foot_duplicate_resolution.csv)

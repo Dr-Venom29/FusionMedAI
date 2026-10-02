@@ -1,7 +1,7 @@
 # 09 — Candidate Image Transforms (Phase 10.2.8)
 
 ## 1. Module Architecture
-Module [src/foot/data/transforms.py](file:///d:/FusionMedAI/src/foot/data/transforms.py) provides torchvision transformation functions.
+Module [src/foot/data/transforms.py](../../../src/foot/data/transforms.py) provides torchvision transformation functions.
 
 ## 2. Evaluation & Clinical Rationale
 

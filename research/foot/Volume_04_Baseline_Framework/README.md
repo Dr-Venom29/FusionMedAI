@@ -10,16 +10,16 @@ The purpose of Phase 10.4 is to establish a reproducible reference model using t
 
 ## Volume Structure
 
-1. **[01 Objectives](file:///d:/FusionMedAI/research/foot/Volume_04_Baseline_Framework/01_Objectives.md)**
-2. **[02 Experimental Contract](file:///d:/FusionMedAI/research/foot/Volume_04_Baseline_Framework/02_Experimental_Contract.md)**
-3. **[03 Baseline Architecture](file:///d:/FusionMedAI/research/foot/Volume_04_Baseline_Framework/03_Baseline_Architecture.md)**
-4. **[04 Training Framework](file:///d:/FusionMedAI/research/foot/Volume_04_Baseline_Framework/04_Training_Framework.md)**
-5. **[05 Training Protocol](file:///d:/FusionMedAI/research/foot/Volume_04_Baseline_Framework/05_Training_Protocol.md)**
-6. **[06 Evaluation Protocol](file:///d:/FusionMedAI/research/foot/Volume_04_Baseline_Framework/06_Evaluation_Protocol.md)**
-7. **[07 Baseline Results](file:///d:/FusionMedAI/research/foot/Volume_04_Baseline_Framework/07_Baseline_Results.md)**
-8. **[08 Error Analysis](file:///d:/FusionMedAI/research/foot/Volume_04_Baseline_Framework/08_Error_Analysis.md)**
-9. **[09 Reproducibility](file:///d:/FusionMedAI/research/foot/Volume_04_Baseline_Framework/09_Reproducibility.md)**
-10. **[10 Acceptance](file:///d:/FusionMedAI/research/foot/Volume_04_Baseline_Framework/10_Acceptance.md)**
+1. **[01 Objectives](./01_Objectives.md)**
+2. **[02 Experimental Contract](./02_Experimental_Contract.md)**
+3. **[03 Baseline Architecture](./03_Baseline_Architecture.md)**
+4. **[04 Training Framework](./04_Training_Framework.md)**
+5. **[05 Training Protocol](./05_Training_Protocol.md)**
+6. **[06 Evaluation Protocol](./06_Evaluation_Protocol.md)**
+7. **[07 Baseline Results](./07_Baseline_Results.md)**
+8. **[08 Error Analysis](./08_Error_Analysis.md)**
+9. **[09 Reproducibility](./09_Reproducibility.md)**
+10. **[10 Acceptance](./10_Acceptance.md)**
 
 ---
 

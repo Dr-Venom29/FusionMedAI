@@ -1,7 +1,7 @@
 # 03 — Canonical Dataset Manifest (Phase 10.2.2)
 
 ## 1. Primary Manifest Overview
-Script `src/foot/data/create_canonical_manifest.py` constructed the single authoritative modeling manifest [canonical_manifest.csv](file:///d:/FusionMedAI/datasets/foot/processed/canonical_manifest.csv) under `datasets/foot/processed/`.
+Script `src/foot/data/create_canonical_manifest.py` constructed the single authoritative modeling manifest [canonical_manifest.csv](../../../datasets/foot/processed/canonical_manifest.csv) under `datasets/foot/processed/`.
 
 ## 2. Manifest Fields & Schema
 

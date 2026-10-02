@@ -44,23 +44,23 @@ The fusion engine is benchmarked across all $2^M - 1 = 7$ non-empty modality sub
 
 ```mermaid
 graph TD
-    subgraph Tri_Modal [Tri-Modal (Level 3)]
+    subgraph Tri_Modal ["Tri-Modal - Level 3"]
         C1["Config 1: R + F + C"]
     end
     
-    subgraph Bi_Modal [Bi-Modal Subsets (Level 2)]
+    subgraph Bi_Modal ["Bi-Modal Subsets - Level 2"]
         C2["Config 2: R + F"]
         C3["Config 3: R + C"]
         C4["Config 4: F + C"]
     end
     
-    subgraph Uni_Modal [Uni-Modal Subsets (Level 1)]
+    subgraph Uni_Modal ["Uni-Modal Subsets - Level 1"]
         C5["Config 5: Retina Only (R)"]
         C6["Config 6: Foot Only (F)"]
         C7["Config 7: Clinical Only (C)"]
     end
     
-    subgraph Zero_Modal [Zero Modality (Level 0)]
+    subgraph Zero_Modal ["Zero Modality - Level 0"]
         C0["Config 0: None (∅) -> Safe Graceful Failure"]
     end
 

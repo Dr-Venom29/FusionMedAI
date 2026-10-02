@@ -40,7 +40,7 @@ Phase 10.7 establishes post-hoc probability calibration for the primary Foot Ulc
 
 ## Artifact Locations
 
-- **Source Code**: [`src/foot/calibration/`](file:///d:/FusionMedAI/src/foot/calibration/)
-- **Experiment Artifacts**: [`experiments/foot/calibration/`](file:///d:/FusionMedAI/experiments/foot/calibration/)
-- **Final Selected Artifacts**: [`experiments/foot/final_model/calibration.json`](file:///d:/FusionMedAI/experiments/foot/final_model/calibration.json)
-- **Automated Verification**: [`verification/foot/model/verify_calibration.py`](file:///d:/FusionMedAI/verification/foot/model/verify_calibration.py)
+- **Source Code**: [`src/foot/calibration/`](../../../src/foot/calibration)
+- **Experiment Artifacts**: [`experiments/foot/calibration/`](../../../experiments/foot/calibration)
+- **Final Selected Artifacts**: [`experiments/foot/final_model/calibration.json`](../../../experiments/foot/final_model/calibration.json)
+- **Automated Verification**: [`verification/foot/model/verify_calibration.py`](../../../verification/foot/model/verify_calibration.py)

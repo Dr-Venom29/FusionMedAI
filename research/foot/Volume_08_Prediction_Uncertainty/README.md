@@ -39,7 +39,7 @@ The framework evaluates misclassification detection performance via Area Under t
 
 ## Artifact Locations
 
-- **Source Code**: [`src/foot/uncertainty/`](file:///d:/FusionMedAI/src/foot/uncertainty/)
-- **Experiment Output**: [`experiments/foot/uncertainty/`](file:///d:/FusionMedAI/experiments/foot/uncertainty/)
-- **Frozen Final Manifest**: [`experiments/foot/final_model/uncertainty.json`](file:///d:/FusionMedAI/experiments/foot/final_model/uncertainty.json)
-- **12-Point Automated Verification Suite**: [`verification/foot/model/verify_uncertainty.py`](file:///d:/FusionMedAI/verification/foot/model/verify_uncertainty.py)
+- **Source Code**: [`src/foot/uncertainty/`](../../../src/foot/uncertainty)
+- **Experiment Output**: [`experiments/foot/uncertainty/`](../../../experiments/foot/uncertainty)
+- **Frozen Final Manifest**: [`experiments/foot/final_model/uncertainty.json`](../../../experiments/foot/final_model/uncertainty.json)
+- **12-Point Automated Verification Suite**: [`verification/foot/model/verify_uncertainty.py`](../../../verification/foot/model/verify_uncertainty.py)

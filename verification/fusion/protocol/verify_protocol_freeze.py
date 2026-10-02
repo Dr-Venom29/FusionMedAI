@@ -20,7 +20,7 @@ def find_repo_root():
     return os.path.abspath(".")
 
 REPO_ROOT = find_repo_root()
-PROTOCOL_DIR = os.path.join(REPO_ROOT, "research", "fusion", "C11_00_Research_Protocol")
+PROTOCOL_DIR = os.path.join(REPO_ROOT, "research", "fusion", "Volume_01_Research_Protocol")
 
 MANDATORY_DOCUMENTS = [
     "README.md",

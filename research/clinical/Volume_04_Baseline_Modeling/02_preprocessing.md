@@ -2,7 +2,7 @@
 
 ## 1. Preprocessing Pipeline Architecture
 
-The feature transformation pipeline is implemented in [`src/clinical/modeling/preprocessing.py`](file:///d:/FusionMedAI/src/clinical/modeling/preprocessing.py). It strictly operationalizes the frozen Phase C3 representation contract:
+The feature transformation pipeline is implemented in [`src/clinical/modeling/preprocessing.py`](../../../src/clinical/modeling/preprocessing.py). It strictly operationalizes the frozen Phase C3 representation contract:
 
 ```mermaid
 flowchart TD

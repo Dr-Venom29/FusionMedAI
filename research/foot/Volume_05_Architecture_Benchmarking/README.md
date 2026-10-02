@@ -10,14 +10,14 @@ The goal of Phase 10.5 is to evaluate five candidate vision architectures under 
 
 ## Volume Structure
 
-1. **[01 Objectives](file:///d:/FusionMedAI/research/foot/Volume_05_Architecture_Benchmarking/01_Objectives.md)** — Objectives, research position, and baseline reference position.
-2. **[02 Benchmark Protocol](file:///d:/FusionMedAI/research/foot/Volume_05_Architecture_Benchmarking/02_Benchmark_Protocol.md)** — Population, split, class definitions, and frozen parameters.
-3. **[03 Model Configurations](file:///d:/FusionMedAI/research/foot/Volume_05_Architecture_Benchmarking/03_Model_Configurations.md)** — Candidate registries and computational hardware profiling.
-4. **[04 Training Protocol](file:///d:/FusionMedAI/research/foot/Volume_05_Architecture_Benchmarking/04_Training_Protocol.md)** — Fresh state isolation, GPU memory release, and artifact structure.
-5. **[05 Evaluation Protocol](file:///d:/FusionMedAI/research/foot/Volume_05_Architecture_Benchmarking/05_Evaluation_Protocol.md)** — Test-set isolation, evaluation order, CIs, and overfitting analysis.
-6. **[06 Results](file:///d:/FusionMedAI/research/foot/Volume_05_Architecture_Benchmarking/06_Results.md)** — Primary ranking, complete evaluation metrics, and bootstrap CIs.
-7. **[07 Model Comparison](file:///d:/FusionMedAI/research/foot/Volume_05_Architecture_Benchmarking/07_Model_Comparison.md)** — Tradeoff analysis, boundary confusion, and architecture observations.
-8. **[08 Selection](file:///d:/FusionMedAI/research/foot/Volume_05_Architecture_Benchmarking/08_Selection.md)** — Selection decision matrix, statistical qualification, and acceptance status.
+1. **[01 Objectives](./01_Objectives.md)** — Objectives, research position, and baseline reference position.
+2. **[02 Benchmark Protocol](./02_Benchmark_Protocol.md)** — Population, split, class definitions, and frozen parameters.
+3. **[03 Model Configurations](./03_Model_Configurations.md)** — Candidate registries and computational hardware profiling.
+4. **[04 Training Protocol](./04_Training_Protocol.md)** — Fresh state isolation, GPU memory release, and artifact structure.
+5. **[05 Evaluation Protocol](./05_Evaluation_Protocol.md)** — Test-set isolation, evaluation order, CIs, and overfitting analysis.
+6. **[06 Results](./06_Results.md)** — Primary ranking, complete evaluation metrics, and bootstrap CIs.
+7. **[07 Model Comparison](./07_Model_Comparison.md)** — Tradeoff analysis, boundary confusion, and architecture observations.
+8. **[08 Selection](./08_Selection.md)** — Selection decision matrix, statistical qualification, and acceptance status.
 
 ---
 

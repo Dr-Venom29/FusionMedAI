@@ -13,7 +13,7 @@ These datasets originate from entirely independent patient populations across di
 
 ```mermaid
 flowchart TD
-    subgraph Non_Paired_Datasets [Disjoint Patient Populations]
+    subgraph Non_Paired_Datasets ["Disjoint Patient Populations"]
         R_Data["APTOS 2019<br/>Patient A → DR Ground Truth (y_R)"]
         F_Data["ADPM / DFUC<br/>Patient B → Ulcer Ground Truth (y_F)"]
         C_Data["UCI 130-US<br/>Patient C → Readmission Ground Truth (y_C)"]
@@ -21,13 +21,13 @@ flowchart TD
 
     Non_Paired_Datasets --> Boundary["Methodological Boundary: No Composite Patient A+B+C Exists"]
     
-    subgraph Valid_Tier1 [Tier 1: Modality-Level Ground-Truth Evaluation]
+    subgraph Valid_Tier1 ["Tier 1: Modality-Level Ground-Truth Evaluation"]
         T1_R["Retina Pipeline evaluated against DR Ground Truth (y_R)"]
         T1_F["Foot Pipeline evaluated against Wagner Ulcer Ground Truth (y_F)"]
         T1_C["Clinical Pipeline evaluated against 30-Day Readmission (y_C)"]
     end
 
-    subgraph Valid_Tier2 [Tier 2: Fusion Behavioral & Robustness Evaluation]
+    subgraph Valid_Tier2 ["Tier 2: Fusion Behavioral & Robustness Evaluation"]
         T2_1["Dynamic Routing Rationality (w_i allocations vs C_i, R_i, U_i, Q_i)"]
         T2_2["Predictive Uncertainty Response (downweighting high U_i)"]
         T2_3["Missing-Modality Robustness (7 Subsets + ∅ Fallback)"]
@@ -36,7 +36,7 @@ flowchart TD
         T2_6["Decision Stability & Risk Stratification Ordering"]
     end
 
-    subgraph Prohibited_Claims [Prohibited Scientific Claims]
+    subgraph Prohibited_Claims ["Prohibited Scientific Claims"]
         P1["Unified Composite Patient Clinical Ground-Truth Prediction"]
         P2["Treating Multi-Agent Voting as Clinical Ground Truth"]
         P3["Treating DCRI as a Biological or Clinical Ground-Truth Endpoint"]

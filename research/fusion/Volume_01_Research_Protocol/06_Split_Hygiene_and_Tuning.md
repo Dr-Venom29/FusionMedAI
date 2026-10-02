@@ -6,15 +6,15 @@ To ensure scientific reproducibility and defensibility, hyperparameter tuning st
 
 ```mermaid
 flowchart TD
-    subgraph Stage1 [Stage 1: Development / Sensitivity Exploration]
+    subgraph Stage1 ["Stage 1: Development / Sensitivity Exploration"]
         Dev["TRAIN / DEV SPLIT<br/>- Modality outputs extracted from frozen backbones<br/>- Intersensor routing dynamics & sensitivity exploration<br/>- Hyperparameter domain bounds verified: α, β, γ, η, δ"]
     end
 
-    subgraph Stage2 [Stage 2: Validation & Parameter Lockdown]
+    subgraph Stage2 ["Stage 2: Validation & Parameter Lockdown"]
         Val["VALIDATION SPLIT<br/>- Objective optimization on validation behavioral stress benches<br/>- Multi-objective tuning for degradation penalty & routing stability<br/>- Optimal parameters selected & permanently locked<br/>- SHA-256 fingerprint generated"]
     end
 
-    subgraph Stage3 [Stage 3: Frozen Final Evaluation]
+    subgraph Stage3 ["Stage 3: Frozen Final Evaluation"]
         Test["FINAL TEST SPLIT (SEALED)<br/>- Evaluated exactly ONCE<br/>- Zero hyperparameter modification<br/>- Unbiased reporting of B1-B6 baselines across 7 configurations"]
     end
 
@@ -42,12 +42,12 @@ The routing and aggregation hyperparameters $\Theta = \{\alpha, \beta, \gamma, \
 
 To avoid introducing circularity or arbitrary assumptions regarding synthetic joint disease targets, parameter selection is conducted strictly via **behavioral robustness and routing rationality optimization** on validation data:
 
-$$\Theta^* = \{\alpha^*, \beta^*, \gamma^*, \eta^*\} = \arg\min_{\Theta} \left[ \mathcal{L}_{\text{degrade}}(\mathcal{D}_{\text{val}}; \Theta) + \lambda_1 \mathcal{L}_{\text{volatility}}(\mathcal{D}_{\text{val}}; \Theta) + \lambda_2 \mathcal{L}_{\text{monotonicity}}(\mathcal{D}_{\text{val}}; \Theta) \right]$$
+$$\Theta^* = \{\alpha^*, \beta^*, \gamma^*, \eta^*\} = \arg\min_{\Theta} \left[ \mathcal{L}_{\mathrm{degrade}}(\mathcal{D}_{\mathrm{val}}; \Theta) + \lambda_1 \mathcal{L}_{\mathrm{volatility}}(\mathcal{D}_{\mathrm{val}}; \Theta) + \lambda_2 \mathcal{L}_{\mathrm{monotonicity}}(\mathcal{D}_{\mathrm{val}}; \Theta) \right]$$
 
 Where:
-- $\mathcal{L}_{\text{degrade}}(\mathcal{D}_{\text{val}}; \Theta) = \mathbb{E}[w_{\text{corrupted}}]$ penalizes assigning non-zero weight to modalities subjected to synthetic noise, blur, or feature deletion during validation stress tests.
-- $\mathcal{L}_{\text{volatility}}(\mathcal{D}_{\text{val}}; \Theta) = \text{Var}(w \mid \text{Noise})$ penalizes erratic weight fluctuation under minor input perturbations.
-- $\mathcal{L}_{\text{monotonicity}}(\mathcal{D}_{\text{val}}; \Theta)$ enforces the mathematical requirement that routing weights respond monotonically to their components ($\frac{\partial w_i}{\partial C_i} > 0$, $\frac{\partial w_i}{\partial R_i} > 0$, $\frac{\partial w_i}{\partial Q_i} > 0$, and $\frac{\partial w_i}{\partial U_i} < 0$).
+- $\mathcal{L}_{\mathrm{degrade}}(\mathcal{D}_{\mathrm{val}}; \Theta) = \mathbb{E}[w_{\mathrm{corrupted}}]$ penalizes assigning non-zero weight to modalities subjected to synthetic noise, blur, or feature deletion during validation stress tests.
+- $\mathcal{L}_{\mathrm{volatility}}(\mathcal{D}_{\mathrm{val}}; \Theta) = \mathrm{Var}(w \mid \mathrm{Noise})$ penalizes erratic weight fluctuation under minor input perturbations.
+- $\mathcal{L}_{\mathrm{monotonicity}}(\mathcal{D}_{\mathrm{val}}; \Theta)$ enforces the mathematical requirement that routing weights respond monotonically to their components ($\frac{\partial w_i}{\partial C_i} > 0$, $\frac{\partial w_i}{\partial R_i} > 0$, $\frac{\partial w_i}{\partial Q_i} > 0$, and $\frac{\partial w_i}{\partial U_i} < 0$).
 - $\delta^*$ is selected independently on validation data to maximize risk stratification separation under predictive uncertainty for conservative triage.
 
 > [!IMPORTANT]

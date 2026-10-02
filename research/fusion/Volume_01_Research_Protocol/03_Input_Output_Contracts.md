@@ -57,19 +57,19 @@ To avoid conflating multi-class calibrated probability distributions with scalar
 
 ```mermaid
 flowchart TD
-    subgraph MultiClass [Multi-Class Calibrated Probabilities]
+    subgraph MultiClass ["Multi-Class Calibrated Probabilities"]
         P_ret["Retina: [p0, p1, p2, p3, p4] (5-class DR)"]
         P_foot["Foot: [p0, p1, p2, p3] (4-class Wagner)"]
         P_clin["Clinical: [p0, p1] (Binary Readmission)"]
     end
 
-    subgraph Projections [Documented Deterministic Risk Projections]
+    subgraph Projections ["Documented Deterministic Risk Projections"]
         Proj_ret["Ordinal Severity Transformation:<br/>r_retina = Σ (k/4) · p_k"]
         Proj_foot["Wagner Severity Transformation:<br/>r_foot = Σ (k/3) · p_k"]
         Proj_clin["Direct Binary Event Probability:<br/>r_clinical = p_1"]
     end
 
-    subgraph ScalarRisks [Fusion Scalar Risks]
+    subgraph ScalarRisks ["Fusion Scalar Risks"]
         R_ret["r_retina ∈ [0, 1]"]
         R_foot["r_foot ∈ [0, 1]"]
         R_clin["r_clinical ∈ [0, 1]"]
@@ -97,28 +97,28 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    subgraph Retina_Frozen [Retina Module: Frozen Architecture]
-        R_Img[Fundus Image] --> R_Backbone[EfficientNet-B3 Backbone]
-        R_Backbone --> R_Logits[5-Class Logits]
-        R_Logits --> R_Temp[Temperature Scaling]
-        R_Backbone --> R_MCD[MC Dropout: N = 25 Passes]
-        R_Temp & R_MCD --> R_Out[Retina ModalityOutput]
+    subgraph Retina_Frozen ["Retina Module: Frozen Architecture"]
+        R_Img["Fundus Image"] --> R_Backbone["EfficientNet-B3 Backbone"]
+        R_Backbone --> R_Logits["5-Class Logits"]
+        R_Logits --> R_Temp["Temperature Scaling"]
+        R_Backbone --> R_MCD["MC Dropout: N = 25 Passes"]
+        R_Temp & R_MCD --> R_Out["Retina ModalityOutput"]
     end
 
-    subgraph Foot_Frozen [Foot Module: Frozen Architecture]
-        F_Img[Ulcer Image] --> F_Backbone[EfficientNet-B3 Backbone]
-        F_Backbone --> F_Logits[4-Class Wagner Logits]
-        F_Logits --> F_Vec[Vector Scaling: FootVectorScaler]
-        F_Backbone --> F_MCD[MC Dropout: N = 10 Passes, Option B]
-        F_Vec & F_MCD --> F_Out[Foot ModalityOutput]
+    subgraph Foot_Frozen ["Foot Module: Frozen Architecture"]
+        F_Img["Ulcer Image"] --> F_Backbone["EfficientNet-B3 Backbone"]
+        F_Backbone --> F_Logits["4-Class Wagner Logits"]
+        F_Logits --> F_Vec["Vector Scaling: FootVectorScaler"]
+        F_Backbone --> F_MCD["MC Dropout: N = 10 Passes, Option B"]
+        F_Vec & F_MCD --> F_Out["Foot ModalityOutput"]
     end
 
-    subgraph Clinical_Frozen [Clinical Module: Frozen Architecture]
-        C_Tab[119-Feature Tabular EHR] --> C_Model[CatBoost HPO Classifier]
-        C_Model --> C_Logits[Readmission Logits]
-        C_Logits --> C_Iso[Isotonic Calibration]
-        C_Tab --> C_Boot[Bootstrap Ensemble: B = 20 Models]
-        C_Iso & C_Boot --> C_Out[Clinical ModalityOutput]
+    subgraph Clinical_Frozen ["Clinical Module: Frozen Architecture"]
+        C_Tab["119-Feature Tabular EHR"] --> C_Model["CatBoost HPO Classifier"]
+        C_Model --> C_Logits["Readmission Logits"]
+        C_Logits --> C_Iso["Isotonic Calibration"]
+        C_Tab --> C_Boot["Bootstrap Ensemble: B = 20 Models"]
+        C_Iso & C_Boot --> C_Out["Clinical ModalityOutput"]
     end
 ```
 

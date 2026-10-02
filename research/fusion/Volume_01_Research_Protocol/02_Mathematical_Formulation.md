@@ -21,7 +21,7 @@ For each modality $i \in \mathcal{M}$, the ingestion layer receives a frozen att
 
 ```mermaid
 flowchart TD
-    subgraph Inputs [Normalized Modality Attributes]
+    subgraph Inputs ["Normalized Modality Attributes"]
         C["Confidence C_i ∈ [0,1]"]
         R["Reliability R_i = 0.5·(AUC_i + 1 - ECE_i)"]
         U["Predictive Uncertainty U_i ∈ [0,1]"]
@@ -29,7 +29,7 @@ flowchart TD
         A["Availability A_i ∈ {0,1}"]
     end
     
-    subgraph Routing [ACARA-U v2 Router Kernel]
+    subgraph Routing ["ACARA-U v2 Router Kernel"]
         Score["Logit Calculation:<br/>z_i = α·C_i + β·R_i - γ·U_i + η·Q_i"]
         Mask{"Availability Gate:<br/>A_i == 1 ?"}
         Score --> Mask
@@ -41,7 +41,7 @@ flowchart TD
         InfScore --> Softmax
     end
     
-    subgraph Output [Routing Weights]
+    subgraph Output ["Routing Weights"]
         W["Dynamic Weights w_i<br/>(Σ w_i = 1.0, w_missing = 0.0)"]
         Softmax --> W
     end

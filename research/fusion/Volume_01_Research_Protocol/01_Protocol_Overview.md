@@ -17,16 +17,16 @@ Before authoring ingestion pipelines, router logic, or baseline aggregators, thi
 
 ```mermaid
 flowchart LR
-    subgraph Protocol_Freeze [Protocol Freeze Stage: C11.0 Final Freeze v1.1a]
+    subgraph Protocol_Freeze ["Protocol Freeze Stage: C11.0 Final Freeze v1.1a"]
         direction TB
-        F1[Mathematical Equations & Two-Tier Evaluation Locked]
-        F2[Modality Input Contracts & Frozen Reliability R_i Locked]
-        F3[Baselines B1-B6 Standardized with Reliability-Selected B1]
-        F4[7 Modality Configs & Graceful Failure Defined]
-        F5[Dataset Non-Pairing & Pure Behavioral Tuning Locked]
-        F6[Dev/Val/Test Split Protocol Enforced]
+        F1["Mathematical Equations & Two-Tier Evaluation Locked"]
+        F2["Modality Input Contracts & Frozen Reliability R_i Locked"]
+        F3["Baselines B1-B6 Standardized with Reliability-Selected B1"]
+        F4["7 Modality Configs & Graceful Failure Defined"]
+        F5["Dataset Non-Pairing & Pure Behavioral Tuning Locked"]
+        F6["Dev/Val/Test Split Protocol Enforced"]
     end
-    Protocol_Freeze --> Implementation[Phase C11.1+: Code & Experiments]
+    Protocol_Freeze --> Implementation["Phase C11.1+: Code & Experiments"]
 ```
 
 ### Protocol Invariants (Final Freeze v1.1a)
