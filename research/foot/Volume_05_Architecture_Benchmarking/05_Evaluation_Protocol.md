@@ -6,7 +6,7 @@
 2. **Post-Training Evaluation Order**:
 
 $$
-\text{Train (20 Epochs)} \longrightarrow \text{Save Checkpoints} \longrightarrow \text{Load Best } \text{val\_loss} \text{ Checkpoint} \longrightarrow \text{Single Test Evaluation}
+\text{Train (20 Epochs)} \longrightarrow \text{Save Checkpoints} \longrightarrow \text{Load Best Validation-Loss Checkpoint} \longrightarrow \text{Single Test Evaluation}
 $$
 
 3. **Primary Benchmark Metric**: **Test Macro F1-Score** across all 4 Wagner classes.

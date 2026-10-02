@@ -23,9 +23,9 @@ flowchart TD
     end
     
     subgraph Outputs["Reliability-Aware Outputs"]
-        RO["Retina: p_cal, Entropy, Grad-CAM"]
-        FO["Foot: p_cal, Variance, Grad-CAM"]
-        CO["Clinical: p_cal, σ_p, TreeSHAP, Shift Alerts"]
+        RO["Retina: p_cal, Predictive Variance, Grad-CAM"]
+        FO["Foot: p_cal, Predictive Entropy, Grad-CAM"]
+        CO["Clinical: p_cal, Bootstrap Dispersion (σ_p), TreeSHAP, Shift Alerts"]
     end
     
     R --> RO
@@ -523,10 +523,15 @@ The output demonstrates Wagner-grade prediction, Vector Scaling calibrated confi
 ## Current Research Position & Next Stage
 
 ### Current Research Position
-The independent modality pipelines have completed their internal evaluations through module-level integration:
-- **Retina Module**: Completed backbone benchmarking, Temperature Scaling calibration, MC Dropout uncertainty, and Grad-CAM integration.
-- **Foot Ulcer Module**: Completed leakage-aware source grouping, EfficientNet-B3 selection, Vector Scaling calibration, MC Dropout selective classification, and Grad-CAM integration.
-- **Clinical Modality**: Completed through Phase C10 (Clinical Integration & End-to-End Validation). The frozen clinical pipeline integrates point prediction, exact TreeSHAP attributions, Isotonic probability calibration, 50-member bootstrap uncertainty estimation, distribution-shift and blind-spot safeguards, input validation, and standardized `ClinicalOutput` generation.
+The independent modality pipelines and initial fusion infrastructure have completed their internal evaluations:
+- **Retina Module**: Completed backbone benchmarking, Temperature Scaling calibration, MC Dropout predictive variance ($N=25$), and Grad-CAM integration.
+- **Foot Ulcer Module**: Completed leakage-aware source grouping, EfficientNet-B3 selection, Vector Scaling calibration, MC Dropout predictive entropy ($N=10$), and Grad-CAM integration.
+- **Clinical Modality**: Completed through Phase C10 (Clinical Integration & End-to-End Validation). *Note: C10 research uncertainty analysis evaluated a 50-member bootstrap ensemble, whereas the C11 fusion contract utilizes a frozen 20-member bootstrap configuration for standardized modality output.*
+- **Phase C11.0 — Research Protocol Freeze**: Sealed (Final Freeze v1.1a) protocol, two-tier evaluation framework, and hard availability gating rules ($A_i=0 \implies w_i=0$).
+- **Phase C11.1 — Unified Modality Output Contract**: Implemented immutable 8-tuple contract dataclass (`ModalityOutput`) and verified adapters for Retina, Foot, and Clinical.
+- **Phase C11.2 — Unified Input Quality & Availability Layer**: Implemented deterministic input-quality ($Q_i$) and availability ($A_i$) estimators (Laplacian sharpness + illumination for Retina, unsupervised Otsu CNR + Sobel gradient-magnitude boundary clarity for Foot, canonical 119-D feature completeness for Clinical).
+- **Phase C11.3 — Global Reliability Layer**: Next scheduled milestone ($R_i = \frac{1}{2}(\text{AUC}_i + 1 - \text{ECE}_i)$).
+- **ACARA-U Multimodal Decision Fusion**: Planned subsequent milestone.
 
 ### Next Research Stage — ACARA-U Multimodal Fusion *(Designed & Planned — Not Yet Implemented)*
 The next major research stage is **ACARA-U**, the decision-level multimodal fusion layer of FusionMedAI.
@@ -623,31 +628,34 @@ FusionMedAI/
 │   ├── foot/
 │   │   ├── Volume_01_Dataset_Preparation/
 │   │   └── ...
-│   └── clinical/
-│       ├── Volume_01_Dataset_Integrity/
-│       ├── Volume_02_Data_Pipeline/
-│       ├── Volume_03_Exploratory_Data_Analysis/
-│       ├── Volume_04_Baseline_Framework/
-│       ├── Volume_05_Architecture_Benchmarking/
-│       ├── Volume_06_Explainability/
-│       ├── Volume_07_Probability_Calibration/
-│       ├── Volume_08_Uncertainty/
-│       └── Volume_09_Robustness_Fairness/
+│   ├── clinical/
+│   │   ├── Volume_01_Dataset_Integrity/
+│   │   ├── Volume_02_Data_Pipeline/
+│   │   ├── Volume_03_Exploratory_Data_Analysis/
+│   │   ├── Volume_04_Baseline_Framework/
+│   │   ├── Volume_05_Architecture_Benchmarking/
+│   │   ├── Volume_06_Explainability/
+│   │   ├── Volume_07_Probability_Calibration/
+│   │   ├── Volume_08_Uncertainty/
+│   │   └── Volume_09_Robustness_Fairness/
+│   └── fusion/
+│       ├── Volume_01_Research_Protocol/
+│       └── Volume_02_Quality_Layer/
 ├── src/
 │   ├── retina/
 │   ├── foot/
-│   └── clinical/
-│       ├── preprocessing/
-│       ├── modeling/
-│       ├── explainability/
-│       ├── calibration/
-│       ├── uncertainty/
-│       ├── robustness/
-│       └── inference/
+│   ├── clinical/
+│   └── fusion/
+│       ├── contracts/
+│       └── quality/
 ├── verification/
 │   ├── retina/
 │   ├── foot/
-│   └── clinical/
+│   ├── clinical/
+│   └── fusion/
+│       ├── protocol/
+│       ├── contract/
+│       └── quality/
 ├── requirements.txt
 ├── LICENSE
 └── README.md
@@ -710,6 +718,13 @@ source venv/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 ```
+
+---
+
+## Contributors
+
+| [<img src="https://github.com/Dr-Venom29.png" width="100px;" alt="Dr-Venom29"/><br /><sub><b>Dr-Venom29</b></sub>](https://github.com/Dr-Venom29) | [<img src="https://github.com/Chandu45678.png" width="100px;" alt="Chandu45678"/><br /><sub><b>Chandu45678</b></sub>](https://github.com/Chandu45678) | [<img src="https://github.com/NoBodyKnows3000.png" width="100px;" alt="NoBodyKnows3000"/><br /><sub><b>NoBodyKnows3000</b></sub>](https://github.com/NoBodyKnows3000) | [<img src="https://github.com/NithinVN.png" width="100px;" alt="NithinVN"/><br /><sub><b>NithinVN</b></sub>](https://github.com/NithinVN) |
+| :---: | :---: | :---: | :---: |
 
 ---
 
