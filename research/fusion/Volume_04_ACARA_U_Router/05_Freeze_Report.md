@@ -4,7 +4,6 @@
 
 Phase C11.4 concludes with the formal freeze of the **ACARA-U v2 Dynamic Multimodal Router**:
 - Implementation: [`src/fusion/router/acarau_router.py`](../../../src/fusion/router/acarau_router.py)
-- Configuration: [`experiments/fusion/router/router_configuration.json`](../../../experiments/fusion/router/router_configuration.json)
 - Verification: [`verification/fusion/router/verify_router.py`](../../../verification/fusion/router/verify_router.py) (**`18 / 18 GATES PASSED`**)
 
 ---

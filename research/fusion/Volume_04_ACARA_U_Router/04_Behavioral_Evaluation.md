@@ -31,8 +31,9 @@ To verify router mechanics without circular synthetic clinical targets, the rout
 - **Behavior**: $w_R = 0.000$ strictly. Authority reallocated to Foot ($w_F = 0.598$) and Clinical ($w_C = 0.402$), with $\sum w_i = 1.000$.
 
 ### Scenario D: Clinical Tabular Missingness & Degradation
-- **Perturbation**: Clinical feature quality degrades ($Q_C = 0.80 \to 0.20$).
-- **Behavior**: $w_C$ drops from $0.298 \to 0.199$, automatically suppressing reliance on incomplete tabular records.
+- **Baseline State**: Balanced tri-modal inputs ($C=0.80, U=0.20, Q=0.80$ across all modalities) $\implies z_R=2.330, z_F=2.322, z_C=2.225 \implies w_R=0.354, w_F=0.351, w_C=0.295$.
+- **Perturbation**: Clinical feature quality degrades ($Q_C = 0.80 \to 0.20$, representing $80\%$ tabular missingness) while Retina and Foot remain at high quality ($Q=0.80$).
+- **Behavior**: Clinical routing logit drops from $z_C = 2.225 \to 1.625$, and its routing weight $w_C$ decreases from $0.295 \to 0.199$ (a $-32.5\%$ relative authority reduction), automatically suppressing reliance on incomplete tabular records.
 
 ---
 

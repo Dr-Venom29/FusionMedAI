@@ -530,32 +530,14 @@ The output demonstrates Wagner-grade prediction, Vector Scaling calibrated confi
 
 ---
 
-## Current Research Position & Next Stage
+## Next Research Stage — Phase C11.6 DCRI & Triage Conservatism *(Designed — Not Yet Implemented)*
 
-### Current Research Position
-The independent modality pipelines and initial fusion infrastructure have completed their internal evaluations:
-- **Retina Module**: Completed backbone benchmarking, Temperature Scaling calibration, MC Dropout predictive variance ($N=25$), and Grad-CAM integration.
-- **Foot Ulcer Module**: Completed leakage-aware source grouping, EfficientNet-B3 selection, Vector Scaling calibration, MC Dropout predictive entropy ($N=10$), and Grad-CAM integration.
-- **Clinical Modality**: Completed through end-to-end integration and internal contract validation. The standalone clinical uncertainty study used a 50-member bootstrap ensemble. The frozen C11 fusion-facing contract uses a standardized 20-member bootstrap configuration for routing-time uncertainty.
-- **Phase C11.0 — Research Protocol Freeze**: Sealed (Final Freeze v1.1a) protocol, two-tier evaluation framework, and hard availability gating rules ($A_i=0 \implies w_i=0$).
-- **Phase C11.1 — Unified Modality Output Contract**: Implemented immutable 8-tuple contract dataclass (`ModalityOutput`) and verified adapters for Retina, Foot, and Clinical.
-- **Phase C11.2 — Unified Input Quality & Availability Layer**: Implemented deterministic input-quality ($Q_i$) and availability ($A_i$) estimators (Laplacian sharpness + illumination for Retina, unsupervised Otsu CNR + Sobel gradient-magnitude boundary clarity for Foot, canonical 119-D feature completeness for Clinical).
-- **Phase C11.3 — Global Modality Reliability Layer**: Computed and frozen historical validation reliability priors ($R_R=0.929956, R_F=0.922266, R_C=0.825382$) via uniform $R_i = \frac{1}{2}(\text{AUC}_i + 1 - \text{ECE}_i)$ under 10-bin equal-frequency calibration.
-- **Phase C11.4 — ACARA-U v2 Dynamic Router**: Completed and sealed. Implemented the dynamic routing kernel $z_i=\alpha C_i+\beta R_i-\gamma U_i+\eta Q_i$, hard availability masking $A_i=0 \implies w_i=0$, stable softmax normalization, seven operational modality configurations, zero-modality safe rejection, routing diagnostics, finite-difference monotonicity checks, and artifact-integrity verification (`18/18 gates passed`).
-- **Phase C11.5 — Multimodal Decision Fusion & DCRI**: Next scheduled milestone.
+The next research stage builds upon the evaluated ACARA-U baseline ladder to implement clinical triage guardrails and discordance mitigation:
 
-### Next Research Stage — Phase C11.5 Multimodal Decision Fusion & DCRI *(Designed — Not Yet Implemented)*
-The next research stage is the downstream decision-fusion layer following the completed ACARA-U v2 dynamic router.
-
-Phase C11.5 will consume the frozen modality outputs and C11.4 routing weights to investigate:
-
-- **Fused Risk Aggregation**: Continuous convex risk scalar $R_{\text{fusion}} = \sum_{i \in \mathcal{A}} w_i r_i \in [0.0, 1.0]$.
-- **Consensus and Discordance Analysis**: Quantifying inter-modality risk divergence ($D_{\text{risk}} = \max_{i,j \in \mathcal{A}} |r_i - r_j|$) and discordant pair flagging.
-- **Dynamic Clinical Risk Index ($DCRI$)**: Uncertainty-penalized conservative decision index $DCRI = R_{\text{fusion}} - \delta \sum_{i \in \mathcal{A}} U_i$.
-- **Experimental Baseline Comparison**: Systematic evaluation against Baselines B1–B6 (Uniform, Confidence, Conf+Rel, Conf+Rel+Unc, Full ACARA-U).
-- **Missing-Modality Robustness**: Graceful degradation across all 7 non-empty operational configurations.
-- **Uncertainty & Quality Sensitivity Ablations**: Measuring authority reallocation under synthetic noise, blur, and feature missingness.
-- **Behavioral Decision Boundary Evaluation**: Auditing triage tier separation and conservative decision behavior.
+- **Dynamic Cross-Modality Risk Inconsistency ($DCRI$)**: Continuous discordance penalty quantifying inter-channel risk divergence ($X_{\max} = \max_{i,j \in \mathcal{A}} |r_i - r_j|$).
+- **Conservative Triage Adjustment**: Down-weighting fused confidence or escalating triage tiers when high-authority modalities exhibit clinical conflict.
+- **Discordant Pair Flagging & Safety Guardrails**: Automated alerts when imaging and clinical tabular channels disagree beyond safety thresholds.
+- **Robustness Under Out-of-Distribution Inputs**: Comprehensive stress testing of combined routing and DCRI mechanisms.
 
 ---
 
@@ -566,7 +548,7 @@ The repository maintains strict verification gates for all research phases. Veri
 - **Retina Gates**: Data integrity, DataLoader pipeline, architecture benchmarking, Grad-CAM, calibration, uncertainty, and acceptance testing (`verification/retina/`).
 - **Foot Ulcer Gates**: Source-image grouping, duplicate audits, stratified splitting, Grad-CAM sanity checks, Vector Scaling, MC Dropout, and module integration (`verification/foot/`).
 - **Clinical Gates**: 119-D representation, TreeSHAP exact additivity, calibration monotonicity, bootstrap convergence, shift sensitivity, and end-to-end integration (`verification/clinical/`).
-- **Fusion C11 Router & Protocol Gates**: Protocol freeze (7 gates), unified 8-tuple contracts (8 gates), input quality & availability (9 gates), validation reliability live recomputation (14 gates), and dynamic router mechanics & artifact integrity (18 gates) under `verification/fusion/` (`56/56 deep gates passed`, `77/77 pytest tests passed`).
+- **Fusion C11 Router & Baseline Gates**: Protocol freeze (7 gates), unified 8-tuple contracts (8 gates), input quality & availability (9 gates), validation reliability live recomputation (14 gates), dynamic router mechanics (18 gates), and baseline comparison ladder (18 gates) under `verification/fusion/` (`74/74 deep gates passed`, `96/96 pytest tests passed`).
 
 Every experimental execution generates cryptographic SHA-256 manifests linking model weights, evaluation tables, figures, and dataset partitions.
 
@@ -620,7 +602,8 @@ FusionMedAI/
 │   │   ├── robustness/
 │   │   └── integration/
 │   └── fusion/
-│       └── router/
+│       ├── router/
+│       └── baseline_comparison/
 ├── research/
 │   ├── retina/
 │   │   ├── Volume_01_Dataset_Preparation/
@@ -642,7 +625,8 @@ FusionMedAI/
 │       ├── Volume_01_Research_Protocol/
 │       ├── Volume_02_Quality_Layer/
 │       ├── Volume_03_Global_Reliability/
-│       └── Volume_04_ACARA_U_Router/
+│       ├── Volume_04_ACARA_U_Router/
+│       └── Volume_05_Baseline_Fusion/
 ├── src/
 │   ├── retina/
 │   ├── foot/
@@ -651,7 +635,8 @@ FusionMedAI/
 │       ├── contracts/
 │       ├── quality/
 │       ├── reliability/
-│       └── router/
+│       ├── router/
+│       └── baselines/
 ├── verification/
 │   ├── retina/
 │   ├── foot/
@@ -661,7 +646,8 @@ FusionMedAI/
 │       ├── contract/
 │       ├── quality/
 │       ├── reliability/
-│       └── router/
+│       ├── router/
+│       └── baselines/
 ├── requirements.txt
 ├── LICENSE
 └── README.md
@@ -708,6 +694,7 @@ The complete experimental record, methodology descriptions, mathematical formula
 - **Volume 02**: Unified Input Quality ($Q_i$) & Availability ($A_i$) Layer
 - **Volume 03**: Global Modality Reliability Priors ($R_i$) & Validation Evidence
 - **Volume 04**: ACARA-U v2 Dynamic Router & Behavioral Stress Benchmarking
+- **Volume 05**: Multimodal Baseline Ladder (B1–B6) & Comparative Evaluation
 
 ---
 
