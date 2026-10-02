@@ -22,21 +22,31 @@ flowchart TD
         C["Structured Clinical Data (119-D EHR)"]
     end
     
-    subgraph Outputs["Reliability-Aware Outputs"]
-        RO["Retina: p_cal, Predictive Variance, Grad-CAM"]
-        FO["Foot: p_cal, Predictive Entropy, Grad-CAM"]
-        CO["Clinical: p_cal, Bootstrap Dispersion (σ_p), TreeSHAP, Shift Alerts"]
+    subgraph Outputs["Reliability-Aware Modality Contracts"]
+        RO["Retina: p_cal, Predictive Variance, Quality Q_R, R_R"]
+        FO["Foot: p_cal, Predictive Entropy, Quality Q_F, R_F"]
+        CO["Clinical: p_cal, Bootstrap Dispersion (σ_p), Completeness Q_C, R_C"]
     end
     
     R --> RO
     F --> FO
     C --> CO
     
-    RO --> Fusion["Decision-Level Multimodal Fusion (ACARA-U)"]
-    FO --> Fusion
-    CO --> Fusion
+    subgraph RouterStage["ACARA-U v2 Dynamic Router (Phase C11.4 — SEALED)"]
+        Router["Scoring Kernel: z_i = α C_i + β R_i - γ U_i + η Q_i<br/>Hard Masking: A_i = 0 ⇒ w_i = 0<br/>Stable Softmax: w_i = exp(z_i - m) / Σ exp(z_j - m)"]
+    end
     
-    Fusion --> Unified["Unified Multimodal Assessment"]
+    RO --> Router
+    FO --> Router
+    CO --> Router
+    
+    subgraph FusionStage["Decision-Level Fusion & DCRI (Phase C11.5 — PLANNED)"]
+        Weights["Modality Weights (w_R, w_F, w_C)"] --> Fused["Fused Risk: R_fusion = Σ w_i r_i"]
+        Weights --> DCRI["Decision Index: DCRI = R_fusion - δ Σ U_i"]
+        Weights --> Dis["Discordance & Consensus Metrics"]
+    end
+    
+    Router --> Weights
 ```
 
 The repository is organized as a research system rather than as a single end-to-end black-box classifier. Experimental procedures, evaluation artifacts, verification suites, and frozen model contracts are maintained alongside the implementation.
@@ -526,50 +536,37 @@ The output demonstrates Wagner-grade prediction, Vector Scaling calibrated confi
 The independent modality pipelines and initial fusion infrastructure have completed their internal evaluations:
 - **Retina Module**: Completed backbone benchmarking, Temperature Scaling calibration, MC Dropout predictive variance ($N=25$), and Grad-CAM integration.
 - **Foot Ulcer Module**: Completed leakage-aware source grouping, EfficientNet-B3 selection, Vector Scaling calibration, MC Dropout predictive entropy ($N=10$), and Grad-CAM integration.
-- **Clinical Modality**: Completed through end-to-end integration and internal contract validation. *Note: Clinical research uncertainty analysis evaluated a 50-member bootstrap ensemble, whereas the fusion contract utilizes a frozen 20-member bootstrap configuration for standardized modality output.*
+- **Clinical Modality**: Completed through end-to-end integration and internal contract validation. The standalone clinical uncertainty study used a 50-member bootstrap ensemble. The frozen C11 fusion-facing contract uses a standardized 20-member bootstrap configuration for routing-time uncertainty.
 - **Phase C11.0 — Research Protocol Freeze**: Sealed (Final Freeze v1.1a) protocol, two-tier evaluation framework, and hard availability gating rules ($A_i=0 \implies w_i=0$).
 - **Phase C11.1 — Unified Modality Output Contract**: Implemented immutable 8-tuple contract dataclass (`ModalityOutput`) and verified adapters for Retina, Foot, and Clinical.
 - **Phase C11.2 — Unified Input Quality & Availability Layer**: Implemented deterministic input-quality ($Q_i$) and availability ($A_i$) estimators (Laplacian sharpness + illumination for Retina, unsupervised Otsu CNR + Sobel gradient-magnitude boundary clarity for Foot, canonical 119-D feature completeness for Clinical).
 - **Phase C11.3 — Global Modality Reliability Layer**: Computed and frozen historical validation reliability priors ($R_R=0.929956, R_F=0.922266, R_C=0.825382$) via uniform $R_i = \frac{1}{2}(\text{AUC}_i + 1 - \text{ECE}_i)$ under 10-bin equal-frequency calibration.
-- **Phase C11.4 — ACARA-U v2 Dynamic Router**: Next scheduled milestone ($z_i = \alpha C_i + \beta R_i - \gamma U_i + \eta Q_i$, $A_i=0 \implies w_i=0$).
-- **ACARA-U Multimodal Decision Fusion**: Planned subsequent milestone.
+- **Phase C11.4 — ACARA-U v2 Dynamic Router**: Completed and sealed. Implemented the dynamic routing kernel $z_i=\alpha C_i+\beta R_i-\gamma U_i+\eta Q_i$, hard availability masking $A_i=0 \implies w_i=0$, stable softmax normalization, seven operational modality configurations, zero-modality safe rejection, routing diagnostics, finite-difference monotonicity checks, and artifact-integrity verification (`18/18 gates passed`).
+- **Phase C11.5 — Multimodal Decision Fusion & DCRI**: Next scheduled milestone.
 
-### Next Research Stage — ACARA-U Multimodal Fusion *(Designed & Planned — Not Yet Implemented)*
-The next major research stage is **ACARA-U**, the decision-level multimodal fusion layer of FusionMedAI.
+### Next Research Stage — Phase C11.5 Multimodal Decision Fusion & DCRI *(Designed — Not Yet Implemented)*
+The next research stage is the downstream decision-fusion layer following the completed ACARA-U v2 dynamic router.
 
-ACARA-U is designed to combine the independently developed modality outputs into a unified multimodal prediction system:
+Phase C11.5 will consume the frozen modality outputs and C11.4 routing weights to investigate:
 
-```text
-Retina (Fundus) ──────┐
-                      │
-Foot Ulcer (Wagner) ──┼──→ ACARA-U Fusion Engine ──→ Unified Clinical Output
-                      │    (Not Yet Implemented)
-Clinical (119-D EHR) ─┘
-```
-
-The purpose of this stage is not simply to concatenate three model outputs. ACARA-U will investigate whether the independently developed modalities provide complementary risk signals and how their individual confidence, uncertainty, and reliability metrics should dynamically weight the final fused prediction.
-
-The planned evaluation framework will investigate:
-- **Individual-Modality Baseline References**: Establishing standalone single-modality reference bounds.
-- **Pairwise Modality Fusion**: Evaluating dual-modality interaction (Retina + Clinical, Foot + Clinical, Retina + Foot).
-- **Three-Modality Fusion**: Complete multimodal decision-level aggregation (Retina + Foot + Clinical).
-- **Systematic Modality Ablations**: Quantifying marginal utility contributions per modality.
-- **Missing-Modality Scenarios**: Verifying graceful degradation when one or two modalities are unavailable.
-- **Reliability & Uncertainty Weighting**: Dynamically scaling decision authority based on modality predictive dispersion ($\sigma_p$, predictive entropy).
-- **Fusion Probability Calibration**: Assessing post-fusion calibration slope and ECE.
-- **Fusion Robustness Auditing**: Evaluating multi-source distribution shifts and synthetic stress tests.
-- **Final End-to-End Evaluation**: End-to-end integration and acceptance testing of the complete multimodal framework.
+- **Fused Risk Aggregation**: Continuous convex risk scalar $R_{\text{fusion}} = \sum_{i \in \mathcal{A}} w_i r_i \in [0.0, 1.0]$.
+- **Consensus and Discordance Analysis**: Quantifying inter-modality risk divergence ($D_{\text{risk}} = \max_{i,j \in \mathcal{A}} |r_i - r_j|$) and discordant pair flagging.
+- **Dynamic Clinical Risk Index ($DCRI$)**: Uncertainty-penalized conservative decision index $DCRI = R_{\text{fusion}} - \delta \sum_{i \in \mathcal{A}} U_i$.
+- **Experimental Baseline Comparison**: Systematic evaluation against Baselines B1–B6 (Uniform, Confidence, Conf+Rel, Conf+Rel+Unc, Full ACARA-U).
+- **Missing-Modality Robustness**: Graceful degradation across all 7 non-empty operational configurations.
+- **Uncertainty & Quality Sensitivity Ablations**: Measuring authority reallocation under synthetic noise, blur, and feature missingness.
+- **Behavioral Decision Boundary Evaluation**: Auditing triage tier separation and conservative decision behavior.
 
 ---
 
 ## Reproducibility & Verification Gates
-
 
 The repository maintains strict verification gates for all research phases. Verification scripts are located under `verification/`:
 
 - **Retina Gates**: Data integrity, DataLoader pipeline, architecture benchmarking, Grad-CAM, calibration, uncertainty, and acceptance testing (`verification/retina/`).
 - **Foot Ulcer Gates**: Source-image grouping, duplicate audits, stratified splitting, Grad-CAM sanity checks, Vector Scaling, MC Dropout, and module integration (`verification/foot/`).
 - **Clinical Gates**: 119-D representation, TreeSHAP exact additivity, calibration monotonicity, bootstrap convergence, shift sensitivity, and end-to-end integration (`verification/clinical/`).
+- **Fusion C11 Router & Protocol Gates**: Protocol freeze (7 gates), unified 8-tuple contracts (8 gates), input quality & availability (9 gates), validation reliability live recomputation (14 gates), and dynamic router mechanics & artifact integrity (18 gates) under `verification/fusion/` (`56/56 deep gates passed`, `77/77 pytest tests passed`).
 
 Every experimental execution generates cryptographic SHA-256 manifests linking model weights, evaluation tables, figures, and dataset partitions.
 
@@ -615,13 +612,15 @@ FusionMedAI/
 ├── experiments/
 │   ├── retina/
 │   ├── foot/
-│   └── clinical/
-│       ├── benchmarking/
-│       ├── explainability/
-│       ├── calibration/
-│       ├── uncertainty/
-│       ├── robustness/
-│       └── integration/
+│   ├── clinical/
+│   │   ├── benchmarking/
+│   │   ├── explainability/
+│   │   ├── calibration/
+│   │   ├── uncertainty/
+│   │   ├── robustness/
+│   │   └── integration/
+│   └── fusion/
+│       └── router/
 ├── research/
 │   ├── retina/
 │   │   ├── Volume_01_Dataset_Preparation/
@@ -642,7 +641,8 @@ FusionMedAI/
 │   └── fusion/
 │       ├── Volume_01_Research_Protocol/
 │       ├── Volume_02_Quality_Layer/
-│       └── Volume_03_Global_Reliability/
+│       ├── Volume_03_Global_Reliability/
+│       └── Volume_04_ACARA_U_Router/
 ├── src/
 │   ├── retina/
 │   ├── foot/
@@ -650,7 +650,8 @@ FusionMedAI/
 │   └── fusion/
 │       ├── contracts/
 │       ├── quality/
-│       └── reliability/
+│       ├── reliability/
+│       └── router/
 ├── verification/
 │   ├── retina/
 │   ├── foot/
@@ -659,7 +660,8 @@ FusionMedAI/
 │       ├── protocol/
 │       ├── contract/
 │       ├── quality/
-│       └── reliability/
+│       ├── reliability/
+│       └── router/
 ├── requirements.txt
 ├── LICENSE
 └── README.md
@@ -701,6 +703,12 @@ The complete experimental record, methodology descriptions, mathematical formula
 - **Volume 08**: Epistemic Uncertainty Quantification & Ambiguity Tiers
 - **Volume 09**: Robustness, Subgroup Parity & Distribution Shift Auditing
 
+### Multimodal Decision Fusion (ACARA-U) Series
+- **Volume 01**: Research Protocol Freeze & Routing Kernel Specification (v1.1a)
+- **Volume 02**: Unified Input Quality ($Q_i$) & Availability ($A_i$) Layer
+- **Volume 03**: Global Modality Reliability Priors ($R_i$) & Validation Evidence
+- **Volume 04**: ACARA-U v2 Dynamic Router & Behavioral Stress Benchmarking
+
 ---
 
 ## Installation & Setup
@@ -727,7 +735,7 @@ pip install -r requirements.txt
 
 ## Contributors
 
-| [<img src="https://github.com/Dr-Venom29.png" width="100px;" alt="Dr-Venom29"/><br /><sub><b>Dr-Venom29</b></sub>](https://github.com/Dr-Venom29) | [<img src="https://github.com/Chandu45678.png" width="100px;" alt="Chandu45678"/><br /><sub><b>Chandu45678</b></sub>](https://github.com/Chandu45678) | [<img src="https://github.com/NoBodyKnows3000.png" width="100px;" alt="NoBodyKnows3000"/><br /><sub><b>NoBodyKnows3000</b></sub>](https://github.com/NoBodyKnows3000) | [<img src="https://github.com/NithinVN.png" width="100px;" alt="NithinVN"/><br /><sub><b>NithinVN</b></sub>](https://github.com/NithinVN) |
+| [<img src="https://github.com/Dr-Venom29.png" width="100px;" alt="Dr-Venom29"/><br /><sub><b>Dr-Venom29</b></sub>](https://github.com/Dr-Venom29) | [<img src="https://github.com/NoBodyKnows3000.png" width="100px;" alt="NoBodyKnows3000"/><br /><sub><b>NoBodyKnows3000</b></sub>](https://github.com/NoBodyKnows3000) | [<img src="https://github.com/Chandu45678.png" width="100px;" alt="Chandu45678"/><br /><sub><b>Chandu45678</b></sub>](https://github.com/Chandu45678) | [<img src="https://github.com/NithinVN.png" width="100px;" alt="NithinVN"/><br /><sub><b>NithinVN</b></sub>](https://github.com/NithinVN) |
 | :---: | :---: | :---: | :---: |
 
 ---

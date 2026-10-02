@@ -64,7 +64,7 @@ The calculated Clinical validation $\text{ECE}_C = 0.000000$ is disclosed under 
 
 ## 5. Independent Live Verification
 
-The frozen AUC, ECE, and reliability values are not verified solely against static serialized constants. The C11.3 deep verification gate ([`verify_c11_3_reliability.py`](../../verification/fusion/reliability/verify_c11_3_reliability.py)) reconstructs calibrated validation probabilities directly from the stored validation artifacts on disk and recomputes AUC, ECE, and $R_i$ live from scratch.
+The frozen AUC, ECE, and reliability values are not verified solely against static serialized constants. The C11.3 deep verification gate ([`verify_reliability.py`](../../../verification/fusion/reliability/verify_reliability.py)) reconstructs calibrated validation probabilities directly from the stored validation artifacts on disk and recomputes AUC, ECE, and $R_i$ live from scratch.
 
 The live recomputations match the frozen constants within $10^{-5}$ tolerance across Retina, Foot, and Clinical before the C11.3 freeze is accepted:
 - **Retina Live**: $\text{AUC}=0.911149, \text{ECE}=0.051237 \implies R_R=0.929956$
