@@ -8,13 +8,13 @@ $$
 \mathcal{C} = \{\text{RFC}, \text{RF}, \text{RC}, \text{FC}, \text{R}, \text{F}, \text{C}, \text{EMPTY}\}
 $$
 
-In Phase C11.9, the 7 non-empty combinations ($\mathcal{C}_{\text{active}}$) are subjected to controlled frequency distributions across a frozen cohort of $N=500$ decision packets ($\text{seed}=115$). The empty combination $\text{EMPTY}$ is evaluated as a boundary fail-closed check.
+In the Modality Combination Analysis, the 7 non-empty combinations ($\mathcal{C}_{\text{active}}$) are subjected to controlled frequency distributions across a frozen cohort of $N=500$ decision packets ($\text{seed}=115$). The empty combination $\text{EMPTY}$ is evaluated as a boundary fail-closed check.
 
 ---
 
-## 2. Pre-Registered Distribution Configurations
+## 2. Pre-Specified Distribution Configurations
 
-Three distinct frequency distributions are pre-registered to systematically test balanced, moderate, and heavy-tailed availability profiles:
+Three distinct frequency distributions are pre-specified to systematically test balanced, moderate, and heavy-tailed availability profiles:
 
 ### 2.1 Distribution D1: Balanced Benchmark (`D1_BALANCED`)
 - **Profile**: Uniform probability across all 7 non-empty combinations ($P(c) = 1/7 \approx 14.2857\%$).

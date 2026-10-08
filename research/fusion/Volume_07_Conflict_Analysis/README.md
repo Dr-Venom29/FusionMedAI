@@ -54,7 +54,7 @@ flowchart TD
 
 | Document | Title | Scope & Scientific Focus |
 | :--- | :--- | :--- |
-| [01_Conflict_Protocol.md](01_Conflict_Protocol.md) | Research Protocol & Registered Questions | Formalization of 7 pre-registered research questions and experimental boundaries. |
+| [01_Conflict_Protocol.md](01_Conflict_Protocol.md) | Research Protocol & Pre-Specified Questions | Formalization of 7 pre-specified research questions and experimental boundaries. |
 | [02_Mathematical_Formulation.md](02_Mathematical_Formulation.md) | Mathematical Formulation | Definitions of pairwise divergence, max/mean metrics, and weighted consensus dispersion. |
 | [03_Pairwise_Conflict.md](03_Pairwise_Conflict.md) | Pairwise Disagreement Analysis | In-depth breakdown across Retina-Foot, Retina-Clinical, and Foot-Clinical pairs. |
 | [04_Weighted_Conflict.md](04_Weighted_Conflict.md) | Weighted Dispersion Dynamics | Analysis of $V_w$, $\sigma_w$, and entropy $H(w)$ around ACARA-U consensus. |

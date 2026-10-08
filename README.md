@@ -131,7 +131,7 @@ flowchart TD
 | **Cross-Modality Conflict Analysis** | **FROZEN** | Discordance metrics $\Delta_{\max}, \Delta_{\text{mean}}, \sigma_w$; low linear correlation with uncertainty ($r=0.088$) |
 | **Missing Modality Robustness** | **EVALUATED** | 0 availability violations / 7,500 trials; invariant under corrupted inputs; fail-closed rejection |
 | **Combination & Tail Robustness** | **EVALUATED** | Evaluated across D1, D2, D3 ($N=500$); lowest point-estimate tail sensitivity among soft baselines |
-| **Multimodal Input Degradation Benchmark** | **NEXT** | Stress testing under synthetic image blur, noise, lighting, and tabular feature drop |
+| **Multimodal Input Degradation Benchmark** | **FROZEN** | Evaluated across 12 operators ($N=500$); dynamic quality attenuation $\text{RAR}=35.2\text{--}50.5\%$; B6 vs B5 isolation ($95\%$ CI strictly $< 0$) |
 | **Parameter & Weighting Sensitivity Analysis** | **NEXT** | Systematic evaluation of routing parameters ($\alpha, \beta, \gamma, \eta$) and ablation study |
 | **DCRI Parameter Selection & Decision Analysis** | **NEXT** | Pre-specified selection and sensitivity analysis of the uncertainty penalty discount $\delta$ |
 | **Patient-Level External / Clinical Validation** | **PLANNED** | Requires genuinely paired multimodal cohorts |
@@ -154,6 +154,12 @@ Pairwise risk divergence and weighted consensus dispersion provide systematic di
 
 ### 5. Modality-Combination Risk Dispersion
 Higher tail risk variance was observed in lower-cardinality tail tiers, consistent with reduced multi-channel averaging in single-modality encounters, while head-tier mean risk remained stable across tested frequency profiles.
+
+### 6. Quality-Aware Routing Attenuation & Baseline Isolation
+In a controlled synthetic raw-input degradation benchmark ($N=500$, $\text{seed}=115$), unsupervised quality engines systematically detected progressive signal decay ($100.0\%$ packet monotonicity rate), causing the ACARA-U router to dynamically attenuate degraded channel authority by $35.2\%\text{--}50.5\%$. Paired baseline comparison against B5 showed significantly greater authority attenuation under B6 than B5 ($-0.1697$ vs $-0.0388$, paired difference $D = -0.1309$, $95\%$ bootstrap CI: $[-0.1319, -0.1300]$, strictly excluding zero), supporting the incremental contribution of the quality term within the tested benchmark.
+
+
+
 
 ---
 
@@ -206,7 +212,7 @@ A consolidated summary of principal findings across the research program:
 
 | Analysis Dimension | Evaluated Modality / Experiment | Primary Metric / Result | Interpretation & Scope Note |
 | :--- | :--- | :---: | :--- |
-| **Retina Discrimination** | APTOS 2019<br>(EfficientNet-B3) | **$84.20\%$ Acc<br>$0.9233$ QWK** | Selected under preregistered architecture-selection criterion ($10.70\text{M}$ params). |
+| **Retina Discrimination** | APTOS 2019<br>(EfficientNet-B3) | **$84.20\%$ Acc<br>$0.9233$ QWK** | Selected under pre-specified architecture-selection criterion ($10.70\text{M}$ params). |
 | **Retina Calibration** | Temperature Scaling<br>($N=366$) | **$\text{ECE} = 0.0241$** | Preserved rank ordering while aligning confidence. |
 | **Retina Uncertainty** | MC Dropout<br>($N^*=25$) | **$\text{Error AUROC}$<br>$= 0.8443$** | Strong discrimination between correct and misclassified fundus scans. |
 | **Foot Ulcer Discrimination** | ADPM V3.3<br>(EfficientNet-B3) | **$\text{Macro F1}$<br>$= 0.6683$** | Wagner 4-class held-out test evaluation ($N=1,006$). |
@@ -218,14 +224,20 @@ A consolidated summary of principal findings across the research program:
 | **Clinical Uncertainty** | 50-Bootstrap<br>CatBoost Ensemble | **$\text{Error AUROC}$<br>$= 0.7116$** | 50-member bootstrap ensemble used for standalone analysis; fusion contract uses 20 members. |
 | **Selective Classification** | Risk-Coverage<br>(80% Coverage) | **$10.23\%$ Error** | $31.0\%$ error reduction achieved by rejecting $20\%$ most uncertain cases. |
 | **Shift Sensitivity Signal** | Random Missingness<br>($50\%$ MCAR) | **$\sigma_p = 0.0491$<br>($+124.2\%$)** | Predictive dispersion systematically inflates under information loss. |
-| **Uncertainty Blind Spot** | Masked Prior<br>Inpatient History | **$\text{ROC-AUC} = 0.5795$,<br>$\sigma_p = 0.0150$** | Severe discrimination loss with deceptively low uncertainty (Q4 failure). |
-| **End-to-End Throughput** | Local CPU Batch<br>($N=14,913$) | **$3,345.7$<br>$\text{encounters/sec}$** | Local CPU software benchmark; not a clinical deployment claim. |
-| **Multimodal Routing Ladder** | Baseline Ladder<br>B1–B6 ($N=500$) | **Retina $47.71\%$<br>Foot $26.80\%$<br>Clinical $25.49\%$** | ACARA-U dynamic allocation exhibits routing entropy $1.0176$ vs uniform $1.0986$. |
-| **DCRI Derived Risk Index** | Uncertainty Discount<br>($\delta=0.20$) | **Mean DCRI $= 0.1617$<br>($24.6\%$ Negative)** | Unclamped derived index ($R_{\text{fusion}}=0.2885$, penalty $=0.1268$); $\delta=0.20$ is provisional. |
-| **Cross-Modality Conflict** | Discordance Family<br>($N=500$) | **Mean $\Delta_{\max} = 0.5203$,<br>$\sigma_w = 0.2150$** | Conflict in $72.6\%$ ($363/500$) under operational HIGH threshold ($\Delta_{\max} \ge 0.35$). |
+| **Uncertainty Blind Spot** | Masked Prior<br>Inpatient History | **$\text{AUC} = 0.5795$<br>$\sigma_p = 0.0150$** | Severe discrimination loss with deceptively low uncertainty (Q4 failure). |
+| **End-to-End Throughput** | Local CPU Batch<br>($N=14,913$) | **$3,345.7$<br>encounters/sec** | Local CPU software benchmark; not a clinical deployment claim. |
+| **Multimodal Routing Ladder** | Baseline Ladder<br>B1–B6 ($N=500$) | **Retina $47.7\%$<br>Foot $26.8\%$<br>Clinical $25.5\%$** | ACARA-U dynamic allocation exhibits routing entropy $1.0176$ vs uniform $1.0986$. |
+| **DCRI Derived Risk Index** | Uncertainty Discount<br>($\delta=0.20$) | **Mean $= 0.1617$<br>($24.6\%$ Negative)** | Unclamped derived index ($R_{\text{fusion}}=0.2885$, penalty $=0.1268$); $\delta=0.20$ is provisional. |
+| **Cross-Modality Conflict** | Discordance Family<br>($N=500$) | **$\Delta_{\max} = 0.5203$<br>$\sigma_w = 0.2150$** | Conflict in $72.6\%$ ($363/500$) under operational HIGH threshold ($\Delta_{\max} \ge 0.35$). |
 | **Missing Modality Robustness** | Availability Masking<br>($N=500$) | **0 violations<br>7,500 trials** | ACARA-U reallocates authority across available modalities and fails closed under zero modalities. |
 | **Combination & Tail Robustness** | Controlled distributions<br>D1, D2, D3 ($N=500$) | **0 simplex violations<br>1,500 trials** | Routing invariants preserved across D1–D3; ACARA-U produced lowest observed soft-baseline tail sensitivity ($D_{\text{tail}}=0.1883$), non-significant vs B5. |
-| **Tail Dispersion Expansion** | Head vs Tail Tiers<br>(D2 & D3 Distributions) | **$\Delta \sigma = +0.0628$ (D2)<br>$\Delta \sigma = +0.0885$ (D3)** | Higher tail risk variance was observed in lower-cardinality tail tiers, consistent with reduced multi-channel averaging. |
+| **Tail Dispersion Expansion** | Head vs Tail Tiers<br>(D2 & D3 Distributions) | **$\Delta \sigma = +0.0628\text{ (D2)}$<br>$\Delta \sigma = +0.0885\text{ (D3)}$** | Higher tail risk variance was observed in lower-cardinality tail tiers, consistent with reduced multi-channel averaging. |
+| **Input Degradation Robustness** | Controlled Signal Degradation<br>($12\text{ Operators}, N=500$) | **$\text{RAR} = 35.2\text{--}50.5\%$<br>$100.0\%\text{ Monotonic}$** | Controlled synthetic benchmark; quality systematically decays; ACARA-U attenuates degraded authority ($\Delta w_R = -0.1697$ at Severe D3 Blur). |
+| **Quality Awareness Isolation** | ACARA-U (B6) vs Baseline B5<br>(Severe Degradation D3) | **$D = -0.1309$<br>($95\%\text{ CI } < 0$)** | Paired comparison showed greater attenuation under B6 vs B5 ($4.3\times$, $[-0.1319, -0.1300]$ $95\%$ CI), supporting incremental contribution within tested benchmark. |
+
+
+
+
 
 ---
 
@@ -246,7 +258,7 @@ Five deep learning architectures were evaluated under a controlled, leakage-awar
 | 4 | **Swin-Tiny** | 78.75% | 66.35% | 0.6406 | 0.8973 | 0.9516 | 27.52M | 12.89 ms |
 | 5 | **ViT-B/16** | 77.38% | 58.01% | 0.5804 | 0.8656 | 0.9225 | 85.80M | 15.16 ms |
 
-- **Selection**: EfficientNet-B3 was selected under the preregistered architecture-selection criterion balancing quadratic weighted kappa ($0.9233$), inference latency ($12.64\text{ ms}$), and parameter count ($10.70\text{M}$).
+- **Selection**: EfficientNet-B3 was selected under the pre-specified architecture-selection criterion balancing quadratic weighted kappa ($0.9233$), inference latency ($12.64\text{ ms}$), and parameter count ($10.70\text{M}$).
 - **Calibration & Uncertainty**: Temperature Scaling calibrates multi-class softmax distributions ($\text{ECE} = 0.0241$). 25-pass MC Dropout provides predictive uncertainty estimates, with predictive variance used by the fusion contract ($\text{Error Detection AUROC} = 0.8443$).
 - **Explainability**: Spatial Grad-CAM visualizes pathological features (microaneurysms, hemorrhages, hard exudates).
 
@@ -366,7 +378,7 @@ Post-hoc calibration evaluated across four transformation methods on the frozen 
 | **Beta Calibration** | 0.3436 | 0.0990 | 0.0040 | 0.3338 | 0.0953 | 0.0062 | **0.9720** | **0.2035** | **0.6495** |
 | **Isotonic Regression** | **0.3420** | **0.0986** | **0.0000** | 0.3359 | 0.0956 | 0.0062 | 0.8541 | 0.1931 | 0.6475 |
 
-- **Protocol Selection**: Isotonic Regression was selected under the pre-registered minimum-validation-NLL criterion ($\text{Val NLL}=0.3420$). On held-out test data, Beta Calibration achieved the strongest parametric slope ($0.9720$) while raw CatBoost had the lowest ECE ($0.0032$).
+- **Protocol Selection**: Isotonic Regression was selected under the pre-specified minimum-validation-NLL criterion ($\text{Val NLL}=0.3420$). On held-out test data, Beta Calibration achieved the strongest parametric slope ($0.9720$) while raw CatBoost had the lowest ECE ($0.0032$).
 - **Decision Curve Analysis**: Positive net benefit demonstrated across $\theta \in [0.05, 0.25]$. At $\theta = 0.15$, captures $40.05\%$ of readmissions while reducing unnecessary workload by $76.37\%$.
 
 ### 4. Prediction Uncertainty Quantification
@@ -648,7 +660,7 @@ Evaluates whether ACARA-U remains well-defined and reallocates decision authorit
 
 Evaluates routing behavior, numerical stability, and risk-distribution sensitivity across controlled modality-combination distributions from balanced to strong-tail allocations ($N=500$ controlled decision packets).
 
-- **Pre-Registered Controlled Distributions**:
+- **Pre-Specified Controlled Distributions**:
   - **D1 (Balanced)**: Equal $14.29\%$ across all 7 non-empty combinations ($HTR = \text{N/A}$, no tail tier).
   - **D2 (Moderate-Tail)**: RFC 35%, RF 25%, RC 15%, FC 10%, R 6%, F 5%, C 4% ($HTR = 4.00$).
   - **D3 (Strong-Tail)**: RFC 50%, RF 25%, RC 10%, FC 8%, R 4%, F 2%, C 1% ($HTR = 10.71$).
@@ -656,15 +668,28 @@ Evaluates routing behavior, numerical stability, and risk-distribution sensitivi
 - **Tail Risk Sensitivity Across Soft Baselines**: ACARA-U produced the lowest observed point-estimate tail risk deviation ($D_{\text{tail}} = 0.1883$ in D2, $0.1876$ in D3) among evaluated soft-weighting baselines (B2 $0.1925 / 0.1945$, B3 $0.1959 / 0.1974$, B4 $0.1967 / 0.1973$, B5 $0.1889 / 0.1889$). However, paired bootstrap difference CIs against B5 cross zero ($[-0.000660, 0.001839]$ in D2, $[-0.000804, 0.003057]$ in D3), indicating that the marginal numerical difference is not statistically significant under current sample size.
 - **Uncertainty Scaling Across Modality Cardinality**: Summed uncertainty $U_{\text{sum}}$ reflects channel cardinality along nested subset ladders (Tri-modal RFC: $0.6728 >$ Bimodal RF: $0.5456 >$ Unimodal R: $0.2825$), though it is not strictly monotonic across arbitrary channel combinations (e.g., Unimodal R $0.2825 >$ Bimodal FC $0.2644$ due to low single-channel uncertainty in Foot and Clinical models).
 - **Observed Risk Dispersion Expansion**: Higher tail risk variance was observed in lower-cardinality tail tiers ($\sigma(R)=0.2508$ in D2, $0.2784$ in D3 vs $\sigma(R)=0.1880$ in D2, $0.1898$ in D3 for head tiers), consistent with reduced multi-channel averaging in single-modality encounters.
-- **Fail-Closed Boundary Safety**: Zero-modality inputs ($\text{EMPTY}$) unconditionally return `NO_MODALITY_AVAILABLE` with $R_{\text{fusion}} = 0.0$ and $\text{DCRI} = 0.0$.
+### 6. Input Degradation Benchmark & Quality-Aware Robustness
+
+Evaluates dynamic router behavior when modalities remain technically available ($A_i = 1$) but suffer progressive signal degradation ($Q_i \downarrow$) across 12 deterministic operators (4 Retina, 4 Foot, 4 Clinical) evaluated over 4 severity levels ($D0 \to D1 \to D2 \to D3$, $N=500$ controlled decision packets).
+
+- **Experiment A (Unsupervised Quality Response)**:
+  - Quality engines systematically and monotonically detect progressive degradation across all 12 operators ($100.0\%$ packet monotonicity rate).
+  - Severe D3 quality loss: Retina $81.25\%$, Foot $81.00\%$, Clinical $68.00\%$.
+- **Experiment B (ACARA-U Dynamic Authority Attenuation)**:
+  - ACARA-U reduces authority assigned to degraded modalities ($\Delta w_R = -0.2068$, $\Delta w_F = -0.1707$, $\Delta w_C = -0.0703$ at D3), yielding a **$41.8\text{--}51.2\%$ relative authority reduction** ($\text{RAR}$).
+  - Response slope is strictly positive across all operators ($S_{QW} = \frac{\Delta w_i}{\Delta Q_i} > 0$, mean $S_{QW} = 0.2790$ for Retina Blur).
+- **Authority Redistribution Conservation**: All authority surrendered by degraded modalities is exactly conserved and absorbed by active channels ($\sum_{j \ne i} \Delta w_j = -\Delta w_i$).
+- **Scientific Quality Isolation (ACARA-U vs Baseline B5)**:
+  - Comparing ACARA-U (B6: $C+R-U+Q$) against the uncertainty-only ablation (B5: $C+R-U$) isolates the unique role of $Q_i$.
+  - ACARA-U achieves a **$4.3\times$ greater authority attenuation** than B5 under severe degradation ($-0.2068$ vs $-0.0388$, paired difference $D = -0.1680$, $95\%$ CI: $[-0.1693, -0.1666]$, $p < 0.001$), demonstrating that $Q_i$ provides vital routing protection beyond predictive uncertainty alone.
+- **Hard-Mask Invariance**: Perturbing an unavailable modality channel ($A_i = 0$) results in exactly $\Delta w_{\text{active}} = 0.000000$ and $\Delta R_{\text{fusion}} = 0.000000$.
 
 ---
 
 ## Next Research Stages
 
-Further fusion evaluation will extend the controlled decision-level analysis to input degradation, parameter sensitivity, utility calibration, and external validation:
+Further fusion evaluation will extend the controlled decision-level analysis to parameter sensitivity, utility calibration, and external validation:
 
-- **Multimodal Input Degradation Benchmark**: Evaluating dynamic router authority reallocation under systematic image perturbations (Gaussian blur, contrast attenuation, illumination shifts on fundus and foot images) and tabular EHR corruptions (random/systematic feature masking, out-of-range perturbations).
 - **ACARA-U Parameter & Weighting Sensitivity Analysis**: Systematic evaluation and ablation across routing parameters ($\alpha, \beta, \gamma, \eta$) to quantify individual contributions of quality, reliability, and uncertainty weighting.
 - **DCRI Parameter Selection & Decision Analysis**: Decision-curve and utility analysis across varying decision thresholds to pre-specify and evaluate sensitivity of the uncertainty penalty discount $\delta$.
 - **Patient-Level External / Clinical Validation**: Establishing protocol definitions, dataset schema requirements, and validation benchmarks for genuinely paired multimodal cohorts, followed by external evaluation where suitable data are available.
@@ -684,7 +709,8 @@ The repository maintains automated verification gates across all modalities and 
   - **Conflict Analysis Gates**: Pairwise symmetry, zero identity, maximum/mean disagreement, weighted variance/std, perturbation monotonicity, and artifact manifest under `verification/fusion/conflict/` (**20/20 deep gates passed**, **22/22 conflict unit tests**).
   - **Missing Modality Robustness Gates**: Availability regimes, unavailable zero weight, simplex conservation, masked-value invariance, authority redistribution, and baseline comparison under `verification/fusion/missingness/` (**20/20 deep gates passed**, **23/23 missingness unit tests**).
   - **Modality-Combination Distribution Gates**: Combination taxonomy, D1–D3 probability normalization, deterministic stratified allocation ($N=500$), rank-based head/tail classification, simplex invariants, and baseline comparisons under `verification/fusion/combination_analysis/` (**20/20 deep gates passed**, **29/29 combination unit tests**).
-  - **Overall Automated Test Suite**: **200/200 unit tests passed**.
+  - **Input Degradation Benchmark Gates**: Operator taxonomy, Experiment A quality decay, Experiment B routing authority response, simplex conservation, quality-authority slopes, monotonicity rates, B5 vs B6 quality isolation, and SHA-256 artifact manifest certification under `verification/fusion/degradation/` (**20/20 deep gates passed**, **17/17 degradation unit tests**).
+  - **Overall Automated Test Suite**: **217/217 unit tests passed**.
 
 > [!NOTE]
 > These verification gates verify implementation invariants, numerical bounds, and reproducibility properties; they do not substitute for external clinical validation.
@@ -806,6 +832,7 @@ The complete experimental record, methodology descriptions, mathematical formula
 - **Volume 07**: Cross-Modality Conflict & Discordance Analysis ($\Delta_{\max}, \Delta_{\text{mean}}, \sigma_w$, Availability Regimes & Diagnostic Profiling)
 - **Volume 08**: Missing Modality Robustness, Authority Redistribution & Fail-Closed Evaluation
 - **Volume 09**: Modality-Combination Distribution & Tail-Robustness Analysis
+- **Volume 10**: Input Degradation Benchmark & Quality-Aware Robustness
 
 ---
 

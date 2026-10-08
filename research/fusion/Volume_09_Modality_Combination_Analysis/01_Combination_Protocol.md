@@ -1,4 +1,4 @@
-# Phase C11.9 Research Protocol & Registered Questions
+# Phase C11.9 Research Protocol & Pre-Specified Questions
 
 ## 1. Scientific Context & Core Research Question
 
@@ -10,19 +10,19 @@ The conceptual motivation arises from real-world clinical deployment where multi
 
 ---
 
-## 2. Seven Pre-Registered Research Questions
+## 2. Seven Pre-Specified Research Questions
 
 1. **RQ1 (Combination Routing Invariant)**: Does ACARA-U assign valid routing weights ($\sum_{i \in \mathcal{A}} w_i = 1.0, w_i \ge 0, w_{j \notin \mathcal{A}} = 0$) regardless of whether a modality combination belongs to the head, middle, or tail of the frequency distribution?
 2. **RQ2 (Tail Risk Sensitivity)**: How does the decision-level risk sensitivity metric $D_{\text{tail}} = \mathbb{E}_{\text{tail}}[|R_{\text{fusion}} - R_{\text{fusion}}^{\text{RFC}}|]$ behave under moderate (D2) versus strong (D3) head-tail skew?
 3. **RQ3 (Entropy & Authority Concentration)**: Does routing entropy $H(w)$ decrease systematically from head tri-modal packets to tail unimodal packets where authority necessarily collapses ($H=0$)?
-4. **RQ4 (Uncertainty & DCRI Scaling)**: Does the additive uncertainty penalty $\delta U_{\text{sum}}$ in DCRI maintain monotonicity with respect to available modality cardinality across all frequency tiers?
+4. **RQ4 (Uncertainty & DCRI Scaling)**: Does the additive uncertainty penalty $\delta U_{\text{sum}}$ in DCRI scale with available modality cardinality along nested channel ladders across all frequency tiers?
 5. **RQ5 (Comparative Baseline Tail Robustness)**: How does ACARA-U compare against baseline fusion architectures (B1–B5) in tail risk shift $D_{\text{tail}}$ and dispersion $\sigma(R_{\text{tail}})$?
-6. **RQ6 (Cross-Distribution Global Stability)**: Do population-level fused risk $\overline{R_{\text{fusion}}}$ and composite index $\overline{\text{DCRI}}$ remain stable across balanced (D1), moderate (D2), and heavy-tailed (D3) cohorts?
-7. **RQ7 (Fail-Closed Safety)**: Is zero-modality fail-closed rejection ($A = \emptyset \implies \text{NO\_MODALITY\_AVAILABLE}$) preserved without distribution-dependent leakage?
+6. **RQ6 (Cross-Distribution Global Stability)**: Do population-level fused risk $\overline{R_{\text{fusion}}}$ and composite index $\overline{\text{DCRI}}$ remain stable across balanced (D1), moderate (D2), and strong-tail (D3) cohorts?
+7. **RQ7 (Fail-Closed Safety)**: Is zero-modality fail-closed rejection ($\mathcal{A} = \emptyset \implies \text{status} = $ `NO_MODALITY_AVAILABLE`) preserved without distribution-dependent leakage?
 
 ---
 
-## 3. Registered Scientific Hypotheses
+## 3. Pre-Specified Scientific Hypotheses
 
 - **Hypothesis H1 (Simplex & Safety Invariant Preservation across Tiers)**:  
   *Prediction*: Routing authority across active channels satisfies $\sum_{i \in \mathcal{A}} w_i = 1.0$ and $w_{j \notin \mathcal{A}} = 0.0$ uniformly across head, middle, and tail combinations under all distribution regimes.  

@@ -2,7 +2,7 @@
 
 ## 1. Frozen Global Reliability Hierarchy
 
-The pre-registered validation reliability priors are:
+The pre-specified validation reliability priors are:
 
 $$R_R = 0.929956 \quad (\text{Retina})$$
 

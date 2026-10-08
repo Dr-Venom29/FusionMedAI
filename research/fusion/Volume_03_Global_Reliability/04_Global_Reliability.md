@@ -58,7 +58,7 @@ The calculated Clinical validation $\text{ECE}_C = 0.000000$ is disclosed under 
   - Parametric Beta Calibration validation $\text{ECE} = 0.0040 \implies R_C = 0.823382$.
   - Raw uncalibrated CatBoost validation $\text{ECE} = 0.0048 \implies R_C = 0.822982$.
   - Held-out locked test set isotonic $\text{ECE} = 0.0062$.
-- **Impact on Reliability**: The maximum variation across calibration definitions is $\Delta R_C \le 0.0024$ ($<0.3\%$). Locking $R_C = 0.825382$ strictly follows the pre-registered protocol (using the selected isotonic calibrator on the validation split) while transparently acknowledging this in-sample property.
+- **Impact on Reliability**: The maximum variation across calibration definitions is $\Delta R_C \le 0.0024$ ($<0.3\%$). Locking $R_C = 0.825382$ strictly follows the pre-specified protocol (using the selected isotonic calibrator on the validation split) while transparently acknowledging this in-sample property.
 
 ---
 

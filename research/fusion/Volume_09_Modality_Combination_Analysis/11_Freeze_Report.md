@@ -15,11 +15,12 @@
 | :---: | :--- | :---: | :--- |
 | **Gate 1** | Modality Combination Taxonomy (8 Regimes) | **PASSED** | Canonical 8 combination identifiers verified |
 | **Gate 2** | Cardinality & Subset Hierarchy | **PASSED** | Tri-modal (1), bimodal (3), unimodal (3), empty (1) |
-| **Gate 3** | Zero-Modality Fail-Closed Rejection | **PASSED** | $\emptyset \implies \text{status} = \text{NO\_MODALITY\_AVAILABLE}$ |
+| **Gate 3** | Zero-Modality Fail-Closed Rejection | **PASSED** | $\emptyset \implies \text{status} = $ `NO_MODALITY_AVAILABLE` |
 | **Gate 4** | Mask & Specification Exact Correspondence | **PASSED** | All 8 specs map exactly to availability masks |
 | **Gate 5** | Distribution Probability Normalization | **PASSED** | D1, D2, D3 probabilities strictly sum to $1.000000$ |
 | **Gate 6** | Cohort Packet Allocation Conservation ($N=500$) | **PASSED** | All distribution counts sum exactly to $500$ packets |
-| **Gate 8** | Head/Middle/Tail Rank Classification | **PASSED** | Pre-registered rank classification deterministic and verified |
+| **Gate 7** | Stratified Allocation Determinism | **PASSED** | Identical assignment sequence across independent invocations |
+| **Gate 8** | Head/Middle/Tail Rank Classification | **PASSED** | Pre-specified rank classification deterministic and verified |
 | **Gate 9** | Head-to-Tail Ratio ($HTR$) Scaling & D1 Null Semantics | **PASSED** | D1 is None (no tail); D2 $HTR=4.00$, D3 $HTR=10.71$ |
 | **Gate 10** | Active Authority Simplex Invariant | **PASSED** | $\sum_{i \in \mathcal{A}} w_i = 1.000000$ across all combinations |
 | **Gate 11** | Unavailable Channel Zero Authority | **PASSED** | $A_i = 0 \implies w_i = 0.000000$ strictly enforced |
@@ -37,7 +38,7 @@
 
 ## 2. Sealed Experiment Artifacts Manifest
 
-All 16 artifact files in [`experiments/fusion/combination_analysis/`](file:///d:/FusionMedAI/experiments/fusion/combination_analysis/) are cryptographically sealed:
+All 16 artifact files in [`experiments/fusion/combination_analysis/`](../../../experiments/fusion/combination_analysis/) are cryptographically sealed:
 
 ```text
 experiments/fusion/combination_analysis/

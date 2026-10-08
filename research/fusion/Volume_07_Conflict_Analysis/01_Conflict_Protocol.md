@@ -8,7 +8,7 @@ Phase C11.7 evaluates cross-modality discordance at the decision output layer of
 
 ---
 
-## 2. Seven Pre-Registered Research Questions
+## 2. Seven Pre-Specified Research Questions
 
 1. **RQ1 (Conflict Detection)**: Can the metric family reliably identify decision packets exhibiting substantial inter-channel risk divergence?
 2. **RQ2 (Availability Sensitivity)**: How do conflict metrics behave across unimodal, bimodal, and tri-modal availability regimes?

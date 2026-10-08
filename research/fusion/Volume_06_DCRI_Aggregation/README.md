@@ -57,14 +57,14 @@ $$\boxed{\text{DCRI}_\delta = R_{\text{fusion}} - P_U(\delta) = \sum_{i \in \mat
 
 | Document | Focus & Content |
 | :--- | :--- |
-| [01_DCRI_Protocol.md](file:///D:/FusionMedAI/research/fusion/Volume_06_DCRI_Aggregation/01_DCRI_Protocol.md) | Scientific objectives, input-output contracts, and methodological boundaries. |
-| [02_Mathematical_Formulation.md](file:///D:/FusionMedAI/research/fusion/Volume_06_DCRI_Aggregation/02_Mathematical_Formulation.md) | Formal derivation, bounds $[-\delta M, 1]$, and non-clamping policy. |
-| [03_Aggregation_Procedure.md](file:///D:/FusionMedAI/research/fusion/Volume_06_DCRI_Aggregation/03_Aggregation_Procedure.md) | Weighted risk contribution $K_i = w_i r_i$ and aggregation mechanics. |
-| [04_Delta_Sensitivity.md](file:///D:/FusionMedAI/research/fusion/Volume_06_DCRI_Aggregation/04_Delta_Sensitivity.md) | Sensitivity grid evaluation across $\delta \in \{0, 0.05, 0.1, 0.2, 0.5, 1.0\}$. |
-| [05_Uncertainty_Penalty_Analysis.md](file:///D:/FusionMedAI/research/fusion/Volume_06_DCRI_Aggregation/05_Uncertainty_Penalty_Analysis.md) | Additive burden scaling vs mean uncertainty and double-use analysis. |
-| [06_Modality_Contribution_Analysis.md](file:///D:/FusionMedAI/research/fusion/Volume_06_DCRI_Aggregation/06_Modality_Contribution_Analysis.md) | Modality authority vs risk contribution shares across 7 availability regimes. |
-| [07_Results.md](file:///D:/FusionMedAI/research/fusion/Volume_06_DCRI_Aggregation/07_Results.md) | Empirical statistical results over the $N=500$ controlled cohort. |
-| [08_Freeze_Report.md](file:///D:/FusionMedAI/research/fusion/Volume_06_DCRI_Aggregation/08_Freeze_Report.md) | Phase C11.6 certification, verification gate summary (16/16), and artifact freeze. |
+| [01_DCRI_Protocol.md](01_DCRI_Protocol.md) | Scientific objectives, input-output contracts, and methodological boundaries. |
+| [02_Mathematical_Formulation.md](02_Mathematical_Formulation.md) | Formal derivation, bounds $[-\delta M, 1]$, and non-clamping policy. |
+| [03_Aggregation_Procedure.md](03_Aggregation_Procedure.md) | Weighted risk contribution $K_i = w_i r_i$ and aggregation mechanics. |
+| [04_Delta_Sensitivity.md](04_Delta_Sensitivity.md) | Sensitivity grid evaluation across $\delta \in \{0, 0.05, 0.1, 0.2, 0.5, 1.0\}$. |
+| [05_Uncertainty_Penalty_Analysis.md](05_Uncertainty_Penalty_Analysis.md) | Additive burden scaling vs mean uncertainty and double-use analysis. |
+| [06_Modality_Contribution_Analysis.md](06_Modality_Contribution_Analysis.md) | Modality authority vs risk contribution shares across 7 availability regimes. |
+| [07_Results.md](07_Results.md) | Empirical statistical results over the $N=500$ controlled cohort. |
+| [08_Freeze_Report.md](08_Freeze_Report.md) | Phase C11.6 certification, verification gate summary (16/16), and artifact freeze. |
 
 ---
 

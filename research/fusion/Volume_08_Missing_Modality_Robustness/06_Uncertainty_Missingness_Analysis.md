@@ -39,7 +39,7 @@ To evaluate this interaction without parameter fitting, the frozen cohort ($N=50
 
 ---
 
-## 3. Scientific Conclusions (H3 Empirically Supported Under Pre-Registered Stratification Analysis)
+## 3. Scientific Conclusions (H3 Empirically Supported Under Pre-Specified Stratification Analysis)
 
 Across all three modality channels:
 1. **Empirical Stratification Pattern**: Across the three modality-specific analyses, removal of low-uncertainty channels was associated with approximately **19–33% larger mean risk shifts** than removal of high-uncertainty channels:

@@ -25,7 +25,7 @@ For each distribution and modality combination, $95\%$ empirical confidence inte
 
 ---
 
-## 3. Registered Hypothesis Verification Outcomes
+## 3. Pre-Specified Hypothesis Verification Outcomes
 
 ### Hypothesis H1: Simplex & Safety Invariant Preservation across Tiers
 - **Formal Statement**: $\forall c \in \mathcal{C}_{\text{active}}, \forall k, \sum_{i \in \mathcal{A}_c} w_i(k) = 1.000000$ and $w_{j \notin \mathcal{A}_c}(k) = 0.000000$.

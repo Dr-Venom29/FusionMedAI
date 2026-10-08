@@ -8,7 +8,7 @@ Phase C11.8 evaluates the robustness of multimodal decision fusion under missing
 
 ---
 
-## 2. Seven Pre-Registered Research Questions
+## 2. Seven Pre-Specified Research Questions
 
 1. **RQ1 (Availability Safety)**: Does the router assign exactly zero authority ($w_i = 0.0$) to unavailable modalities under all conditions?
 2. **RQ2 (Authority Redistribution)**: How does ACARA-U redistribute decision authority among the remaining active channels when 1 or 2 modalities disappear?
@@ -20,7 +20,7 @@ Phase C11.8 evaluates the robustness of multimodal decision fusion under missing
 
 ---
 
-## 3. Registered Scientific Hypotheses
+## 3. Pre-Specified Scientific Hypotheses
 
 - **Hypothesis H1 (Availability Safety & Simplex Conservation)**:  
   ACARA-U will satisfy strict availability safety under all modality-loss configurations ($A_i = 0 \implies w_i = 0.0$) and preserve normalized authority ($\sum_{i \in \mathcal{A}} w_i = 1.0$) across all non-empty subsets.

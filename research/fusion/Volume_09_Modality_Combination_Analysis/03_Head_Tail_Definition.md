@@ -2,7 +2,7 @@
 
 ## 1. Rank-Based Canonical Tiering
 
-To avoid arbitrary percentage thresholds that distort under varying distribution profiles, Phase C11.9 establishes a pre-registered **rank-based tiering rule**:
+To avoid arbitrary percentage thresholds that distort under varying distribution profiles, Phase C11.9 establishes a pre-specified **rank-based tiering rule**:
 
 Combinations within a given distribution $D$ are sorted in descending order of frequency $N_c$. The 7 combinations are partitioned deterministically into three operational tiers:
 
