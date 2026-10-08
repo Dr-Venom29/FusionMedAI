@@ -2,6 +2,11 @@
 
 ## Cohort-Level Comparative Results ($N = 500$ Controlled Decision Packets)
 
+> [!IMPORTANT]
+> **Scientific Scope & Evaluation Interpretation**:
+> Phase C11.5 evaluates routing behavior, authority allocation, and robustness across the baseline ladder (B1–B6), **not** the predictive superiority of multimodal fusion. The reported fusion quantities are decision-level aggregation indices ($R_{\text{fusion}} = \sum w_i r_i$) evaluated under controlled modality-availability conditions, not patient-level clinical probabilities.
+> ACARA-U assigned the largest mean routing authority ($47.7\%$) to Retina in the evaluated cohort due to its higher frozen reliability prior ($R_R=0.930$) and low observed uncertainty, reflecting the mathematical routing dynamics over the cohort rather than an empirical claim of superior diagnostic accuracy.
+
 The empirical benchmark was executed using PRNG seed $115$ over $N = 500$ decision packets constructed from held-out validation prediction pools ($N_R = 366, N_F = 1006, N_C = 1066$).
 
 ### 1. Full Tri-Modal Benchmark Summary (Config 1: All Available)

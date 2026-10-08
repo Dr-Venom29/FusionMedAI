@@ -8,7 +8,7 @@ Phase C11.5 (Multimodal Baseline Ladder & Comparative Evaluation) is formally co
 
 ## 18-Gate Independent Verification Summary
 
-The independent verification script [`verification/fusion/baselines/verify_c11_5_baselines.py`](../../../verification/fusion/baselines/verify_c11_5_baselines.py) executed 18 verification gates across all baselines and artifacts with 100% compliance:
+The independent verification script [`verification/fusion/baselines/verify_baselines.py`](../../../verification/fusion/baselines/verify_baselines.py) executed 18 verification gates across all baselines and artifacts with 100% compliance:
 
 | Gate | Verification Check | Status | Verification Detail |
 | :---: | :--- | :---: | :--- |

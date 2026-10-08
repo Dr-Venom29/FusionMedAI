@@ -121,9 +121,10 @@ desktop.ini
 papers/*.pdf
 
 # ======================================
-# Temporary Files
+# Temporary Files & Scripts
 # ======================================
 
+scripts/
 scratch/
 *.tmp
 *.bak

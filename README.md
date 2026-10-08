@@ -22,17 +22,17 @@ flowchart TD
         C["Structured Clinical Data (119-D EHR)"]
     end
     
-    subgraph Outputs["Reliability-Aware Modality Contracts"]
-        RO["Retina: p_cal, Predictive Variance, Quality Q_R, R_R"]
-        FO["Foot: p_cal, Predictive Entropy, Quality Q_F, R_F"]
-        CO["Clinical: p_cal, Bootstrap Dispersion (σ_p), Completeness Q_C, R_C"]
+    subgraph Contracts["Standardized Modality Contracts (8-Tuple)"]
+        RO["Retina: (r_R, p_cal, C_R, U_R, Q_R, A_R, R_R, ver)"]
+        FO["Foot: (r_F, p_cal, C_F, U_F, Q_F, A_F, R_F, ver)"]
+        CO["Clinical: (r_C, p_cal, C_C, U_C, Q_C, A_C, R_C, ver)"]
     end
     
     R --> RO
     F --> FO
     C --> CO
     
-    subgraph RouterStage["ACARA-U v2 Dynamic Router (Phase C11.4 — SEALED)"]
+    subgraph RouterStage["ACARA-U Dynamic Router"]
         Router["Scoring Kernel: z_i = α C_i + β R_i - γ U_i + η Q_i<br/>Hard Masking: A_i = 0 ⇒ w_i = 0<br/>Stable Softmax: w_i = exp(z_i - m) / Σ exp(z_j - m)"]
     end
     
@@ -40,13 +40,21 @@ flowchart TD
     FO --> Router
     CO --> Router
     
-    subgraph FusionStage["Decision-Level Fusion & DCRI (Phase C11.5 — PLANNED)"]
-        Weights["Modality Weights (w_R, w_F, w_C)"] --> Fused["Fused Risk: R_fusion = Σ w_i r_i"]
-        Weights --> DCRI["Decision Index: DCRI = R_fusion - δ Σ U_i"]
-        Weights --> Dis["Discordance & Consensus Metrics"]
+    subgraph DCRIStage["DCRI Risk Aggregation"]
+        Fused["Fused Risk: R_fusion = Σ w_i r_i"]
+        Penalty["Uncertainty Penalty: P_U = δ Σ U_i"]
+        DCRI["DCRI Decision Index: DCRI_δ = R_fusion - δ Σ U_i"]
+        Fused --> DCRI
+        Penalty --> DCRI
     end
     
-    Router --> Weights
+    Router --> DCRIStage
+    
+    subgraph ConflictStage["Conflict & Discordance Analysis"]
+        Conflict["Pairwise Divergence & Disagreement Matrices"]
+    end
+    
+    Router --> ConflictStage
 ```
 
 The repository is organized as a research system rather than as a single end-to-end black-box classifier. Experimental procedures, evaluation artifacts, verification suites, and frozen model contracts are maintained alongside the implementation.
@@ -161,11 +169,13 @@ A consolidated summary of principal findings across the research program:
 | **Clinical Discrimination** | CatBoost HPO ($N_{\text{test}}=14,913$) | **$\text{ROC-AUC} = 0.6494$** | Reflects retrospective tabular readmission task complexity ($D=119$). |
 | **Clinical Probability Quality** | Raw CatBoost Test ECE | **$\text{ECE} = 0.0032$** | Isotonic chosen on validation NLL; Beta achieved test slope $0.9720$. |
 | **Clinical Attribution Stability** | TreeSHAP Validation vs Test | **$\rho = 0.9994$** ($100\%$ Top-20) | Inpatient history ($22.43\%$) & complexity ($21.23\%$) dominate margin. |
-| **Clinical Uncertainty** | 50-Bootstrap CatBoost Ensemble | **$\text{Error AUROC} = 0.7116$** | Misclassified cases exhibit $\sigma_p = 0.0357$ vs $0.0195$ for correct cases. |
+| **Clinical Uncertainty** | 50-Bootstrap CatBoost Ensemble | **$\text{Error AUROC} = 0.7116$** | Misclassified cases exhibit $\sigma_p = 0.0357$ vs $0.0195$ for correct cases (standardized to $[0, 1]$ in fusion contract). |
 | **Selective Classification** | Risk-Coverage at 80% Coverage | **$10.23\%$ Error Rate** | $31.0\%$ error reduction achieved by rejecting $20\%$ most uncertain cases. |
 | **Shift Sensitivity Signal** | Random Missingness ($50\%$ MCAR) | **σ_p = 0.0491 (+124.2%)** | Predictive dispersion systematically inflates under information loss. |
 | **Uncertainty Blind Spot** | Masked Prior Inpatient History | **$\text{ROC-AUC} = 0.5795, \sigma_p = 0.0150$** | Severe discrimination loss with deceptively low uncertainty (Q4 failure). |
 | **End-to-End Throughput** | Local CPU Batch Inference ($N=14,913$) | **$3,345.7\text{ encounters/sec}$** | Local CPU software benchmark; not a clinical deployment claim. |
+| **Multimodal Routing (C11.5)** | Baseline Ladder B1–B6 ($N=500$) | **Retina $47.71\%$, Foot $26.80\%$, Clinical $25.49\%$** | ACARA-U dynamic allocation exhibits routing entropy $1.0176$ vs uniform $1.0986$. |
+| **DCRI Aggregation (C11.6)** | Uncertainty Discounting ($\delta=0.20$) | **Mean DCRI = $0.1617$ / $24.6\%$ Negative** | Unclamped derived index ($R_{\text{fusion}}=0.2885$, penalty $=0.1268$); $\delta=0.20$ is provisional. |
 
 ---
 
@@ -530,14 +540,53 @@ The output demonstrates Wagner-grade prediction, Vector Scaling calibrated confi
 
 ---
 
-## Next Research Stage — Phase C11.6 DCRI & Triage Conservatism *(Designed — Not Yet Implemented)*
+## Multimodal Decision Fusion Results
 
-The next research stage builds upon the evaluated ACARA-U baseline ladder to implement clinical triage guardrails and discordance mitigation:
+Multimodal decision fusion operates strictly on standardized reliability-aware modality contracts across the frozen $N=500$ controlled decision cohort ($\text{seed}=115$):
 
-- **Dynamic Cross-Modality Risk Inconsistency ($DCRI$)**: Continuous discordance penalty quantifying inter-channel risk divergence ($X_{\max} = \max_{i,j \in \mathcal{A}} |r_i - r_j|$).
-- **Conservative Triage Adjustment**: Down-weighting fused confidence or escalating triage tiers when high-authority modalities exhibit clinical conflict.
-- **Discordant Pair Flagging & Safety Guardrails**: Automated alerts when imaging and clinical tabular channels disagree beyond safety thresholds.
-- **Robustness Under Out-of-Distribution Inputs**: Comprehensive stress testing of combined routing and DCRI mechanisms.
+### 1. Baseline Fusion Evaluation (Ladder B1–B6)
+
+Evaluated across the frozen $N=500$ cohort to compare ACARA-U against five simpler allocation policies:
+
+| Method | Retina $w$ | Foot $w$ | Clinical $w$ | Routing Entropy | Retina Dominance |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **B1 Reliability** | $1.0000$ | $0.0000$ | $0.0000$ | $0.0000$ | $100.0\%$ |
+| **B2 Uniform** | $0.3333$ | $0.3333$ | $0.3333$ | $1.0986$ | — |
+| **B3 Confidence** | $0.3945$ | $0.3690$ | $0.2366$ | $1.0615$ | $46.8\%$ |
+| **B4 Conf. + Rel.** | $0.4049$ | $0.3761$ | $0.2190$ | $1.0521$ | $52.6\%$ |
+| **B5 Conf. + Rel. - U** | $0.4593$ | $0.2704$ | $0.2703$ | $1.0279$ | $73.6\%$ |
+| **B6 ACARA-U** | **$0.4771$** | **$0.2680$** | **$0.2549$** | **$1.0176$** | **$78.2\%$** |
+
+*Note: Lower entropy reflects the observed routing distribution across available modalities and should not be conflated with mathematical stability.*
+
+---
+
+### 2. DCRI Risk Aggregation & Uncertainty Discounting
+
+ACARA-U routed weights are converted into a fused risk index $R_{\text{fusion}}$ and an uncertainty-discounted decision index $\text{DCRI}_\delta$:
+
+$$\begin{aligned}
+R_{\text{fusion}} &= \sum_{i \in \mathcal{A}} w_i r_i \\
+\text{DCRI}_\delta &= R_{\text{fusion}} - \delta \sum_{i \in \mathcal{A}} U_i
+\end{aligned}$$
+
+- **Mathematical Domain & Unclamped Invariant**: Because $R_{\text{fusion}} \in [0, 1]$ and $U_i \in [0, 1]$, the theoretical domain is $\text{DCRI}_\delta \in [-\delta M, 1]$ where $M = |\mathcal{A}| \le 3$. Negative DCRI values are mathematically valid under uncertainty discounting and are intentionally preserved (not clamped).
+- **Frozen Cohort Empirical Findings ($N=500$, seed 115)**:
+  - Mean Fused Risk $R_{\text{fusion}} = 0.288499 \pm 0.163198$ (Range: $[0.011744, 0.793333]$).
+  - Mean Uncertainty Burden $U_{\text{sum}} = 0.633936 \pm 0.144983$.
+  - At provisional operating point $\delta=0.20$: Mean Uncertainty Penalty $= 0.126787$, Mean $\text{DCRI} = 0.161712$, $24.6\%$ of packets (123/500) produced negative DCRI (observed minimum: $-0.125243$).
+  - Sensitivity slope: $\frac{\partial \overline{\text{DCRI}}}{\partial \delta} = -\overline{U_{\text{sum}}} = -0.633936$.
+- **Parameter Scope**: $\delta=0.20$ serves as a provisional convenience default; formal optimization of $\delta$ is deferred to subsequent hyperparameter analysis.
+
+---
+
+## Next Research Stage — Cross-Modality Conflict Engine
+
+The next research stage investigates cross-modality discordance independently from risk aggregation:
+
+- **Directional Pairwise Divergence ($D_{ij}$)**: Quantifying signed and absolute risk differences ($D_{ij} = r_i - r_j$).
+- **Pairwise Disagreement Matrices**: Systematic evaluation of channel-pair tension ($M \times M$ matrix across available modalities).
+- **Discordance Threshold Flags & Safety Profiling**: Classifying tension states without conflating discordance with single-channel uncertainty.
 
 ---
 
@@ -548,7 +597,10 @@ The repository maintains strict verification gates for all research phases. Veri
 - **Retina Gates**: Data integrity, DataLoader pipeline, architecture benchmarking, Grad-CAM, calibration, uncertainty, and acceptance testing (`verification/retina/`).
 - **Foot Ulcer Gates**: Source-image grouping, duplicate audits, stratified splitting, Grad-CAM sanity checks, Vector Scaling, MC Dropout, and module integration (`verification/foot/`).
 - **Clinical Gates**: 119-D representation, TreeSHAP exact additivity, calibration monotonicity, bootstrap convergence, shift sensitivity, and end-to-end integration (`verification/clinical/`).
-- **Fusion C11 Router & Baseline Gates**: Protocol freeze (7 gates), unified 8-tuple contracts (8 gates), input quality & availability (9 gates), validation reliability live recomputation (14 gates), dynamic router mechanics (18 gates), and baseline comparison ladder (18 gates) under `verification/fusion/` (`74/74 deep gates passed`, `96/96 pytest tests passed`).
+- **Multimodal Decision Fusion Gates**:
+  - **Foundational Fusion Gates**: Protocol freeze, unified 8-tuple contracts, input quality & availability, validation reliability live recomputation, dynamic router mechanics, and baseline comparison ladder under `verification/fusion/` (**74/74 deep gates passed**).
+  - **DCRI Aggregation Gates**: Mathematical bounds, penalty conservation, delta sensitivity grid, fixed-router monotonicity, unclamped negative values, and frozen cohort manifest under `verification/fusion/dcri/` (**16/16 deep gates passed**, **29/29 DCRI unit tests**).
+  - **Overall Automated Test Suite**: **126/126 unit tests passed**.
 
 Every experimental execution generates cryptographic SHA-256 manifests linking model weights, evaluation tables, figures, and dataset partitions.
 
@@ -561,7 +613,7 @@ Every experimental execution generates cryptographic SHA-256 manifests linking m
 3. **Non-Causal Interpretability**: TreeSHAP and Grad-CAM attributions reflect statistical associations within the trained models. They do not identify causal clinical mechanisms or treatment effects.
 4. **Calibration Protocol Nuances**: Isotonic regression was selected on validation NLL, but exhibits boundary discretization ($p_{\text{cal}}=0.0000$ on lowest-risk cases) and lower out-of-sample slope than parametric Beta calibration ($0.8541$ vs $0.9720$).
 5. **Uncertainty Blind Spots**: While bootstrap dispersion detects random missingness and high-variance encounters, it fails to inflate when key structural variables (`number_inpatient`) are omitted, emphasizing the necessity of multimodal input-completeness safeguards.
-6. **Decision-Level Multimodal Formulation**: Because available open datasets do not contain paired retina, foot ulcer, and EHR records for the same individual patients, multimodal fusion is strictly formulated at the decision level using reliability-aware outputs rather than artificial patient-level feature joining.
+6. **Decision-Level Multimodal Formulation**: Because available open datasets do not contain paired retina, foot ulcer, and EHR records for the same individual patients, multimodal fusion is strictly formulated at the decision level using reliability-aware outputs rather than artificial patient-level feature joining. Controlled decision evaluations represent methodological benchmarking, not direct clinical validation.
 
 ---
 
@@ -603,7 +655,8 @@ FusionMedAI/
 │   │   └── integration/
 │   └── fusion/
 │       ├── router/
-│       └── baseline_comparison/
+│       ├── baseline_comparison/
+│       └── dcri/
 ├── research/
 │   ├── retina/
 │   │   ├── Volume_01_Dataset_Preparation/
@@ -626,7 +679,8 @@ FusionMedAI/
 │       ├── Volume_02_Quality_Layer/
 │       ├── Volume_03_Global_Reliability/
 │       ├── Volume_04_ACARA_U_Router/
-│       └── Volume_05_Baseline_Fusion/
+│       ├── Volume_05_Baseline_Fusion/
+│       └── Volume_06_DCRI_Aggregation/
 ├── src/
 │   ├── retina/
 │   ├── foot/
@@ -636,7 +690,8 @@ FusionMedAI/
 │       ├── quality/
 │       ├── reliability/
 │       ├── router/
-│       └── baselines/
+│       ├── baselines/
+│       └── dcri/
 ├── verification/
 │   ├── retina/
 │   ├── foot/
@@ -647,7 +702,8 @@ FusionMedAI/
 │       ├── quality/
 │       ├── reliability/
 │       ├── router/
-│       └── baselines/
+│       ├── baselines/
+│       └── dcri/
 ├── requirements.txt
 ├── LICENSE
 └── README.md
@@ -695,6 +751,7 @@ The complete experimental record, methodology descriptions, mathematical formula
 - **Volume 03**: Global Modality Reliability Priors ($R_i$) & Validation Evidence
 - **Volume 04**: ACARA-U v2 Dynamic Router & Behavioral Stress Benchmarking
 - **Volume 05**: Multimodal Baseline Ladder (B1–B6) & Comparative Evaluation
+- **Volume 06**: DCRI Risk Aggregation & Uncertainty Discounting ($R_{\text{fusion}}$ & $\text{DCRI}_\delta$ Evaluation)
 
 ---
 
