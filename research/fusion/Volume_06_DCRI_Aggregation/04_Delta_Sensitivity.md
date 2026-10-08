@@ -2,15 +2,21 @@
 
 ## 1. Sensitivity Protocol & Grid Specification
 
-Phase C11.6 evaluates the response of $\text{DCRI}_\delta$ across a pre-specified hyperparameter grid:
+The sensitivity of $\text{DCRI}_\delta$ is evaluated across the pre-specified hyperparameter grid:
+
 $$\delta \in \{0.0, 0.05, 0.10, 0.20, 0.50, 1.00\}$$
 
-For every packet:
+For every decision packet, the shift relative to unpenalized fused risk is:
+
 $$\Delta \text{DCRI}(\delta) = \text{DCRI}_\delta - R_{\text{fusion}} = -\delta U_{\text{sum}}$$
 
 The theoretical rate of change with respect to $\delta$ is:
+
 $$\frac{\partial \text{DCRI}_\delta}{\partial \delta} = -U_{\text{sum}}$$
-Across the $N=500$ cohort, the empirical mean slope is $\overline{\frac{\partial \text{DCRI}}{\partial \delta}} = -\overline{U_{\text{sum}}} = -0.633936$.
+
+Across the $N=500$ cohort, the empirical mean slope is:
+
+$$\overline{\frac{\partial \text{DCRI}}{\partial \delta}} = -\overline{U_{\text{sum}}} = -0.633936$$
 
 ---
 

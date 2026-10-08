@@ -24,7 +24,7 @@ Cohort Size: N = 500 | PRNG Seed: 115 | Status: VERIFIED & SEALED
 
 ## 2. Multi-Configuration Performance Matrix
 
-| Configuration | $|\mathcal{A}|$ | Mean $R_{\text{fusion}}$ | Mean $U_{\text{sum}}$ | Mean DCRI ($\delta=0.0$) | Mean DCRI ($\delta=0.05$) | Mean DCRI ($\delta=0.10$) | Mean DCRI ($\delta=0.20$) |
+| Configuration | Active Count ($M$) | Mean $R_{\text{fusion}}$ | Mean $U_{\text{sum}}$ | Mean DCRI ($\delta=0.0$) | Mean DCRI ($\delta=0.05$) | Mean DCRI ($\delta=0.10$) | Mean DCRI ($\delta=0.20$) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Retina Only (R)** | 1 | 0.255037 | 0.081822 | 0.255037 | 0.250946 | 0.246855 | 0.238673 |
 | **Foot Only (F)** | 1 | 0.537238 | 0.528302 | 0.537238 | 0.510823 | 0.484408 | 0.431578 |

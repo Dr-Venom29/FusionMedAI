@@ -176,6 +176,7 @@ A consolidated summary of principal findings across the research program:
 | **End-to-End Throughput** | Local CPU Batch Inference ($N=14,913$) | **$3,345.7\text{ encounters/sec}$** | Local CPU software benchmark; not a clinical deployment claim. |
 | **Multimodal Routing (C11.5)** | Baseline Ladder B1–B6 ($N=500$) | **Retina $47.71\%$, Foot $26.80\%$, Clinical $25.49\%$** | ACARA-U dynamic allocation exhibits routing entropy $1.0176$ vs uniform $1.0986$. |
 | **DCRI Aggregation (C11.6)** | Uncertainty Discounting ($\delta=0.20$) | **Mean DCRI = $0.1617$ / $24.6\%$ Negative** | Unclamped derived index ($R_{\text{fusion}}=0.2885$, penalty $=0.1268$); $\delta=0.20$ is provisional. |
+| **Cross-Modality Conflict (C11.7)** | Discordance Family ($N=500$) | **Mean $\Delta_{\max} = 0.5203$, $\sigma_w = 0.2150$** | High conflict in $72.6\%$ ($363/500$), primarily driven by Retina ↔ Foot ($47.4\%$). |
 
 ---
 
@@ -580,13 +581,35 @@ R_{\text{fusion}} &= \sum_{i \in \mathcal{A}} w_i r_i \\
 
 ---
 
-## Next Research Stage — Cross-Modality Conflict Engine
+### 3. Cross-Modality Conflict & Discordance Analysis
 
-The next research stage investigates cross-modality discordance independently from risk aggregation:
+The conflict analysis engine quantifies inter-channel risk divergence and consensus dispersion without modifying router authority weights or DCRI values:
 
-- **Directional Pairwise Divergence ($D_{ij}$)**: Quantifying signed and absolute risk differences ($D_{ij} = r_i - r_j$).
-- **Pairwise Disagreement Matrices**: Systematic evaluation of channel-pair tension ($M \times M$ matrix across available modalities).
-- **Discordance Threshold Flags & Safety Profiling**: Classifying tension states without conflating discordance with single-channel uncertainty.
+$$\begin{aligned}
+X_{jk} &= |r_j - r_k| \\
+\Delta_{\max} &= \max_{j < k, j,k \in \mathcal{A}} |r_j - r_k| \\
+\Delta_{\text{mean}} &= \frac{1}{P} \sum_{j < k, j,k \in \mathcal{A}} |r_j - r_k| \quad \left(P = \binom{|\mathcal{A}|}{2}\right) \\
+\sigma_w &= \sqrt{\sum_{i \in \mathcal{A}} w_i (r_i - R_{\text{fusion}})^2}
+\end{aligned}$$
+
+- **Frozen Cohort Empirical Findings ($N=500$, seed 115)**:
+  - Mean Maximum Disagreement $\Delta_{\max} = 0.520331 \pm 0.241978$ (Median: $0.475961$, Range: $[0.029269, 0.991898]$).
+  - Mean Pairwise Disagreement $\Delta_{\text{mean}} = 0.346887 \pm 0.161319$ (Median: $0.317307$).
+  - Mean Weighted Consensus Dispersion $\sigma_w = 0.215019 \pm 0.108652$ (Median: $0.192409$).
+  - Operational Severity Stratification: LOW ($9.0\%$, 45/500), MODERATE ($18.4\%$, 92/500), HIGH ($72.6\%$, 363/500).
+  - Dominant Conflicting Pair: Retina ↔ Foot ($47.4\%$), Foot ↔ Clinical ($27.0\%$), Retina ↔ Clinical ($25.6\%$).
+  - Reliability-Authority Alignment: Router biased authority toward higher global reliability ($R_R=0.930 > R_F=0.922 > R_C=0.825$) in $98.0\%$ of Retina vs Clinical and $93.2\%$ of Retina vs Foot encounters.
+  - Uncertainty Orthogonality: Linear correlation $r(\Delta_{\max}, U_{\text{sum}}) = 0.088166$, establishing that conflict magnitude is structurally orthogonal to individual-modality uncertainty.
+
+---
+
+## Next Research Stage — Missing Modality Robustness Protocol
+
+The next research stage evaluates pipeline stability and graceful degradation under systematic channel dropouts and incomplete input regimes:
+
+- **Graceful Authority Redistribution**: Reallocating authority weights dynamically when high-priority imaging channels are unavailable.
+- **Robustness Boundary Mapping**: Establishing minimum modality combinations required to maintain valid decision indexes.
+- **Degradation Resistance Testing**: Measuring impact on fused risk bounds and uncertainty discounting across all partial availability subsets.
 
 ---
 
@@ -600,7 +623,8 @@ The repository maintains strict verification gates for all research phases. Veri
 - **Multimodal Decision Fusion Gates**:
   - **Foundational Fusion Gates**: Protocol freeze, unified 8-tuple contracts, input quality & availability, validation reliability live recomputation, dynamic router mechanics, and baseline comparison ladder under `verification/fusion/` (**74/74 deep gates passed**).
   - **DCRI Aggregation Gates**: Mathematical bounds, penalty conservation, delta sensitivity grid, fixed-router monotonicity, unclamped negative values, and frozen cohort manifest under `verification/fusion/dcri/` (**16/16 deep gates passed**, **29/29 DCRI unit tests**).
-  - **Overall Automated Test Suite**: **126/126 unit tests passed**.
+  - **Conflict Analysis Gates**: Pairwise symmetry, zero identity, maximum/mean disagreement, weighted variance/std, perturbation monotonicity, and artifact manifest under `verification/fusion/conflict/` (**20/20 deep gates passed**, **22/22 conflict unit tests**).
+  - **Overall Automated Test Suite**: **148/148 unit tests passed**.
 
 Every experimental execution generates cryptographic SHA-256 manifests linking model weights, evaluation tables, figures, and dataset partitions.
 
@@ -656,7 +680,8 @@ FusionMedAI/
 │   └── fusion/
 │       ├── router/
 │       ├── baseline_comparison/
-│       └── dcri/
+│       ├── dcri/
+│       └── conflict/
 ├── research/
 │   ├── retina/
 │   │   ├── Volume_01_Dataset_Preparation/
@@ -680,7 +705,8 @@ FusionMedAI/
 │       ├── Volume_03_Global_Reliability/
 │       ├── Volume_04_ACARA_U_Router/
 │       ├── Volume_05_Baseline_Fusion/
-│       └── Volume_06_DCRI_Aggregation/
+│       ├── Volume_06_DCRI_Aggregation/
+│       └── Volume_07_Conflict_Analysis/
 ├── src/
 │   ├── retina/
 │   ├── foot/
@@ -691,7 +717,8 @@ FusionMedAI/
 │       ├── reliability/
 │       ├── router/
 │       ├── baselines/
-│       └── dcri/
+│       ├── dcri/
+│       └── conflict/
 ├── verification/
 │   ├── retina/
 │   ├── foot/
@@ -703,7 +730,8 @@ FusionMedAI/
 │       ├── reliability/
 │       ├── router/
 │       ├── baselines/
-│       └── dcri/
+│       ├── dcri/
+│       └── conflict/
 ├── requirements.txt
 ├── LICENSE
 └── README.md
@@ -752,6 +780,7 @@ The complete experimental record, methodology descriptions, mathematical formula
 - **Volume 04**: ACARA-U v2 Dynamic Router & Behavioral Stress Benchmarking
 - **Volume 05**: Multimodal Baseline Ladder (B1–B6) & Comparative Evaluation
 - **Volume 06**: DCRI Risk Aggregation & Uncertainty Discounting ($R_{\text{fusion}}$ & $\text{DCRI}_\delta$ Evaluation)
+- **Volume 07**: Cross-Modality Conflict & Discordance Analysis ($\Delta_{\max}, \Delta_{\text{mean}}, \sigma_w$, Availability Regimes & Diagnostic Profiling)
 
 ---
 
