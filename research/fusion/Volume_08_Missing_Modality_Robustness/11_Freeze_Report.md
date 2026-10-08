@@ -20,7 +20,7 @@
 | **Gate 5** | Inactive Modality Contribution Zero Invariant | **PASSED** | $K_i = w_i r_i = 0.000000$ for $A_i = 0$ |
 | **Gate 6** | Fused Risk Bounds ($0.0 \le R_{\text{fusion}} \le 1.0$) | **PASSED** | Fused risk bounded in unit interval across all subsets |
 | **Gate 7** | DCRI Theoretical Bounds ($-\delta M \le \text{DCRI} \le 1.0$) | **PASSED** | DCRI preserves valid negative bounds without clamping |
-| **Gate 8** | Zero-Modality Safe Fail-Closed Rejection | **PASSED** | $\emptyset \implies \text{status} = \text{NO\_MODALITY\_AVAILABLE}$ |
+| **Gate 8** | Zero-Modality Safe Fail-Closed Rejection | **PASSED** | $\emptyset \implies \text{status} = $ `NO_MODALITY_AVAILABLE` |
 | **Gate 9** | Masked-Value Invariance Under Corrupted Inputs | **PASSED** | $7,500 / 7,500$ corrupted input trials identical to $10^{-12}$ |
 | **Gate 10** | Unavailable vs Low-Quality Fundamental Distinction | **PASSED** | $A_i=0 \implies w_i=0$ vs $A_i=1, Q_i=0 \implies w_i > 0$ |
 | **Gate 11** | Authority Redistribution Conservation | **PASSED** | $\sum_{j \in \mathcal{A}} \Delta w_j = w_k^{\text{full}}$ verified exactly |
