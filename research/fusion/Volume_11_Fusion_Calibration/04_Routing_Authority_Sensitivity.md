@@ -22,6 +22,8 @@ $$
 
 ## 2. Authority Shift Across Active Modalities
 
+![Figure 11.2: ACARA-U Dynamic Authority Redistribution Under Calibrated Probabilities](figures/fig11_2_authority_redistribution.png)
+
 Across the $N=500$ clean cohort (B5 Calibrated ACARA-U vs B2 Uncalibrated ACARA-U):
 
 | Channel | Mean Uncalibrated Weight ($\overline{w_i^{\text{raw}}}$) | Mean Calibrated Weight ($\overline{w_i^{\text{cal}}}$) | Mean Authority Delta ($\overline{\Delta w_i}$) | $95\%$ Paired Bootstrap CI | Relative Change |

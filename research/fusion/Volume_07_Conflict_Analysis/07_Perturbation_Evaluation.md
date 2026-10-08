@@ -2,6 +2,8 @@
 
 ## 1. Perturbation Protocol
 
+![Figure 7.4: Conflict Metrics Under Controlled Modality Perturbation](figures/fig7_4_perturbation_response.png)
+
 To verify that conflict metrics respond predictably to shifts in individual modality risk, controlled risk sweeps were executed across $r_{\text{target}} \in [0.00, 1.00]$ while holding all other channel properties constant:
 
 | Perturbed Modality Risk ($r_C$) | $\Delta_{\max}$ | $\Delta_{\text{mean}}$ | $\sigma_w$ | $R_{\text{fusion}}$ | $\text{DCRI}_{0.20}$ | Severity Classification |

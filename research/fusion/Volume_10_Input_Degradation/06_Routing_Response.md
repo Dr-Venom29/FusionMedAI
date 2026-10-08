@@ -10,6 +10,8 @@ Weight shift is defined as $\Delta w_i = w_i^{(d)} - \overline{w_i^{\text{clean}
 
 ## 2. Dynamic Routing Response Across Modalities
 
+![Figure 10.3: Dynamic Authority Attenuation and Cross-Channel Redistribution](figures/fig10_3_routing_authority_attenuation.png)
+
 Across the frozen $N=500$ cohort ($\text{seed}=115$):
 
 ### 2.1 Retinal Fundus Routing Attenuation (D-R1 Gaussian Blur, $\overline{w_R^{\text{clean}}} = 0.5034$)

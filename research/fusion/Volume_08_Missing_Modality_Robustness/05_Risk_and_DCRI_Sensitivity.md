@@ -2,6 +2,8 @@
 
 ## 1. Risk Shift Distributions ($\Delta R_{\text{missing}}$)
 
+![Figure 8.3: Decision-Level Fused Risk Sensitivity Under Modality Dropout](figures/fig8_3_risk_dcri_sensitivity.png)
+
 Risk sensitivity measures the absolute shift in decision-level fused risk relative to the tri-modal baseline:
 
 $$\Delta R_{\text{missing}} = |R_{\text{fusion}}^{\text{full}} - R_{\text{fusion}}^{\text{subset}}|$$

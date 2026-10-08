@@ -2,6 +2,8 @@
 
 ## 1. Empirical Pairwise Disagreement Statistics ($N=500$)
 
+![Figure 7.1: Mean Pairwise Risk Divergence Matrix](figures/fig7_1_pairwise_conflict_matrix.png)
+
 Across the frozen $N=500$ controlled decision cohort ($\text{seed}=115$), pairwise divergence was evaluated for the three active channels:
 
 | Modality Pair | Mean $X_{jk}$ | Median $X_{jk}$ | Std Dev | Min $X_{jk}$ | Max $X_{jk}$ | P25 | P75 | IQR | Dominant Rate |

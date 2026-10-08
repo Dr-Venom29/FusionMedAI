@@ -16,6 +16,8 @@ Combinations within a given distribution $D$ are sorted in descending order of f
 
 ## 2. Tier Composition Summary Across Distributions
 
+![Figure 9.2: Head vs Tail Tier Fused Risk Distributions](figures/fig9_2_head_tail_distributions.png)
+
 | Distribution | HEAD Tier ($N$) | MIDDLE Tier ($N$) | TAIL Tier ($N$) | Head-to-Tail Ratio ($HTR$) |
 | :--- | :--- | :--- | :--- | :---: |
 | **D1 (Balanced)** | RFC (72), RF (72), RC (72), FC (71), R (71), F (71), C (71) $\to$ **500** | — (0) | — (0) | **N/A** (No tail) |

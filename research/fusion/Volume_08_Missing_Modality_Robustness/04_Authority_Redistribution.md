@@ -2,6 +2,8 @@
 
 ## 1. Redistribution Mechanics
 
+![Figure 8.2: Dynamic Decision Authority Allocation Across Availability Regimes](figures/fig8_2_authority_redistribution.png)
+
 When a modality drops out, ACARA-U dynamically reallocates decision authority to the remaining channels via softmax logit normalization over the active mask $\mathcal{A}$.
 
 $$\Delta w_j = w_j^{\text{subset}} - w_j^{\text{full}}$$

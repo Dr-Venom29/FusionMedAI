@@ -12,6 +12,8 @@ $$\sigma_w = \sqrt{V_w}$$
 
 ## 2. Empirical Dispersion Distributions ($N=500$)
 
+![Figure 7.2: Operational Conflict Severity Stratification](figures/fig7_2_conflict_severity_bands.png)
+
 | Metric | Mean | Median | Std Dev | Min | Max | P25 | P75 | P90 | IQR |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Weighted Variance ($V_w$)** | **0.058038** | 0.037022 | 0.055201 | 0.000098 | 0.230275 | 0.018418 | 0.082510 | 0.141337 | 0.064092 |

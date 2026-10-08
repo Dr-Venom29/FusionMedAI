@@ -2,6 +2,8 @@
 
 ## 1. Weighted Risk Contribution Breakdown ($K_i = w_i r_i$)
 
+![Figure 6.3: Modality Authority and Risk Contribution](figures/fig6_3_modality_contributions.png)
+
 Across the $N=500$ controlled decision packets evaluated under full tri-modal availability $\mathcal{A} = \{\text{retina}, \text{foot}, \text{clinical}\}$:
 
 | Modality | Mean Weight $\overline{w_i}$ | Mean Risk $\overline{r_i}$ | Mean Weighted Contribution $\overline{K_i}$ | Relative Risk Share ($\overline{K_i} / \overline{R_{\text{fusion}}}$) | Mean Uncertainty $\overline{U_i}$ |

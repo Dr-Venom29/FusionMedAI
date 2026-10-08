@@ -2,6 +2,8 @@
 
 ## 1. Targeted Stress Dropout Scenarios
 
+![Figure 8.4: Stress Testing: Risk Volatility Under Targeted Modality Dropouts](figures/fig8_4_missingness_stress_testing.png)
+
 To evaluate system behavior under non-random, targeted information-loss scenarios, 7 pre-specified behavioral stress dropouts were executed over all $N=500$ packets:
 
 | Stress Scenario | Selection Criterion | Primary Modality Dropped | Mean $\Delta R$ | Mean $\Delta \text{DCRI}_{0.20}$ | 95% Bootstrap CI ($\Delta R$) |

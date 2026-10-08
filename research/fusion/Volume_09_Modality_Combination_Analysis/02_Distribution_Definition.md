@@ -14,6 +14,8 @@ In the Modality Combination Analysis, the 7 non-empty combinations ($\mathcal{C}
 
 ## 2. Pre-Specified Distribution Configurations
 
+![Figure 9.1: Modality Combination Frequency Profiles](figures/fig9_1_combination_topology.png)
+
 Three distinct frequency distributions are pre-specified to systematically test balanced, moderate, and heavy-tailed availability profiles:
 
 ### 2.1 Distribution D1: Balanced Benchmark (`D1_BALANCED`)

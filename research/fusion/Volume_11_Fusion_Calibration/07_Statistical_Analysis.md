@@ -16,6 +16,8 @@ Statistical significance is established when the empirical $95\%$ bootstrap conf
 
 ## 2. Paired Bootstrap Results Summary
 
+![Figure 11.4: Non-Parametric Paired Bootstrap Analysis](figures/fig11_4_paired_bootstrap_forest.png)
+
 | Metric | Comparison | Mean Delta ($D$) | Median Delta | $\sigma(D)$ | $95\%$ Paired Bootstrap CI | Zero Excluded | Hypothesis |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Retina Authority ($w_R$)** | B5 ACARA-U vs B2 ACARA-U | $\mathbf{-0.015635}$ | $-0.013104$ | $0.013428$ | $[-0.016796, -0.014436]$ | **Yes** | **H3** |

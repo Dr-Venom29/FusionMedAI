@@ -22,6 +22,8 @@ $$\overline{\frac{\partial \text{DCRI}}{\partial \delta}} = -\overline{U_{\text{
 
 ## 2. Empirical Cohort Statistics ($N=500$)
 
+![Figure 6.2: DCRI Sensitivity and Negative Fraction vs Uncertainty Discount $\delta$](figures/fig6_2_delta_sensitivity.png)
+
 | $\delta$ Multiplier | Mean DCRI | Median DCRI | Std Dev | Min DCRI | Max DCRI | IQR | Mean Penalty $P_U$ | Negative Count | Negative Rate | Mean $\Delta \text{DCRI}$ |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **$\delta = 0.00$** | **0.288499** | 0.285279 | 0.163198 | +0.011744 | 0.793333 | 0.251773 | 0.000000 | 0 / 500 | 0.0% | 0.000000 |

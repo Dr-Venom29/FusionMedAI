@@ -8,6 +8,8 @@ Experiment B tests whether the calibration authority adjustments observed at Cle
 
 ## 2. Dynamic Degradation Ladders: Calibrated vs Uncalibrated ACARA-U
 
+![Figure 11.3: Persistence of Calibration Authority Offset Under Progressive Input Degradation](figures/fig11_3_degradation_persistence.png)
+
 Across the $N=500$ cohort under representative modality degradation operators:
 
 ### 2.1 Retinal Gaussian Blur (`OP_RETINA_BLUR`)

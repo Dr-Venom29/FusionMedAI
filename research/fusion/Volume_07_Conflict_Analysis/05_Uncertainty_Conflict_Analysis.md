@@ -2,6 +2,8 @@
 
 ## 1. Orthogonality Between Conflict and Predictive Uncertainty
 
+![Figure 7.3: Orthogonality of Cross-Modality Conflict and Predictive Uncertainty](figures/fig7_3_uncertainty_vs_conflict.png)
+
 A central methodological objective of Phase C11.7 is evaluating whether cross-modality risk disagreement is distinct from individual modality predictive uncertainty:
 
 $$\text{Correlation}(\Delta_{\max}, U_{\text{sum}}) = 0.088166$$

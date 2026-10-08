@@ -12,6 +12,8 @@ $$
 
 ## 2. Empirical Quality Response Across All 12 Operators
 
+![Figure 10.2: Monotonic Modality Quality Response](figures/fig10_2_quality_decay_response.png)
+
 Across the frozen cohort of $N=500$ controlled decision packets ($\text{seed}=115$):
 
 ### 2.1 Retinal Fundus Quality Response ($\overline{Q_R^{\text{clean}}} = 0.987$)

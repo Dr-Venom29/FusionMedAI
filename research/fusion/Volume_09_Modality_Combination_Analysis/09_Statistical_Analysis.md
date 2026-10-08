@@ -13,6 +13,8 @@ For each distribution and modality combination, $95\%$ empirical confidence inte
 
 ## 2. Empirical 95% Bootstrap Confidence Intervals (D2 Moderate Tail)
 
+![Figure 9.4: Bootstrap Forest Plot: B6 vs B5 Ablation](figures/fig9_4_paired_bootstrap_ci.png)
+
 | Combination | Sample Size ($N$) | Mean Risk ($95\%$ CI) | Mean DCRI ($95\%$ CI) | Mean Sensitivity $\overline{\Delta R}$ ($95\%$ CI) |
 | :--- | :---: | :---: | :---: | :---: |
 | **RFC** | $175$ | $0.2952$ $[0.2715, 0.3190]$ | $0.1684$ $[0.1415, 0.1953]$ | $0.0000$ $[0.0000, 0.0000]$ |

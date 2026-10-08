@@ -21,6 +21,8 @@ The primary comparative test is **B6 vs B5**, as the only architectural distinct
 
 ## 2. Comparative Authority Attenuation Under Severe Degradation (D3)
 
+![Figure 10.4: Isolating Quality Contribution: B6 vs B5 Under Retinal Degradation](figures/fig10_4_b5_vs_b6_quality_isolation.png)
+
 Evaluation on Retinal Fundus Blur (D-R1) across the frozen $N=500$ cohort ($\text{seed}=115$):
 
 | Baseline | Strategy Formulation | D0 Clean $w_R$ | D3 Severe $w_R$ | Authority Shift ($\Delta w_R$) | Quality Awareness Mechanism |

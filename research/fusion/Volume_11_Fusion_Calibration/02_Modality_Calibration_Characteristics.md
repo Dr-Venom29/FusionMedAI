@@ -26,6 +26,8 @@ flowchart LR
 
 ## 2. Validation Calibration Performance Summary
 
+![Figure 11.1: Single-Modality Calibration Improvements on Independent Validation Cohorts](figures/fig11_1_calibration_quality_ece.png)
+
 | Modality | Architecture | Calibration Method | Raw ECE | Calibrated ECE | ECE Reduction | Raw Brier | Calibrated Brier | Raw NLL | Calibrated NLL |
 | :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Retina** | EfficientNet-B3 | Temperature Scaling ($T=1.6218$) | $0.1058$ | **$0.0668$** | **$-36.9\%$** | $0.0631$ | **$0.0582$** | $0.7220$ | **$0.5827$** |

@@ -15,6 +15,8 @@ Under Phase C11.9, the 6 standard decision fusion architectures are evaluated ac
 
 ## 2. Comparative Tail Sensitivity ($D_{\text{tail}}$)
 
+![Figure 9.3: Comparative Tail-Tier Sensitivity Across Fusion Baselines](figures/fig9_3_baseline_tail_comparison.png)
+
 The tail sensitivity metric measures the mean absolute deviation of tail-tier predictions from their reference tri-modal full fusion:
 
 $$
