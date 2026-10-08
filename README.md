@@ -131,10 +131,12 @@ flowchart TD
 | **Cross-Modality Conflict Analysis** | **FROZEN** | Discordance metrics $\Delta_{\max}, \Delta_{\text{mean}}, \sigma_w$; low linear correlation with uncertainty ($r=0.088$) |
 | **Missing Modality Robustness** | **EVALUATED** | 0 availability violations / 7,500 trials; invariant under corrupted inputs; fail-closed rejection |
 | **Combination & Tail Robustness** | **EVALUATED** | Evaluated across D1, D2, D3 ($N=500$); lowest point-estimate tail sensitivity among soft baselines |
-| **Multimodal Input Degradation Benchmark** | **FROZEN** | Evaluated across 12 operators ($N=500$); dynamic quality attenuation $\text{RAR}=35.2\text{--}50.5\%$; B6 vs B5 isolation ($95\%$ CI strictly $< 0$) |
-| **Parameter & Weighting Sensitivity Analysis** | **NEXT** | Systematic evaluation of routing parameters ($\alpha, \beta, \gamma, \eta$) and ablation study |
+| **Input Degradation Robustness** | **FROZEN** | Evaluated across 12 operators ($N=500$); dynamic quality attenuation $\text{RAR}=35.2\text{--}50.5\%$; B6 vs B5 isolation ($95\%$ CI strictly $< 0$) |
+| **Modality Calibration Impact on Decision Fusion** | **FROZEN** | Evaluated across B0–B5 conditions ($N=500$); redistributes authority toward foot and clinical channels ($\Delta w_R = -0.0156$, $95\%$ CI: $[-0.0168, -0.0144]$); entropy-stable |
 | **DCRI Parameter Selection & Decision Analysis** | **NEXT** | Pre-specified selection and sensitivity analysis of the uncertainty penalty discount $\delta$ |
+| **Parameter & Weighting Sensitivity Analysis** | **NEXT** | Systematic evaluation of routing parameters ($\alpha, \beta, \gamma, \eta$) and ablation study |
 | **Patient-Level External / Clinical Validation** | **PLANNED** | Requires genuinely paired multimodal cohorts |
+
 
 ---
 
@@ -158,8 +160,8 @@ Higher tail risk variance was observed in lower-cardinality tail tiers, consiste
 ### 6. Quality-Aware Routing Attenuation & Baseline Isolation
 In a controlled synthetic raw-input degradation benchmark ($N=500$, $\text{seed}=115$), unsupervised quality engines systematically detected progressive signal decay ($100.0\%$ packet monotonicity rate), causing the ACARA-U router to dynamically attenuate degraded channel authority by $35.2\%\text{--}50.5\%$. Paired baseline comparison against B5 showed significantly greater authority attenuation under B6 than B5 ($-0.1697$ vs $-0.0388$, paired difference $D = -0.1309$, $95\%$ bootstrap CI: $[-0.1319, -0.1300]$, strictly excluding zero), supporting the incremental contribution of the quality term within the tested benchmark.
 
-
-
+### 7. Modality Calibration Impact on Decision Fusion
+In a controlled benchmark ($N=500$, $\text{seed}=115$), applying frozen modality probability calibration (Retina Temperature Scaling, Foot Vector Scaling, Clinical Isotonic) reduced constituent validation ECE by $36.9\%\text{--}100.0\%$. Propagating calibrated probabilities into the ACARA-U router softened overconfident retinal authority ($\overline{\Delta w_R} = -0.0156$, $95\%$ bootstrap CI: $[-0.0168, -0.0144]$), reallocating authority toward clinical ($\overline{\Delta w_C} = +0.0101$) and foot ($\overline{\Delta w_F} = +0.0055$) channels while maintaining exact simplex conservation ($\sum w_i = 1.000000$), stable routing entropy ($\Delta H(w) = +0.0059$), and persistent degradation attenuation.
 
 ---
 
@@ -234,6 +236,8 @@ A consolidated summary of principal findings across the research program:
 | **Tail Dispersion Expansion** | Head vs Tail Tiers<br>(D2 & D3 Distributions) | **$\Delta \sigma = +0.0628\text{ (D2)}$<br>$\Delta \sigma = +0.0885\text{ (D3)}$** | Higher tail risk variance was observed in lower-cardinality tail tiers, consistent with reduced multi-channel averaging. |
 | **Input Degradation Robustness** | Controlled Signal Degradation<br>($12\text{ Operators}, N=500$) | **$\text{RAR} = 35.2\text{--}50.5\%$<br>$100.0\%\text{ Monotonic}$** | Controlled synthetic benchmark; quality systematically decays; ACARA-U attenuates degraded authority ($\Delta w_R = -0.1697$ at Severe D3 Blur). |
 | **Quality Awareness Isolation** | ACARA-U (B6) vs Baseline B5<br>(Severe Degradation D3) | **$D = -0.1309$<br>($95\%\text{ CI } < 0$)** | Paired comparison showed greater attenuation under B6 vs B5 ($4.3\times$, $[-0.1319, -0.1300]$ $95\%$ CI), supporting incremental contribution within tested benchmark. |
+| **Calibration Routing Shift** | Calibrated vs Uncalibrated ACARA-U<br>(Clean D0 Benchmark, $N=500$) | **$\Delta w_R = -0.0156$<br>($95\%\text{ CI } < 0$)** | Mitigates overconfidence bias; softens retinal authority ($[-0.0168, -0.0144]$ $95\%$ CI) and reallocates authority to clinical ($+0.0101$) and foot ($+0.0055$). |
+
 
 
 
@@ -684,6 +688,21 @@ Evaluates dynamic router behavior when modalities remain technically available (
   - ACARA-U achieves a **$4.3\times$ greater authority attenuation** than B5 under severe degradation ($-0.2068$ vs $-0.0388$, paired difference $D = -0.1680$, $95\%$ CI: $[-0.1693, -0.1666]$, $p < 0.001$), demonstrating that $Q_i$ provides vital routing protection beyond predictive uncertainty alone.
 - **Hard-Mask Invariance**: Perturbing an unavailable modality channel ($A_i = 0$) results in exactly $\Delta w_{\text{active}} = 0.000000$ and $\Delta R_{\text{fusion}} = 0.000000$.
 
+### 7. Modality Calibration Impact on Decision-Level Fusion (Phase C11.11)
+
+Evaluates whether incorporating calibrated modality-level probabilities alters decision-level fusion behavior across six canonical experimental conditions (B0–B5, $N=500$ controlled decision packets, $\text{seed}=115$):
+
+- **Modality-Level Validation Calibration**:
+  - Frozen upstream transforms reduce validation ECE without parameter retraining: Retina Temperature Scaling ($0.1058 \to 0.0668$, $-36.9\%$), Foot Vector Scaling ($0.0874 \to 0.0313$, $-64.2\%$), Clinical Platt Scaling ($0.0048 \to 0.0000$).
+- **Routing Authority Redistribution**:
+  - Propagating calibrated probabilities into ACARA-U reduces the influence of the previously overconfident retinal confidence signal, redistributing routing authority ($\overline{\Delta w_R} = -0.0156$, $95\%$ paired bootstrap CI: $[-0.0168, -0.0144]$) toward clinical ($\overline{\Delta w_C} = +0.0101$, $95\%$ CI: $[+0.0093, +0.0108]$) and foot ($\overline{\Delta w_F} = +0.0055$, $95\%$ CI: $[+0.0049, +0.0063]$) channels.
+  - Active routing simplex is strictly conserved ($\sum \Delta w_i = 0.000001 \approx 0$).
+- **Bounded Behavior & System Stability**:
+  - Small, bounded directional shifts in fused risk ($\Delta R_{\text{fusion}} = +0.0025$, $95\%$ CI: $[+0.0011, +0.0039]$) and composite index ($\Delta \text{DCRI} = +0.0025$, $95\%$ CI: $[+0.0011, +0.0039]$).
+  - Routing entropy adjusts moderately ($\Delta H(w) = +0.0059$, $95\%$ CI: $[+0.0052, +0.0065]$), yielding a less concentrated routing authority distribution without conflict explosion ($\Delta \text{Conflict} = -0.0165$).
+- **Degradation Persistence**:
+  - Under progressive input degradation ($D0 \to D3$), the calibration authority offset remains stable ($\Delta w_R \approx -0.0156\text{--}-0.0158$), demonstrating consistent behavior under both clean and degraded inputs.
+
 ---
 
 ## Next Research Stages
@@ -710,7 +729,8 @@ The repository maintains automated verification gates across all modalities and 
   - **Missing Modality Robustness Gates**: Availability regimes, unavailable zero weight, simplex conservation, masked-value invariance, authority redistribution, and baseline comparison under `verification/fusion/missingness/` (**20/20 deep gates passed**, **23/23 missingness unit tests**).
   - **Modality-Combination Distribution Gates**: Combination taxonomy, D1–D3 probability normalization, deterministic stratified allocation ($N=500$), rank-based head/tail classification, simplex invariants, and baseline comparisons under `verification/fusion/combination_analysis/` (**20/20 deep gates passed**, **29/29 combination unit tests**).
   - **Input Degradation Benchmark Gates**: Operator taxonomy, Experiment A quality decay, Experiment B routing authority response, simplex conservation, quality-authority slopes, monotonicity rates, B5 vs B6 quality isolation, and SHA-256 artifact manifest certification under `verification/fusion/degradation/` (**20/20 deep gates passed**, **17/17 degradation unit tests**).
-  - **Overall Automated Test Suite**: **217/217 unit tests passed**.
+  - **Calibration Benchmark Gates**: Conditions taxonomy, probability distributions, single-modality ECE reductions, simplex conservation, paired packet alignment, bootstrap determinism, degradation persistence, and SHA-256 manifest certification under `verification/fusion/calibration/` (**20/20 deep gates passed**, **11/11 calibration unit tests**).
+  - **Overall Automated Test Suite**: **228/228 unit tests passed** (266 total fusion suite test cases passed).
 
 > [!NOTE]
 > These verification gates verify implementation invariants, numerical bounds, and reproducibility properties; they do not substitute for external clinical validation.
@@ -833,6 +853,7 @@ The complete experimental record, methodology descriptions, mathematical formula
 - **Volume 08**: Missing Modality Robustness, Authority Redistribution & Fail-Closed Evaluation
 - **Volume 09**: Modality-Combination Distribution & Tail-Robustness Analysis
 - **Volume 10**: Input Degradation Benchmark & Quality-Aware Robustness
+- **Volume 11**: Modality Calibration Impact on Decision-Level Fusion
 
 ---
 
