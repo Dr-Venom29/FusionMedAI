@@ -214,7 +214,7 @@ The Retina pipeline evaluates diabetic retinopathy severity from fundus imaging 
 Five deep learning architectures were evaluated under a controlled, leakage-aware protocol on the held-out test partition ($N=367$):
 
 | Rank | Model Architecture | Test Accuracy | Balanced Acc | Macro F1 | Quadratic Weighted Kappa (QWK) | Test ROC-AUC | Parameters | GPU Latency |
-| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | 1 | **EfficientNet-B3** (Selected) | **84.20%** | 67.22% | 0.6813 | **0.9233** | 0.9457 | 10.70M | 12.64 ms |
 | 2 | **ConvNeXt-Tiny** | 81.20% | **72.05%** | **0.6893** | 0.9145 | **0.9587** | 27.82M | **5.65 ms** |
 | 3 | **EfficientNet-B0** | 79.29% | 67.68% | 0.6505 | 0.9101 | 0.9353 | **4.01M** | 8.08 ms |
@@ -281,7 +281,7 @@ Seven tabular architectures were benchmarked on the frozen 119-dimensional repre
 
 #### Top Feature Attributions (Exact TreeSHAP)
 
-| Rank | Feature | Clinical Group | Mean \|SHAP\| | Attribution Share | Cumulative Share |
+| Rank | Feature | Clinical Group | Mean Absolute SHAP | Attribution Share | Cumulative Share |
 | :---: | :--- | :--- | :---: | :---: | :---: |
 | 1 | `number_inpatient` | Prior Healthcare Utilization | $0.2851$ | $22.43\%$ | $22.43\%$ |
 | 2 | `age_ordinal` | Age & Glycemic Monitoring | $0.1000$ | $7.86\%$ | $30.29\%$ |
@@ -382,7 +382,7 @@ Evaluated across the frozen $N=500$ cohort to compare ACARA-U against five simpl
 | **B5 Conf. + Rel. - U** | $0.4593$ | $0.2704$ | $0.2703$ | $1.0279$ | $73.6\%$ |
 | **B6 ACARA-U** | **$0.4771$** | **$0.2680$** | **$0.2549$** | **$1.0176$** | **$78.2\%$** |
 
-*Note: Lower entropy reflects the observed routing distribution across available modalities and should not be conflated with mathematical stability.*
+- **Full Research Volume**: [Volume 05 — Baseline Fusion](research/fusion/Volume_05_Baseline_Fusion/README.md).
 
 ---
 
@@ -400,7 +400,8 @@ R_{\text{fusion}} &= \sum_{i \in \mathcal{A}} w_i r_i \\
   - Mean Fused Risk $R_{\text{fusion}} = 0.288499 \pm 0.163198$ (Range: $[0.011744, 0.793333]$).
   - At provisional operating point $\delta=0.20$: Mean Uncertainty Penalty $= 0.126787$, Mean $\text{DCRI} = 0.161712$, $24.6\%$ of packets (123/500) produced negative DCRI.
   - Sensitivity slope: $\frac{\partial \overline{\text{DCRI}}}{\partial \delta} = -\overline{U_{\text{sum}}} = -0.633936$.
-- **Parameter Scope**: DCRI is a derived decision-level index and is not a clinically validated probability. The parameter $\delta=0.20$ serves as a provisional default; pre-specified selection of $\delta$ is addressed in Phase C11.13.
+- **Parameter Scope**: DCRI is a derived decision-level index and is not a clinically validated probability. The parameter $\delta=0.20$ serves as a provisional default; pre-specified selection of $\delta$ is addressed in subsequent parameter analysis.
+- **Full Research Volume**: [Volume 06 — DCRI Aggregation](research/fusion/Volume_06_DCRI_Aggregation/README.md).
 
 ---
 
@@ -418,6 +419,7 @@ $$\begin{aligned}
   - Mean Weighted Consensus Dispersion $\sigma_w = 0.215019 \pm 0.108652$ (Median: $0.192409$).
   - Conflict in $72.6\%$ ($363/500$) under operational threshold $\Delta_{\max} \ge 0.35$.
   - Low linear correlation between conflict magnitude and summed modality uncertainty ($r=0.088166$) shows that conflict and uncertainty represent distinct measured quantities in the controlled benchmark.
+- **Full Research Volume**: [Volume 07 — Conflict Analysis](research/fusion/Volume_07_Conflict_Analysis/README.md).
 
 ---
 
@@ -428,6 +430,7 @@ Evaluates whether ACARA-U remains well-defined when one or more modalities are u
 - **Hard Masking Invariant**: Inactive modalities receive exactly zero routing weight ($w_i = 0.000000$), while active modality weights preserve the simplex constraint ($\sum_{i \in \mathcal{A}} w_i = 1.000000$).
 - **Masked-Value Invariance**: 7,500/7,500 trials with corrupted values on unavailable modalities produced zero change in active routing weights or fused risk.
 - **Zero-Modality Handling**: Returns `NO_MODALITY_AVAILABLE`; numerical risk outputs are set to zero only as a sentinel and must not be interpreted as low clinical risk.
+- **Full Research Volume**: [Volume 08 — Missing Modality Robustness](research/fusion/Volume_08_Missing_Modality_Robustness/README.md).
 
 ---
 
@@ -438,30 +441,33 @@ Evaluates routing behavior across controlled modality-combination distributions 
 - **Simplex & Safety Verification**: $0$ routing invariant violations over 1,500 trials; active weights strictly satisfy $\sum w_i = 1.000000$.
 - **Tail Risk Sensitivity Across Soft Baselines**: ACARA-U produced the lowest observed point-estimate tail risk deviation ($D_{\text{tail}} = 0.1883$ in D2, $0.1876$ in D3) among evaluated soft-weighting baselines (B2–B5). Paired bootstrap difference CIs against B5 cross zero ($[-0.000660, 0.001839]$ in D2), indicating that the marginal point-estimate difference is not statistically significant under the current cohort size.
 - **Observed Risk Dispersion Expansion**: Higher tail risk variance was observed in lower-cardinality tail tiers ($\sigma(R)=0.2508$ in D2, $0.2784$ in D3 vs $\sigma(R)=0.1880$ in D2, $0.1898$ in D3 for head tiers), consistent with reduced multi-channel averaging in single-modality encounters.
+- **Full Research Volume**: [Volume 09 — Modality Combination Analysis](research/fusion/Volume_09_Modality_Combination_Analysis/README.md).
 
 ---
 
-### 6. Input Degradation Response (Phase C11.10)
+### 6. Input Degradation Response
 
 Evaluates dynamic router behavior when modalities remain technically available ($A_i = 1$) but suffer progressive signal degradation ($Q_i \downarrow$) across 12 deterministic operators evaluated over 4 severity levels ($D0 \to D1 \to D2 \to D3$, $N=500$).
 
 - **Unsupervised Quality Response**: Quality scores decreased monotonically across tested degradation operators ($100.0\%$ packet monotonicity rate).
 - **Dynamic Authority Attenuation**: ACARA-U reduces authority assigned to degraded modalities, yielding a **$35.2\text{--}50.5\%$ relative authority reduction** ($\text{RAR}$).
 - **Quality Term Isolation (B6 vs Baseline B5)**: Paired baseline comparison against B5 showed greater attenuation under B6 vs B5 ($-0.1697$ vs $-0.0388$, paired difference $D = -0.1309$, $95\%$ bootstrap CI: $[-0.1319, -0.1300]$, strictly excluding zero), supporting an incremental contribution of the quality term within the tested benchmark.
+- **Full Research Volume**: [Volume 10 — Input Degradation](research/fusion/Volume_10_Input_Degradation/README.md).
 
 ---
 
-### 7. Modality Calibration Impact on Decision Fusion (Phase C11.11)
+### 7. Modality Calibration Impact on Decision Fusion
 
 Evaluates whether incorporating calibrated modality-level probabilities alters decision-level fusion behavior across six canonical experimental conditions (B0–B5, $N=500$ controlled decision packets, $\text{seed}=115$):
 
 - **Routing Authority Redistribution**: Propagating calibrated probabilities into ACARA-U softens previously overconfident retinal authority ($\overline{\Delta w_R} = -0.0156$, $95\%$ paired bootstrap CI: $[-0.0168, -0.0144]$), reallocating authority toward clinical ($\overline{\Delta w_C} = +0.0101$) and foot ($\overline{\Delta w_F} = +0.0055$) channels while maintaining exact simplex conservation ($\sum \Delta w_i \approx 0$).
 - **Bounded Behavioral Stability**: Fused risk and DCRI shifts remain small and bounded ($\Delta R_{\text{fusion}} = +0.0025$, $95\%$ CI: $[+0.0011, +0.0039]$) with stable routing entropy ($\Delta H(w) = +0.0059$).
 - **Degradation Persistence**: Under progressive input degradation ($D0 \to D3$), the calibration authority offset remains consistent ($\Delta w_R \approx -0.0156\text{--}-0.0158$).
+- **Full Research Volume**: [Volume 11 — Fusion Calibration](research/fusion/Volume_11_Fusion_Calibration/README.md).
 
 ---
 
-### 8. ACARA-U Parameter & Weighting Sensitivity Analysis (Phase C11.12)
+### 8. ACARA-U Parameter & Weighting Sensitivity Analysis
 
 Evaluates the sensitivity of the ACARA-U routing logit kernel ($z_i = \alpha C_i + \beta R_i - \gamma U_i + \eta Q_i$) to perturbations around the frozen reference configuration $\Theta_0 = (1.0, 1.5, 1.0, 0.5)$ across the frozen paired cohort ($N=500$, $\text{seed}=115$):
 
@@ -479,7 +485,7 @@ Evaluates the sensitivity of the ACARA-U routing logit kernel ($z_i = \alpha C_i
 
 ## Next Research Stages
 
-1. **DCRI Parameter Selection & Decision Analysis (Phase C11.13)**: Decision-curve and utility analysis across varying decision thresholds to pre-specify and evaluate sensitivity of the uncertainty penalty discount $\delta \in [0.0, 1.0]$.
+1. **DCRI Parameter Selection & Decision Analysis**: Decision-curve and utility analysis across varying decision thresholds to pre-specify and evaluate sensitivity of the uncertainty penalty discount $\delta \in [0.0, 1.0]$.
 2. **Patient-Level External / Clinical Validation**: Establishing protocol definitions, dataset schema requirements, and validation benchmarks for genuinely paired multimodal cohorts, followed by external evaluation where suitable clinical data are available.
 
 ---

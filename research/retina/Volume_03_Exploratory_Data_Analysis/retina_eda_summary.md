@@ -15,7 +15,7 @@ This document summarizes the quantitative, colorimetric, and visual analysis of 
 | **Total Images** | 3662 |
 | **Average Width** | 2015.18 pixels |
 | **Average Height** | 1526.83 pixels |
-| **Resolution Range** | Min: 474x358 \| Max: 4288x2848 |
+| **Resolution Range** | Min: 474x358 to Max: 4288x2848 |
 | **Average Aspect Ratio** | 1.2831 |
 | **Average File Size** | 2294.22 KB |
 | **Average Continuous Quality Score (Q)** | 0.7332 |

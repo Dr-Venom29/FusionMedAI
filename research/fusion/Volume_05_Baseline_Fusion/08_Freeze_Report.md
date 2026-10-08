@@ -15,7 +15,7 @@ The independent verification script [`verification/fusion/baselines/verify_basel
 | **01** | Prediction Pool Manifests | **PASS** | Validated pool sizes ($N_R=366, N_F=1006, N_C=1066$) and value ranges. |
 | **02** | Decision Packet Manifest | **PASS** | Validated $N=500$ packets, PRNG seed $115$, and immutability. |
 | **03** | Baseline B1 Unimodal Invariants | **PASS** | Strict $\arg\max R_i$ selection, $w_{i^*} = 1.0, w_{j \ne i^*} = 0.0$. |
-| **04** | Baseline B2 Uniform Invariants | **PASS** | Exact $w_i = 1/|\mathcal{A}|$ across all active subsets. |
+| **04** | Baseline B2 Uniform Invariants | **PASS** | Exact $w_i = 1/\vert\mathcal{A}\vert$ across all active subsets. |
 | **05** | Baseline B3 Masked Softmax | **PASS** | Verified softmax dynamics and hard availability masking ($A_i=0 \implies w_i=0$). |
 | **06** | Baseline B4 Reliability Integration | **PASS** | Correct additive weighting of $C_i + R_i$. |
 | **07** | Baseline B5 Uncertainty Penalty | **PASS** | Monotonic reduction of weight as $U_i$ increases. |

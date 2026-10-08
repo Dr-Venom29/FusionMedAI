@@ -4,7 +4,7 @@
 
 To provide actionable clinical insight, the 119 preprocessed dimensions are categorized into 8 functional clinical groups:
 
-| Taxonomy Group | Feature Count | Total Mean \|SHAP\| | Average Mean \|SHAP\| | Relative Share (\%) | Group Rank |
+| Taxonomy Group | Feature Count | Total Absolute SHAP | Average Absolute SHAP | Relative Share (%) | Group Rank |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | **Prior Healthcare Utilization** | $3$ | **$0.3333$** | **$0.1111$** | **$26.22\%$** | **1** |
 | **Acute Clinical Complexity** | $5$ | **$0.2699$** | $0.0540$ | **$21.23\%$** | **2** |

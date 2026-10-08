@@ -19,7 +19,7 @@ To verify that feature attributions are not artifacts of sampling variance or ov
 
 ### Top 10 Feature Stability Comparison:
 
-| Feature Name | Val Mean \|SHAP\| | Test Mean \|SHAP\| | Val Rank | Test Rank | Rank Shift ($\Delta$) |
+| Feature Name | Val Mean Absolute SHAP | Test Mean Absolute SHAP | Val Rank | Test Rank | Rank Shift ($\Delta$) |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | `number_inpatient` | $0.2858$ | $0.2851$ | 1 | 1 | $0$ |
 | `age_ordinal` | $0.1005$ | $0.1000$ | 2 | 2 | $0$ |

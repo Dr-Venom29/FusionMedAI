@@ -56,7 +56,7 @@ The baseline ladder isolates each informational component systematically:
 | ID | Baseline Name | Scoring Rule / Decision Formulation | Target Informational Role |
 | :--- | :--- | :--- | :--- |
 | **B1** | Reliability-Selected | $w_{i^*} = 1.0 \text{ where } i^* = \arg\max_{i \in \mathcal{A}} R_i$ | Static prior-only unimodal upper-bound baseline |
-| **B2** | Uniform Average | $w_i = 1 / |\mathcal{A}|$ | Unweighted consensus fusion baseline |
+| **B2** | Uniform Average | $w_i = 1 / \vert\mathcal{A}\vert$ | Unweighted consensus fusion baseline |
 | **B3** | Confidence-Only | $z_i = 1.0 \times C_i$ | Dynamic prediction strength baseline |
 | **B4** | Confidence + Reliability | $z_i = 1.0 \times C_i + 1.0 \times R_i$ | Dynamic strength + frozen historical validation prior |
 | **B5** | Conf + Rel + Uncertainty | $z_i = 1.0 \times C_i + 1.0 \times R_i - 1.0 \times U_i$ | Uncertainty-penalized dynamic routing |

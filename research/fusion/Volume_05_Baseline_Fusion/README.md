@@ -47,7 +47,7 @@ Evaluation is conducted over $N=500$ deterministic `CONTROLLED_DECISION_PACKET`s
 | Baseline ID | Name | Scoring Rule / Logit $z_i$ | Normalization & Availability |
 | :--- | :--- | :--- | :--- |
 | **B1** | Reliability-Selected Unimodal | $i^* = \arg\max_{i \in \mathcal{A}} R_i$ | $w_{i^*} = 1.0, \quad w_{j \ne i^*} = 0.0$ |
-| **B2** | Uniform Average | $w_i = \frac{1}{\|\mathcal{A}\|}$ | Direct uniform assignment over active set $\mathcal{A}$ |
+| **B2** | Uniform Average | $w_i = \frac{1}{\vert\mathcal{A}\vert}$ | Direct uniform assignment over active set $\mathcal{A}$ |
 | **B3** | Confidence-Only Fusion | $z_i = 1.0 \times C_i$ | Masked Softmax over active set $\mathcal{A}$ |
 | **B4** | Confidence + Reliability | $z_i = 1.0 \times C_i + 1.0 \times R_i$ | Masked Softmax over active set $\mathcal{A}$ |
 | **B5** | Conf + Rel + Uncertainty | $z_i = 1.0 \times C_i + 1.0 \times R_i - 1.0 \times U_i$ | Masked Softmax over active set $\mathcal{A}$ |

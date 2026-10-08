@@ -19,7 +19,7 @@ Phase Status: SEALED | Verification Gates: 20/20 PASSED | Artifacts: 10/10 SEALE
 | **Gate 2** | Availability Correctness across All 7 Configurations + Zero | **PASSED** |
 | **Gate 3** | Single-Modality Conflict Unavailability Invariant (`conflict_available = False`) | **PASSED** |
 | **Gate 4** | Zero-Modality Safe Rejection (`NO_MODALITY_AVAILABLE`) | **PASSED** |
-| **Gate 5** | Pairwise Disagreement Calculation ($X_{jk} = \|r_j - r_k\|$) | **PASSED** |
+| **Gate 5** | Pairwise Disagreement Calculation ($X_{jk} = \vert r_j - r_k \vert$) | **PASSED** |
 | **Gate 6** | Pairwise Symmetry Invariant ($X_{jk} \equiv X_{kj}$) | **PASSED** |
 | **Gate 7** | Zero Disagreement Identity ($r_j = r_k \implies X_{jk} = 0$) | **PASSED** |
 | **Gate 8** | Maximum Disagreement Correctness ($\Delta_{\max}$) | **PASSED** |

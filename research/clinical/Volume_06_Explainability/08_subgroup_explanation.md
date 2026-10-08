@@ -10,7 +10,7 @@ To ensure algorithmic fairness and examine whether the model relies on different
 
 ## 2. Subgroup Mean Absolute SHAP Attribution Comparison
 
-| Feature Name | Overall Mean \|SHAP\| | Inpatient $=0$ ($N=10,134$) | Inpatient $\ge 1$ ($N=4,779$) | Female ($N=8,012$) | Male ($N=6,901$) |
+| Feature Name | Overall Mean Absolute SHAP | Inpatient $=0$ ($N=10,134$) | Inpatient $\ge 1$ ($N=4,779$) | Female ($N=8,012$) | Male ($N=6,901$) |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | `number_inpatient` | **$0.2851$** | $0.1145$ | **$0.6478$** | $0.2842$ | $0.2862$ |
 | `age_ordinal` | **$0.1000$** | $0.0985$ | $0.1031$ | $0.0994$ | $0.1006$ |

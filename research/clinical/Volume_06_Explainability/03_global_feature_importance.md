@@ -4,7 +4,7 @@
 
 Global importance is quantified by the mean absolute SHAP value $\frac{1}{N}\sum |\phi_j|$. The top 20 features computed on the locked test partition are:
 
-| Rank | Feature Name | Clinical Taxonomy Group | Mean \|SHAP\| | Relative Share (\%) | Cumulative Share (\%) | Directionality Summary |
+| Rank | Feature Name | Clinical Taxonomy Group | Mean Absolute SHAP | Relative Share (%) | Cumulative Share (%) | Directionality Summary |
 | :---: | :--- | :--- | :---: | :---: | :---: | :--- |
 | **1** | `number_inpatient` | Prior Healthcare Utilization | **$0.2851$** | **$22.43\%$** | $22.43\%$ | Positive ($r = +0.9531$, Higher value $\to$ Higher predicted risk) |
 | **2** | `age_ordinal` | Age & Glycemic Monitoring | **$0.1000$** | **$7.86\%$** | $30.29\%$ | Positive ($r = +0.8604$, Higher value $\to$ Higher predicted risk) |
