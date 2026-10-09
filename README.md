@@ -129,14 +129,14 @@ flowchart TD
 | **Global Reliability Priors** | **FROZEN** | Frozen validation evidence: $R_R = 0.929956 > R_F = 0.922266 > R_C = 0.825382$ |
 | **ACARA-U Dynamic Router** | **FROZEN** | Scoring kernel $z_i = 1.0 C_i + 1.5 R_i - 1.0 U_i + 0.5 Q_i$ with stable softmax |
 | **Comparative Baseline Ladder (B1–B6)** | **EVALUATED / SEALED** | Evaluated against Winner-Take-All (B1), Uniform (B2), Conf (B3), Conf+Rel (B4), Conf+Rel-U (B5) |
-| **DCRI Derived Risk Index Aggregation** | **EVALUATED / SEALED** | $R_{\text{fusion}} \in [0, 1]$, unclamped negative $\text{DCRI} \in [-\delta M, 1]$; $\delta=0.20$ is provisional default |
+| **DCRI Derived Risk Index Aggregation** | **EVALUATED / SELECTED** | $R_{\text{fusion}} \in [0, 1]$, unclamped negative $\text{DCRI} \in [-\delta M, 1]$; selected operating point $\delta^* = 0.10$ (historical provisional $\delta=0.20$) |
 | **Cross-Modality Conflict Analysis** | **EVALUATED / SEALED** | Discordance metrics $\Delta_{\max}, \Delta_{\text{mean}}, \sigma_w$; low linear correlation with uncertainty ($r=0.088$) |
 | **Missing Modality Robustness** | **EVALUATED / SEALED** | 0 availability violations / 7,500 trials; invariant under corrupted inputs; fail-closed rejection |
 | **Combination & Tail Analysis** | **EVALUATED / SEALED** | Evaluated across D1, D2, D3 ($N=500$); lowest point-estimate tail sensitivity among soft baselines |
 | **Input Degradation Response** | **EVALUATED / SEALED** | Evaluated across 12 operators ($N=500$); dynamic quality attenuation $\text{RAR}=35.2\text{--}50.5\%$; B6 vs B5 isolation ($95\%$ CI strictly $< 0$) |
 | **Modality Calibration Impact on Decision Fusion** | **EVALUATED / SEALED** | Evaluated across B0–B5 conditions ($N=500$); redistributes authority ($\Delta w_R = -0.0156$, $95\%$ CI: $[-0.0168, -0.0144]$); entropy-stable |
 | **Parameter & Weighting Sensitivity Analysis (C11.12)** | **EVALUATED / SEALED** | 23 named evaluations (19 unique coefficient vectors); bounded stability $\bar{H} \in [0.9633, 1.0460]\text{ nats}$; zero routing collapse under prespecified grid |
-| **DCRI Parameter Selection & Decision Analysis (C11.13)** | **PLANNED** | Pre-specified selection and sensitivity analysis of the uncertainty penalty discount $\delta$ |
+| **DCRI Parameter Selection (C11.13)** | **SELECTED — VERIFICATION/DOC REVISION** | Pre-specified multi-tier selection protocol over 11-point grid; selected $\delta^* = 0.10$ (`D10`) on frozen cohort ($N=500$) |
 | **Patient-Level External / Clinical Validation** | **PLANNED** | Requires genuinely paired multimodal cohorts |
 
 ---
@@ -149,6 +149,7 @@ flowchart TD
 4. **Quality-Aware Authority Attenuation**: In a controlled synthetic raw-input degradation benchmark, unsupervised quality engines detected progressive decay, causing ACARA-U to attenuate degraded channel authority by $35.2\%\text{--}50.5\%$ ([Volume 10](research/fusion/Volume_10_Input_Degradation/README.md)).
 5. **Calibration-Driven Authority Softening**: Incorporating calibrated modality probabilities softened previously overconfident retinal authority ($\Delta w_R = -0.0156$, $95\%$ CI: $[-0.0168, -0.0144]$) while maintaining routing stability ([Volume 11](research/fusion/Volume_11_Fusion_Calibration/README.md)).
 6. **Empirical Parameter Stability**: Across 23 named sensitivity evaluations (19 unique coefficient vectors), ACARA-U maintained high routing entropy ($\bar{H} \in [0.9633, 1.0460]\text{ nats}$) with zero routing collapse or invariant violations observed under the prespecified perturbation grid ([Volume 12](research/fusion/Volume_12_ACARA_U_Parameter_Sensitivity/README.md)).
+7. **DCRI Uncertainty Penalty Operating Point (C11.13)**: Pre-specified multi-tier selection over an 11-point candidate grid ($\delta \in [0.0, 1.0]$) selected $\delta^* = 0.10$ (`D10`), producing a mean penalty of $0.063394$ ($21.87\%$ of mean base fused risk), a restrained negative rate of $7.4\%$, and Spearman rank stability $\rho_s = 0.989286$ on the frozen controlled cohort ($N=500$). These represent controlled-cohort mathematical and behavioral properties, not evidence of superior clinical outcomes ([Volume 13](research/fusion/Volume_13_DCRI_Delta_Selection/README.md)).
 
 ---
 
@@ -193,7 +194,7 @@ A consolidated summary of principal measured findings across the research progra
 | **Clinical Attribution Stability** | TreeSHAP<br>Val vs Test | **$\rho = 0.9994$<br>($100\%$ Top-20)** | Inpatient history ($22.43\%$) & complexity ($21.23\%$) dominate margin. |
 | **Clinical Uncertainty** | 50-Bootstrap<br>CatBoost Ensemble | **$\text{Error AUROC}$<br>$= 0.7116$** | 50-member bootstrap ensemble used for standalone analysis; fusion contract uses 20 members. |
 | **Multimodal Routing Ladder** | Baseline Ladder<br>B1–B6 ($N=500$) | **Retina $47.7\%$<br>Foot $26.8\%$<br>Clinical $25.5\%$** | ACARA-U dynamic allocation exhibits routing entropy $1.0176$ vs uniform $1.0986$. |
-| **DCRI Derived Risk Index** | Uncertainty Discount<br>($\delta=0.20$) | **Mean $= 0.1617$<br>($24.6\%$ Negative)** | Unclamped derived index ($R_{\text{fusion}}=0.2885$, penalty $=0.1268$); $\delta=0.20$ is provisional. |
+| **DCRI Derived Risk Index** | C11.13 Global Penalty Selection<br>($N=500$ controlled packets) | **Selected $\delta = 0.10$<br>Mean $= 0.226506$<br>($7.4\%$ Negative)** | Mean penalty $= 0.063394$ ($21.87\%$ of mean fused risk); Spearman $\rho_s = 0.989286$. Derived decision index, not a clinical probability. |
 | **Cross-Modality Conflict** | Discordance Family<br>($N=500$) | **$\Delta_{\max} = 0.5203$<br>$\sigma_w = 0.2150$** | Conflict in $72.6\%$ ($363/500$) under operational HIGH threshold ($\Delta_{\max} \ge 0.35$). |
 | **Missing Modality Robustness** | Availability Masking<br>($N=500$) | **0 violations<br>7,500 trials** | ACARA-U reallocates authority across available modalities and fails closed under zero modalities. |
 | **Combination & Tail Analysis** | Controlled distributions<br>D1, D2, D3 ($N=500$) | **0 simplex violations<br>1,500 trials** | Routing invariants preserved across D1–D3; lowest point-estimate tail sensitivity among soft baselines. |
@@ -397,11 +398,12 @@ R_{\text{fusion}} &= \sum_{i \in \mathcal{A}} w_i r_i \\
 
 - **Mathematical Domain & Unclamped Invariant**: Because $R_{\text{fusion}} \in [0, 1]$ and $U_i \in [0, 1]$, the theoretical domain is $\text{DCRI}_\delta \in [-\delta M, 1]$ where $M = |\mathcal{A}| \le 3$. Negative DCRI values are mathematically valid under uncertainty discounting and are intentionally preserved (not clamped).
 - **Frozen Cohort Empirical Findings ($N=500$, seed 115)**:
-  - Mean Fused Risk $R_{\text{fusion}} = 0.288499 \pm 0.163198$ (Range: $[0.011744, 0.793333]$).
-  - At provisional operating point $\delta=0.20$: Mean Uncertainty Penalty $= 0.126787$, Mean $\text{DCRI} = 0.161712$, $24.6\%$ of packets (123/500) produced negative DCRI.
+  - Mean Fused Risk $R_{\text{fusion}} = 0.289900 \pm 0.163635$ (Range: $[0.011748, 0.792502]$).
+  - At selected operating parameter **$\delta^* = 0.10$** (Phase C11.13): Mean Uncertainty Penalty $= 0.063394$ ($21.87\%$ of base risk), Mean $\text{DCRI} = 0.226506 \pm 0.172786$, with a restrained negative rate of **$7.4\%$** ($37/500$ packets) and exceptional rank fidelity (Spearman $\rho_s = 0.989286$). Single-modality encounters exhibit $0.0\%$ negative rate, dual-modality encounters range $4.4\%–8.2\%$, and triple-modality encounters exhibit $7.4\%$.
+  - Historical provisional $\delta=0.20$ imposed a heavy penalty of $0.126787$ ($43.73\%$ of base risk) and $24.4\%$ negative DCRI ($122/500$).
   - Sensitivity slope: $\frac{\partial \overline{\text{DCRI}}}{\partial \delta} = -\overline{U_{\text{sum}}} = -0.633936$.
-- **Parameter Scope**: DCRI is a derived decision-level index and is not a clinically validated probability. The parameter $\delta=0.20$ serves as a provisional default; pre-specified selection of $\delta$ is addressed in subsequent parameter analysis.
-- **Full Research Volume**: [Volume 06 — DCRI Aggregation](research/fusion/Volume_06_DCRI_Aggregation/README.md).
+- **Parameter Scope**: DCRI is a derived decision-level index and is not a clinically validated probability. The parameter $\delta^*=0.10$ is an internally selected operating parameter for the evaluated controlled decision-packet framework.
+- **Full Research Volumes**: [Volume 06 — DCRI Aggregation](research/fusion/Volume_06_DCRI_Aggregation/README.md) and [Volume 13 — DCRI Delta Selection](research/fusion/Volume_13_DCRI_Delta_Selection/README.md).
 
 ---
 
@@ -485,8 +487,11 @@ Evaluates the sensitivity of the ACARA-U routing logit kernel ($z_i = \alpha C_i
 
 ## Next Research Stages
 
-1. **DCRI Parameter Selection & Decision Analysis**: Decision-curve and utility analysis across varying decision thresholds to pre-specify and evaluate sensitivity of the uncertainty penalty discount $\delta \in [0.0, 1.0]$.
-2. **Patient-Level External / Clinical Validation**: Establishing protocol definitions, dataset schema requirements, and validation benchmarks for genuinely paired multimodal cohorts, followed by external evaluation where suitable clinical data are available.
+1. **C11.13 Verification & Documentation Freeze**: Correct and rerun the DCRI selection verification gates, reconcile all reported results against the generated JSON artifacts, verify SHA-256 manifests, and finalize the Volume 13 documentation.
+2. **Patient-Level External / Clinical Validation**: Define the protocol and data requirements for genuinely paired multimodal cohorts, then evaluate clinical validity, calibration, and utility on suitable independent data.
+
+> [!NOTE]
+> **Scope Boundary**: The selected $\delta^* = 0.10$ is an internally selected operating parameter for the evaluated controlled decision-packet framework. It is not a clinically validated optimum.
 
 ---
 
@@ -508,6 +513,7 @@ Automated verification covers modality pipelines, fusion invariants, experiment 
   - Input degradation quality decay, authority attenuation, and quality isolation (**20/20 gates**).
   - Modality calibration ECE reductions and authority redistribution (**20/20 gates**).
   - Parameter sensitivity grid pre-registration, derivative semantics, and stability (**20/20 gates**).
+  - DCRI global uncertainty penalty parameter selection, regime invariance, and rank stability (**20/20 verification gates**; candidate $\delta^* = 0.10$ selected under deterministic seed 115).
 
 > [!NOTE]
 > Automated verification gates verify implementation invariants, numerical bounds, and code reproducibility; they do not substitute for external clinical validation.
@@ -604,8 +610,8 @@ The complete experimental record, methodology descriptions, mathematical formula
 
 ### Multimodal Decision Fusion (ACARA-U) Series
 - [Volume 01 — Research Protocol Freeze & Routing Kernel Specification](research/fusion/Volume_01_Research_Protocol/README.md)
-- [Volume 02 — Unified Input Quality ($Q_i$) & Availability ($A_i$) Layer](research/fusion/Volume_02_Quality_Layer/README.md)
-- [Volume 03 — Global Modality Reliability Priors ($R_i$) & Validation Evidence](research/fusion/Volume_03_Global_Reliability/README.md)
+- [Volume 02 — Unified Input Quality and Availability Layer](research/fusion/Volume_02_Quality_Layer/README.md)
+- [Volume 03 — Global Modality Reliability Priors and Validation Evidence](research/fusion/Volume_03_Global_Reliability/README.md)
 - [Volume 04 — ACARA-U v2 Dynamic Router & Behavioral Stress Benchmarking](research/fusion/Volume_04_ACARA_U_Router/README.md)
 - [Volume 05 — Multimodal Baseline Ladder (B1–B6) & Comparative Evaluation](research/fusion/Volume_05_Baseline_Fusion/README.md)
 - [Volume 06 — DCRI Risk Aggregation & Uncertainty Discounting](research/fusion/Volume_06_DCRI_Aggregation/README.md)
@@ -615,6 +621,7 @@ The complete experimental record, methodology descriptions, mathematical formula
 - [Volume 10 — Input Degradation Response & Quality Isolation](research/fusion/Volume_10_Input_Degradation/README.md)
 - [Volume 11 — Modality Calibration Impact on Decision Fusion](research/fusion/Volume_11_Fusion_Calibration/README.md)
 - [Volume 12 — ACARA-U Parameter & Weighting Sensitivity Analysis](research/fusion/Volume_12_ACARA_U_Parameter_Sensitivity/README.md)
+- [Volume 13 — DCRI Global Uncertainty Penalty Selection](research/fusion/Volume_13_DCRI_Delta_Selection/README.md)
 
 ---
 
