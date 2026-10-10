@@ -24,7 +24,7 @@ To test the numerical stability and responsiveness of the decision-policy mappin
 To evaluate sensitivity to operational threshold placement, we apply jitter perturbations $\Delta\tau \in \{-0.02, -0.01, 0.00, +0.01, +0.02\}$ around $(\tau_1=0.20, \tau_2=0.40)$:
 
 | Jitter $\Delta\tau$ | $(\tau_1, \tau_2)$ | Policy A Routine (%) | Policy A Escalation (%) | Policy B Routine (%) | Policy B Escalation (%) | Reclassification Rate (%) | Escalation Reduction (%) |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **$-0.02$** | $(0.18, 0.38)$ | $42.2\%$ ($211$) | $18.2\%$ ($91$) | $30.6\%$ ($153$) | $26.8\%$ ($134$) | $18.6\%$ ($93$) | $8.6\%$ ($43$) |
 | **$-0.01$** | $(0.19, 0.39)$ | $44.0\%$ ($220$) | $17.6\%$ ($88$) | $33.4\%$ ($167$) | $24.8\%$ ($124$) | $18.2\%$ ($91$) | $7.2\%$ ($36$) |
 | **$0.00$** | **$(0.20, 0.40)$** | **$46.4\%$ ($232$)** | **$16.2\%$ ($81$)** | **$35.2\%$ ($176$)** | **$23.4\%$ ($117$)** | **$18.4\%$ ($92$)** | **$7.2\%$ ($36$)** |

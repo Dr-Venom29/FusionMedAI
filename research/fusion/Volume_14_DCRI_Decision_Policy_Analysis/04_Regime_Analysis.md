@@ -5,7 +5,7 @@
 To determine how modality absence influences decision policies under fixed $\delta^* = 0.10$, we evaluate all 7 active modality availability regimes across the complete $N=500$ controlled cohort:
 
 | Regime | Modalities | Cardinality $M$ | Mean $R_{\mathrm{fusion}}$ | Mean $U_{\mathrm{sum}}$ | Mean $\mathrm{DCRI}_{0.10}$ | Policy A Routine (%) | Policy A Additional (%) | Policy A Escalation (%) | Reclassification Rate (%) | Escalation Reduction (%) |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **`R`** | Retina Only | $1$ | $0.255037$ | $0.001375$ | $0.254899$ | $52.0\%$ ($260$) | $13.8\%$ ($69$) | $34.2\%$ ($171$) | **$0.0\%$ (0)** | $0.0\%$ (0) |
 | **`F`** | Foot Only | $1$ | $0.521907$ | $0.593918$ | $0.462515$ | $17.6\%$ ($88$) | $33.6\%$ ($168$) | $48.8\%$ ($244$) | **$16.8\%$ (84)** | $10.2\%$ (51) |
 | **`C`** | Clinical Only | $1$ | $0.113468$ | $0.038643$ | $0.109604$ | $94.8\%$ ($474$) | $4.8\%$ ($24$) | $0.4\%$ ($2$) | **$0.0\%$ (0)** | $0.0\%$ (0) |

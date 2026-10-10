@@ -4,7 +4,7 @@
 
 Phase C11.14 formally certifies and locks the empirical decision-policy sensitivity evaluation of the frozen DCRI index ($\delta^* = 0.10$):
 
-$$\boxed{\text{Phase C11.14: SEALED \& VERIFIED (12/12 Gates Passed)}}$$
+$$\boxed{\text{Phase C11.14: SEALED and VERIFIED (12/12 Gates Passed)}}$$
 
 ### Frozen Execution Envelope
 - **DCRI Multiplier**: $\delta^* = 0.10$ (`D10`) strictly locked.

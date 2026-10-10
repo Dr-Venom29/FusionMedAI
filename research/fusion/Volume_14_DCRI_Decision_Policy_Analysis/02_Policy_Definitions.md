@@ -23,7 +23,7 @@ We compare two explicit policy families applied to the frozen cohort:
 Assigns actions based on the uncertainty-discounted decision index:
 $$\text{Action}_{\text{DCRI}} = f(\text{DCRI}_{0.10}; \tau_1, \tau_2), \quad \text{where } \text{DCRI}_{0.10} = R_{\text{fusion}} - 0.10 \sum_{i \in \mathcal{A}} U_i$$
 
-- **Negative DCRI Handling**: Negative values ($\text{DCRI} < 0$) satisfy $\text{DCRI} < \tau_1$ for any valid $\tau_1 > 0$, mapping strictly into **Tier 0 (Routine Review)**. In this mathematical model, negative values reflect instances where aggregate uncertainty penalty exceeds the initial fused risk estimate.
+- **Negative DCRI Handling**: Negative values ($\text{DCRI} < 0$) satisfy $\text{DCRI} < \tau_1$ for any valid $\tau_1 > 0$, mapping strictly into **Tier 0 (Routine Review)**. In this mathematical model, negative values reflect instances where the aggregate uncertainty penalty exceeds the initial fused risk estimate.
 
 ### Policy B: Fused-Risk Reference Policy (Unpenalized)
 Assigns actions based directly on the unpenalized weighted fused risk:

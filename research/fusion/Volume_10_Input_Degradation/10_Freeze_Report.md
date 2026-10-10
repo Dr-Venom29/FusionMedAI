@@ -39,7 +39,7 @@
 
 ## 2. Sealed Experiment Artifacts Manifest
 
-All 13 artifact files in [`experiments/fusion/degradation/`](../../../experiments/fusion/degradation/) are cryptographically sealed:
+All 13 artifact files in `experiments/fusion/degradation/` are cryptographically sealed:
 
 ```text
 experiments/fusion/degradation/

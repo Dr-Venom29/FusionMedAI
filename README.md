@@ -138,6 +138,7 @@ flowchart TD
 | **Parameter & Weighting Sensitivity Analysis** | **EVALUATED / SEALED** | 23 named evaluations (19 unique coefficient vectors); bounded stability $\bar{H} \in [0.9633, 1.0460]\text{ nats}$; zero routing collapse under prespecified grid |
 | **DCRI Parameter Selection** | **EVALUATED / SEALED** | Multi-tier selection protocol over 11-point grid; $\delta^* = 0.10$ (`D10`) frozen ($N=500$ cohort, 20/20 gates passed) |
 | **DCRI Decision Policy & Operating Analysis** | **EVALUATED / SEALED** | 3-tier hypothetical policy analysis on controlled packets ($N=500$); $18.4\%$ reclassified ($92/500$), $30.77\%$ relative escalation reduction ($117 \to 81$); 12/12 gates passed |
+| **Residual Router Sanity & Monotonicity Analysis** | **EVALUATED / SEALED** | Single-input monotonicity (576/576 trials), simplex conservation, hard availability masking, production route-shift invariance, reference normalization-kernel order independence, input validation (19/19 cases), and production DCRI downstream contracts; 16/16 verification gates passed, 36/36 tests passed, and 14/14 verifier mutation tests passed |
 | **Patient-Level External / Clinical Validation** | **PLANNED** | Requires genuinely paired multimodal cohorts |
 
 ---
@@ -152,6 +153,7 @@ flowchart TD
 6. **Empirical Parameter Stability**: Across 23 named sensitivity evaluations (19 unique coefficient vectors), ACARA-U maintained high routing entropy ($\bar{H} \in [0.9633, 1.0460]\text{ nats}$) with zero routing collapse or invariant violations observed under the prespecified perturbation grid ([Volume 12](research/fusion/Volume_12_ACARA_U_Parameter_Sensitivity/README.md)).
 7. **DCRI Uncertainty Penalty Operating Point**: Pre-specified multi-tier selection over an 11-point candidate grid ($\delta \in [0.0, 1.0]$) selected $\delta^* = 0.10$ (`D10`), producing a mean penalty of $0.063394$ ($21.87\%$ of mean base fused risk), a restrained negative rate of $7.4\%$, and Spearman rank stability $\rho_s = 0.989286$ on the frozen controlled cohort ($N=500$). These represent controlled-cohort mathematical and behavioral properties, not evidence of superior clinical outcomes ([Volume 13](research/fusion/Volume_13_DCRI_Delta_Selection/README.md)).
 8. **Decision Policy Behavior & Escalation-Tier Reclassification**: Under the prespecified hypothetical thresholds ($\tau_1=0.20, \tau_2=0.40$), the uncertainty-discounted index ($\mathrm{DCRI}_{0.10}$) reclassified $18.4\%$ ($92/500$) of controlled decision packets into lower action tiers, with zero upward reclassifications. The number assigned to the highest-urgency escalation tier decreased from $117/500$ ($23.4\%$) under the unpenalized fused-risk policy to $81/500$ ($16.2\%$), a $30.77\%$ relative reduction in escalation assignments within this benchmark. These results characterize controlled policy behavior and do not establish clinical safety, reduced real-world workload, or improved patient outcomes ([Volume 14](research/fusion/Volume_14_DCRI_Decision_Policy_Analysis/README.md)).
+9. **Router Sanity, Single-Input Monotonicity & Pipeline Decoupling**: Under the frozen reference configuration ($\Theta_0=(1.0,1.5,1.0,0.5)$) and uncertainty discount ($\delta^*=0.10$), isolated perturbation testing across all seven active modality regimes confirmed the expected directional responses across 576 trials: confidence, reliability (in the mathematical kernel fixture), and quality increase channel weight, while uncertainty decreases it in multi-modality regimes. Singleton active sets retain $w_i=1.0$. Verification also covered simplex conservation, hard availability masking, production-router confidence-shift invariance (maximum observed weight deviation $7.11\times10^{-15}$), reference normalization-kernel order independence across all six channel permutations, and rejection of 19/19 invalid inputs. Production DCRI modules were exercised to verify downstream contract behavior and demonstrate that routing-weight monotonicity does not determine the direction of fused-risk changes. The reported verification suite passed 16/16 gates, 36/36 tests, and 14/14 verifier mutation tests. These results establish controlled mathematical and software-behavior properties, not patient-level clinical validity ([Volume 15 — ACARA-U Residual Router Sanity & Monotonicity Analysis](research/fusion/Volume_15_Router_Sanity_Monotonicity/README.md)).
 
 ---
 
@@ -198,6 +200,7 @@ A consolidated summary of principal measured findings across the research progra
 | **Multimodal Routing Ladder** | Baseline Ladder<br>B1–B6 ($N=500$) | **Retina $47.7\%$<br>Foot $26.8\%$<br>Clinical $25.5\%$** | ACARA-U dynamic allocation exhibits routing entropy $1.0176$ vs uniform $1.0986$. |
 | **DCRI Derived Risk Index** | Uncertainty Penalty Selection<br>($N=500$ controlled packets) | **Selected $\delta = 0.10$<br>Mean $= 0.226506$<br>($7.4\%$ Negative)** | Mean penalty $= 0.063394$ ($21.87\%$ of mean fused risk); Spearman $\rho_s = 0.989286$. Derived decision index, not a clinical probability. |
 | **DCRI Decision Policy Analysis** | Pre-specified 3-Tier Policy<br>($\tau_1=0.20, \tau_2=0.40, N=500$) | **$18.4\%$ Reclassified<br>$30.77\%$ Escalation Reduction** | Routine $46.4\%$, Assessment $37.4\%$, Escalation $16.2\%$; monotonic non-inflationary invariant ($0\%$ upgrades) across controlled packets. |
+| **Router Sanity & Monotonicity** | Single-Input Perturbation & Invariant Stress<br>($576$ trials, $1,000$ invariant checks) | **$100.0\%$ Monotonic<br>$\Delta_{\text{simplex}} \le 1.11 \times 10^{-16}$** | Confirmed directional monotonicity ($C, R, Q \uparrow \implies w \uparrow$; $U \uparrow \implies w \downarrow$), singleton invariance ($w=1.0$), production route-shift invariance, and reference normalization-kernel order independence. Maximum reported production route-weight deviation: $7.11 \times 10^{-15}$. Pipeline decoupling verified; 16/16 gates passed. |
 | **Cross-Modality Conflict** | Discordance Family<br>($N=500$) | **$\Delta_{\max} = 0.5203$<br>$\sigma_w = 0.2150$** | Conflict in $72.6\%$ ($363/500$) under operational HIGH threshold ($\Delta_{\max} \ge 0.35$). |
 | **Missing Modality Robustness** | Availability Masking<br>($N=500$) | **0 violations<br>7,500 trials** | ACARA-U reallocates authority across available modalities and fails closed under zero modalities. |
 | **Combination & Tail Analysis** | Controlled distributions<br>D1, D2, D3 ($N=500$) | **0 simplex violations<br>1,500 trials** | Routing invariants preserved across D1–D3; lowest point-estimate tail sensitivity among soft baselines. |
@@ -488,7 +491,7 @@ Evaluates the sensitivity of the ACARA-U routing logit kernel ($z_i = \alpha C_i
 
 ### 9. DCRI Decision Policy & Operating Analysis
 
-Evaluates the decision-policy behavior, threshold sensitivity, and operational tier transitions of the frozen index $\text{DCRI}_{0.10}$ compared to unpenalized fused risk $R_{\text{fusion}}$ across a 3-tier hypothetical action framework ($\text{Routine Review}$, $\text{Additional Assessment}$, $\text{Escalation for Human Review}$) on the frozen controlled packet cohort ($N=500$, $\text{seed}=115$):
+Evaluates the decision-policy behavior, threshold sensitivity, and operational tier transitions of the frozen index $\text{DCRI}_{0.10}$ compared to unpenalized fused risk $R_{\text{fusion}}$ across a 3-tier hypothetical action framework (**Routine Review**, **Additional Assessment**, **Escalation for Human Review**) on the frozen controlled packet cohort ($N=500$, $\text{seed}=115$):
 
 - **Nominal Policy Operating Point ($\tau_1=0.20, \tau_2=0.40$)**:
   - **Policy B ($R_{\text{fusion}}$ Base Risk)**: Routine Review $= 35.2\%$ ($176$), Additional Assessment $= 41.4\%$ ($207$), Escalation $= 23.4\%$ ($117$).
@@ -532,7 +535,8 @@ Automated verification covers modality pipelines, fusion invariants, experiment 
   - Parameter sensitivity grid pre-registration, derivative semantics, and stability (**20/20 gates**).
   - DCRI global uncertainty penalty parameter selection, regime invariance, and rank stability (**20/20 verification gates**; candidate $\delta^* = 0.10$ selected under deterministic seed 115).
   - DCRI decision policy sensitivity, threshold sweeping, regime monotonicity, and perturbation robustness (**12/12 verification gates**).
-    - **Additional Volume 14 audit evidence**: The reported full unit/invariant suite passed 22/22 tests, and the separately executed verifier mutation suite passed 9/9 tests. These test counts overlap in scope and must not be added together as independent verification gates. The deep artifact verifier reported 12/12 gates passed. Results are reported from the recorded project runs; the frozen artifact values and hashes should be checked against the repository files when preparing the final release.
+  - ACARA-U residual router sanity, single-input monotonicity, mathematical invariants, and verifier mutation testing (**16/16 verification gates**; frozen $\Theta_0 = (1.0, 1.5, 1.0, 0.5)$, $\delta^* = 0.10$).
+    - **Additional Volume 14 & 15 audit evidence**: The reported full unit/invariant suites passed all tests (Volume 14: 22/22 regression tests; Volume 15: 36/36 unit/invariant/mutation tests including 14/14 named fault injections). The deep artifact verifier reported 16/16 gates passed under the sealed frozen configuration.
 
 > [!NOTE]
 > Automated verification gates verify implementation invariants, numerical bounds, and code reproducibility; they do not substitute for external clinical validation.
@@ -642,6 +646,7 @@ The complete experimental record, methodology descriptions, mathematical formula
 - [Volume 12 — ACARA-U Parameter & Weighting Sensitivity Analysis](research/fusion/Volume_12_ACARA_U_Parameter_Sensitivity/README.md)
 - [Volume 13 — DCRI Global Uncertainty Penalty Selection](research/fusion/Volume_13_DCRI_Delta_Selection/README.md)
 - [Volume 14 — DCRI Decision Policy & Operating Behavior Analysis](research/fusion/Volume_14_DCRI_Decision_Policy_Analysis/README.md)
+- [Volume 15 — ACARA-U Residual Router Sanity & Monotonicity Analysis](research/fusion/Volume_15_Router_Sanity_Monotonicity/README.md)
 
 ---
 

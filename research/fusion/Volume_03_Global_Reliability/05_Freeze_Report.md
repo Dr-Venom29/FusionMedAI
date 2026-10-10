@@ -12,7 +12,7 @@ Phase C11.3 concludes by freezing the static modality-level reliability priors i
 }
 ```
 
-These values are locked in [`src/fusion/reliability/global_reliability.py`](../../../src/fusion/reliability/global_reliability.py) and [`experiments/fusion/reliability/global_reliability.json`](../../../experiments/fusion/reliability/global_reliability.json).
+These values are locked in [`src/fusion/reliability/global_reliability.py`](../../../src/fusion/reliability/global_reliability.py) and `experiments/fusion/reliability/global_reliability.json`.
 
 ---
 

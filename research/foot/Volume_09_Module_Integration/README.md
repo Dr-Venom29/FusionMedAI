@@ -41,5 +41,5 @@ The interface supports both fast standard inference (`generate_cam=False`) and f
 - **Primary Source Code**: [`src/foot/foot_module.py`](../../../src/foot/foot_module.py)
 - **Package Export**: [`src/foot/__init__.py`](../../../src/foot/__init__.py)
 - **12-Point Verification Suite**: [`verification/foot/model/verify_module.py`](../../../verification/foot/model/verify_module.py)
-- **End-to-End Acceptance Script**: [`scratch/run_foot_acceptance.py`](../../../scratch/run_foot_acceptance.py)
-- **Frozen Model Configuration**: [`experiments/foot/final_model/model_selection.json`](../../../experiments/foot/final_model/model_selection.json)
+- **End-to-End Acceptance Script**: `scratch/run_foot_acceptance.py`
+- **Frozen Model Configuration**: `experiments/foot/final_model/model_selection.json`
