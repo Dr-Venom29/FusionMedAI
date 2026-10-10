@@ -23,8 +23,6 @@ The empirical $95\%$ bootstrap confidence interval is derived from the $2.5^{\te
 | **H5 (Monotonicity)** | Monotonic Packets ($\%$) | $100.0\%$ | $[100.0\%, 100.0\%]$ | **Supported** ($>90\%$ threshold) |
 | **H6 (B6 vs B5 Isolation)** | $\Delta w_{\text{B6}} - \Delta w_{\text{B5}}$ | $-0.1309$ | $[-0.1319, -0.1300]$ | **Supported** ($95\%$ CI strictly $< 0$) |
 
-
-
 ---
 
 ## 3. Directional Interpretation Standard

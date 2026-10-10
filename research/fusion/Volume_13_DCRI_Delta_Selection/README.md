@@ -49,26 +49,12 @@ Through a multi-tiered selection hierarchy enforcing mathematical invariants, be
 
 ---
 
-## Figures
-
-````carousel
-![DCRI Distributions](figures/fig1_dcri_distributions.png)
-<!-- slide -->
-![Penalty Scaling](figures/fig2_uncertainty_penalty_scaling.png)
-<!-- slide -->
-![Negative DCRI by Regime](figures/fig3_negative_dcri_rate_by_regime.png)
-<!-- slide -->
-![Rank Stability](figures/fig4_rank_stability_spearman.png)
-````
-
----
-
 ## Volume Documentation Index
 
 - [Chapter 01 — Scientific Protocol & Research Hypotheses](01_Protocol.md)
 - [Chapter 02 — Candidate Grid Specification & Domain Analysis](02_Candidate_Grid.md)
-- [Chapter 03 — Full Empirical Cohort Results](03_Results.md)
-- [Chapter 04 — Regime Stratification & Bootstrap Statistics](04_Statistical_Analysis.md)
+- [Chapter 03 — Full Empirical Cohort Results](03_Results.md) (Includes Figures 1 & 2)
+- [Chapter 04 — Regime Stratification & Bootstrap Statistics](04_Statistical_Analysis.md) (Includes Figures 3 & 4)
 - [Chapter 05 — Selection Hierarchy & Rationale](05_Selection_Rationale.md)
 - [Chapter 06 — Methodological Boundaries & Limitations](06_Limitations.md)
 - [Chapter 07 — Freeze Report & Verification Audit](07_Freeze_Report.md)

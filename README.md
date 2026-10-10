@@ -135,8 +135,9 @@ flowchart TD
 | **Combination & Tail Analysis** | **EVALUATED / SEALED** | Evaluated across D1, D2, D3 ($N=500$); lowest point-estimate tail sensitivity among soft baselines |
 | **Input Degradation Response** | **EVALUATED / SEALED** | Evaluated across 12 operators ($N=500$); dynamic quality attenuation $\text{RAR}=35.2\text{--}50.5\%$; B6 vs B5 isolation ($95\%$ CI strictly $< 0$) |
 | **Modality Calibration Impact on Decision Fusion** | **EVALUATED / SEALED** | Evaluated across B0–B5 conditions ($N=500$); redistributes authority ($\Delta w_R = -0.0156$, $95\%$ CI: $[-0.0168, -0.0144]$); entropy-stable |
-| **Parameter & Weighting Sensitivity Analysis (C11.12)** | **EVALUATED / SEALED** | 23 named evaluations (19 unique coefficient vectors); bounded stability $\bar{H} \in [0.9633, 1.0460]\text{ nats}$; zero routing collapse under prespecified grid |
-| **DCRI Parameter Selection (C11.13)** | **SELECTED — VERIFICATION/DOC REVISION** | Pre-specified multi-tier selection protocol over 11-point grid; selected $\delta^* = 0.10$ (`D10`) on frozen cohort ($N=500$) |
+| **Parameter & Weighting Sensitivity Analysis** | **EVALUATED / SEALED** | 23 named evaluations (19 unique coefficient vectors); bounded stability $\bar{H} \in [0.9633, 1.0460]\text{ nats}$; zero routing collapse under prespecified grid |
+| **DCRI Parameter Selection** | **EVALUATED / SEALED** | Multi-tier selection protocol over 11-point grid; $\delta^* = 0.10$ (`D10`) frozen ($N=500$ cohort, 20/20 gates passed) |
+| **DCRI Decision Policy & Operating Analysis** | **EVALUATED / SEALED** | 3-tier hypothetical policy analysis on controlled packets ($N=500$); $18.4\%$ reclassified ($92/500$), $30.77\%$ relative escalation reduction ($117 \to 81$); 12/12 gates passed |
 | **Patient-Level External / Clinical Validation** | **PLANNED** | Requires genuinely paired multimodal cohorts |
 
 ---
@@ -149,7 +150,8 @@ flowchart TD
 4. **Quality-Aware Authority Attenuation**: In a controlled synthetic raw-input degradation benchmark, unsupervised quality engines detected progressive decay, causing ACARA-U to attenuate degraded channel authority by $35.2\%\text{--}50.5\%$ ([Volume 10](research/fusion/Volume_10_Input_Degradation/README.md)).
 5. **Calibration-Driven Authority Softening**: Incorporating calibrated modality probabilities softened previously overconfident retinal authority ($\Delta w_R = -0.0156$, $95\%$ CI: $[-0.0168, -0.0144]$) while maintaining routing stability ([Volume 11](research/fusion/Volume_11_Fusion_Calibration/README.md)).
 6. **Empirical Parameter Stability**: Across 23 named sensitivity evaluations (19 unique coefficient vectors), ACARA-U maintained high routing entropy ($\bar{H} \in [0.9633, 1.0460]\text{ nats}$) with zero routing collapse or invariant violations observed under the prespecified perturbation grid ([Volume 12](research/fusion/Volume_12_ACARA_U_Parameter_Sensitivity/README.md)).
-7. **DCRI Uncertainty Penalty Operating Point (C11.13)**: Pre-specified multi-tier selection over an 11-point candidate grid ($\delta \in [0.0, 1.0]$) selected $\delta^* = 0.10$ (`D10`), producing a mean penalty of $0.063394$ ($21.87\%$ of mean base fused risk), a restrained negative rate of $7.4\%$, and Spearman rank stability $\rho_s = 0.989286$ on the frozen controlled cohort ($N=500$). These represent controlled-cohort mathematical and behavioral properties, not evidence of superior clinical outcomes ([Volume 13](research/fusion/Volume_13_DCRI_Delta_Selection/README.md)).
+7. **DCRI Uncertainty Penalty Operating Point**: Pre-specified multi-tier selection over an 11-point candidate grid ($\delta \in [0.0, 1.0]$) selected $\delta^* = 0.10$ (`D10`), producing a mean penalty of $0.063394$ ($21.87\%$ of mean base fused risk), a restrained negative rate of $7.4\%$, and Spearman rank stability $\rho_s = 0.989286$ on the frozen controlled cohort ($N=500$). These represent controlled-cohort mathematical and behavioral properties, not evidence of superior clinical outcomes ([Volume 13](research/fusion/Volume_13_DCRI_Delta_Selection/README.md)).
+8. **Decision Policy Behavior & Escalation-Tier Reclassification**: Under the prespecified hypothetical thresholds ($\tau_1=0.20, \tau_2=0.40$), the uncertainty-discounted index ($\mathrm{DCRI}_{0.10}$) reclassified $18.4\%$ ($92/500$) of controlled decision packets into lower action tiers, with zero upward reclassifications. The number assigned to the highest-urgency escalation tier decreased from $117/500$ ($23.4\%$) under the unpenalized fused-risk policy to $81/500$ ($16.2\%$), a $30.77\%$ relative reduction in escalation assignments within this benchmark. These results characterize controlled policy behavior and do not establish clinical safety, reduced real-world workload, or improved patient outcomes ([Volume 14](research/fusion/Volume_14_DCRI_Decision_Policy_Analysis/README.md)).
 
 ---
 
@@ -194,14 +196,15 @@ A consolidated summary of principal measured findings across the research progra
 | **Clinical Attribution Stability** | TreeSHAP<br>Val vs Test | **$\rho = 0.9994$<br>($100\%$ Top-20)** | Inpatient history ($22.43\%$) & complexity ($21.23\%$) dominate margin. |
 | **Clinical Uncertainty** | 50-Bootstrap<br>CatBoost Ensemble | **$\text{Error AUROC}$<br>$= 0.7116$** | 50-member bootstrap ensemble used for standalone analysis; fusion contract uses 20 members. |
 | **Multimodal Routing Ladder** | Baseline Ladder<br>B1–B6 ($N=500$) | **Retina $47.7\%$<br>Foot $26.8\%$<br>Clinical $25.5\%$** | ACARA-U dynamic allocation exhibits routing entropy $1.0176$ vs uniform $1.0986$. |
-| **DCRI Derived Risk Index** | C11.13 Global Penalty Selection<br>($N=500$ controlled packets) | **Selected $\delta = 0.10$<br>Mean $= 0.226506$<br>($7.4\%$ Negative)** | Mean penalty $= 0.063394$ ($21.87\%$ of mean fused risk); Spearman $\rho_s = 0.989286$. Derived decision index, not a clinical probability. |
+| **DCRI Derived Risk Index** | Uncertainty Penalty Selection<br>($N=500$ controlled packets) | **Selected $\delta = 0.10$<br>Mean $= 0.226506$<br>($7.4\%$ Negative)** | Mean penalty $= 0.063394$ ($21.87\%$ of mean fused risk); Spearman $\rho_s = 0.989286$. Derived decision index, not a clinical probability. |
+| **DCRI Decision Policy Analysis** | Pre-specified 3-Tier Policy<br>($\tau_1=0.20, \tau_2=0.40, N=500$) | **$18.4\%$ Reclassified<br>$30.77\%$ Escalation Reduction** | Routine $46.4\%$, Assessment $37.4\%$, Escalation $16.2\%$; monotonic non-inflationary invariant ($0\%$ upgrades) across controlled packets. |
 | **Cross-Modality Conflict** | Discordance Family<br>($N=500$) | **$\Delta_{\max} = 0.5203$<br>$\sigma_w = 0.2150$** | Conflict in $72.6\%$ ($363/500$) under operational HIGH threshold ($\Delta_{\max} \ge 0.35$). |
 | **Missing Modality Robustness** | Availability Masking<br>($N=500$) | **0 violations<br>7,500 trials** | ACARA-U reallocates authority across available modalities and fails closed under zero modalities. |
 | **Combination & Tail Analysis** | Controlled distributions<br>D1, D2, D3 ($N=500$) | **0 simplex violations<br>1,500 trials** | Routing invariants preserved across D1–D3; lowest point-estimate tail sensitivity among soft baselines. |
 | **Input Degradation Response** | Controlled Signal Degradation<br>($12\text{ Operators}, N=500$) | **$\text{RAR} = 35.2\text{--}50.5\%$<br>$100.0\%\text{ Monotonic}$** | Quality scores decreased monotonically across tested degradation operators; authority attenuated. |
 | **Quality Term Isolation** | ACARA-U (B6) vs Baseline B5<br>(Severe Degradation D3) | **$D = -0.1309$<br>($95\%\text{ CI } < 0$)** | Paired comparison showed greater attenuation under B6 vs B5 ($[-0.1319, -0.1300]$ $95\%$ CI). |
 | **Calibration Routing Shift** | Calibrated vs Uncalibrated ACARA-U<br>(Clean D0 Benchmark, $N=500$) | **$\Delta w_R = -0.0156$<br>($95\%\text{ CI } < 0$)** | Softens retinal authority ($[-0.0168, -0.0144]$ $95\%$ CI) and reallocates authority to clinical and foot channels. |
-| **Parameter Sensitivity (C11.12)** | 23 Named Evaluations<br>(19 Unique Vectors, $N=500$) | **$\bar{H} \in [0.9633, 1.0460]$<br>$\gamma > \alpha > \beta > \eta$** | Finite-range stability verified; aggregate normalized sensitivity ranking established. |
+| **Parameter Sensitivity** | 23 Named Evaluations<br>(19 Unique Vectors, $N=500$) | **$\bar{H} \in [0.9633, 1.0460]$<br>$\gamma > \alpha > \beta > \eta$** | Finite-range stability verified; aggregate normalized sensitivity ranking established. |
 
 ---
 
@@ -292,7 +295,7 @@ Seven tabular architectures were benchmarked on the frozen 119-dimensional repre
 
 #### Calibration Contexts & Uncertainty
 - **Standalone Clinical Evaluation**: Isotonic Regression was selected under the pre-specified validation NLL criterion ($\text{Val NLL}=0.3420$).
-- **Fusion-Facing C11.11 Evaluation**: Frozen Platt/logit scaling parameters from the calibration workflow were used because the fusion experiment requires an invertible continuous probability transform.
+- **Fusion Calibration Integration**: Frozen Platt/logit scaling parameters from the calibration workflow were used because the fusion experiment requires an invertible continuous probability transform.
 - **Uncertainty Quantification**: 50-member Bootstrap Ensemble evaluated for error detection ($\text{Error Detection AUROC} = 0.7116$).
 - **Robustness & Shift Highlights**:
   1. Predictive dispersion systematically inflates under random information loss ($+124.2\%$ at $50\%$ MCAR).
@@ -399,7 +402,7 @@ R_{\text{fusion}} &= \sum_{i \in \mathcal{A}} w_i r_i \\
 - **Mathematical Domain & Unclamped Invariant**: Because $R_{\text{fusion}} \in [0, 1]$ and $U_i \in [0, 1]$, the theoretical domain is $\text{DCRI}_\delta \in [-\delta M, 1]$ where $M = |\mathcal{A}| \le 3$. Negative DCRI values are mathematically valid under uncertainty discounting and are intentionally preserved (not clamped).
 - **Frozen Cohort Empirical Findings ($N=500$, seed 115)**:
   - Mean Fused Risk $R_{\text{fusion}} = 0.289900 \pm 0.163635$ (Range: $[0.011748, 0.792502]$).
-  - At selected operating parameter **$\delta^* = 0.10$** (Phase C11.13): Mean Uncertainty Penalty $= 0.063394$ ($21.87\%$ of base risk), Mean $\text{DCRI} = 0.226506 \pm 0.172786$, with a restrained negative rate of **$7.4\%$** ($37/500$ packets) and exceptional rank fidelity (Spearman $\rho_s = 0.989286$). Single-modality encounters exhibit $0.0\%$ negative rate, dual-modality encounters range $4.4\%–8.2\%$, and triple-modality encounters exhibit $7.4\%$.
+  - At selected operating parameter **$\delta^* = 0.10$**: Mean Uncertainty Penalty $= 0.063394$ ($21.87\%$ of base risk), Mean $\text{DCRI} = 0.226506 \pm 0.172786$, with a restrained negative rate of **$7.4\%$** ($37/500$ packets) and exceptional rank fidelity (Spearman $\rho_s = 0.989286$). Single-modality encounters exhibit $0.0\%$ negative rate, dual-modality encounters range $4.4\%–8.2\%$, and triple-modality encounters exhibit $7.4\%$.
   - Historical provisional $\delta=0.20$ imposed a heavy penalty of $0.126787$ ($43.73\%$ of base risk) and $24.4\%$ negative DCRI ($122/500$).
   - Sensitivity slope: $\frac{\partial \overline{\text{DCRI}}}{\partial \delta} = -\overline{U_{\text{sum}}} = -0.633936$.
 - **Parameter Scope**: DCRI is a derived decision-level index and is not a clinically validated probability. The parameter $\delta^*=0.10$ is an internally selected operating parameter for the evaluated controlled decision-packet framework.
@@ -480,18 +483,32 @@ Evaluates the sensitivity of the ACARA-U routing logit kernel ($z_i = \alpha C_i
   2. **Confidence Weighting ($\alpha$)**: $S_\alpha^{\text{agg,norm}} = 0.395566$ (Dynamic per-case authority scaling)
   3. **Reliability Weighting ($\beta$)**: $S_\beta^{\text{agg,norm}} = 0.124725$ (Static validation prior anchor)
   4. **Quality Bonus ($\eta$)**: $S_\eta^{\text{agg,norm}} = 0.036448$ (Gentle, non-disruptive quality bonus)
-- **Reference Configuration Retained**: $\Theta_0$ is retained without modification for Phase C11.13.
+- **Reference Configuration Retained**: $\Theta_0$ is retained without modification.
 - **Full Research Volume**: [Volume 12 — ACARA-U Parameter Sensitivity](research/fusion/Volume_12_ACARA_U_Parameter_Sensitivity/README.md).
+
+### 9. DCRI Decision Policy & Operating Analysis
+
+Evaluates the decision-policy behavior, threshold sensitivity, and operational tier transitions of the frozen index $\text{DCRI}_{0.10}$ compared to unpenalized fused risk $R_{\text{fusion}}$ across a 3-tier hypothetical action framework ($\text{Routine Review}$, $\text{Additional Assessment}$, $\text{Escalation for Human Review}$) on the frozen controlled packet cohort ($N=500$, $\text{seed}=115$):
+
+- **Nominal Policy Operating Point ($\tau_1=0.20, \tau_2=0.40$)**:
+  - **Policy B ($R_{\text{fusion}}$ Base Risk)**: Routine Review $= 35.2\%$ ($176$), Additional Assessment $= 41.4\%$ ($207$), Escalation $= 23.4\%$ ($117$).
+  - **Policy A ($\text{DCRI}_{0.10}$ Discounted Risk)**: Routine Review $= 46.4\%$ ($232$), Additional Assessment $= 37.4\%$ ($187$), Escalation $= 16.2\%$ ($81$).
+  - **Reclassification Rate**: $18.4\%$ ($92/500$, $95\%$ Wilson CI: $[15.25\%, 22.03\%]$).
+- **Monotonic Non-Inflationary Invariant (H1)**: $100\%$ of reclassifications were conservative downgrades ($92/92$), with exactly $0\%$ upgrades ($0/500$). Because $\text{DCRI}_{0.10} \le R_{\text{fusion}}$ for all controlled packets, uncertainty discounting never increases urgency without evidence.
+- **Escalation Assignment Reduction (H2)**: Assignments to the highest-urgency escalation tier decreased from $117/500$ ($23.4\%$) under unpenalized fused risk to $81/500$ ($16.2\%$) under $\text{DCRI}_{0.10}$, representing a **$30.77\%$ relative reduction** in escalation assignments in this benchmark ($36$ packets shifted from Escalation to Additional Assessment).
+- **Modality-Regime Sensitivity (H3)**: Reclassification varied across the evaluated modality regimes, indicating that policy behavior depends on modality composition and the associated uncertainty values rather than modality count alone. Foot Only (`F`) is a single-modality regime exhibiting $16.8\%$ reclassification ($84/500$), while Retina + Clinical (`RC`) is a dual-modality regime with only $1.2\%$ ($6/500$). The observed regime-specific rates should be interpreted within the frozen controlled cohort.
+- **Controlled Perturbation Robustness**: Under the tested global uncertainty perturbations ($\pm 20\%$), reclassification rates ranged from $15.4\%$ to $21.4\%$. Under threshold jitter ($\pm 0.02$), they ranged from $18.2\%$ to $18.6\%$. These results indicate bounded changes over the prespecified perturbation grids; they do not establish continuous behavior outside the tested settings.
+- **Full Research Volume**: [Volume 14 — DCRI Decision Policy Analysis](research/fusion/Volume_14_DCRI_Decision_Policy_Analysis/README.md).
 
 ---
 
 ## Next Research Stages
 
-1. **C11.13 Verification & Documentation Freeze**: Correct and rerun the DCRI selection verification gates, reconcile all reported results against the generated JSON artifacts, verify SHA-256 manifests, and finalize the Volume 13 documentation.
-2. **Patient-Level External / Clinical Validation**: Define the protocol and data requirements for genuinely paired multimodal cohorts, then evaluate clinical validity, calibration, and utility on suitable independent data.
+1. **Patient-Level External / Clinical Validation**: Define the protocol and data requirements for genuinely paired multimodal cohorts, then evaluate clinical validity, calibration, and utility on suitable independent data.
+2. **Clinical Threshold Calibration**: Align decision policy thresholds ($\tau_1, \tau_2$) against clinical utility functions, downstream care pathways, and specific institutional tolerance constraints on paired patient data.
 
 > [!NOTE]
-> **Scope Boundary**: The selected $\delta^* = 0.10$ is an internally selected operating parameter for the evaluated controlled decision-packet framework. It is not a clinically validated optimum.
+> **Scope Boundary**: The evaluated 3-tier action policy and selected $\delta^* = 0.10$ represent controlled mathematical and decision-level behavioral properties. They do not constitute clinical guidance or established clinical decision utility.
 
 ---
 
@@ -514,6 +531,8 @@ Automated verification covers modality pipelines, fusion invariants, experiment 
   - Modality calibration ECE reductions and authority redistribution (**20/20 gates**).
   - Parameter sensitivity grid pre-registration, derivative semantics, and stability (**20/20 gates**).
   - DCRI global uncertainty penalty parameter selection, regime invariance, and rank stability (**20/20 verification gates**; candidate $\delta^* = 0.10$ selected under deterministic seed 115).
+  - DCRI decision policy sensitivity, threshold sweeping, regime monotonicity, and perturbation robustness (**12/12 verification gates**).
+    - **Additional Volume 14 audit evidence**: The reported full unit/invariant suite passed 22/22 tests, and the separately executed verifier mutation suite passed 9/9 tests. These test counts overlap in scope and must not be added together as independent verification gates. The deep artifact verifier reported 12/12 gates passed. Results are reported from the recorded project runs; the frozen artifact values and hashes should be checked against the repository files when preparing the final release.
 
 > [!NOTE]
 > Automated verification gates verify implementation invariants, numerical bounds, and code reproducibility; they do not substitute for external clinical validation.
@@ -622,6 +641,7 @@ The complete experimental record, methodology descriptions, mathematical formula
 - [Volume 11 — Modality Calibration Impact on Decision Fusion](research/fusion/Volume_11_Fusion_Calibration/README.md)
 - [Volume 12 — ACARA-U Parameter & Weighting Sensitivity Analysis](research/fusion/Volume_12_ACARA_U_Parameter_Sensitivity/README.md)
 - [Volume 13 — DCRI Global Uncertainty Penalty Selection](research/fusion/Volume_13_DCRI_Delta_Selection/README.md)
+- [Volume 14 — DCRI Decision Policy & Operating Behavior Analysis](research/fusion/Volume_14_DCRI_Decision_Policy_Analysis/README.md)
 
 ---
 

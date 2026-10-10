@@ -18,7 +18,7 @@ from src.foot.xai.visualization import render_explanation_panel
 
 def run_explainability_experiment():
     print("=============================================================")
-    print("Phase 10.6.7 & 10.6.8 — Foot Ulcer Full Test Set Explainability")
+    print("Foot Ulcer Full Test Set Explainability")
     print("=============================================================\n", flush=True)
     
     # Base output directory (Option A: qualitative panels + CSV + summary)

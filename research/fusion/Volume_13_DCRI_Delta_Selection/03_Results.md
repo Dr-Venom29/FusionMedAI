@@ -18,6 +18,9 @@ Evaluated over the complete $N=500$ controlled decision cohort (seed 115) under 
 | **D75** | $0.75$ | $-0.185552 \pm 0.281765$ | $-0.242508$ | $[-0.385338, -0.027389]$ | $[-0.569538, 0.367985]$ | $77.2\%$ (386/500) | $0.475452$ | $164.01\%$ | $0.771059$ |
 | **D100** | $1.00$ | $-0.344036 \pm 0.334770$ | $-0.414389$ | $[-0.579372, -0.139528]$ | $[-0.795445, 0.328107]$ | $82.6\%$ (413/500) | $0.633936$ | $218.67\%$ | $1.028078$ |
 
+### Figure 1: DCRI Score Distributions Across Candidate Grid ($\delta \in [0.0, 1.0]$)
+![Figure 1: DCRI Score Distributions Across Candidate Grid](figures/fig1_dcri_distributions.png)
+
 ---
 
 ## 2. Penalty Magnitude Dynamics & Threshold Exceedance
@@ -37,6 +40,9 @@ Because the penalty term $\Delta \text{DCRI}_\delta = -\delta U_{\text{sum}}$ sc
 | **D50** | $0.50$ | $93.2\%$ (466) | $80.4\%$ (402) | $60.2\%$ (301) | $0.514039$ |
 | **D75** | $0.75$ | $97.8\%$ (489) | $88.6\%$ (443) | $80.4\%$ (402) | $0.771059$ |
 | **D100** | $1.00$ | $99.4\%$ (497) | $93.2\%$ (466) | $86.4\%$ (432) | $1.028078$ |
+
+### Figure 2: Uncertainty Penalty Scaling & Threshold Exceedance Proportions
+![Figure 2: Uncertainty Penalty Scaling & Threshold Exceedance](figures/fig2_uncertainty_penalty_scaling.png)
 
 ### Key Diagnostic Observations:
 - **$\delta = 0.10$ Threshold Containment**: At $\delta = 0.10$, only $1.6\%$ of encounters experience a penalty exceeding $0.10$, ensuring that uncertainty acts as a measured discount rather than completely overwhelming the underlying risk evidence.
