@@ -7,12 +7,23 @@
 
 ---
 
-## 1. Research Question & Rationale
+## 1. Research Question & Methodological Audit
 
-Volume 10 established that under 12 controlled degradation operators, **ACARA-U (B6)** attenuates degraded-channel routing authority more aggressively than B5 ($\mathrm{RAR} = 35.2\%\text{--}50.5\%$, paired difference $\Delta w = -0.1309$, $95\%$ CI: $[-0.1319, -0.1300]$).
+### 1.1 Methodological Audit Note: Routing Authority vs. Predictive Accuracy
 
-However, authority attenuation alone does not prove that the resulting fused estimate is closer to the true patient risk. This addendum evaluates:
-> **Does quality-aware routing authority attenuation actually translate into lower prediction error (MAE) against a known oracle target $Y^*$, and what happens when quality sensors fail?**
+An audit of the experimental chain ($\text{clean packet} \to \text{degraded input} \to \text{quality score} Q_i \to \text{routing weights } w_i \to \text{fused risk } R_{\mathrm{fusion}}$) reveals an essential scientific distinction:
+
+1. **What the Original Volume 10 Experiment Established:**
+   - Across 12 controlled degradation operators on the frozen $N=500$ cohort ($\text{seed}=115$), B6 dynamically attenuated degraded channel routing authority significantly more than B5 ($\mathrm{RAR} = 35.2\%\text{--}50.5\%$, paired difference $\Delta w = -0.1309$, $95\%$ bootstrap CI: $[-0.1319, -0.1300]$).
+   - This confirmed router responsiveness to unsupervised quality signals.
+
+2. **What the Original Experiment Did NOT Establish:**
+   - Because the original benchmark cohort was drawn from unlinked retrospective validation pools without cross-patient ground truth, modality risk scalars $r_i$ were fixed while $Q_i$ decayed.
+   - Consequently, greater authority attenuation ($\Delta w < 0$) demonstrated weight reallocation mechanics, but could not prove that the resulting fused risk was more accurate.
+
+3. **What This Outcome Evaluation Adds:**
+   - Establishes a synthetic latent oracle benchmark ($N=5,000$ packets across 10 independent cohorts) where ground-truth risk $Y^*$ is known and degradation injects realistic observation errors into $r_i$.
+   - Directly tests the missing hypothesis: **Does quality-aware authority attenuation actually reduce estimation error ($\mathrm{MAE}$) against true underlying risk?**
 
 ---
 
@@ -25,6 +36,12 @@ However, authority attenuation alone does not prove that the resulting fused est
 | **Moderate Degradation (D2)** | $805$ | $0.074864$ | $0.070961$ | $-0.003904$ | **$+5.21\%$** |
 | **Severe Degradation (D3)** | $385$ | $0.089828$ | $0.074412$ | **$-0.015416$** | **$+17.16\%$** |
 | **Uncertainty Miscalibration** | $429$ | $0.049440$ | $0.049397$ | $-0.000043$ | **$+0.09\%$** |
+
+### Degradation & Fidelity Forest Plot
+
+![Degradation Outcome Forest Plot](./figures/outcome_mae_forest_plot.png)
+
+*Figure 1. Forest plot of paired prediction error differences ($\Delta_{\mathrm{MAE}} = \mathrm{MAE}_{\mathrm{B6}} - \mathrm{MAE}_{\mathrm{B5}}$) with 95% bootstrap confidence intervals across clean baseline reference, progressive degradation severities (D1–D3), and sensor fidelity failure modes ($N=5,000$ synthetic packets).*
 
 ---
 

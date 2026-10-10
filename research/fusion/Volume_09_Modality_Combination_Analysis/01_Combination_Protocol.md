@@ -28,10 +28,20 @@ The conceptual motivation arises from real-world clinical deployment where multi
   *Prediction*: Routing authority across active channels satisfies $\sum_{i \in \mathcal{A}} w_i = 1.0$ and $w_{j \notin \mathcal{A}} = 0.0$ uniformly across head, middle, and tail combinations under all distribution regimes.  
   *Status*: **Confirmed** (Mathematical invariant verified over 1,500 trials across D1, D2, D3).
 
-- **Hypothesis H2 (Tail Risk Sensitivity Across Soft Baselines)**:  
+- **Hypothesis H2 (Tail Risk Sensitivity Across Soft Baselines & Multi-Cohort Parity)**:  
   *Prediction*: ACARA-U achieves lower observed point-estimate tail risk sensitivity $D_{\text{tail}}$ than soft-allocation baselines (B2 Uniform Average, B3 Confidence-Weighted, B4 Conf+Rel, B5 Conf+Rel-Uncertainty) under long-tailed distributions (D2 and D3).  
-  *Interpretation Rule*: H2 is evaluated primarily as a point-estimate ordering hypothesis. Paired bootstrap confidence intervals are used to assess uncertainty around the B6-versus-B5 difference and are not interpreted as establishing superiority when they cross zero.  
-  *Status*: **Supported** ($D_{\text{tail}}^{\text{ACARA-U}} = 0.1883$ vs $0.1925$ for B2, $0.1959$ for B3, $0.1967$ for B4, $0.1889$ for B5 under D2; $0.1876$ vs $0.1945$ for B2, $0.1974$ for B3, $0.1973$ for B4, $0.1889$ for B5 under D3. The margin over B5 is small: $+0.0006$ in D2 and $+0.0012$ in D3, with 95% paired bootstrap CIs crossing zero).
+  *Confirmatory Protocol ($S=30$ Cohorts, $N=15,000$ Packets)*: To resolve whether the single-cohort point-estimate difference between B6 and B5 is statistically distinguishable from zero, a pre-declared 30-cohort confirmatory protocol ($\text{seeds } 401\text{--}430$, $N=500$ each) was evaluated using a 2-stage hierarchical cluster bootstrap ($B=2,000$):
+    - *Primary Endpoint*: D3 Strong Long-Tail paired difference $\Delta D_{\text{tail}} = D_{\text{tail}}(\text{B6}) - D_{\text{tail}}(\text{B5})$. Primary estimand is packet-weighted micro-average ($N_{\text{tail}}=35$ per cohort); sensitivity estimand is combination-weighted macro-average across $\{R, F, C\}$.
+    - *Secondary Endpoint*: D2 Moderate Head-Tail paired difference $\Delta D_{\text{tail}}$ ($N_{\text{tail}}=75$ per cohort).
+    - *Pre-Declared Decision Rules*:
+      - *Practical Superiority*: Requires point estimate $\Delta < -0.005$, 95% hierarchical CI strictly $< 0$, and $p < 0.001$.
+      - *Statistically Significant Modest Effect*: Requires $\Delta < 0$, 95% CI strictly $< 0$, and $p < 0.05$ (while failing practical superiority: $\Delta \ge -0.005$ or $p \ge 0.001$).
+      - *Inferior*: Requires $\Delta \ge 0$ and 95% hierarchical CI strictly positive (lower bound $> 0$).
+      - *Inconclusive (Not Statistically Distinguishable)*: If the 95% hierarchical CI contains zero or inferential criteria are discordant. An inconclusive finding means the data cannot distinguish between the models under the pre-declared rules; it does not prove statistical equivalence.
+  *Status*: **Supported directionally in single cohort; Inconclusive (Not Statistically Distinguishable) in Multi-Cohort Confirmatory Evaluation**:
+    - *Single-Cohort Reference ($\text{seed}=115$)*: $D_{\text{tail}}^{\text{ACARA-U}} = 0.1883$ vs $0.1889$ for B5 in D2; $0.1876$ vs $0.1889$ in D3 ($95\%$ paired CIs crossed zero).
+    - *Multi-Cohort Confirmatory ($S=30$, $N=15,000$)*: In D3 (Primary), $\overline{D_{\text{tail}}}(\text{B6}) = 0.062143$ vs $\overline{D_{\text{tail}}}(\text{B5}) = 0.061962$ ($\Delta_{\text{micro}} = +0.000181$, $95\%$ Hierarchical CI: $[-0.000024, +0.000377]$, crossing zero; $\Delta_{\text{macro}} = +0.000123$, $95\%$ CI: $[-0.000093, +0.000344]$, crossing zero). In D2 (Secondary), $\overline{D_{\text{tail}}}(\text{B6}) = 0.065250$ vs $\overline{D_{\text{tail}}}(\text{B5}) = 0.065106$ ($\Delta_{\text{micro}} = +0.000143$, $95\%$ Hierarchical CI: $[-0.000025, +0.000300]$, crossing zero).
+    - *Conclusion*: Under the unimodal tail tiers where single active modalities collapse router weights to $w_i \equiv 1.0$, the observed difference between B6 and B5 is not statistically distinguishable from zero under the hierarchical cluster bootstrap. Under the pre-declared decision protocol, the confirmatory evaluation concludes as `INCONCLUSIVE_NOT_STATISTICALLY_DISTINGUISHABLE`.
 
 - **Hypothesis H3 (Tail Dispersion Expansion via Modality Collapse)**:  
   *Prediction*: Tail combinations exhibit increased risk standard deviation relative to the head ($\Delta \sigma(R) = \sigma(R_{\text{tail}}) - \sigma(R_{\text{head}}) > 0$), consistent with the reduced modality cardinality and resulting loss of multi-modal aggregation.  
@@ -41,8 +51,10 @@ The conceptual motivation arises from real-world clinical deployment where multi
 
 ## 4. Methodological Boundaries & Transparent Scope
 
-- **Controlled Decision-Level Cohort**: Because the underlying benchmark datasets (APTOS 2019 Retina, ADPM V3.3 Foot, UCI Diabetes Clinical) are retrospectively unpaired, C11.9 evaluates controlled decision packets ($N=500$, seed=115). It does not assert patient-level clinical prevalence for any combination.
+- **Multi-Cohort Generative Simulation Boundary**: The 30 seeds generate independently sampled synthetic cohorts from the specified generative model; they represent controlled Monte Carlo simulation cohorts, not 30 independent clinical populations.
+- **Controlled Decision-Level Cohort**: Because the underlying benchmark datasets (APTOS 2019 Retina, ADPM V3.3 Foot, UCI Diabetes Clinical) are retrospectively unpaired, C11.9 evaluates controlled decision packets ($N=500$, seed=115 for historical baseline; seeds 401–430 for confirmatory multi-cohort). It does not assert patient-level clinical prevalence for any combination.
 - **Strictly Frozen Upstream Components**: Modality models, calibration maps, reliability constants ($R_R=0.929956, R_F=0.922266, R_C=0.825382$), router coefficients ($\alpha=1.0, \beta=1.5, \gamma=1.0, \eta=0.5$), and DCRI operating default ($\delta=0.20$, provisional evaluation default) remain strictly frozen.
 - **No Retraining or Parameter Optimization**: C11.9 is an observational evaluation layer; no router retraining, Group-DRO, or adaptive MoE gating is introduced.
 - **Participating Modality Probability Reporting**: Reports already-calibrated modality probability/confidence characteristics without fabricating a unified multimodal ground-truth label or computing fusion-level ECE.
 - **No Label Leakage**: All combination-level metrics operate strictly on predictive channels without reference to ground-truth labels.
+- **Volume 09 Sealed Status**: Phase C11.9 multi-cohort confirmatory verification complete with 8/8 gates passed and cryptographically sealed.

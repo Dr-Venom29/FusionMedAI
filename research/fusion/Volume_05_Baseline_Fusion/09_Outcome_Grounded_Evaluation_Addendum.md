@@ -14,7 +14,8 @@
 While the primary Volume 05 analysis established that **ACARA-U (B6)** redistributes decision weights dynamically across available channels based on confidence, reliability, uncertainty, and quality ($H(w) = 1.0176$ vs Uniform $H(w) = 1.0986$), those historical evaluations operated over an uncalibrated controlled decision cohort where ground truth patient outcomes were unlinked.
 
 This addendum answers the outcome-grounded question:
-> **Does ACARA-U (B6) produce superior predictive accuracy compared to uncertainty-ablated fusion (B5) when evaluated against a known latent oracle target $Y^* \in [0.0, 1.0]$?**
+
+> **Does ACARA-U (B6) produce superior predictive accuracy compared to uncertainty-ablated fusion (B5) when evaluated against a known latent oracle target** $Y^* \in [0.0, 1.0]$**?**
 
 ---
 
@@ -27,6 +28,12 @@ The confirmatory evaluation benchmarked B6 ($\alpha=1.0, \beta=1.5, \gamma=1.0, 
 | **Mean Absolute Error (MAE)** | $0.068835$ | $0.060955$ | **$0.059113$** | **$-0.001843$** | $[-0.002112, -0.001582]$ ($p = 7.95 \times 10^{-9}$) |
 | **Cohort-Level t-Statistic** | — | — | — | **$t = -20.30$** ($df=9$) | Significant ($p < 10^{-7}$) |
 | **Decision Cost Loss ($\mathcal{L}_{\mathrm{cost}}$)** | $0.2450$ | $0.2142$ | **$0.2100$** | **$-0.0042$** | $[-0.0060, -0.0024]$ |
+
+### Predictive Error Differences Across Scenarios (Forest Plot)
+
+![Outcome MAE Forest Plot](./figures/outcome_mae_forest_plot.png)
+
+*Figure 1. Forest plot of paired mean absolute error differences ($\Delta_{\mathrm{MAE}} = \mathrm{MAE}_{\mathrm{B6}} - \mathrm{MAE}_{\mathrm{B5}}$) with 95% bootstrap confidence intervals across pooled confirmatory cohorts, input degradation severities, and sensor fidelity regimes ($N=5,000$, 10 independent cohorts).*
 
 ---
 

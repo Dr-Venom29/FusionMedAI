@@ -22,6 +22,9 @@ $$
 \Delta \overline{\Delta R} = \overline{\Delta R}_{\text{tail}} - \overline{\Delta R}_{\text{head}}
 $$
 
+> **Interpretation of the Model-Specific Reference**:  
+> The sensitivity metric measures the deviation between a model's prediction for an incomplete packet and that model's own tri-modal RFC reference prediction. For unimodal tail packets, all normalized routers (B1–B6) assign weight $1.0$ to the sole available modality, guaranteeing identical fused predictions ($R_{\text{fusion}}^{\text{B6}} = R_{\text{fusion}}^{\text{B5}}$). However, this invariant does not guarantee identical $\Delta R$ values when the RFC reference predictions are model-specific. Comparisons of $\Delta R$ and $D_{\text{tail}}$ characterize model-relative deviation under the specified reference convention; they should not be interpreted as isolating the causal effect of tail routing alone.
+
 4. **Uncertainty Contrast**:
    
 $$

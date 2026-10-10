@@ -49,22 +49,18 @@ Across all 576 individual trials spanning the 7 active regimes, the directional 
 - **Masking Leakage:** Exactly $0.000000$ weight assigned to inactive channels across all partial-availability evaluations.
 
 ### 3.2 Softmax Shift Invariance Measurements
+
 The shift-invariance evaluation encompasses two distinct operational measurements:
-1. **Reference Normalization Kernel Shift Invariance:**
-   Evaluating scalar logit offsets $c \in \{-500, -100, -50, -10, -1, 0, 1, 10, 50, 100, 500\}$ in the reference softmax kernel produced a maximum weight deviation of:
 
-   $$
-   \max_{i, c} \lvert w_i(z + c) - w_i(z) \rvert = 7.1054 \times 10^{-15} \ll 10^{-12}
-   $$
+- **Reference Normalization Kernel Shift Invariance**: Evaluating scalar logit offsets $c \in \{-500, -100, -50, -10, -1, 0, 1, 10, 50, 100, 500\}$ in the reference softmax kernel produced a maximum weight deviation of:
 
-2. **Production Route Shift Experiment:**
-   Applying a uniform $+0.10$ confidence shift across active channels directly in `router.route()` (adding $\alpha \times 0.10 = 0.10$ to each active logit) produced a maximum weight deviation of:
+  $$\max_{i, c} \lvert w_i(z + c) - w_i(z) \rvert = 7.1054 \times 10^{-15} \ll 10^{-12}$$
 
-   $$
-   \max_{i} \lvert w_i(\text{shifted}) - w_i(\text{base}) \rvert = 1.1102 \times 10^{-16} \ll 10^{-12}
-   $$
+- **Production Route Shift Experiment**: Applying a uniform $+0.10$ confidence shift across active channels directly in `router.route()` (adding $\alpha \times 0.10 = 0.10$ to each active logit) produced a maximum weight deviation of:
 
-   *(Note: This experiment validates uniform linear logit shift behavior in the route pipeline; it does not constitute a generalized proof of every production invariance property.)*
+  $$\max_{i} \lvert w_i(\text{shifted}) - w_i(\text{base}) \rvert = 1.1102 \times 10^{-16} \ll 10^{-12}$$
+
+  *(Note: This experiment validates uniform linear logit shift behavior in the route pipeline; it does not constitute a generalized proof of every production invariance property.)*
 
 ### 3.3 Reference Normalization Kernel Order Independence
 Evaluating all 6 permutations of the three channel logits using the reference normalization kernel yielded an exact deviation of:

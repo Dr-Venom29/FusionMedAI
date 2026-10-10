@@ -1,68 +1,71 @@
-# Phase C11.9 Freeze Report & Certification
+# Phase C11.9 Freeze Report & Verification Summary
 
 > **Phase**: C11.9 — Modality-Combination Distribution & Tail-Robustness Analysis  
 > **Status**: SEALED & FROZEN  
-> **Verification Gate Score**: 20 / 20 PASSED (100.0%)  
-> **Automated Unit Tests**: 198 / 198 PASSED  
-> **Cohort Specification**: $N=500$ Controlled Decision Packets ($\text{seed}=115$) across D1, D2, D3  
-> **Cryptographic Checksum Standard**: SHA-256
+> **Verification Gate Score**: 8 / 8 PASSED (100.0%)  
+> **Automated Unit Tests**: 29 / 29 PASSED (`verification/fusion/combination_analysis/`)  
+> **Cohort Specification**: 30 Confirmatory Synthetic Monte Carlo Cohorts (Seeds 401–430), $N=500$ Packets per Distribution Regime ($15,000$ packets per distribution, $45,000$ distribution-packet evaluations across D1, D2, D3) + 1,500 Exploratory Packets (Seed 115)  
+> **Cryptographic Checksum Standard**: SHA-256  
 
 ---
 
-## 1. Deep Verification Gate Summary
+## 1. Confirmatory Verification Gate Summary (CA-01 through CA-08)
 
-| Gate Index | Verification Gate Description | Result | Scope / Invariant Verified |
+All 8 independent confirmatory verification gates implemented in `verification/fusion/combination_analysis/verify_combination_artifacts.py` have passed:
+
+| Gate Index | Gate Description | Status | Scope / Invariant Verified |
 | :---: | :--- | :---: | :--- |
-| **Gate 1** | Modality Combination Taxonomy (8 Regimes) | **PASSED** | Canonical 8 combination identifiers verified |
-| **Gate 2** | Cardinality & Subset Hierarchy | **PASSED** | Tri-modal (1), bimodal (3), unimodal (3), empty (1) |
-| **Gate 3** | Zero-Modality Fail-Closed Rejection | **PASSED** | $\emptyset \implies \text{status} = $ `NO_MODALITY_AVAILABLE` |
-| **Gate 4** | Mask & Specification Exact Correspondence | **PASSED** | All 8 specs map exactly to availability masks |
-| **Gate 5** | Distribution Probability Normalization | **PASSED** | D1, D2, D3 probabilities strictly sum to $1.000000$ |
-| **Gate 6** | Cohort Packet Allocation Conservation ($N=500$) | **PASSED** | All distribution counts sum exactly to $500$ packets |
-| **Gate 7** | Stratified Allocation Determinism | **PASSED** | Identical assignment sequence across independent invocations |
-| **Gate 8** | Head/Middle/Tail Rank Classification | **PASSED** | Pre-specified rank classification deterministic and verified |
-| **Gate 9** | Head-to-Tail Ratio ($HTR$) Scaling & D1 Null Semantics | **PASSED** | D1 is None (no tail); D2 $HTR=4.00$, D3 $HTR=10.71$ |
-| **Gate 10** | Active Authority Simplex Invariant | **PASSED** | $\sum_{i \in \mathcal{A}} w_i = 1.000000$ across all combinations |
-| **Gate 11** | Unavailable Channel Zero Authority | **PASSED** | $A_i = 0 \implies w_i = 0.000000$ strictly enforced |
-| **Gate 12** | Fused Risk Unit Interval Bounds | **PASSED** | $0.0 \le R_{\text{fusion}} \le 1.0$ strictly bounded |
-| **Gate 13** | DCRI Theoretical Bounds & Unclamped Invariant | **PASSED** | $\text{DCRI} \in [-\delta M, 1.0]$ with unclamped negative values |
-| **Gate 14** | Cohort Uncertainty-Sum Scaling (RFC > RF > R) | **PASSED** | Additive uncertainty scaling along RFC > RF > R ladder |
-| **Gate 15** | Conflict Metrics Domain Invariants | **PASSED** | $\Delta_{\max} = 0.0$ for unimodals; active for multi-modal |
-| **Gate 16** | Minimum Sample Size Rule Enforcement | **PASSED** | $N \ge 5$ verified across all combinations in D1, D2, D3 |
-| **Gate 17** | Bootstrap CI Computation & Sample Mean Containment | **PASSED** | Bootstrap CI contains sample mean and is deterministic |
-| **Gate 18** | Comparative Baseline Ladder B1–B6 Execution | **PASSED** | All 6 baseline architectures benchmarked across combinations |
-| **Gate 19** | Full Cohort Deep Structural Reproducibility | **PASSED** | Identical multi-channel features upon fresh reload |
-| **Gate 20** | Cryptographic Manifest Certification (16/16) | **PASSED** | All 16 artifact SHA-256 hashes certified on disk |
+| **CA-01** | Protocol & Parameter Integrity | **PASSED** | Validates pre-declared decision thresholds ($\Delta < -0.005$, $\text{CI}_{\text{high}} < 0$, $p < 0.001$), 30 seeds ($401$–$430$), 1,000 bootstrap iterations, and formal boundary rules. |
+| **CA-02** | Complete 7-Combination Partition Validation & Packet ID Uniqueness | **PASSED** | Verifies exact stratified counts for D1, D2, D3 across all 30 cohorts ($45,000$ packet records) and asserts zero UUID collisions. |
+| **CA-03** | Historical Seed-115 Independent Reconstruction | **PASSED** | Reconstructs exploratory cohort metrics from raw source packet records to tolerance $< 10^{-6}$, verifying historical data fidelity. |
+| **CA-04** | Direct Simplex Conservation & Hard Availability Masking | **PASSED** | Audits all 3,300 tail packet records directly from JSON; asserts $\sum w_i = 1.0$ and $w_{\text{inactive}} = 0.0$ for all channels. |
+| **CA-05** | Ground-Up Recomputation of Micro and Macro $D_{\text{tail}}$ | **PASSED** | Independently aggregates packet-level IEEE 754 float records into micro and macro means for B5 and B6 across D1, D2, and D3. |
+| **CA-06** | Independent Bootstrap Recomputation | **PASSED** | Runs independent two-stage hierarchical bootstrap with deterministic seeds ($501$–$503$); matches summary CIs within tolerance. Validates D1 zero-tail invariant ($[0.0, 0.0]$). |
+| **CA-07** | Algorithmic Derivation & Boundary Testing of Decision Rules | **PASSED** | Executes 10 exhaustive boundary test vectors across practical superiority, modest effect, inconclusive, and inferiority branches. Validates summary verdict. |
+| **CA-08** | Cryptographic SHA-256 Hash Seal & Complete Classified File Set | **PASSED** | Validates existence, size, and SHA-256 hash match for all 7 classified artifacts in `freeze_manifest.json`. |
 
 ---
 
-## 2. Sealed Experiment Artifacts Manifest
+## 2. Classified Experiment Artifacts Manifest
 
-All 16 artifact files in `experiments/fusion/combination_analysis/` are cryptographically sealed:
+All 7 artifacts evaluated in the confirmatory analysis are categorized by provenance and cryptographically verified:
 
 ```text
 experiments/fusion/combination_analysis/
-├── experiment_config.json              (SHA-256: fbc891ed274ad1709397dc4f42cd72314dec7580a865ec19872403a72e6c711e)
-├── combination_definitions.json        (SHA-256: 39d8b75db1e8ee6bbcd13771d435bbd7074b52b38ac36200b61745c602f21bad)
-├── distribution_configurations.json    (SHA-256: 29b4fe82ecbef0c096cb46ab5cfcf6ea132614460045ce971c7610a01c7b345a)
-├── packet_assignment_manifest.json     (SHA-256: 60ae5a3debf93d37066740f5b31f5ae23592f05f876053de3cc7aee5aa6466dd)
-├── combination_frequency.json          (SHA-256: 1f0a71cbc8ed6e0938658627d295c7e34730041e7243d636c33793304377c72a)
-├── head_tail_assignment.json           (SHA-256: 4bfe896b02ca9599540c4fa481eeb64f5262c5c56d7dfec334f59345e69bf8d3)
-├── combination_metrics.json            (SHA-256: 4a0b5a51d077d090a24408265c1817028fd4005d50d81487e103f675e113f402)
-├── uncertainty_by_combination.json     (SHA-256: b48ae7ca2d1a4ff16a0e0c029d43bc4a796607e97f96b3f83bc42026727148dc)
-├── conflict_by_combination.json        (SHA-256: 7e130b7af6bceab663e1b4067fb0b35f25e840580d1e3133d360e2001f400d5b)
-├── risk_by_combination.json            (SHA-256: 21e4cc8647698ef4d4af4c36c3f0c81397a43c3454a1994e8bc648a4b2f52f16)
-├── dcri_by_combination.json            (SHA-256: 64e9caa707bceca382741ac561c27bb4fa37af28921fb6713cd5076cff8cf702)
-├── baseline_comparison.json            (SHA-256: 69c4c23ba3f2e1df26639c0953a992fb5a7bb500cbf7bc30ba1a29367252fc70)
-├── tail_robustness.json                (SHA-256: f965b314507dde1c934d68c6bc800ee3ab296fda7b6442204e72869ba674c232)
-├── bootstrap_confidence_intervals.json (SHA-256: cbfa77d4a044aa2844f00dff82309f8f8a15107559803640bfbacc1a6a49eaef)
-├── calibration_analysis.json           (SHA-256: 296d7c84e09dffae10bd851d60190adcbdaeaef4575205e4b5638fc6a3e7f54e)
-├── sensitivity_analysis.json           (SHA-256: 18330ae203b7037ed0e0b9f116c6066f003aa607d881a00fca927cd95badc9bb)
-└── freeze_manifest.json                (SHA-256: c3e0f98eeb965b63b40093630da9a1a8c08baaa3ee04ba3b6ae871d3df8e76c1)
+├── protocol.json
+│   ├── Type: REGENERATED_CONFIRMATORY_OUTPUT
+│   ├── SHA-256: 14c06e7edbf170fd5e1a55583523ccbcb63dd48158b4df57115d1af5d6835f8c
+│   └── Provenance: Generated by multi_cohort_runner.py (Phase C11.9 confirmatory protocol specification)
+├── multi_cohort_results.json
+│   ├── Type: REGENERATED_CONFIRMATORY_OUTPUT
+│   ├── SHA-256: 628502f269472fdfa44d187aa4b4995a3d159c15e2d6ca89fc364ed598ef5d0c
+│   └── Provenance: Generated by multi_cohort_runner.py with full-precision IEEE 754 packet records across 30 cohorts
+├── multi_cohort_summary.json
+│   ├── Type: REGENERATED_CONFIRMATORY_OUTPUT
+│   ├── SHA-256: b1aaead97e115122a6cd9e7f57834ddc3141edfbcea8c04dd2f0cbca9fd85b07
+│   └── Provenance: Generated by multi_cohort_runner.py with dual cohort-level and 2-stage cluster bootstrap synthesis
+├── experiment_config.json
+│   ├── Type: FROZEN_HISTORICAL_DEPENDENCY
+│   ├── SHA-256: fbc891ed274ad1709397dc4f42cd72314dec7580a865ec19872403a72e6c711e
+│   └── Provenance: Frozen Phase C11.9 baseline ladder configuration (2026-10-08)
+├── baseline_comparison.json
+│   ├── Type: FROZEN_HISTORICAL_DEPENDENCY
+│   ├── SHA-256: 19888ae50dd5a1c3ae7786b30b6efb6009719684f370406b87e5371258a76f71
+│   └── Provenance: Frozen Phase C11.9 single-cohort baseline evaluation record (2026-10-08)
+├── distribution_configurations.json
+│   ├── Type: FROZEN_HISTORICAL_DEPENDENCY
+│   ├── SHA-256: 29b4fe82ecbef0c096cb46ab5cfcf6ea132614460045ce971c7610a01c7b345a
+│   └── Provenance: Frozen Phase C11.9 combination frequency distribution definitions D1-D3 (2026-10-08)
+└── tail_robustness.json
+    ├── Type: FROZEN_HISTORICAL_DEPENDENCY
+    ├── SHA-256: f965b314507dde1c934d68c6bc800ee3ab296fda7b6442204e72869ba674c232
+    └── Provenance: Frozen Phase C11.9 head-vs-tail dispersion contrast metrics (2026-10-08)
 ```
 
 ---
 
-## 3. Downstream Scientific Roadmap
+## 3. Scientific Status & Sealing Notice
 
-With Phase C11.9 sealed, the decision-level fusion research program is integrated across routing, input quality, modality-level calibration, uncertainty, conflict, missingness, and long-tail combination robustness.
+- **Primary Confirmatory Outcome**: Under the pre-declared hierarchical cluster bootstrap decision rule, the primary D3 endpoint evaluates to `INCONCLUSIVE_NOT_STATISTICALLY_DISTINGUISHABLE` ($\Delta = +0.000181$, $95\%$ Hierarchical CI $[-0.000024, +0.000377]$).
+- **Sensitivity Analyses**: Cohort-level bootstrap ($[+0.000041, +0.000327]$) and parametric $t$-test ($t = 2.4194, p = 0.022$) favor B5 numerically at the between-cohort level. However, practical superiority is not demonstrated, the inferiority criterion is not met, and equivalence is not established.
+- **Sealing Status**: **`SEALED & FROZEN`**. All 8 independent confirmatory verification gates (`CA-01` through `CA-08`) and 29/29 repository tests have passed. Confirmatory artifacts, protocol specifications, full-precision packet records, and empirical reconciliation are certified and cryptographically sealed with SHA-256 integrity.

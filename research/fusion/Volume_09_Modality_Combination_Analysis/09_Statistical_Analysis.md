@@ -50,3 +50,15 @@ For each distribution and modality combination, $95\%$ empirical confidence inte
   - D2: $\Delta \sigma(R) = 0.2508 - 0.1880 = +0.0628$.
   - D3: $\Delta \sigma(R) = 0.2784 - 0.1898 = +0.0885$.
 - **Outcome**: **SUPPORTED DESCRIPTIVELY** — Tail-tier risk dispersion was higher than head-tier dispersion in both D2 and D3. No formal bootstrap confidence interval for the dispersion difference was pre-specified or reported, so statistical significance of this difference is not claimed.
+
+---
+
+## 4. Multi-Cohort Confirmatory Statistical Reconciliation ($S=30$ Cohorts)
+
+### Confirmatory Interpretation
+The D3 primary hierarchical-bootstrap confidence interval ($[-0.000024, +0.000377]$ in micro; $[-0.000093, +0.000344]$ in macro) includes zero, so the primary endpoint is **inconclusive** under the frozen decision protocol (`INCONCLUSIVE_NOT_STATISTICALLY_DISTINGUISHABLE`). The positive point estimate ($\Delta_{\text{micro}} = +0.000181$) numerically favors B5. 
+
+The positive cohort-level bootstrap interval ($[+0.000041, +0.000327]$) and parametric sensitivity test ($t = 2.4194, p = 0.022$) indicate a different inferential outcome from the primary hierarchical interval and are reported transparently as sensitivity analyses. These results establish neither practical superiority of B6 nor statistical equivalence. The declared decision rules are retained without post-hoc modification.
+
+### Confirmatory Sample Scope
+The experiment uses 30 synthetic Monte Carlo cohorts (seeds 401–430), with 500 decision packets per cohort for each distribution regime. This gives 15,000 packet evaluations per distribution and 45,000 distribution-packet evaluations across D1, D2, and D3. These are controlled simulation cohorts, not independent clinical populations or patient-level prevalence samples.

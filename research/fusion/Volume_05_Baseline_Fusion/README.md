@@ -6,7 +6,9 @@ This volume presents the comprehensive empirical and comparative evaluation of t
 
 $$\mathcal{B} = \{ \text{B1, B2, B3, B4, B5, B6} \}$$
 
-Phase C11.5 investigates the question: *How does adaptive decision-level routing using confidence ($C_i$), global reliability ($R_i$), predictive uncertainty ($U_i$), input quality ($Q_i$), and availability ($A_i$) behave relative to simpler fusion heuristics under controlled availability and perturbation conditions?*
+Phase C11.5 investigates the question:
+
+> **How does adaptive decision-level routing using confidence ($C_i$), global reliability ($R_i$), predictive uncertainty ($U_i$), input quality ($Q_i$), and availability ($A_i$) behave relative to simpler fusion heuristics under controlled availability and perturbation conditions?**
 
 Evaluation is conducted over $N=500$ deterministic `CONTROLLED_DECISION_PACKET`s drawn from held-out validation prediction pools with zero cross-patient pairing claims and zero ground-truth label contamination.
 

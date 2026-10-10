@@ -38,3 +38,6 @@ $$
 3. **Unimodal Zero Invariant**: Under R, F, and C, authority is concentrated into a single channel ($w_i = 1.0 \implies H = -1.0 \ln(1.0) = 0.0000 \pm 0.0000$).
 
 This confirms that the routing layer naturally concentrates authority as cardinality decreases, reducing to deterministic single-modality authority for unimodal inputs.
+
+> **Entropy Interpretation (Conditional vs Global Mixture)**:  
+> Routing entropy is zero for a unimodal packet because its sole available modality receives all routing authority ($w_i = 1.0 \implies H=0$). The global mean entropy across the entire population, however, depends on the frequency-weighted mixture of modality combinations ($\overline{H} = 0.4154$ in D1, $0.6662$ in D2, $0.7737$ in D3). Its increase across D1–D3 reflects the changing composition of the evaluated distributions (e.g. higher proportions of bimodal and complete combinations relative to uniform allocation) and must not be interpreted as an increase in entropy within unimodal tail packets. RQ3 is evaluated through combination- or tier-conditional comparisons; global means provide complementary distribution-level summaries.

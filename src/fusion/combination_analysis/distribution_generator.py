@@ -7,7 +7,16 @@ Defines the pre-registered combination distributions:
 2. D2_MODERATE_HEAD_TAIL: Moderate power-law dropoff (RFC: 35%, RF: 25%, RC: 15%, FC: 10%, R: 6%, F: 5%, C: 4%).
 3. D3_STRONG_LONG_TAIL: Steep long-tail distribution (RFC: 50%, RF: 25%, RC: 10%, FC: 8%, R: 4%, F: 2%, C: 1%).
 
-Provides deterministic, reproducible cohort assignment routines.
+Methodological & Statistical Clarifications:
+- Cohort Generation vs Combination Assignment: Cohort generation (generate_controlled_synthetic_cohort)
+  creates fully observed tri-modal decision packets (RFC) with simulated latent risk and modality records.
+  Stratified combination assignment (generate_stratified_distribution_cohort) subsequently applies
+  the availability masks of D1, D2, or D3 to those packets.
+- Independence Scope: The 30 seeds produce independently sampled synthetic cohorts from the specified
+  generative model. They represent controlled Monte Carlo simulation cohorts, not 30 independent clinical populations.
+- Tail Metric Weighting: Tail sensitivity D_tail is evaluated at both the packet level (micro-average,
+  weighting each tail packet equally, N_tail=35 in D3) and combination level (macro-average, weighting
+  each tail combination {R, F, C} equally).
 """
 
 from dataclasses import dataclass
@@ -216,3 +225,125 @@ def generate_stratified_distribution_cohort(
             )
 
     return assigned
+
+
+def _generate_multiclass_probabilities(risk: float, num_classes: int, rng: np.random.RandomState) -> Tuple[float, ...]:
+    """Generates a realistic calibrated probability distribution peaking around risk level."""
+    center = float(risk) * (num_classes - 1)
+    indices = np.arange(num_classes, dtype=np.float64)
+    logits = -0.5 * ((indices - center) ** 2) / (0.85 ** 2)
+    logits += rng.normal(0.0, 0.12, size=num_classes)
+    exp_l = np.exp(logits - np.max(logits))
+    probs = exp_l / np.sum(exp_l)
+    rounded = [round(float(p), 6) for p in probs]
+    rounded[-1] = round(1.0 - sum(rounded[:-1]), 6)
+    return tuple(rounded)
+
+
+def generate_controlled_synthetic_cohort(
+    seed: int,
+    n_packets: int = 500,
+    cohort_prefix: str = "PKT_COMB",
+) -> List[ControlledDecisionPacket]:
+    """
+    Generates an independent cohort of n_packets fully populated ControlledDecisionPackets
+    with all 3 modalities active (tri-modal RFC state) ready for stratified combination masking.
+    
+    Generative process:
+    - Samples latent risk Y* ~ Beta(2, 2) on [0.02, 0.98].
+    - Generates modality risks with calibrated errors matching empirical reliability priors:
+      Retina (sigma=0.075), Foot (sigma=0.095), Clinical (sigma=0.140).
+    - Samples realistic calibrated posterior probabilities, confidence, uncertainty, and quality.
+    - Preserves exact immutable contracts and frozen reliability constants.
+    """
+    from src.fusion.baselines.decision_packet import ModalityRecord
+    from src.fusion.reliability.global_reliability import (
+        FROZEN_RETINA_RELIABILITY,
+        FROZEN_FOOT_RELIABILITY,
+        FROZEN_CLINICAL_RELIABILITY,
+    )
+
+    rng = np.random.RandomState(int(seed))
+    packets: List[ControlledDecisionPacket] = []
+
+    for idx in range(n_packets):
+        packet_id = f"{cohort_prefix}_{seed}_{idx:04d}"
+
+        # Latent continuous risk
+        raw_y = float(rng.beta(2.0, 2.0))
+        y_star = round(float(np.clip(raw_y, 0.02, 0.98)), 6)
+
+        # Retina Modality (5-class ordinal classification)
+        r_err = float(rng.normal(0.0, 0.075))
+        r_risk = round(float(np.clip(y_star + r_err, 0.0, 1.0)), 6)
+        r_probs = _generate_multiclass_probabilities(r_risk, num_classes=5, rng=rng)
+        r_conf = round(float(np.max(r_probs)), 6)
+        r_unc = round(float(np.clip(abs(r_err) * 1.5 + rng.uniform(0.01, 0.08), 0.001, 0.45)), 6)
+        r_qual = round(float(rng.uniform(0.85, 0.99)), 4)
+
+        retina_rec = ModalityRecord(
+            sample_id=f"SAMP_{packet_id}_RET",
+            modality="retina",
+            risk=r_risk,
+            calibrated_probability=r_probs,
+            confidence=r_conf,
+            uncertainty=r_unc,
+            quality=r_qual,
+            availability=True,
+            reliability=FROZEN_RETINA_RELIABILITY,
+            model_version="retina_efficientnet_b3_v1.0",
+        )
+
+        # Foot Modality (4-class classification)
+        f_err = float(rng.normal(0.0, 0.095))
+        f_risk = round(float(np.clip(y_star + f_err, 0.0, 1.0)), 6)
+        f_probs = _generate_multiclass_probabilities(f_risk, num_classes=4, rng=rng)
+        f_conf = round(float(np.max(f_probs)), 6)
+        f_unc = round(float(np.clip(abs(f_err) * 1.5 + rng.uniform(0.01, 0.10), 0.001, 0.55)), 6)
+        f_qual = round(float(rng.uniform(0.80, 0.98)), 4)
+
+        foot_rec = ModalityRecord(
+            sample_id=f"SAMP_{packet_id}_FOO",
+            modality="foot",
+            risk=f_risk,
+            calibrated_probability=f_probs,
+            confidence=f_conf,
+            uncertainty=f_unc,
+            quality=f_qual,
+            availability=True,
+            reliability=FROZEN_FOOT_RELIABILITY,
+            model_version="foot_efficientnet_b3_v1.0",
+        )
+
+        # Clinical Modality (2-class classification)
+        c_err = float(rng.normal(0.0, 0.140))
+        c_risk = round(float(np.clip(y_star + c_err, 0.0, 1.0)), 6)
+        c_probs = (round(1.0 - c_risk, 6), round(c_risk, 6))
+        c_conf = round(float(max(c_probs)), 6)
+        c_unc = round(float(np.clip(abs(c_err) * 1.4 + rng.uniform(0.01, 0.12), 0.001, 0.60)), 6)
+        c_qual = round(float(rng.uniform(0.85, 1.00)), 4)
+
+        clinical_rec = ModalityRecord(
+            sample_id=f"SAMP_{packet_id}_CLI",
+            modality="clinical",
+            risk=c_risk,
+            calibrated_probability=c_probs,
+            confidence=c_conf,
+            uncertainty=c_unc,
+            quality=c_qual,
+            availability=True,
+            reliability=FROZEN_CLINICAL_RELIABILITY,
+            model_version="catboost_hpo_130hosp_v1",
+        )
+
+        pkt = ControlledDecisionPacket(
+            packet_id=packet_id,
+            retina=retina_rec,
+            foot=foot_rec,
+            clinical=clinical_rec,
+            seed=int(seed),
+        )
+        packets.append(pkt)
+
+    return packets
+
