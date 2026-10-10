@@ -4,7 +4,7 @@
 
 The evaluation spans all 7 valid active regimes plus the empty degenerate regime:
 
-| Regime Symbol | Modality Composition | Modality Count $|\mathcal{A}|$ | Active Channels |
+| Regime Symbol | Modality Composition | Modality Count $\lvert \mathcal{A} \rvert$ | Active Channels |
 | :---: | :--- | :---: | :--- |
 | **R** | Retina Only | 1 | `retina` |
 | **F** | Foot Only | 1 | `foot` |
@@ -25,12 +25,18 @@ For each of the 4 channel attributes ($C_i, R_i, U_i, Q_i$), perturbations are a
 - **Base Grid Values:** $x \in \{0.2, 0.4, 0.6, 0.8\}$
 - **Perturbation Steps:** $\Delta x \in \{+0.05, +0.10, +0.20\}$
 - **Trial Count Calculation:**
-  $$\text{Total Trials per Attribute} = \sum_{\text{regime} \in \text{ACTIVE}} |\mathcal{A}_{\text{regime}}| \times |\text{Base Grid}| \times |\text{Steps}|$$
-  $$= (1 + 1 + 1 + 2 + 2 + 2 + 3) \times 4 \times 3 = 12 \times 12 = 144 \text{ trials}$$
+
+  $$
+  \text{Total Trials per Attribute} = \sum_{\text{regime} \in \text{ACTIVE}} \lvert \mathcal{A}_{\text{regime}} \rvert \times \lvert \text{Base Grid} \rvert \times \lvert \text{Steps} \rvert
+  $$
+
+  $$
+  = (1 + 1 + 1 + 2 + 2 + 2 + 3) \times 4 \times 3 = 12 \times 12 = 144 \text{ trials}
+  $$
 
 ### 2.2 Directionality Expectations by Cardinality
 
-| Attribute Tested | Multi-Modality Active Set ($|\mathcal{A}| \ge 2$) | Single-Modality Set ($|\mathcal{A}| = 1$) | Tolerance Threshold |
+| Attribute Tested | Multi-Modality Active Set ($\lvert \mathcal{A} \rvert \ge 2$) | Single-Modality Set ($\lvert \mathcal{A} \rvert = 1$) | Tolerance Threshold |
 | :--- | :--- | :--- | :--- |
 | **Confidence ($C_i$)** | $\Delta w_i > \epsilon$ (Strict Increase) | $\Delta w_i = 0.0, \, w_i = 1.0$ (Invariant) | $\epsilon = 10^{-7}$ |
 | **Reliability ($R_i$)** | $\Delta w_i > \epsilon$ (Strict Increase) | $\Delta w_i = 0.0, \, w_i = 1.0$ (Invariant) | $\epsilon = 10^{-7}$ |
@@ -43,11 +49,11 @@ For each of the 4 channel attributes ($C_i, R_i, U_i, Q_i$), perturbations are a
 
 | Invariant Check | Test Description | Sample Size / Grid | Passing Criterion |
 | :--- | :--- | :--- | :--- |
-| **Simplex Conservation** | Verifies $\sum_{i \in \mathcal{A}} w_i = 1.0$ and $w_i \ge 0$. | 100 random samples per regime (700 total) | $|\sum w_i - 1.0| < 10^{-10}$, $w_i \ge 0.0$ |
+| **Simplex Conservation** | Verifies $\sum_{i \in \mathcal{A}} w_i = 1.0$ and $w_i \ge 0$. | 100 random samples per regime (700 total) | $\lvert \sum w_i - 1.0 \rvert < 10^{-10}$, $w_i \ge 0.0$ |
 | **Hard Availability Masking** | Verifies $A_j = 0 \implies w_j = 0.0$ exact. | 50 random samples per partial regime (300 total) | Zero weight leakage ($w_j = 0.0$) |
-| **Reference Softmax Shift Invariance** | Evaluates $\text{softmax}(z + c) \equiv \text{softmax}(z)$ in reference kernel. | 11 shifts $c \in \{-500, -100, -50, -10, -1, 0, 1, 10, 50, 100, 500\}$ | $\max |\Delta w_i| < 10^{-12}$ |
-| **Production Route Shift Experiment** | Evaluates uniform $+0.10$ confidence shift across active channels in `router.route()`. | Dual route invocation on baseline vs uniformly shifted input | $\max |\Delta w_i| < 10^{-12}$ |
-| **Reference Kernel Permutation Invariance** | Evaluates order independence across all channel permutations in normalization kernel. | All $3! = 6$ channel permutations | $\max |\Delta w_i| = 0.0$ |
+| **Reference Softmax Shift Invariance** | Evaluates $\text{softmax}(z + c) \equiv \text{softmax}(z)$ in reference kernel. | 11 shifts $c \in \{-500, -100, -50, -10, -1, 0, 1, 10, 50, 100, 500\}$ | $\max \lvert \Delta w_i \rvert < 10^{-12}$ |
+| **Production Route Shift Experiment** | Evaluates uniform $+0.10$ confidence shift across active channels in `router.route()`. | Dual route invocation on baseline vs uniformly shifted input | $\max \lvert \Delta w_i \rvert < 10^{-12}$ |
+| **Reference Kernel Permutation Invariance** | Evaluates order independence across all channel permutations in normalization kernel. | All $3! = 6$ channel permutations | $\max \lvert \Delta w_i \rvert = 0.0$ |
 | **Numerical Stability** | Evaluates 5 boundary inputs in `route()` and extreme differentials in kernel. | 5 edge scenarios + extreme logit differentials | All outputs finite, sum $= 1.0 \pm 10^{-10}$ |
 | **Determinism** | Verifies bitwise reproducibility. | 25 consecutive executions on identical input | Exact bitwise weight equality |
 

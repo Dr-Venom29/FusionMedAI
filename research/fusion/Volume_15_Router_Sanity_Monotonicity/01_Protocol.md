@@ -3,9 +3,16 @@
 ## 1. Executive Summary & Objective
 
 Phase C11.15 investigates the residual mathematical sanity, single-input response directionality, and invariant stability of the **ACARA-U v2 Dynamic Multimodal Router** under the frozen reference configuration:
-$$\Theta_0 = (\alpha=1.0, \, \beta=1.5, \, \gamma=1.0, \, \eta=0.5)$$
+
+$$
+\Theta_0 = (\alpha=1.0, \, \beta=1.5, \, \gamma=1.0, \, \eta=0.5)
+$$
+
 and the frozen decision-level uncertainty discount:
-$$\delta^* = 0.10$$
+
+$$
+\delta^* = 0.10
+$$
 
 The primary research objective is to rigorously verify whether the router engine obeys its foundational mathematical invariants and expected directional responses under strictly isolated input variations, without retuning hyperparameter coefficients or altering previously sealed artifacts.
 
@@ -15,10 +22,10 @@ The primary research objective is to rigorously verify whether the router engine
 
 | Hypothesis | Description | Mathematical Expectation | Evaluation Criteria |
 | :--- | :--- | :--- | :--- |
-| **H1 (Confidence Monotonicity)** | Increasing confidence $C_i$ with other attributes fixed increases $w_i$ in multi-channel regimes. | $\frac{\partial w_i}{\partial C_i} > 0$ for $|\mathcal{A}| \ge 2$; $w_i = 1.0$ for $|\mathcal{A}|=1$. | $\Delta w_i > 10^{-7}$ for $|\mathcal{A}| \ge 2$. |
-| **H2 (Reliability Monotonicity)** | Increasing historical reliability $R_i$ in the logit kernel fixture increases $w_i$ in multi-channel regimes. | $\frac{\partial w_i}{\partial R_i} > 0$ for $|\mathcal{A}| \ge 2$; $w_i = 1.0$ for $|\mathcal{A}|=1$. | $\Delta w_i > 10^{-7}$ for $|\mathcal{A}| \ge 2$. |
-| **H3 (Uncertainty Monotonicity)** | Increasing predictive uncertainty $U_i$ with other attributes fixed decreases $w_i$ in multi-channel regimes. | $\frac{\partial w_i}{\partial U_i} < 0$ for $|\mathcal{A}| \ge 2$; $w_i = 1.0$ for $|\mathcal{A}|=1$. | $\Delta w_i < -10^{-7}$ for $|\mathcal{A}| \ge 2$. |
-| **H4 (Quality Monotonicity)** | Increasing signal quality $Q_i$ with other attributes fixed increases $w_i$ in multi-channel regimes. | $\frac{\partial w_i}{\partial Q_i} > 0$ for $|\mathcal{A}| \ge 2$; $w_i = 1.0$ for $|\mathcal{A}|=1$. | $\Delta w_i > 10^{-7}$ for $|\mathcal{A}| \ge 2$. |
+| **H1 (Confidence Monotonicity)** | Increasing confidence $C_i$ with other attributes fixed increases $w_i$ in multi-channel regimes. | $\frac{\partial w_i}{\partial C_i} > 0$ for $\lvert \mathcal{A} \rvert \ge 2$; $w_i = 1.0$ for $\lvert \mathcal{A} \rvert = 1$. | $\Delta w_i > 10^{-7}$ for $\lvert \mathcal{A} \rvert \ge 2$. |
+| **H2 (Reliability Monotonicity)** | Increasing historical reliability $R_i$ in the logit kernel fixture increases $w_i$ in multi-channel regimes. | $\frac{\partial w_i}{\partial R_i} > 0$ for $\lvert \mathcal{A} \rvert \ge 2$; $w_i = 1.0$ for $\lvert \mathcal{A} \rvert = 1$. | $\Delta w_i > 10^{-7}$ for $\lvert \mathcal{A} \rvert \ge 2$. |
+| **H3 (Uncertainty Monotonicity)** | Increasing predictive uncertainty $U_i$ with other attributes fixed decreases $w_i$ in multi-channel regimes. | $\frac{\partial w_i}{\partial U_i} < 0$ for $\lvert \mathcal{A} \rvert \ge 2$; $w_i = 1.0$ for $\lvert \mathcal{A} \rvert = 1$. | $\Delta w_i < -10^{-7}$ for $\lvert \mathcal{A} \rvert \ge 2$. |
+| **H4 (Quality Monotonicity)** | Increasing signal quality $Q_i$ with other attributes fixed increases $w_i$ in multi-channel regimes. | $\frac{\partial w_i}{\partial Q_i} > 0$ for $\lvert \mathcal{A} \rvert \ge 2$; $w_i = 1.0$ for $\lvert \mathcal{A} \rvert = 1$. | $\Delta w_i > 10^{-7}$ for $\lvert \mathcal{A} \rvert \ge 2$. |
 | **H5 (Invariant Conservation)** | The router maintains simplex conservation, hard masking, shift invariance, and numerical stability. | $\sum_{i \in \mathcal{A}} w_i = 1.0 \pm 10^{-10}$, $A_j=0 \implies w_j=0.0$, $\text{softmax}(z+c)=\text{softmax}(z)$. | Zero tolerance violations. |
 
 ---
@@ -38,7 +45,7 @@ The primary research objective is to rigorously verify whether the router engine
 | **S15-08** | Softmax Shift Invariance | Softmax weights invariant under logit offsets $z_i \to z_i + c$ ($c \in [-500, 500]$) and production route uniform confidence shift $+0.10$. | Dual logit offset and route shift evaluation |
 | **S15-09** | Reference Normalization Kernel Permutation Invariance | Reference normalization kernel evaluates all 6 channel permutations with identical weights (order independence). | Permutation order evaluation on reference kernel |
 | **S15-10** | Numerical Stability & Input Validation | Stable finite weights under extreme logits; 19/19 invalid input cases rejected. | Extreme differential and input validation tests |
-| **S15-11** | Empty Handling | $A = \emptyset \implies \text{NO\_MODALITY\_AVAILABLE}$ fail-closed status. | Degenerate case evaluation |
+| **S15-11** | Empty Handling | $A = \emptyset \implies$ `NO_MODALITY_AVAILABLE` fail-closed status. | Degenerate case evaluation |
 | **S15-12** | Masked-Value Corruption Invariance | Inactive channel feature perturbations have zero influence on active weights. | Feature corruption injection |
 | **S15-13** | Pipeline Stage Decoupling & Contract | Router weight monotonicity is decoupled from fused risk; production DCRI used. | Production pipeline integration check |
 | **S15-14** | Regression Invariance | All earlier sealed baselines (C11.14 suite: 22/22 tests) continue to pass. | Executed regression suite check |
@@ -50,22 +57,54 @@ The primary research objective is to rigorously verify whether the router engine
 
 ### 4.1 ACARA-U Routing Kernel
 For each modality channel $i \in \{\text{retina}, \text{foot}, \text{clinical}\}$, the raw logit is computed as:
-$$z_i = \alpha C_i + \beta R_i - \gamma U_i + \eta Q_i$$
+
+$$
+z_i = \alpha C_i + \beta R_i - \gamma U_i + \eta Q_i
+$$
 
 ### 4.2 Hard Availability Masking
 The masked logit $\tilde{z}_i$ is defined as:
-$$\tilde{z}_i = \begin{cases} z_i & \text{if } A_i = 1 \\ -\infty & \text{if } A_i = 0 \end{cases}$$
+
+$$
+\tilde{z}_i = \begin{cases} 
+z_i & \text{if } A_i = 1 \\ 
+-\infty & \text{if } A_i = 0 
+\end{cases}
+$$
 
 ### 4.3 Numerically Stable Softmax Weight Allocation
 Let $\mathcal{A} = \{i : A_i = 1\}$ denote the set of active modalities. The normalized decision weight $w_i$ is given by:
-$$w_i = \begin{cases} \dfrac{\exp(z_i - \max_{j \in \mathcal{A}} z_j)}{\sum_{j \in \mathcal{A}} \exp(z_j - \max_{k \in \mathcal{A}} z_k)} & \text{if } i \in \mathcal{A} \\ 0.0 & \text{if } i \notin \mathcal{A} \end{cases}$$
+
+$$
+w_i = \begin{cases} 
+\dfrac{\exp\left(z_i - \max_{j \in \mathcal{A}} z_j\right)}{\sum_{k \in \mathcal{A}} \exp\left(z_k - \max_{j \in \mathcal{A}} z_j\right)} & \text{if } i \in \mathcal{A} \\ 
+0.0 & \text{if } i \notin \mathcal{A} 
+\end{cases}
+$$
 
 ### 4.4 Partial Derivatives in Multi-Channel Regimes
-For any active channel $i \in \mathcal{A}$ with $|\mathcal{A}| \ge 2$:
-$$\frac{\partial w_i}{\partial z_i} = w_i (1 - w_i) > 0 \quad (\text{since } 0 < w_i < 1)$$
+For any active channel $i \in \mathcal{A}$ with $\lvert \mathcal{A} \rvert \ge 2$:
+
+$$
+\frac{\partial w_i}{\partial z_i} = w_i (1 - w_i) > 0 \quad (\text{since } 0 < w_i < 1)
+$$
+
 Applying the chain rule with respect to channel features:
-$$\frac{\partial w_i}{\partial C_i} = \alpha w_i (1 - w_i) > 0 \quad (\text{since } \alpha = 1.0 > 0)$$
-$$\frac{\partial w_i}{\partial U_i} = -\gamma w_i (1 - w_i) < 0 \quad (\text{since } \gamma = 1.0 > 0)$$
-$$\frac{\partial w_i}{\partial Q_i} = \eta w_i (1 - w_i) > 0 \quad (\text{since } \eta = 0.5 > 0)$$
-$$\frac{\partial w_i}{\partial R_i} = \beta w_i (1 - w_i) > 0 \quad (\text{since } \beta = 1.5 > 0)$$
-In single-modality regimes ($|\mathcal{A}| = 1$), $w_i = \frac{e^0}{e^0} \equiv 1.0$, resulting in zero partial derivatives with respect to all feature variations.
+
+$$
+\frac{\partial w_i}{\partial C_i} = \alpha w_i (1 - w_i) > 0 \quad (\text{since } \alpha = 1.0 > 0)
+$$
+
+$$
+\frac{\partial w_i}{\partial U_i} = -\gamma w_i (1 - w_i) < 0 \quad (\text{since } \gamma = 1.0 > 0)
+$$
+
+$$
+\frac{\partial w_i}{\partial Q_i} = \eta w_i (1 - w_i) > 0 \quad (\text{since } \eta = 0.5 > 0)
+$$
+
+$$
+\frac{\partial w_i}{\partial R_i} = \beta w_i (1 - w_i) > 0 \quad (\text{since } \beta = 1.5 > 0)
+$$
+
+In single-modality regimes ($\lvert \mathcal{A} \rvert = 1$), $w_i = \frac{e^0}{e^0} \equiv 1.0$, resulting in zero partial derivatives with respect to all feature variations.

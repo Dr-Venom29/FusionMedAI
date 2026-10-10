@@ -2,11 +2,14 @@
 
 ## 1. Single-Modality Weight Invariance Analysis
 
-In single-modality regimes (`R`, `F`, `C`), the active set contains exactly one element ($|\mathcal{A}| = 1$). Under the ACARA-U softmax formulation:
-$$w_i = \frac{\exp(z_i - z_i)}{\exp(z_i - z_i)} = \frac{\exp(0)}{\exp(0)} = 1.000000$$
+In single-modality regimes (`R`, `F`, `C`), the active set contains exactly one element ($\lvert \mathcal{A} \rvert = 1$). Under the ACARA-U softmax formulation:
+
+$$
+w_i = \frac{\exp(z_i - z_i)}{\exp(z_i - z_i)} = \frac{\exp(0)}{\exp(0)} = 1.000000
+$$
 
 ### Key Insights:
-1. **Zero Derivative:** For $|\mathcal{A}| = 1$, $\frac{\partial w_i}{\partial C_i} = \frac{\partial w_i}{\partial U_i} = \frac{\partial w_i}{\partial Q_i} = \frac{\partial w_i}{\partial R_i} = 0.0$.
+1. **Zero Derivative:** For $\lvert \mathcal{A} \rvert = 1$, $\frac{\partial w_i}{\partial C_i} = \frac{\partial w_i}{\partial U_i} = \frac{\partial w_i}{\partial Q_i} = \frac{\partial w_i}{\partial R_i} = 0.0$.
 2. **Operational Meaning:** When only a single modality is available, the router cannot redistribute weight to alternative channels. It must allocate 100% of decision weight to the sole available modality regardless of its uncertainty or quality.
 3. **Downstream Compensation:** While the router weight cannot adjust in single-modality encounters, downstream DCRI uncertainty penalization ($\text{DCRI} = R_{\text{fusion}} - \delta U_{\text{available}}$) discounts the final decision score, ensuring high uncertainty in single-modality encounters still triggers conservative policy behavior.
 
@@ -18,9 +21,16 @@ A common misconception in multimodal fusion is that increasing a modality's conf
 
 ### 2.1 Derivation of Fused Risk Gradient
 Let $R_{\text{fusion}} = \sum_{j \in \mathcal{A}} w_j r_j$. The derivative with respect to channel feature $x_i$ (where $x_i \in \{C_i, Q_i, R_i\}$) is:
-$$\frac{\partial R_{\text{fusion}}}{\partial x_i} = \sum_{j \in \mathcal{A}} r_j \frac{\partial w_j}{\partial x_i}$$
+
+$$
+\frac{\partial R_{\text{fusion}}}{\partial x_i} = \sum_{j \in \mathcal{A}} r_j \frac{\partial w_j}{\partial x_i}
+$$
+
 For a two-modality active set $\mathcal{A} = \{1, 2\}$ with $w_1 + w_2 = 1 \implies \frac{\partial w_2}{\partial x_1} = -\frac{\partial w_1}{\partial x_1}$:
-$$\frac{\partial R_{\text{fusion}}}{\partial x_1} = r_1 \frac{\partial w_1}{\partial x_1} + r_2 \left(-\frac{\partial w_1}{\partial x_1}\right) = (r_1 - r_2) \frac{\partial w_1}{\partial x_1}$$
+
+$$
+\frac{\partial R_{\text{fusion}}}{\partial x_1} = r_1 \frac{\partial w_1}{\partial x_1} + r_2 \left(-\frac{\partial w_1}{\partial x_1}\right) = (r_1 - r_2) \frac{\partial w_1}{\partial x_1}
+$$
 
 ### 2.2 Directional Cases
 Since $\frac{\partial w_1}{\partial x_1} > 0$ for positive features ($C, Q, R$):
@@ -32,7 +42,11 @@ This establishes that router weight monotonicity ($\partial w_1 / \partial x_1 >
 
 ### 2.3 Stage Propagation & DCRI Consistency
 When channel uncertainties $U_j$ are held constant during a confidence or weight perturbation test, $\text{DCRI} = R_{\text{fusion}} - \delta^* \bar{U}$ (with frozen $\delta^* = 0.10$) satisfies:
-$$\Delta \text{DCRI} = \Delta R_{\text{fusion}}$$
+
+$$
+\Delta \text{DCRI} = \Delta R_{\text{fusion}}
+$$
+
 This confirms downstream propagation consistency across stages (Router $\to$ Fused Risk $\to$ DCRI), while the isolated response to varying uncertainty penalties $\delta$ is separately certified in Volume 13.
 
 ![Figure 2: Router-to-DCRI Stage Separation & Decoupling](figures/fig15_2_router_dcri_stage_separation.png)

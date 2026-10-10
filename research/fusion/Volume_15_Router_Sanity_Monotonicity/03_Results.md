@@ -44,7 +44,7 @@ Across all 576 individual trials spanning the 7 active regimes, the directional 
 ## 3. Mathematical Invariant Verification Results
 
 ### 3.1 Simplex Conservation & Hard Masking
-- **Maximum Observed Sum Deviation:** $|\sum w_i - 1.0|_{\max} = 1.1102 \times 10^{-16}$ (at machine precision $\epsilon_{\text{mach}} \approx 2.22 \times 10^{-16}$).
+- **Maximum Observed Sum Deviation:** $\lvert \sum w_i - 1.0 \rvert_{\max} = 1.1102 \times 10^{-16}$ (at machine precision $\epsilon_{\mathrm{mach}} \approx 2.22 \times 10^{-16}$).
 - **Minimum Observed Weight:** $w_{\min} = 0.000000$ (no negative weight assignments).
 - **Masking Leakage:** Exactly $0.000000$ weight assigned to inactive channels across all partial-availability evaluations.
 
@@ -52,15 +52,27 @@ Across all 576 individual trials spanning the 7 active regimes, the directional 
 The shift-invariance evaluation encompasses two distinct operational measurements:
 1. **Reference Normalization Kernel Shift Invariance:**
    Evaluating scalar logit offsets $c \in \{-500, -100, -50, -10, -1, 0, 1, 10, 50, 100, 500\}$ in the reference softmax kernel produced a maximum weight deviation of:
-   $$\max_{i, c} |w_i(z + c) - w_i(z)| = 7.1054 \times 10^{-15} \ll 10^{-12}$$
+
+   $$
+   \max_{i, c} \lvert w_i(z + c) - w_i(z) \rvert = 7.1054 \times 10^{-15} \ll 10^{-12}
+   $$
+
 2. **Production Route Shift Experiment:**
    Applying a uniform $+0.10$ confidence shift across active channels directly in `router.route()` (adding $\alpha \times 0.10 = 0.10$ to each active logit) produced a maximum weight deviation of:
-   $$\max_{i} |w_i(\text{shifted}) - w_i(\text{base})| = 1.1102 \times 10^{-16} \ll 10^{-12}$$
+
+   $$
+   \max_{i} \lvert w_i(\text{shifted}) - w_i(\text{base}) \rvert = 1.1102 \times 10^{-16} \ll 10^{-12}
+   $$
+
    *(Note: This experiment validates uniform linear logit shift behavior in the route pipeline; it does not constitute a generalized proof of every production invariance property.)*
 
 ### 3.3 Reference Normalization Kernel Order Independence
 Evaluating all 6 permutations of the three channel logits using the reference normalization kernel yielded an exact deviation of:
-$$\max_{\pi, i} |w_i(\pi(z)) - w_i(z)| = 0.000000 \times 10^{0}$$
+
+$$
+\max_{\pi, i} \lvert w_i(\pi(z)) - w_i(z) \rvert = 0.000000 \times 10^{0}
+$$
+
 *Scope Boundary:* This result establishes order independence for the reference normalization kernel; it does not independently establish full production-router permutation invariance.
 
 ---
@@ -76,8 +88,15 @@ To verify the independence of router weight dynamics from downstream risk respon
 
 - **Downstream Fused Risk Response ($R_{\text{fusion}} = \sum w_i r_i$):**
   - **Scenario A ($r_{\text{retina}} = 0.90 > r_{\text{foot}} = 0.10$):**
-    $$R_{\text{fusion}}^{\text{base}} = 0.529054 \longrightarrow R_{\text{fusion}}^{\text{high}} = 0.607943 \quad (\Delta R_{\text{fusion}} = +0.078889)$$
+
+    $$
+    R_{\text{fusion}}^{\text{base}} = 0.529054 \longrightarrow R_{\text{fusion}}^{\text{high}} = 0.607943 \quad (\Delta R_{\text{fusion}} = +0.078889)
+    $$
+
   - **Scenario B ($r_{\text{retina}} = 0.10 < r_{\text{foot}} = 0.90$):**
-    $$R_{\text{fusion}}^{\text{base}} = 0.470946 \longrightarrow R_{\text{fusion}}^{\text{high}} = 0.392057 \quad (\Delta R_{\text{fusion}} = -0.078889)$$
+
+    $$
+    R_{\text{fusion}}^{\text{base}} = 0.470946 \longrightarrow R_{\text{fusion}}^{\text{high}} = 0.392057 \quad (\Delta R_{\text{fusion}} = -0.078889)
+    $$
 
 - **Key Takeaway:** An increase in modality weight $w_i$ increases fused risk if $r_i > R_{\text{other}}$, but decreases fused risk if $r_i < R_{\text{other}}$. Router weight monotonicity is thus mathematically decoupled from fused risk directionality.

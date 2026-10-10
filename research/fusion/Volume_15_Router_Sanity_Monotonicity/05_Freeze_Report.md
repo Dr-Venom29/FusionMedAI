@@ -4,7 +4,7 @@
 
 Phase C11.15 formally certifies and locks the empirical and mathematical sanity, single-input monotonicity, invariant stability, and pipeline contract separation of the ACARA-U dynamic multimodal router:
 
-$$\boxed{\text{Phase C11.15: SEALED \& VERIFIED (16/16 Gates Passed)}}$$
+> **Phase C11.15 Status:** 🟢 SEALED & VERIFIED (16/16 Gates Passed)
 
 ---
 
@@ -17,7 +17,7 @@ $$\boxed{\text{Phase C11.15: SEALED \& VERIFIED (16/16 Gates Passed)}}$$
 | **Decision Penalty $\delta^*$** | $0.10$ | Phase C11.13 Selection | LOCKED |
 | **Cohort Context (Upstream Reference)** | $N=500, \, \text{seed}=115$ | Phase C11.1 Controlled Cohort | LOCKED |
 | **Monotonicity Evaluation Grid** | 144 trials $\times$ 4 attributes ($576$ total) | Phase C11.15 Test Suite | LOCKED |
-| **Simplex & Masking Invariants** | 700 Monte Carlo + 300 Masking Checks | Zero Violations ($|\Delta w| < 10^{-10}$) | LOCKED |
+| **Simplex & Masking Invariants** | 700 Monte Carlo + 300 Masking Checks | Zero Violations ($\lvert \Delta w \rvert < 10^{-10}$) | LOCKED |
 | **Cryptographic Manifest** | 3 Frozen JSON Artifacts (3/3 SHA-256 Verified) | `freeze_manifest.json` | SEALED |
 
 ---

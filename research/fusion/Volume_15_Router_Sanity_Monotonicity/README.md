@@ -6,7 +6,7 @@ Volume 15 provides a comprehensive mathematical sanity, invariant verification, 
 
 This analysis confirms that the ACARA-U routing engine satisfies all theoretical mathematical properties, handles degenerate and corrupt inputs gracefully, executes production downstream fused-risk and DCRI contracts cleanly, and maintains strict decoupling between router weight allocation and downstream fused risk responses.
 
-$$\boxed{\text{Volume 15 Status: SEALED \& VERIFIED (16/16 Gates Passed)}}$$
+> **Volume 15 Status:** 🟢 SEALED & VERIFIED (16/16 Gates Passed)
 
 ---
 
