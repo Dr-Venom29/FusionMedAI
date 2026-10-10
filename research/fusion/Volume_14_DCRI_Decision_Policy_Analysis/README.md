@@ -1,11 +1,12 @@
 # Volume 14 — DCRI Decision Policy Sensitivity & Operating Analysis
 
 > **Phase C11.14 Research Documentation & Policy Evaluation Freeze Report**  
-> **Status:** 🟢 SEALED & VERIFIED (12/12 Gates Passed)  
+> **Status:** 🟢 SEALED & VERIFIED (12/12 Gates Passed on Original Policy Benchmark)  
 > **Frozen Parameter:** $\delta^* = 0.10$ (`D10`)  
 > **Nominal Policy Thresholds:** $\tau_1 = 0.20, \tau_2 = 0.40$  
-> **Evaluation Cohort:** Frozen C11 Controlled Multi-Source Cohort ($N=500$, Seed 115)  
-> **Router State:** Frozen Reference Configuration $\Theta_0 = (\alpha=1.0, \beta=1.5, \gamma=1.0, \eta=0.5)$
+> **Original Evaluation Cohort:** Frozen C11 Controlled Multi-Source Cohort ($N=500$, Seed 115)  
+> **Router State:** Frozen Reference Configuration $\Theta_0 = (\alpha=1.0, \beta=1.5, \gamma=1.0, \eta=0.5)$  
+> **Outcome Evaluation Addendum:** $N=5,000$ Synthetic Oracle Packets across 10 Seeds (8/8 Outcome Gates Passed)
 
 ---
 
@@ -13,7 +14,9 @@
 
 Phase C11.14 investigates how the frozen uncertainty-discounted decision index ($\text{DCRI}_{0.10} = R_{\mathrm{fusion}} - 0.10 \sum U_i$) alters hypothetical decision-policy actions relative to the unpenalized fused risk reference policy ($R_{\mathrm{fusion}}$) across predefined operating thresholds and modality availability conditions.
 
-Operating on the frozen $N=500$ controlled decision cohort without changing upstream model weights or router coefficients, Phase C11.14 evaluates a 3-tiered hypothetical action taxonomy (**Routine Review**, **Additional Assessment**, and **Escalation for Review**) across a pre-specified 25-pair threshold sensitivity grid, all 7 active modality regimes, and controlled uncertainty/threshold perturbations.
+> [!NOTE] **Methodological Scope & Multi-Stage Evaluation**:
+> - **Core Operating Analysis (Chapters 01–08)**: Measures tier reclassification rates, workload reduction, and threshold sensitivity on the frozen $N=500$ controlled decision cohort (12/12 gates passed). These establish operational mechanics and workload behavior, not clinical outcome improvement.
+> - **Outcome-Grounded Addendum (Chapter 09)**: Scores the decision policies against a known ground-truth oracle target across $N=5,000$ synthetic packets under an illustrative asymmetric clinical cost model, revealing that DCRI's workload reduction entails an increased false downgrade rate among uncertain high-risk cases ($7.61\% \to 12.72\%$).
 
 ---
 
@@ -45,3 +48,4 @@ Operating on the frozen $N=500$ controlled decision cohort without changing upst
 - [Chapter 06 — Statistical Analysis & Confidence Bounds](06_Statistical_Analysis.md)
 - [Chapter 07 — Methodological Boundaries & Limitations](07_Limitations.md)
 - [Chapter 08 — Freeze Report & Verification Audit](08_Freeze_Report.md)
+- [Chapter 09 — Outcome-Grounded Policy Utility & Error Trade-Off Addendum](09_Policy_Outcome_Addendum.md)

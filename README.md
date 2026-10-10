@@ -123,12 +123,12 @@ flowchart TD
 | :--- | :---: | :--- |
 | **Retina Modality (APTOS 2019)** | **FROZEN** | EfficientNet-B3 ($\text{QWK}=0.9233$), Temperature Scaling ($\text{ECE}=0.0241$), MC Dropout ($N=25$) |
 | **Foot Ulcer Modality (ADPM V3.3)** | **FROZEN** | EfficientNet-B3 ($\text{Macro F1}=0.6683$), Vector Scaling ($\text{ECE}=0.0313$), MC Dropout ($N=10$) |
-| **Clinical EHR Modality (UCI 130-Hospitals)** | **FROZEN** | CatBoost HPO (Test $\text{AUC} \approx 0.65$; $0.6504$ benchmark / $0.6495$ calibration), Isotonic Calibration, 20-member Bootstrap Ensemble, TreeSHAP |
+| **Clinical EHR Modality (UCI 130-Hospitals)** | **FROZEN** | CatBoost HPO (Test $\text{ROC-AUC}=0.6494$ locked test / $0.6504$ HPO benchmark), Isotonic Calibration, 20-member Bootstrap Ensemble, TreeSHAP |
 | **Standardized Modality Contracts** | **FROZEN** | Unified 8-tuple schema `(risk, p_cal, conf, unc, qual, avail, rel, ver)` |
 | **Input Quality & Availability Layer** | **FROZEN** | Deterministic quality scoring $Q_i \in [0, 1]$ and hard availability gating $A_i \in \{0, 1\}$ |
 | **Global Reliability Priors** | **FROZEN** | Frozen validation evidence: $R_R = 0.929956 > R_F = 0.922266 > R_C = 0.825382$ |
 | **ACARA-U Dynamic Router** | **FROZEN** | Scoring kernel $z_i = 1.0 C_i + 1.5 R_i - 1.0 U_i + 0.5 Q_i$ with stable softmax |
-| **Comparative Baseline Ladder (B1–B6)** | **EVALUATED / SEALED** | Evaluated against Winner-Take-All (B1), Uniform (B2), Conf (B3), Conf+Rel (B4), Conf+Rel-U (B5) |
+| **Comparative Baseline Ladder (B1–B6)** | **EVALUATED / SEALED** | Evaluated against Winner-Take-All (B1), Uniform (B2), Conf (B3), Conf+Rel (B4), Conf+Rel-U (B5); evaluated outcome-grounded comparative performance against B5 under oracle simulation ($\Delta_{\mathrm{MAE}} = -0.001843$, $95\%$ CI: $[-0.002112, -0.001582]$, 8/8 gates passed) |
 | **DCRI Derived Risk Index Aggregation** | **EVALUATED / SELECTED** | $R_{\text{fusion}} \in [0, 1]$, unclamped negative $\text{DCRI} \in [-\delta M, 1]$; selected operating point $\delta^* = 0.10$ (historical provisional $\delta=0.20$) |
 | **Cross-Modality Conflict Analysis** | **EVALUATED / SEALED** | Discordance metrics $\Delta_{\max}, \Delta_{\text{mean}}, \sigma_w$; low linear correlation with uncertainty ($r=0.088$) |
 | **Missing Modality Robustness** | **EVALUATED / SEALED** | 0 availability violations / 7,500 trials; invariant under corrupted inputs; fail-closed rejection |
@@ -139,6 +139,7 @@ flowchart TD
 | **DCRI Parameter Selection** | **EVALUATED / SEALED** | Multi-tier selection protocol over 11-point grid; $\delta^* = 0.10$ (`D10`) frozen ($N=500$ cohort, 20/20 gates passed) |
 | **DCRI Decision Policy & Operating Analysis** | **EVALUATED / SEALED** | 3-tier hypothetical policy analysis on controlled packets ($N=500$); $18.4\%$ reclassified ($92/500$), $30.77\%$ relative escalation reduction ($117 \to 81$); 12/12 gates passed |
 | **Residual Router Sanity & Monotonicity Analysis** | **EVALUATED / SEALED** | Single-input monotonicity (576/576 trials), simplex conservation, hard availability masking, production route-shift invariance, reference normalization-kernel order independence, input validation (19/19 cases), and production DCRI downstream contracts; 16/16 verification gates passed, 36/36 tests passed, and 14/14 verifier mutation tests passed |
+| **Outcome-Grounded Predictive & Decision Utility** | **EVALUATED / SEALED** | 5,000-packet confirmatory oracle benchmark (10 seeds); B6 achieves lower error than B5 ($\Delta_{\mathrm{MAE}} = -0.001843$, $95\%$ Hierarchical CI: $[-0.002112, -0.001582]$), $17.16\%$ error reduction under severe degradation ($\Delta_{\mathrm{MAE}}^{\mathrm{severe}} = -0.015416$), and explicit DCRI false-downgrade trade-off ($7.61\% \to 12.72\%$); 8/8 verification gates passed |
 | **Patient-Level External / Clinical Validation** | **PLANNED** | Requires genuinely paired multimodal cohorts |
 
 ---
@@ -154,6 +155,7 @@ flowchart TD
 7. **DCRI Uncertainty Penalty Operating Point**: Pre-specified multi-tier selection over an 11-point candidate grid ($\delta \in [0.0, 1.0]$) selected $\delta^* = 0.10$ (`D10`), producing a mean penalty of $0.063394$ ($21.87\%$ of mean base fused risk), a restrained negative rate of $7.4\%$, and Spearman rank stability $\rho_s = 0.989286$ on the frozen controlled cohort ($N=500$). These represent controlled-cohort mathematical and behavioral properties, not evidence of superior clinical outcomes ([Volume 13](research/fusion/Volume_13_DCRI_Delta_Selection/README.md)).
 8. **Decision Policy Behavior & Escalation-Tier Reclassification**: Under the prespecified hypothetical thresholds ($\tau_1=0.20, \tau_2=0.40$), the uncertainty-discounted index ($\mathrm{DCRI}_{0.10}$) reclassified $18.4\%$ ($92/500$) of controlled decision packets into lower action tiers, with zero upward reclassifications. The number assigned to the highest-urgency escalation tier decreased from $117/500$ ($23.4\%$) under the unpenalized fused-risk policy to $81/500$ ($16.2\%$), a $30.77\%$ relative reduction in escalation assignments within this benchmark. These results characterize controlled policy behavior and do not establish clinical safety, reduced real-world workload, or improved patient outcomes ([Volume 14](research/fusion/Volume_14_DCRI_Decision_Policy_Analysis/README.md)).
 9. **Router Sanity, Single-Input Monotonicity & Pipeline Decoupling**: Under the frozen reference configuration ($\Theta_0=(1.0,1.5,1.0,0.5)$) and uncertainty discount ($\delta^*=0.10$), isolated perturbation testing across all seven active modality regimes confirmed the expected directional responses across 576 trials: confidence, reliability (in the mathematical kernel fixture), and quality increase channel weight, while uncertainty decreases it in multi-modality regimes. Singleton active sets retain $w_i=1.0$. Verification also covered simplex conservation, hard availability masking, production-router confidence-shift invariance (maximum observed weight deviation $7.11\times10^{-15}$), reference normalization-kernel order independence across all six channel permutations, and rejection of 19/19 invalid inputs. Production DCRI modules were exercised to verify downstream contract behavior and demonstrate that routing-weight monotonicity does not determine the direction of fused-risk changes. The reported verification suite passed 16/16 gates, 36/36 tests, and 14/14 verifier mutation tests. These results establish controlled mathematical and software-behavior properties, not patient-level clinical validity ([Volume 15 — ACARA-U Residual Router Sanity & Monotonicity Analysis](research/fusion/Volume_15_Router_Sanity_Monotonicity/README.md)).
+10. **Outcome-Grounded Predictive Accuracy & Decision Utility (B6 vs B5)**: In an independent synthetic oracle simulation across 5,000 confirmatory decision packets (10 seeds), full ACARA-U (B6) achieved a statistically significant reduction in mean absolute error over uncertainty-ablated B5 ($\Delta_{\mathrm{MAE}} = -0.001843$, $95\%$ Hierarchical CI: $[-0.002112, -0.001582]$), driven by error reduction under severe input degradation ($\Delta_{\mathrm{MAE}}^{\mathrm{severe}} = -0.015416$, $17.16\%$ relative error reduction). While statistically significant across cohorts, the overall effect size did not reach the prespecified practical superiority threshold of $-0.005$. In single-modality regimes, B6 and B5 are mathematically identical ($w_i \equiv 1.0, \Delta_{\mathrm{MAE}} = 0.0$). Evaluating decision policy under a prespecified illustrative asymmetric clinical cost model demonstrated that while DCRI ($\delta^*=0.10$) reduces escalation assignments, it increases false downgrades of oracle-defined high-risk cases with elevated uncertainty ($7.61\% \to 12.72\%$), increasing expected decision loss from $0.2100$ to $0.3040$ ($+44.76\%$) under sensitivity-prioritized utility models ([Outcome Evaluation Protocol](research/fusion/Volume_05_Baseline_Fusion/10_Outcome_Evaluation_Protocol.md)).
 
 ---
 
@@ -389,7 +391,30 @@ Evaluated across the frozen $N=500$ cohort to compare ACARA-U against five simpl
 | **B5 Conf. + Rel. - U** | $0.4593$ | $0.2704$ | $0.2703$ | $1.0279$ | $73.6\%$ |
 | **B6 ACARA-U** | **$0.4771$** | **$0.2680$** | **$0.2549$** | **$1.0176$** | **$78.2\%$** |
 
-- **Full Research Volume**: [Volume 05 — Baseline Fusion](research/fusion/Volume_05_Baseline_Fusion/README.md).
+#### Outcome-Grounded Comparative Analysis: Is B6 (ACARA-U) Better Than B5?
+
+Based on empirical evidence from our $5,000$-packet confirmatory evaluation across 10 independent random seeds, **B6 (Full ACARA-U) is the more robust architecture overall in simulation, but its observed advantage is conditional on environmental conditions rather than absolute:**
+
+1. **Where B6 Shows Observed Benefit in Simulation**:
+   - **Severe Input Corruption Protection**: When a modality suffers severe degradation (e.g., out-of-focus fundus image, dark/glared wound photograph, or missing EHR fields), B6 reduces the influence of detected degraded inputs in the tested synthetic scenarios, reducing mean absolute error by **$17.16\%$** compared to B5 ($\Delta_{\mathrm{MAE}}^{\mathrm{severe}} = -0.015416$).
+   - **Confirmatory Statistical Result**: Across 5,000 synthetic packets in 10 cohorts, the reported paired comparison favored B6 overall ($\Delta_{\mathrm{MAE}} = -0.001843$; $95\%$ hierarchical CI: $[-0.002112, -0.001582]$; reported $p = 7.95 \times 10^{-9}$). The overall effect was statistically significant but did not meet the prespecified practical superiority threshold of $\Delta_{\mathrm{MAE}} < -0.005$.
+   - **Graceful Degradation**: B6 treats input quality ($Q_i$) as an active attenuation term, down-weighting degraded channels when corruption is detected.
+
+2. **Where B5 is Sufficient or Equal**:
+   - **Clean Data (Pristine Inputs)**: B5 and B6 show near-parity predictive error on clean inputs. The observed MAE difference is $+0.000198$ (B6 − B5), slightly favoring B5. This does not establish exact equivalence or statistical equivalence. If sensors are consistently uncorrupted, the extra quality term $\eta Q_i$ adds no marginal predictive value.
+   - **Single-Modality Encounters**: In single-modality regimes ($R$, $F$, or $C$), both routers allocate $100\%$ weight ($w_i \equiv 1.0$), making B5 and B6 mathematically identical ($\Delta_{\mathrm{MAE}} = 0.000000$).
+   - **Overall Effect Size**: Across mixed cohorts, the overall improvement ($\Delta_{\mathrm{MAE}} = -0.001843$) is modest and below the pre-registered $-0.005$ practical superiority bar.
+
+3. **Vulnerabilities & Sensor Dependence**:
+   - **Quality Sensor Fidelity**: B6 is bounded by the accuracy of upstream quality estimators: if a sensor fails to detect corruption, B6 showed near parity in the evaluated subgroup ($\Delta_{\mathrm{MAE}} = -0.000417$); if a sensor raises a false alarm on a clean channel, B6 incurs a minor penalty ($\Delta_{\mathrm{MAE}} = +0.001481$) from needlessly attenuating uncorrupted evidence.
+
+> **Interpretation & Deployment Boundary**:
+>
+> - **Controlled Benchmark Settings**: B5 and B6 show similar overall predictive error on clean inputs; the observed clean-scenario difference slightly favors B5 (+0.000198).
+> - **Simulated Degradation**: B6 reduces predictive error more strongly under the tested degradation conditions, particularly severe corruption ($-17.16\%$), when the quality signal identifies the degraded input.
+> - **Clinical Deployment**: No deployment recommendation is established by this synthetic evaluation. B6 requires validation on genuinely paired, representative clinical data, including quality-sensor failure analysis and clinically appropriate utility and safety assessment.
+
+- **Full Research Volumes**: [Volume 05 — Baseline Fusion](research/fusion/Volume_05_Baseline_Fusion/README.md) and [Outcome Evaluation Protocol](research/fusion/Volume_05_Baseline_Fusion/10_Outcome_Evaluation_Protocol.md).
 
 ---
 

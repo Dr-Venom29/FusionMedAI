@@ -26,6 +26,8 @@ Evaluation is conducted over $N=500$ deterministic `CONTROLLED_DECISION_PACKET`s
 | [`06_Perturbation_Evaluation.md`](./06_Perturbation_Evaluation.md) | Step Response & Sensitivity | Controlled response curves under confidence sweep ($C \uparrow$), uncertainty surge ($U \uparrow$), and quality degradation ($Q \downarrow$). |
 | [`07_Results.md`](./07_Results.md) | Empirical Benchmark Findings | Comprehensive cohort statistics ($N=500$), baseline ladder comparisons, ablation insights, and disagreement profiles. |
 | [`08_Freeze_Report.md`](./08_Freeze_Report.md) | Formal Sign-Off & Handoff | Locked baseline comparison artifacts, gate compliance audit (18/18), and milestone handoff to Phase C11.6. |
+| [`09_Outcome_Grounded_Evaluation_Addendum.md`](./09_Outcome_Grounded_Evaluation_Addendum.md) | Outcome-Grounded Evaluation | Paired predictive accuracy evaluation (B6 vs B5, $\Delta_{\mathrm{MAE}} = -0.001843$) across $N=5,000$ synthetic oracle packets. |
+| [`10_Outcome_Evaluation_Protocol.md`](./10_Outcome_Evaluation_Protocol.md) | Outcome Evaluation Protocol | Full confirmatory protocol, hypotheses (H1–H5), synthetic oracle data generation, and artifact manifest. |
 
 ---
 
@@ -52,6 +54,9 @@ Evaluation is conducted over $N=500$ deterministic `CONTROLLED_DECISION_PACKET`s
 | **B4** | Confidence + Reliability | $z_i = 1.0 \times C_i + 1.0 \times R_i$ | Masked Softmax over active set $\mathcal{A}$ |
 | **B5** | Conf + Rel + Uncertainty | $z_i = 1.0 \times C_i + 1.0 \times R_i - 1.0 \times U_i$ | Masked Softmax over active set $\mathcal{A}$ |
 | **B6** | Full ACARA-U | $z_i = 1.0 \times C_i + 1.0 \times R_i - 1.0 \times U_i + 1.0 \times Q_i$ | Masked Softmax over active set $\mathcal{A}$ |
+
+> [!NOTE]
+> **Parameter Configuration Scope**: The baseline ladder table above displays the unit-coefficient formulation used in the initial Phase C11.5 behavioral routing exploration ($N=500$). The subsequent outcome-grounded confirmatory evaluation ([`09`](./09_Outcome_Grounded_Evaluation_Addendum.md), [`10`](./10_Outcome_Evaluation_Protocol.md)) evaluates B6 vs B5 using the separately frozen reference configuration $\Theta_0 = (\alpha=1.0, \beta=1.5, \gamma=1.0, \eta=0.5)$ and uncertainty discount $\delta^* = 0.10$ established across later research phases.
 
 ---
 

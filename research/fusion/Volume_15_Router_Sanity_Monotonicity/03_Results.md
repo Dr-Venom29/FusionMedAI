@@ -79,24 +79,26 @@ $$
 
 ## 4. Pipeline Stage Decoupling Results
 
-To verify the independence of router weight dynamics from downstream risk responses, we evaluated a controlled perturbation in the `RF` dual-modality regime where Retina confidence was increased from $C_{\text{retina}} = 0.40$ to $C_{\text{retina}} = 0.80$:
+To verify the independence of router weight dynamics from downstream risk responses, we evaluated a controlled perturbation in the `RF` dual-modality regime where Retina confidence was increased from $C_{\mathrm{retina}} = 0.40$ to $C_{\mathrm{retina}} = 0.80$.
 
-- **Router Output Response:**
-  - Base Weights: $w_{\text{retina}} = 0.536317, \quad w_{\text{foot}} = 0.463683$
-  - Perturbed Weights: $w_{\text{retina}} = 0.634928, \quad w_{\text{foot}} = 0.365072$
-  - Weight Change: $\Delta w_{\text{retina}} = +0.098611$ (Monotonic increase confirmed)
+### 4.1 Router Output Response
+- **Base Weights:** $w_{\mathrm{retina}} = 0.536317, \; w_{\mathrm{foot}} = 0.463683$
+- **Perturbed Weights:** $w_{\mathrm{retina}} = 0.634928, \; w_{\mathrm{foot}} = 0.365072$
+- **Weight Change:** $\Delta w_{\mathrm{retina}} = +0.098611$ (Monotonic increase confirmed)
 
-- **Downstream Fused Risk Response ($R_{\text{fusion}} = \sum w_i r_i$):**
-  - **Scenario A ($r_{\text{retina}} = 0.90 > r_{\text{foot}} = 0.10$):**
+### 4.2 Downstream Fused Risk Response ($R_{\mathrm{fusion}} = \sum w_i r_i$)
 
-    $$
-    R_{\text{fusion}}^{\text{base}} = 0.529054 \longrightarrow R_{\text{fusion}}^{\text{high}} = 0.607943 \quad (\Delta R_{\text{fusion}} = +0.078889)
-    $$
+**Scenario A ($r_{\mathrm{retina}} = 0.90 > r_{\mathrm{foot}} = 0.10$):**
 
-  - **Scenario B ($r_{\text{retina}} = 0.10 < r_{\text{foot}} = 0.90$):**
+$$
+R_{\mathrm{fusion}}^{\mathrm{base}} = 0.529054 \to R_{\mathrm{fusion}}^{\mathrm{high}} = 0.607943 \quad (\Delta R_{\mathrm{fusion}} = +0.078889)
+$$
 
-    $$
-    R_{\text{fusion}}^{\text{base}} = 0.470946 \longrightarrow R_{\text{fusion}}^{\text{high}} = 0.392057 \quad (\Delta R_{\text{fusion}} = -0.078889)
-    $$
+**Scenario B ($r_{\mathrm{retina}} = 0.10 < r_{\mathrm{foot}} = 0.90$):**
 
-- **Key Takeaway:** An increase in modality weight $w_i$ increases fused risk if $r_i > R_{\text{other}}$, but decreases fused risk if $r_i < R_{\text{other}}$. Router weight monotonicity is thus mathematically decoupled from fused risk directionality.
+$$
+R_{\mathrm{fusion}}^{\mathrm{base}} = 0.470946 \to R_{\mathrm{fusion}}^{\mathrm{high}} = 0.392057 \quad (\Delta R_{\mathrm{fusion}} = -0.078889)
+$$
+
+### 4.3 Key Takeaway
+An increase in modality weight $w_i$ increases fused risk if $r_i > R_{\mathrm{other}}$, but decreases fused risk if $r_i < R_{\mathrm{other}}$. Router weight monotonicity is thus mathematically decoupled from fused risk directionality.

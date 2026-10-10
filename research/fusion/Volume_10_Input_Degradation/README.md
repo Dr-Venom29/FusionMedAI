@@ -2,9 +2,10 @@
 
 > **Multimodal Decision Fusion Series — Phase C11.10**  
 > **Status**: VERIFIED & SEALED  
-> **Verification Gates**: 20 / 20 PASSED  
-> **Pytest Suite**: 55 / 55 PASSED across all 12 operators  
-> **Cohort Provenance**: Frozen $N=500$ Controlled Decision Packets ($\text{seed}=115$)
+> **Original Degradation Benchmark Verification**: 20 / 20 PASSED (`verify_degradation_artifacts.py`)  
+> **Original Benchmark Test Suite**: 55 / 55 PASSED across all 12 operators  
+> **Original Benchmark Cohort**: Frozen $N=500$ Controlled Decision Packets ($\text{seed}=115$)  
+> **Subsequent Outcome Evaluation Addendum**: $N=5,000$ Confirmatory Synthetic Packets across 10 Seeds (8/8 Outcome Gates Passed)
 
 ---
 
@@ -12,7 +13,10 @@
 
 Phase C11.10 benchmarks the decision-level robustness of the ACARA-U multimodal fusion router when input channels suffer progressive signal degradation while remaining technically available ($A_i = 1, Q_i \downarrow$). While Phase C11.8 established safety under complete modality absence ($A_i = 0$), Phase C11.10 evaluates the sensitivity of dynamic routing to degraded inputs across optical imaging (Retina, Foot) and tabular EHR channels.
 
-> [!NOTE] **Methodological Boundary**: Phase C11.10 operates on a controlled cohort of $N=500$ benchmark decision packets coupled to synthetic raw inputs and frozen quality engines. It demonstrates router responsiveness, uncertainty sensitivity, and authority redistribution under simulated degradation; it does not establish clinical diagnostic validation or patient-level outcome preservation.
+> [!NOTE] **Methodological Scope & Multi-Stage Evaluation**:
+> - **Phase C11.10 Core Benchmark (Chapters 01–10)**: Evaluates routing weight redistribution, quality decay, and authority attenuation on a controlled cohort of $N=500$ benchmark decision packets coupled to synthetic raw inputs and frozen quality engines (20/20 gates).
+> - **Outcome-Grounded Addendum (Chapter 11)**: Evaluates whether this authority attenuation translates into reduced estimation error against a synthetic oracle ground truth across $N=5,000$ packets (10 seeds, 8/8 outcome gates).
+> Neither evaluation claims patient-level clinical diagnostic validation.
 
 
 ```mermaid
@@ -52,6 +56,7 @@ flowchart TD
 8. [**08_Statistical_Analysis.md**](08_Statistical_Analysis.md): 1,000-resample paired bootstrap confidence intervals ($95\%$ CI) and hypothesis evaluation outcomes.
 9. [**09_Results.md**](09_Results.md): Comprehensive scoreboard across single, pairwise, and all-modality degradation scenarios.
 10. [**10_Freeze_Report.md**](10_Freeze_Report.md): 20/20 verification gates, cryptographic SHA-256 manifest certification, freeze sign-off.
+11. [**11_Degradation_Outcome_Addendum.md**](11_Degradation_Outcome_Addendum.md): Outcome-grounded oracle error analysis across degradation severities (B6 vs B5, $\Delta_{\mathrm{MAE}}^{\mathrm{severe}} = -0.015416$).
 
 ---
 
