@@ -17,10 +17,10 @@ $$
 Because $\sum_{i \in \mathcal{A}} \Delta w_i = 0$, the change in fused risk can be expressed as:
 
 $$
-\Delta R_{\mathrm{fusion}} = \sum_{i \in \mathcal{A}} \Delta w_i (r_i - \bar{r}_{\mathcal{A}})
+\Delta R_{\mathrm{fusion}} = \sum_{i \in \mathcal{A}} \Delta w_i (r_i - \bar{r}_{\mathcal{A}}), \quad \text{where} \quad \bar{r}_{\mathcal{A}} = \frac{1}{\lvert \mathcal{A} \rvert} \sum_{j \in \mathcal{A}} r_j
 $$
 
-where $\bar{r}_{\mathcal{A}} = \frac{1}{\lvert \mathcal{A} \rvert} \sum_{j \in \mathcal{A}} r_j$ is the unweighted mean risk.
+is the unweighted mean risk across active modalities $\mathcal{A}$.
 
 Therefore, whether an ablation increases or decreases fused risk depends critically on the correlation between weight changes $\Delta w_i$ and channel risk levels $r_i$:
 - Reallocating weight toward a higher-risk modality increases fused risk ($\Delta R > 0$).

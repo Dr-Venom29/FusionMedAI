@@ -33,7 +33,7 @@ The confirmatory evaluation benchmarked B6 ($\alpha=1.0, \beta=1.5, \gamma=1.0, 
 
 ![Outcome MAE Forest Plot](./figures/outcome_mae_forest_plot.png)
 
-**Figure 1.** Forest plot of paired mean absolute error differences ($\Delta_{\mathrm{MAE}} = \mathrm{MAE}_{\mathrm{B6}} - \mathrm{MAE}_{\mathrm{B5}}$) with 95% bootstrap confidence intervals across pooled confirmatory cohorts, input degradation severities, and sensor fidelity regimes ($N = 5{,}000$, 10 independent cohorts).
+**Figure 1.** Forest plot of paired mean absolute error differences ($\Delta_{\mathrm{MAE}} = \mathrm{MAE}(\mathrm{B6}) - \mathrm{MAE}(\mathrm{B5})$) with 95% bootstrap confidence intervals across pooled confirmatory cohorts, input degradation severities, and sensor fidelity regimes ($N = 5{,}000$, 10 independent cohorts).
 
 ---
 

@@ -44,7 +44,9 @@ The conceptual motivation arises from real-world clinical deployment where multi
     - *Conclusion*: Under the unimodal tail tiers where single active modalities collapse router weights to $w_i \equiv 1.0$, the observed difference between B6 and B5 is not statistically distinguishable from zero under the hierarchical cluster bootstrap. Under the pre-declared decision protocol, the confirmatory evaluation concludes as `INCONCLUSIVE_NOT_STATISTICALLY_DISTINGUISHABLE`.
 
 - **Hypothesis H3 (Tail Dispersion Expansion via Modality Collapse)**:  
-  **Prediction**: Tail combinations exhibit increased risk standard deviation relative to the head ($\Delta \sigma(R) = \sigma(R_{\mathrm{tail}}) - \sigma(R_{\mathrm{head}}) > 0$), consistent with the reduced modality cardinality and resulting loss of multi-modal aggregation.  
+  **Prediction**: Tail combinations exhibit increased risk standard deviation relative to the head:
+  $$\Delta \sigma(R) = \sigma(R_{\mathrm{tail}}) - \sigma(R_{\mathrm{head}}) > 0$$
+  consistent with the reduced modality cardinality and resulting loss of multi-modal aggregation.  
   **Status**: **Supported descriptively** — Tail tiers exhibited higher observed risk dispersion than head tiers in both D2 ($\Delta \sigma = +0.0628$) and D3 ($\Delta \sigma = +0.0885$). The present analysis does not establish statistical significance of the dispersion difference.
 
 ---

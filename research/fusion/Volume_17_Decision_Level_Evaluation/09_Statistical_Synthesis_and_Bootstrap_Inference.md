@@ -5,14 +5,17 @@ Phase C11.17 employs non-parametric paired bootstrap resampling to quantify esti
 - **Resampling Iterations**: $B = 1,000$ paired bootstrap resamples.
 - **Random Number Generator**: `numpy.random.default_rng(7117)` for exact reproducibility.
 - **Nominal Significance Level**: $\alpha = 0.05$ (95% confidence intervals).
-- **Quantile Convention**: Empirical percentile interval $\text{CI}_{0.95} = \left[ \text{Percentile}_{2.5}(\hat{\theta}^*), \text{Percentile}_{97.5}(\hat{\theta}^*) \right]$.
-- **Significance Criterion**: A difference is declared statistically distinguishable from zero at the nominal $\alpha = 0.05$ level if the 95% bootstrap confidence interval strictly excludes zero ($0 \notin [\text{CI}_{\text{lower}}, \text{CI}_{\text{upper}}]$). The pipeline does not compute exact analytical p-values; statements of statistical significance indicate non-overlap of the 95% percentile interval with zero.
-- **Paired Resampling Unit**: Resampling is performed by indexing shared packet identifiers (`packet_id`) with replacement. For each bootstrap iteration, the identical sample of $N=500$ packets is evaluated across both policies, and the paired difference $\Delta(k) = \theta_{\text{B6}}(k) - \theta_{\text{comparator}}(k)$ is calculated within each sampled encounter.
+- **Quantile Convention**: Empirical percentile interval:
+  $$
+  \mathrm{CI}_{0.95} = \left[ \mathrm{Percentile}_{2.5}(\hat{\theta}^*), \, \mathrm{Percentile}_{97.5}(\hat{\theta}^*) \right]
+  $$
+- **Significance Criterion**: A difference is declared statistically distinguishable from zero at the nominal $\alpha = 0.05$ level if the 95% bootstrap confidence interval strictly excludes zero ($0 \notin [\mathrm{CI}_{\mathrm{lower}}, \mathrm{CI}_{\mathrm{upper}}]$). The pipeline does not compute exact analytical p-values; statements of statistical significance indicate non-overlap of the 95% percentile interval with zero.
+- **Paired Resampling Unit**: Resampling is performed by indexing shared packet identifiers (`packet_id`) with replacement. For each bootstrap iteration, the identical sample of $N=500$ packets is evaluated across both policies, and the paired difference $\Delta(k) = \theta(\mathrm{B6}, k) - \theta(\mathrm{comparator}, k)$ is calculated within each sampled encounter.
 
 ## 2. Paired Differences: ACARA-U (B6) vs Baseline Comparators
 All point estimates, standard errors, and confidence intervals below are extracted directly from the canonical statistical artifact (`06_statistical_analysis.json`):
 
-### 2.1 Fused Risk Differences ($\Delta_{R_{\mathrm{fusion}}}$)
+### 2.1 Fused Risk Differences ($\Delta(R_{\mathrm{fusion}})$)
 | Comparator Baseline | Point Estimate $\Delta$ | 95% Bootstrap CI | Standard Error (SE) | Excludes Zero? | Statistically Significant ($\alpha=0.05$)? |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | **B6 vs B1 (Unimodal WTA)** | +0.034863 | [+0.020646, +0.050332] | 0.007639 | YES | **YES** ($0 \notin \text{CI}$) |
@@ -21,10 +24,14 @@ All point estimates, standard errors, and confidence intervals below are extract
 | **B6 vs B4 (Conf + Rel)** | -0.028543 | [-0.031975, -0.025413] | 0.001699 | YES | **YES** ($0 \notin \text{CI}$) |
 | **B6 vs B5 (Conf+Rel-Unc)** | +0.002653 | [+0.002255, +0.003063] | 0.000208 | YES | **YES** ($0 \notin \text{CI}$) |
 
-### 2.2 Dual-Constraint Risk Index Differences ($\Delta_{\mathrm{DCRI}}$)
+### 2.2 Dual-Constraint Risk Index Differences ($\Delta(\mathrm{DCRI})$)
 Because the unweighted uncertainty penalty $P_U = \delta^* \sum_{i \in \mathcal{A}} U_i$ is calculated from identical channel inputs and discount parameter ($\delta^* = 0.10$) across all policies on any given packet, the penalty cancels out in paired differences:
-$$\Delta_{\text{DCRI}} = (R_{\text{fusion, B6}} - P_U) - (R_{\text{fusion, comp}} - P_U) \equiv \Delta_{R_{\text{fusion}}}$$
-- **B6 vs B5 $\Delta_{\mathrm{DCRI}}$**: $+0.002653$ (95% CI: $[+0.002255, +0.003063]$, SE: $0.000208$, excludes zero).
+
+$$
+\Delta(\mathrm{DCRI}) = (R_{\mathrm{fusion, B6}} - P_U) - (R_{\mathrm{fusion, comp}} - P_U) \equiv \Delta(R_{\mathrm{fusion}})
+$$
+
+- **B6 vs B5 $\Delta(\mathrm{DCRI})$**: $+0.002653$ (95% CI: $[+0.002255, +0.003063]$, SE: $0.000208$, excludes zero).
 
 ### 2.3 Modality Weight Allocation Shifts (B6 vs B5 Quality Bonus Attribution)
 Because B6 and B5 share identical inputs, historical reliability priors ($\beta = 1.5$), dynamic confidence weights ($\alpha = 1.0$), and uncertainty penalties ($\gamma = 1.0$), the B6–B5 comparison strictly isolates the contribution of the adaptive quality bonus weight ($\eta = 0.5$ in B6 vs $\eta = 0.0$ in B5):

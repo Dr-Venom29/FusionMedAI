@@ -30,21 +30,21 @@ For each distribution and modality combination, $95\%$ empirical confidence inte
 ## 3. Pre-Specified Hypothesis Verification Outcomes
 
 ### Hypothesis H1: Simplex & Safety Invariant Preservation across Tiers
-- **Formal Statement**:
 
-  $$
-  \forall c \in \mathcal{C}_{\mathrm{active}}, \forall k: \quad \sum_{i \in \mathcal{A}_c} w_i(k) = 1.000000 \quad \text{and} \quad w_{j \notin \mathcal{A}_c}(k) = 0.000000
-  $$
+**Formal Statement:**
+$$
+\forall c \in \mathcal{C}_{\mathrm{active}}, \forall k: \quad \sum_{i \in \mathcal{A}_c} w_i(k) = 1.000000 \quad \text{and} \quad w_{j \notin \mathcal{A}_c}(k) = 0.000000
+$$
 
 - **Observed Violation Rate**: $0 / 45{,}000$ confirmatory decision-packet evaluations across all 30 cohorts ($0 / 1{,}500$ in exploratory single cohort).
 - **Outcome**: **CONFIRMED** (Exact mathematical invariant preserved across all tiers with zero observed violations).
 
 ### Hypothesis H2: Tail Risk Sensitivity Across Soft Baselines & Multi-Cohort Evaluation
-- **Formal Statement**:
 
-  $$
-  D_{\mathrm{tail}}^{\mathrm{ACARA-U}} \le D_{\mathrm{tail}}^{\mathrm{B2}}, D_{\mathrm{tail}}^{\mathrm{B3}}, D_{\mathrm{tail}}^{\mathrm{B4}}, D_{\mathrm{tail}}^{\mathrm{B5}} \quad \text{under long-tailed distributions}
-  $$
+**Formal Statement:**
+$$
+D_{\mathrm{tail}}^{\mathrm{ACARA-U}} \le D_{\mathrm{tail}}^{\mathrm{B2}}, D_{\mathrm{tail}}^{\mathrm{B3}}, D_{\mathrm{tail}}^{\mathrm{B4}}, D_{\mathrm{tail}}^{\mathrm{B5}} \quad \text{under long-tailed distributions}
+$$
 
 - **Exploratory Single-Cohort Point Estimates ($\text{seed}=115$)**:
   - D2: ACARA-U ($0.1883$) $<$ B2 ($0.1925$), B3 ($0.1959$), B4 ($0.1967$), B5 ($0.1889$).
@@ -59,15 +59,15 @@ For each distribution and modality combination, $95\%$ empirical confidence inte
   - In the confirmatory 30-cohort evaluation under the pre-declared hierarchical cluster bootstrap decision rule, the primary endpoint is `INCONCLUSIVE_NOT_STATISTICALLY_DISTINGUISHABLE`. The point estimates numerically favor B5, while neither practical superiority of B6 nor statistical equivalence is established.
 
 ### Hypothesis H3: Tail Dispersion Expansion via Modality Collapse
-- **Formal Statement**:
 
-  $$
-  \Delta \sigma(R) = \sigma(R_{\mathrm{tail}}) - \sigma(R_{\mathrm{head}}) > 0
-  $$
+**Formal Statement:**
+$$
+\Delta \sigma(R) = \sigma(R_{\mathrm{tail}}) - \sigma(R_{\mathrm{head}}) > 0
+$$
 
 - **Observed Values**:
-  - D2: $\Delta \sigma(R) = 0.2508 - 0.1880 = +0.0628$.
-  - D3: $\Delta \sigma(R) = 0.2784 - 0.1898 = +0.0885$.
+  - D2: $\Delta \sigma(R) = 0.2508 - 0.1880 = +0.0628$
+  - D3: $\Delta \sigma(R) = 0.2784 - 0.1898 = +0.0885$
 - **Outcome**: **SUPPORTED DESCRIPTIVELY** — Tail-tier risk dispersion was higher than head-tier dispersion in both D2 and D3. No formal bootstrap confidence interval for the dispersion difference was pre-specified or reported, so statistical significance of this difference is not claimed.
 
 ---
