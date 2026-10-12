@@ -3,15 +3,24 @@
 ## 1. Mathematical Mechanics of Risk Propagation
 
 Fused risk is computed as the inner product of routing weights and modality risk predictions:
-$$R_{\text{fusion}} = \sum_{i \in \mathcal{A}} w_i r_i$$
+
+$$
+R_{\mathrm{fusion}} = \sum_{i \in \mathcal{A}} w_i r_i
+$$
 
 When an ablation alters channel weights by $\Delta w_i = w_i^{(Av)} - w_i^{(A0)}$, the resulting shift in fused risk is:
-$$\Delta R_{\text{fusion}} = R_{\text{fusion}}^{(Av)} - R_{\text{fusion}}^{(A0)} = \sum_{i \in \mathcal{A}} \Delta w_i r_i$$
+
+$$
+\Delta R_{\mathrm{fusion}} = R_{\mathrm{fusion}}^{(Av)} - R_{\mathrm{fusion}}^{(A0)} = \sum_{i \in \mathcal{A}} \Delta w_i r_i
+$$
 
 Because $\sum_{i \in \mathcal{A}} \Delta w_i = 0$, the change in fused risk can be expressed as:
-$$\Delta R_{\text{fusion}} = \sum_{i \in \mathcal{A}} \Delta w_i (r_i - \bar{r}_{\mathcal{A}})$$
 
-where $\bar{r}_{\mathcal{A}} = \frac{1}{|\mathcal{A}|} \sum_{j \in \mathcal{A}} r_j$ is the unweighted mean risk.
+$$
+\Delta R_{\mathrm{fusion}} = \sum_{i \in \mathcal{A}} \Delta w_i (r_i - \bar{r}_{\mathcal{A}})
+$$
+
+where $\bar{r}_{\mathcal{A}} = \frac{1}{\lvert \mathcal{A} \rvert} \sum_{j \in \mathcal{A}} r_j$ is the unweighted mean risk.
 
 Therefore, whether an ablation increases or decreases fused risk depends critically on the correlation between weight changes $\Delta w_i$ and channel risk levels $r_i$:
 - Reallocating weight toward a higher-risk modality increases fused risk ($\Delta R > 0$).

@@ -58,20 +58,27 @@ The table below reports mean fused risk ($\overline{R}$), mean DCRI ($\overline{
 ## 3. Mathematical Implications
 
 ### 3.1 Unimodal Singleton Invariance (Gate C16-05)
-In any singleton regime $|\mathcal{A}| = 1$ (e.g., $R, F, C$):
-$$\tilde{z}_i = z_i, \quad \tilde{z}_{j \neq i} = -\infty \implies w_i = \frac{\exp(z_i)}{\exp(z_i)} \equiv 1.000000$$
+In any singleton regime $\lvert \mathcal{A} \rvert = 1$ (e.g., $R, F, C$):
 
-Consequently, regardless of the values of $\alpha, \beta, \gamma, \eta$, routing weights are mathematically locked to unity ($w_i \equiv 1.0$), and fused risk is invariant ($\Delta R \equiv 0.0$). Router coefficient ablations exert influence **strictly and exclusively** during multi-modality encounters ($|\mathcal{A}| \ge 2$).
+$$
+\tilde{z}_i = z_i, \quad \tilde{z}_{j \neq i} = -\infty \implies w_i = \frac{\exp(z_i)}{\exp(z_i)} \equiv 1.000000
+$$
+
+Consequently, regardless of the values of $\alpha, \beta, \gamma, \eta$, routing weights are mathematically locked to unity ($w_i \equiv 1.0$), and fused risk is invariant ($\Delta R \equiv 0.0$). Router coefficient ablations exert influence **strictly and exclusively** during multi-modality encounters ($\lvert \mathcal{A} \rvert \ge 2$).
 
 ### 3.2 Downstream Discount Behavior Across Modalities
 In singleton regimes, the downstream discount shifts DCRI by exactly $+\delta^* U_i$:
-- In **Regime R** ($U_{\text{retina}} \approx 0.001$): $\Delta \text{DCRI} = +0.0001$ ($0.2549 \to 0.2550$).
-- In **Regime F** ($U_{\text{foot}} \approx 0.594$): $\Delta \text{DCRI} = +0.0594$ ($0.4625 \to 0.5219$).
-- In **Regime C** ($U_{\text{clinical}} \approx 0.039$): $\Delta \text{DCRI} = +0.0039$ ($0.1096 \to 0.1135$).
+- In **Regime R** ($U_{\mathrm{retina}} \approx 0.001$): $\Delta \mathrm{DCRI} = +0.0001$ ($0.2549 \to 0.2550$).
+- In **Regime F** ($U_{\mathrm{foot}} \approx 0.594$): $\Delta \mathrm{DCRI} = +0.0594$ ($0.4625 \to 0.5219$).
+- In **Regime C** ($U_{\mathrm{clinical}} \approx 0.039$): $\Delta \mathrm{DCRI} = +0.0039$ ($0.1096 \to 0.1135$).
 
 This proves that the DCRI discount operates as designed: applying maximum conservatism to encounters dominated by high-uncertainty modalities (such as foot ulcers) while imposing negligible penalty on high-certainty modalities.
 
 ### 3.3 Fail-Closed EMPTY Invariance (Gate C16-11)
 When no modalities are available ($\mathcal{A} = \emptyset$), every variant safely aborts to the fail-closed fallback:
-$$w_i = 0.0 \quad \forall i, \quad R_{\text{fusion}} = 0.0, \quad \text{DCRI} = 0.0, \quad \text{Tier} = \text{Routine}$$
-Zero exceptions or non-finite values occurred across all $500 \times 7 = 3,500$ empty evaluations.
+
+$$
+w_i = 0.0 \quad \forall i, \quad R_{\mathrm{fusion}} = 0.0, \quad \mathrm{DCRI} = 0.0, \quad \mathrm{Tier} = \mathrm{Routine}
+$$
+
+Zero exceptions or non-finite values occurred across all $500 \times 7 = 3{,}500$ empty evaluations.

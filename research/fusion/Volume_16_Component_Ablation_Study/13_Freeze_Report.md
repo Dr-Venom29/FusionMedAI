@@ -31,7 +31,7 @@ The table below documents the final verification scorecard across all 12 formal 
 | **C16-05** | Unimodal Regime Invariance | In $R, F, C$, $\Delta w \equiv 0$ and $\Delta R \equiv 0$ for $A1$–$A4$ | $0.000000$ shift across all singleton runs | **PASSED** |
 | **C16-06** | DCRI Discount Orthogonality | $A5$ yields $\Delta w = 0, \Delta R = 0, \Delta \text{DCRI} = +P_U$ | $\Delta w \equiv 0, \Delta R \equiv 0, \Delta \text{DCRI} = +0.063394$ | **PASSED** |
 | **C16-07** | Uncertainty Penalty Directionality | Removing $\gamma$ ($A3$) increases foot ulcer weight and fused risk | $\Delta w_{\text{foot}} = +0.116634, \Delta R = +0.030842$ | **PASSED** |
-| **C16-08** | Component Attribution Hierarchy | $|\Delta w_{\gamma}|, |\Delta w_{\alpha}| > |\Delta w_{\beta}| > |\Delta w_{\eta}|$ | $0.0830, 0.0709 > 0.0205 > 0.0090$ | **PASSED** |
+| **C16-08** | Component Attribution Hierarchy | $\lvert \Delta w_{\gamma} \rvert, \lvert \Delta w_{\alpha} \rvert > \lvert \Delta w_{\beta} \rvert > \lvert \Delta w_{\eta} \rvert$ | $0.0830, 0.0709 > 0.0205 > 0.0090$ | **PASSED** |
 | **C16-09** | Decision Tier Transition Integrity | Matrices conserve $N=500$; 0 two-tier jumps ($T_{0,2}=0, T_{2,0}=0$) | Conservation confirmed; 0 two-tier shifts | **PASSED** |
 | **C16-10** | Paired Bootstrap Determinism & Coverage | $B=1000$, seed 7116; point estimates in $95\%$ CIs | All point estimates lie within intervals | **PASSED** |
 | **C16-11** | Fail-Closed EMPTY Regime Invariance | $\mathcal{A}=\emptyset$ produces $w=0, R=0, \text{DCRI}=0$ safely | $0$ exceptions, clean fail-closed fallback | **PASSED** |

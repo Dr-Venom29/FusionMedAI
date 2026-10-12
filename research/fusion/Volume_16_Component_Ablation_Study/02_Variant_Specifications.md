@@ -27,8 +27,10 @@ The ablation suite specifies 8 concrete configurations. All non-ablated coeffici
 ### 2.1 Variant A0: Full B6 Reference
 Logit formulation for active channels $i \in \mathcal{A}$:
 $$z_i^{(A0)} = 1.0 C_i + 1.5 R_i - 1.0 U_i + 0.5 Q_i$$
+
 $$w_i^{(A0)} = \frac{\exp(z_i^{(A0)})}{\sum_{j \in \mathcal{A}} \exp(z_j^{(A0)})}$$
-$$\text{DCRI}^{(A0)} = \sum_{i \in \mathcal{A}} w_i^{(A0)} r_i - 0.10 \sum_{i \in \mathcal{A}} w_i^{(A0)} U_i$$
+
+$$\mathrm{DCRI}^{(A0)} = \sum_{i \in \mathcal{A}} w_i^{(A0)} r_i - 0.10 \sum_{i \in \mathcal{A}} U_i$$
 
 ### 2.2 Variant A1: No Confidence Contribution
 Removes dynamic modality prediction confidence:
@@ -59,10 +61,10 @@ Directly quantifies the exact shift introduced by downstream epistemic conservat
 ### 2.7 Diagnostic Baseline A_UNIFORM: Uniform Active Normalization
 Sets all routing coefficients to zero ($\alpha=\beta=\gamma=\eta=0$):
 $$z_i^{(\text{UNIFORM})} = 0.0 \quad \forall i \in \mathcal{A}$$
-$$w_i^{(\text{UNIFORM})} = \frac{1}{|\mathcal{A}|} \quad \text{for } i \in \mathcal{A}, \quad w_j = 0 \quad \text{for } j \notin \mathcal{A}$$
+$$w_i^{(\text{UNIFORM})} = \frac{1}{\lvert \mathcal{A} \rvert} \quad \text{for } i \in \mathcal{A}, \quad w_j = 0 \quad \text{for } j \notin \mathcal{A}$$
 Serves as an empirical baseline to measure the total value of dynamic weighting over naive averaging.
 
 ### 2.8 Variant A6: Negative Control (Deliberate Mask Violation)
 Computes reference logits, but injects a deliberate violation into availability masking:
-$$\text{If } |\mathcal{A}| < 3 \text{ and } \exists j \notin \mathcal{A}, \text{ set } w_j = 0.10 \text{ and renormalize } w_{i \in \mathcal{A}} \text{ to } 0.90.$$
+$$\text{If } \lvert \mathcal{A} \rvert < 3 \text{ and } \exists j \notin \mathcal{A}, \text{ set } w_j = 0.10 \text{ and renormalize } w_{i \in \mathcal{A}} \text{ to } 0.90.$$
 This variant must be immediately flagged, rejected, and denied certification by Gate C16-04.

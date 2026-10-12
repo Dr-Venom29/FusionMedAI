@@ -12,7 +12,7 @@ Numerical identity ensures that all observed paired shifts $\Delta = Av - A0$ re
 
 The reference baseline $B6$ established in Phase C11.13 and sealed in Phase C11.15 is characterized by the following frozen metrics over the 500-packet cohort:
 
-| Parameter / Metric | Expected Frozen Value ($B6$) | Observed Value ($A0$) | Absolute Difference $|\Delta|$ | Verification Status |
+| Parameter / Metric | Expected Frozen Value ($B6$) | Observed Value ($A0$) | Absolute Difference $\lvert \Delta \rvert$ | Verification Status |
 | :--- | :---: | :---: | :---: | :---: |
 | Cohort Size $N$ | $500$ | $500$ | $0$ | **EXACT MATCH** |
 | Random Seed | $115$ | $115$ | $0$ | **EXACT MATCH** |

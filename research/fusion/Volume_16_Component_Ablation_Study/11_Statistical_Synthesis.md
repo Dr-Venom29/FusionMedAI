@@ -12,11 +12,18 @@ To evaluate whether observed shifts $\Delta = Av - A0$ represent statistically s
 
 ### 1.2 Confidence Interval Construction
 Confidence intervals at the nominal $95\%$ level ($\alpha = 0.05$) are constructed using the empirical percentile method:
-$$\text{CI}_{0.95} = \left[ \hat{\theta}^*_{(25)}, \, \hat{\theta}^*_{(975)} \right]$$
+
+$$
+\mathrm{CI}_{0.95} = \left[ \hat{\theta}^*_{(25)}, \, \hat{\theta}^*_{(975)} \right]
+$$
+
 where $\hat{\theta}^*_{(m)}$ is the $m$-th sorted bootstrap replicate estimate.
 
 A component effect is declared statistically significant at the $\alpha = 0.05$ level if and only if:
-$$0 \notin \left[ \text{CI}_{\text{lower}}, \, \text{CI}_{\text{upper}} \right]$$
+
+$$
+0 \notin \left[ \mathrm{CI}_{\mathrm{lower}}, \, \mathrm{CI}_{\mathrm{upper}} \right]
+$$
 
 ---
 

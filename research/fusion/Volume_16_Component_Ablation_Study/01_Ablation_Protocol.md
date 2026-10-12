@@ -39,8 +39,11 @@ The channel decision weights are obtained via softmax over the active set:
 
 $$w_i = \begin{cases} \frac{\exp(z_i)}{\sum_{j \in \mathcal{A}} \exp(z_j)} & \text{if } i \in \mathcal{A} \\ 0.0 & \text{if } i \notin \mathcal{A} \end{cases}$$
 
-For the degenerate case where no modalities are available ($\mathcal{A} = \emptyset$), the system fails closed:
-$$w_i = 0.0 \quad \forall i, \quad R_{\text{fusion}} = 0.0, \quad \text{DCRI} = 0.0, \quad \text{Status} = \text{NO\_MODALITY\_AVAILABLE}$$
+For the degenerate case where no modalities are available ($\mathcal{A} = \emptyset$), the system fails closed with status `NO_MODALITY_AVAILABLE`:
+
+$$
+w_i = 0.0 \quad \forall i, \quad R_{\mathrm{fusion}} = 0.0, \quad \mathrm{DCRI} = 0.0
+$$
 
 ### 2.3 Fused Risk and Downstream DCRI Aggregation
 The fused risk estimate is the linear combination of channel risk predictions $r_i \in [0, 1]$:

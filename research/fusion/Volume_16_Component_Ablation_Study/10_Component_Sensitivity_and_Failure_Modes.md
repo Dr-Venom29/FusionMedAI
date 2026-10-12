@@ -25,15 +25,21 @@ Component ablation reveals specific vulnerabilities and operational failure mode
 - **Mechanism:** For encounters with low baseline risk ($R_{\text{fusion}} < 0.05$) and moderate model uncertainty ($U_i > 0.50$), subtracting $0.10 \times 0.50 = 0.05$ produces negative composite scores.
 - **Manifestation:** Exactly $37/500$ packets ($7.4\%$) in reference architecture $A0$ produce negative DCRI values (minimum observed: $-0.027143$; mean of negative values: $-0.010750$).
 - **Mitigation & Future Recommendation:** In Phase C11.17, evaluate implementing a rectified zero-floor:
-$$\text{DCRI}_{\text{rectified}} = \max\left(0.0, R_{\text{fusion}} - \delta^* \sum_{i \in \mathcal{A}} U_i\right)$$
+
+$$
+\mathrm{DCRI}_{\mathrm{rectified}} = \max\left(0.0, R_{\mathrm{fusion}} - \delta^* \sum_{i \in \mathcal{A}} U_i\right)
+$$
 
 ---
 
 ## 3. Boundary & Decoupling Invariants
 
 ### 3.1 Weight-Risk Decoupling Theorem
-As demonstrated in Volume 15 and confirmed in Chapter 05, increasing the routing weight $w_i$ of a channel does not guarantee an increase in fused risk $R_{\text{fusion}}$:
-$$\frac{\partial R_{\text{fusion}}}{\partial z_i} = w_i \left( r_i - \sum_{j \in \mathcal{A}} w_j r_j \right)$$
+As demonstrated in Volume 15 and confirmed in Chapter 05, increasing the routing weight $w_i$ of a channel does not guarantee an increase in fused risk $R_{\mathrm{fusion}}$:
+
+$$
+\frac{\partial R_{\mathrm{fusion}}}{\partial z_i} = w_i \left( r_i - \sum_{j \in \mathcal{A}} w_j r_j \right)
+$$
 
 The directional response is strictly governed by whether modality risk $r_i$ exceeds the weighted average of other channels.
 

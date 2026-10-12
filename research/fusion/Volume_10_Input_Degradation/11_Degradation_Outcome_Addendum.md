@@ -41,7 +41,7 @@ An audit of the experimental chain ($\text{clean packet} \to \text{degraded inpu
 
 ![Degradation Outcome Forest Plot](./figures/outcome_mae_forest_plot.png)
 
-*Figure 1.* Forest plot of paired prediction error differences ($\Delta_{\text{MAE}} = \text{MAE}_{\text{B6}} - \text{MAE}_{\text{B5}}$) with 95% bootstrap confidence intervals across clean baseline reference, progressive degradation severities (D1–D3), and sensor fidelity failure modes ($N=5,000$ synthetic packets).
+**Figure 1.** Forest plot of paired prediction error differences ($\Delta_{\mathrm{MAE}} = \mathrm{MAE}_{\mathrm{B6}} - \mathrm{MAE}_{\mathrm{B5}}$) with 95% bootstrap confidence intervals across clean baseline reference, progressive degradation severities (D1–D3), and sensor fidelity failure modes ($N = 5{,}000$ synthetic packets).
 
 ---
 
@@ -49,7 +49,11 @@ An audit of the experimental chain ($\text{clean packet} \to \text{degraded inpu
 
 1. **Monotonic Error Reduction Scaling Across Degradation Tiers:**
    Across mild, moderate, and severe degradation conditions, the predictive accuracy advantage of B6 over B5 grows strictly monotonically as input corruption worsens:
-   $$\Delta_{\mathrm{MAE}}^{\mathrm{severe}} (-0.015416) < \Delta_{\mathrm{MAE}}^{\mathrm{moderate}} (-0.003904) < \Delta_{\mathrm{MAE}}^{\mathrm{mild}} (-0.001994) < 0$$
+
+   $$
+   \Delta_{\mathrm{MAE}}^{\mathrm{severe}} (-0.015416) < \Delta_{\mathrm{MAE}}^{\mathrm{moderate}} (-0.003904) < \Delta_{\mathrm{MAE}}^{\mathrm{mild}} (-0.001994) < 0
+   $$
+
    Under severe single-channel corruption, B6 reduces mean absolute prediction error by **$17.16\%$** relative to B5 by shifting decision authority to uncorrupted modalities. Clean uncorrupted inputs serve as a separate baseline reference condition where B6 incurs a minor $+0.36\%$ error difference due to slight weight smoothing.
 
 2. **Quality Sensor Failure Modes (Imperfect Sensing):**

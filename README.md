@@ -9,13 +9,11 @@
 ---
 
 ## Abstract
-
-FusionMedAI is a research framework for decision-level fusion of independently developed retinal, diabetic foot-ulcer, and structured clinical prediction models. Its ACARA-U router allocates weights using modality confidence, reliability, uncertainty, quality, and availability.
-
-The framework evaluates routing invariants, missing-modality behavior, cross-modality disagreement, input degradation, calibration effects, parameter sensitivity, and modality-combination frequency shifts. Because the source datasets are not patient-paired across modalities, the multimodal experiments use controlled decision packets rather than real multimodal patient cohorts.
-
-The results characterize the behavior of the implemented fusion rules under the evaluated conditions. Synthetic oracle experiments show a conditional predictive-error reduction under simulated degradation, while the modality-combination analysis does not establish a statistically distinguishable B6 advantage over B5 under its primary hierarchical-bootstrap decision rule. Patient-level clinical validity and utility remain unestablished.
-
+ 
+FusionMedAI benchmarks decision-level multimodal fusion across three distinct clinical prediction tasks: diabetic retinopathy staging from retinal fundus photographs, Wagner grade classification from diabetic foot ulcer images, and 30-day readmission risk prediction from structured electronic health records. Because available public datasets do not provide paired observations across all three domains for the same individuals, we evaluate fusion mechanics using controlled decision packets under standardized modality contracts.
+ 
+Decision authority is allocated using an adaptive routing kernel (ACARA-U) that weights modality predictions by sample confidence, historical validation reliability, epistemic uncertainty, and signal quality. Downstream triage risk is adjusted using an unweighted uncertainty penalty (DCRI). We evaluate this formulation across comparator allocation baselines, sensor degradation severities, cross-modality discordance levels, and probability calibration states. Controlled benchmarks demonstrate that signal-quality weighting provides conservative authority down-weighting under severe input degradation, while uncertainty penalties yield predictable tier shifts without upward risk inflation.
+ 
 ---
 
 ## System Architecture
@@ -140,23 +138,22 @@ flowchart TD
 | **Residual Router Sanity & Monotonicity Analysis** | **EVALUATED / SEALED** | Single-input monotonicity (576/576 trials), simplex conservation, hard availability masking, production route-shift invariance, reference normalization-kernel order independence, input validation (19/19 cases), and production DCRI downstream contracts; 16/16 verification gates passed, 36/36 tests passed, and 14/14 verifier mutation tests passed |
 | **Outcome-Grounded Predictive & Decision Utility** | **EVALUATED / SEALED** | 5,000-packet confirmatory synthetic oracle benchmark (10 seeds); B6 achieves statistically significant lower error than B5 overall ($\Delta_{\mathrm{MAE}} = -0.001843$, $95\%$ Hierarchical CI: $[-0.002112, -0.001582]$, practical threshold $-0.005$ not met), $17.16\%$ error reduction under severe degradation ($\Delta_{\mathrm{MAE}}^{\mathrm{severe}} = -0.015416$), and explicit DCRI false-downgrade trade-off ($7.61\% \to 12.72\%$); 8/8 verification gates passed |
 | **ACARA-U Component Ablation Study** | **EVALUATED / CERTIFIED** | One-at-a-time component deletions ($A0$–$A6$, $A_{\text{UNIFORM}}$) on controlled cohort ($N=500$, seed 115). Quantified routing weight and fused risk shifts for router terms ($\alpha, \beta, \gamma, \eta$), and orthogonal score-level translation for downstream discount ($\delta=0.10$). Attribution hierarchy: $\gamma, \alpha > \beta > \eta$. Downstream discount orthogonality verified ($\Delta w \equiv 0, \Delta R \equiv 0$). Specific injected availability-mask fault ($A6$) rejected in 500/500 packets. Reported verification: 12/12 gates passed on canonical artifacts. Non-clinical research protocol ([Volume 16](research/fusion/Volume_16_Component_Ablation_Study/README.md)). |
+| **Final Decision-Level Evaluation (ACARA-U)** | **EVALUATED / SEALED** | Final frozen evaluation across 5 dimensions: comparative baselines B1–B6, 8 availability regimes ($RFC, RF, RC, FC, R, F, C, \text{EMPTY}$), input degradations D0–D3, cross-modality conflict stratification, and calibration condition. Reference invariants exactly reproduced ($\overline{R}_{\mathrm{fusion}}=0.289900, \overline{\mathrm{DCRI}}=0.226506, \text{Neg}=37$). 16/16 verification gates passed, 46/46 pytest suite passed (including 12 negative mutation tests). Non-clinical controlled protocol ([Volume 17](research/fusion/Volume_17_Decision_Level_Evaluation/README.md)). |
 | **Patient-Level External / Clinical Validation** | **PLANNED** | Requires genuinely paired multimodal cohorts |
 
 ---
 
 ## Key Research Findings
-
-1. **Adaptive Authority Redistribution**: The ACARA-U router dynamically reallocates decision authority across available modalities based on instance confidence, global reliability priors, uncertainty, and quality ([Volume 05](research/fusion/Volume_05_Baseline_Fusion/README.md)).
-2. **Strict Availability Invariance**: Hard masking prevents inactive modalities ($A_i = 0 \implies w_i = 0.000000$) from exerting decision authority, preserving exact simplex conservation across all availability combinations ([Volume 08](research/fusion/Volume_08_Missing_Modality_Robustness/README.md)). In targeted fault-injection testing, the verifier detected and rejected the specific injected availability-mask violation in 500/500 test packets ([Volume 16](research/fusion/Volume_16_Component_Ablation_Study/README.md)).
-3. **Conflict Separable From Uncertainty**: Cross-modality risk divergence ($\Delta_{\max}, \sigma_w$) showed low linear correlation with summed uncertainty ($r=0.088$), demonstrating that discordance and predictive uncertainty represent distinct measured dimensions in the controlled benchmark ([Volume 07](research/fusion/Volume_07_Conflict_Analysis/README.md)).
-4. **Quality-Aware Authority Attenuation**: In a controlled synthetic raw-input degradation benchmark ($N=500$, seed 115), unsupervised quality engines detected progressive decay, causing ACARA-U (B6) to attenuate degraded channel authority significantly more than uncertainty-only B5 ($D = -0.1309$, $95\%$ bootstrap CI: $[-0.1319, -0.1300]$ under D3 severe blur; [Volume 10](research/fusion/Volume_10_Input_Degradation/README.md)).
-5. **Calibration-Driven Authority Softening**: Incorporating calibrated modality probabilities softened previously overconfident retinal authority ($\Delta w_R = -0.0156$, $95\%$ CI: $[-0.0168, -0.0144]$) while maintaining routing stability ([Volume 11](research/fusion/Volume_11_Fusion_Calibration/README.md)).
-6. **Empirical Parameter Stability**: Across 23 named sensitivity evaluations (19 unique coefficient vectors), ACARA-U maintained high routing entropy ($\bar{H} \in [0.9633, 1.0460]\text{ nats}$) with zero routing collapse or invariant violations observed under the prespecified perturbation grid ([Volume 12](research/fusion/Volume_12_ACARA_U_Parameter_Sensitivity/README.md)).
-7. **DCRI Uncertainty Penalty Operating Point**: Pre-specified multi-tier selection over an 11-point candidate grid ($\delta \in [0.0, 1.0]$) selected $\delta^* = 0.10$ (`D10`), producing a mean penalty of $0.063394$ ($21.87\%$ of mean base fused risk), a restrained negative rate of $7.4\%$, and Spearman rank stability $\rho_s = 0.989286$ on the frozen controlled cohort ($N=500$). These represent controlled-cohort mathematical and behavioral properties, not evidence of superior clinical outcomes ([Volume 13](research/fusion/Volume_13_DCRI_Delta_Selection/README.md)).
-8. **Decision Policy Behavior & Escalation-Tier Reclassification**: Under the prespecified hypothetical thresholds ($\tau_1=0.20, \tau_2=0.40$), the uncertainty-discounted index ($\mathrm{DCRI}_{0.10}$) reclassified $18.4\%$ ($92/500$) of controlled decision packets from higher into lower action tiers (56 from Tier 1 to Tier 0, 36 from Tier 2 to Tier 1), with zero upward reclassifications. The number assigned to Tier 2 (Escalation for Human Review) decreased from $117/500$ ($23.4\%$) under the unpenalized fused-risk policy to $81/500$ ($16.2\%$), a $30.77\%$ relative reduction in escalation assignments within this benchmark cohort. (Note: the separate synthetic-oracle evaluation measuring false downgrades of high-risk cases with elevated uncertainty ($7.61\% \to 12.72\%$) represents a distinct outcome simulation experiment; see [Volume 05 Addendum](research/fusion/Volume_05_Baseline_Fusion/10_Outcome_Evaluation_Protocol.md)). These results characterize controlled policy behavior and do not establish clinical safety, reduced real-world workload, or improved patient outcomes ([Volume 14](research/fusion/Volume_14_DCRI_Decision_Policy_Analysis/README.md)).
-9. **Router Sanity, Single-Input Monotonicity & Pipeline Decoupling**: Under the frozen reference configuration ($\Theta_0=(1.0,1.5,1.0,0.5)$) and uncertainty discount ($\delta^*=0.10$), isolated perturbation testing across all seven active modality regimes confirmed the expected directional responses across 576 trials: confidence, reliability (in the mathematical kernel fixture), and quality increase channel weight, while uncertainty decreases it in multi-modality regimes. Singleton active sets retain $w_i=1.0$. Verification also covered simplex conservation, hard availability masking, production-router confidence-shift invariance (maximum observed weight deviation $7.11\times10^{-15}$), reference normalization-kernel order independence across all six channel permutations, and rejection of 19/19 invalid inputs. Production DCRI modules were exercised to verify downstream contract behavior and demonstrate that routing-weight monotonicity does not determine the direction of fused-risk changes. The reported verification suite passed 16/16 gates, 36/36 tests, and 14/14 verifier mutation tests. These results establish controlled mathematical and software-behavior properties, not patient-level clinical validity ([Volume 15 — ACARA-U Residual Router Sanity & Monotonicity Analysis](research/fusion/Volume_15_Router_Sanity_Monotonicity/README.md)).
-10. **Outcome-Grounded Predictive Accuracy & Decision Utility (B6 vs B5)**: In an independent synthetic oracle simulation across 5,000 confirmatory decision packets (10 seeds), full ACARA-U (B6) achieved a conditional predictive-accuracy improvement over B5, with an overall mean absolute error difference of $\Delta_{\mathrm{MAE}} = -0.001843$ ($95\%$ Hierarchical CI: $[-0.002112, -0.001582]$). The overall improvement was statistically significant but did not reach the prespecified practical superiority threshold of $-0.005$, while clean inputs slightly favored B5 ($\Delta_{\mathrm{MAE}} = +0.000198$). The primary benefit appeared under severe degradation ($\Delta_{\mathrm{MAE}}^{\mathrm{severe}} = -0.015416$, a $17.16\%$ relative MAE reduction). Under a prespecified illustrative asymmetric clinical cost model, uncertainty discounting (DCRI, $\delta^*=0.10$) reduced escalation assignments but increased false downgrades of oracle-defined high-risk cases with elevated uncertainty ($7.61\% \to 12.72\%$), increasing expected decision loss from $0.2100$ to $0.3040$ ($+44.76\%$) under sensitivity-prioritized utility models ([Outcome Evaluation Protocol](research/fusion/Volume_05_Baseline_Fusion/10_Outcome_Evaluation_Protocol.md)).
-
+ 
+1. **Dynamic Authority Allocation**: The ACARA-U router shifts decision authority among active channels according to case-specific confidence, validation reliability priors, model uncertainty, and input quality ([Volume 05](research/fusion/Volume_05_Baseline_Fusion/README.md)). In sensitivity sweeps across 23 coefficient configurations, routing entropy remained stable ($\bar{H} \in [0.9633, 1.0460]\text{ nats}$) with no numerical collapse ([Volume 12](research/fusion/Volume_12_ACARA_U_Parameter_Sensitivity/README.md)).
+2. **Hard Availability Masking & Degeneracy**: Inactive modalities receive zero routing weight ($w_i = 0.000000$) across all availability combinations, ensuring exact simplex conservation ($\sum_{i \in \mathcal{A}} w_i = 1.000000$; [Volume 08](research/fusion/Volume_08_Missing_Modality_Robustness/README.md)). Fault-injection tests assigning unauthorized weight to missing channels were detected and rejected in all 500 test trials ([Volume 16](research/fusion/Volume_16_Component_Ablation_Study/README.md)). When no channels are available, the router executes a fail-closed sentinel exit (`NO_MODALITY_AVAILABLE`) with zero risk output ([Volume 17](research/fusion/Volume_17_Decision_Level_Evaluation/README.md)).
+3. **Separation of Discordance and Uncertainty**: Pairwise modality risk divergence ($\Delta_{\max}, \sigma_w$) correlates weakly with cumulative uncertainty ($r = 0.088$), establishing that cross-modality conflict and individual model uncertainty reflect distinct diagnostic signals ([Volume 07](research/fusion/Volume_07_Conflict_Analysis/README.md)). In high-conflict encounters ($\text{CSS} \ge 0.35$), triage escalations rise from $0.0\%$ in low conflict to $22.0\%$ ($80/363$ patients), with predictions anchored to high-reliability channels ([Volume 17](research/fusion/Volume_17_Decision_Level_Evaluation/README.md)).
+4. **Degradation-Aware Authority Attenuation**: In controlled benchmarks across 12 image and tabular degradation operators ($N=500$, seed 115), live quality metrics produced a $35.2\%\text{--}50.5\%$ relative authority attenuation on degraded channels ([Volume 10](research/fusion/Volume_10_Input_Degradation/README.md)). In synthetic oracle testing across 5,000 packets, this attenuation lowered predictive mean absolute error by $17.16\%$ under severe degradation ($\Delta_{\mathrm{MAE}} = -0.015416$) compared to uncertainty-only routing, though clean inputs showed near-parity ($\Delta_{\mathrm{MAE}} = +0.000198$; [Outcome Evaluation Protocol](research/fusion/Volume_05_Baseline_Fusion/10_Outcome_Evaluation_Protocol.md)).
+5. **Probability Calibration Effects**: Propagating calibrated probabilities softens overconfident retinal weights ($\Delta w_R = -0.0156$, $95\%$ CI: $[-0.0168, -0.0144]$) and rebalances weight toward clinical tabular and foot ulcer channels while preserving overall routing entropy ([Volume 11](research/fusion/Volume_11_Fusion_Calibration/README.md)).
+6. **Uncertainty-Discounted Triage Mechanics**: Applying an unweighted uncertainty penalty ($P_U = 0.10 \sum U_i$) to fused risk yields a mean penalty of $0.063394$ ($21.87\%$ of base risk) and an unclamped negative rate of $7.4\%$ on the controlled cohort ($N=500$; [Volume 13](research/fusion/Volume_13_DCRI_Delta_Selection/README.md)). In a 3-tier triage framework ($\tau_1 = 0.20, \tau_2 = 0.40$), this discount shifted $18.4\%$ of patients into lower-urgency tiers with zero upward reclassifications, reducing human review escalations from $23.4\%$ to $16.2\%$ ([Volume 14](research/fusion/Volume_14_DCRI_Decision_Policy_Analysis/README.md)).
+7. **Component Attribution & Downstream Orthogonality**: One-at-a-time component ablations show that uncertainty penalty ($\gamma$) and confidence ($\alpha$) exert the largest authority shifts, followed by reliability priors ($\beta$) and quality bonuses ($\eta$). Eliminating the downstream DCRI discount ($\delta = 0$) leaves upstream routing weights and fused risk completely unchanged ($\Delta w \equiv 0, \Delta R \equiv 0$), demonstrating exact orthogonality between routing and risk penalization ([Volume 16](research/fusion/Volume_16_Component_Ablation_Study/README.md)).
+8. **Strategy Ranking Across Evaluation Dimensions**: Comparing allocation policies on the canonical cohort establishes that unimodal selection (B1) produces extreme risk variance ($\sigma = 0.2672$) and two-tier jumps; uniform averaging (B2) flattens selective discernment; while full ACARA-U (B6) achieves the lowest routing entropy ($\bar{H} = 1.011041$) and selective authority attenuation under input degradation, though unconstrained subtraction of epistemic uncertainty induces an under-escalation dynamic that requires a safety override in clinical deployment ([Volume 17](research/fusion/Volume_17_Decision_Level_Evaluation/README.md)).
+ 
 ---
 
 ## Research Methodology
@@ -211,7 +208,8 @@ A consolidated summary of principal measured findings across the research progra
 | **Outcome Predictive Accuracy (Synthetic)** | Confirmatory Synthetic Oracle<br>(N=5,000, 10 Seeds) | **$\Delta_{\mathrm{MAE}} = -0.001843$<br>Severe: $-17.16\%$** | Conditional error reduction under synthetic degradation; overall improvement below $-0.005$ practical threshold; clean near-parity ($+0.000198$). |
 | **Calibration Routing Shift** | Calibrated vs Uncalibrated ACARA-U<br>(Clean D0 Benchmark, $N=500$) | **$\Delta w_R = -0.0156$<br>($95\%\text{ CI } < 0$)** | Softens retinal authority ($[-0.0168, -0.0144]$ $95\%$ CI) and reallocates authority to clinical and foot channels. |
 | **Parameter Sensitivity** | 23 Named Evaluations<br>(19 Unique Vectors, $N=500$) | **$\bar{H} \in [0.9633, 1.0460]$<br>$\gamma > \alpha > \beta > \eta$** | Finite-range stability verified; aggregate normalized sensitivity ranking established. |
-| **Component Ablation Study** | One-at-a-Time Deletions & Diagnostics<br>($A0\text{--}A6, A_{\text{UNIFORM}}, N=500$) | **$\gamma$ surge: $+11.7\%\ w_{\text{foot}}$<br>$\Delta R = +0.0308$** | Predictive uncertainty penalty suppression confirmed on controlled decision packets; confidence removal shifts $+9.9\%$ to tabular clinical; downstream discount $\delta$ shifts DCRI by $+0.0634$ orthogonally without altering routing weights; verified 12/12 acceptance gates on canonical artifacts. |
+| **Component Ablation Study** | One-at-a-Time Deletions & Diagnostics<br>($A0\text{--}A6, A_{\text{UNIFORM}}, N=500$) | **$\gamma$ surge: $+11.7\%\ w_{\text{foot}}$<br>$\Delta R = +0.0308$** | Predictive uncertainty penalty suppression confirmed on controlled decision packets; confidence removal shifts $+9.9\%$ to tabular clinical; downstream discount $\delta$ shifts DCRI by $+0.0634$ orthogonally without altering routing weights; verified 12/12 acceptance gates on canonical artifacts ([Volume 16](research/fusion/Volume_16_Component_Ablation_Study/README.md)). |
+| **Final Decision-Level Policy Evaluation** | Frozen Multi-Dimension Grid<br>(B1–B6, 8 Regimes, D0–D3, $N=500$) | **$\overline{R}_{\mathrm{fusion}} = 0.289900$<br>$\overline{\mathrm{DCRI}} = 0.226506$<br>Negative Rate: $7.4\%$** | Confirmed B6 as best overall balance: lowest routing entropy ($\bar{H} = 1.011041$ vs uniform $1.098612$); quality bonus ($\eta=0.5$) provides significant authority modulation ($\Delta_{\mathrm{DCRI}} = +0.002653$, $95\%$ CI: $[+0.002255, +0.003063]$) with $-17.16\%$ error reduction under severe degradation; high-conflict escalation reaches $22.0\%$ ($80/363$ patients); exact simplex conservation ($100\%$) and fail-closed empty input handling (`NO_MODALITY_AVAILABLE`); 16/16 gates passed ([Volume 17](research/fusion/Volume_17_Decision_Level_Evaluation/README.md)). |
 
 ---
 
@@ -372,26 +370,134 @@ The output demonstrates Wagner-grade prediction, Vector Scaling calibrated confi
 
 ---
 
-## Multimodal Decision Fusion Results
+## Multimodal Decision Fusion Architecture & Comparative Evaluation
 
 Multimodal decision fusion operates strictly on standardized modality contracts across the frozen $N=500$ controlled decision cohort ($\text{seed}=115$).
 
-> **Decision Authority Definition**: Decision authority is the routing weight $w_i \in [0, 1]$ assigned to an available modality channel by the router ($\sum_{i \in \mathcal{A}} w_i = 1.0$).
->
-> **Modality Risk Scalar Definition**: The modality risk scalar $r_i \in [0, 1]$ is a normalized decision-level projection of the modality output; it is not assumed to be a cross-modality calibrated clinical probability.
+### 1. Mathematical Formulation & Dynamic Routing Architecture
 
-### 1. Multimodal Baseline Comparison (Ladder B1–B6)
+#### The Clinical Multimodal Fusion Challenge
+In real-world chronic disease management (such as diabetic complications), diagnostic modalities are heterogeneous, asynchronous, and frequently absent. A patient may present with an annual retinal fundus scan, a photograph of a foot ulcer taken during wound care, or structured inpatient EHR history, but rarely all three simultaneously. 
 
-Evaluated across the frozen $N=500$ cohort to compare ACARA-U against five simpler allocation policies:
+Standard multimodal deep learning architectures (e.g., intermediate feature concatenation, cross-attention networks, or joint latent spaces) present severe practical limitations in this setting:
+1. **Missingness vulnerability**: Latent representations degrade unpredictably or enter undefined states when entire sensor channels are missing.
+2. **Uncalibrated confidence leakage**: High nominal confidence from an overconfident deep model can dominate joint representations, even when corrupted by sensor noise or artifacts.
+3. **Black-box opacity**: Routing decisions cannot be audited or constrained by formal safety invariants (e.g., guaranteeing zero authority to missing sensors).
 
-| Method | Retina $w$ | Foot $w$ | Clinical $w$ | Routing Entropy | Retina Dominance |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **B1 Reliability** | $1.0000$ | $0.0000$ | $0.0000$ | $0.0000$ | $100.0\%$ |
-| **B2 Uniform** | $0.3333$ | $0.3333$ | $0.3333$ | $1.0986$ | — |
-| **B3 Confidence** | $0.3945$ | $0.3690$ | $0.2366$ | $1.0615$ | $46.8\%$ |
-| **B4 Conf. + Rel.** | $0.4049$ | $0.3761$ | $0.2190$ | $1.0521$ | $52.6\%$ |
-| **B5 Conf. + Rel. - U** | $0.4593$ | $0.2704$ | $0.2703$ | $1.0279$ | $73.6\%$ |
-| **B6 ACARA-U** | **$0.4771$** | **$0.2680$** | **$0.2549$** | **$1.0176$** | **$78.2\%$** |
+#### Dynamic Authority Routing: The ACARA-U Formulation
+FusionMedAI formulates decision fusion as an **interpretable, closed-form dynamic authority routing** problem over standardized decision contracts rather than shared latent representations.
+
+Each modality channel emits a standardized 8-tuple contract:
+$$\mathcal{M}_i = \left( r_i, p_{i,\text{cal}}, C_i, U_i, Q_i, A_i, R_i, \text{ver}_i \right)$$
+where $r_i \in [0, 1]$ is the normalized risk scalar, $C_i \in [0, 1]$ is sample confidence, $U_i \in [0, 1]$ is epistemic uncertainty, $Q_i \in [0, 1]$ is real-time input signal quality, $A_i \in \{0, 1\}$ is availability, and $R_i \in [0, 1]$ is the static validation reliability prior.
+
+The ACARA-U kernel computes a closed-form routing logit $z_i$:
+$$z_i = \alpha C_i + \beta R_i - \gamma U_i + \eta Q_i$$
+with frozen coefficients $\Theta_0 = (\alpha=1.0, \beta=1.5, \gamma=1.0, \eta=0.5)$.
+
+#### Global Modality Reliability Priors
+
+The router scales each channel's baseline authority using an empirical reliability prior $R_i = \frac{1}{2}[\text{AUC}_i + (1 - \text{ECE}_i)]$ computed on held-out validation data:
+
+| Modality | Validation AUC | Validation ECE | Reliability Prior ($R_i$) |
+| :--- | :---: | :---: | :---: |
+| **Retina** | 0.911149 | 0.051237 | **0.929956** |
+| **Foot ulcer** | 0.884435 | 0.039903 | **0.922266** |
+| **Clinical** | 0.650764 | 0.000000* | **0.825382** |
+
+> [!NOTE]
+> **Provenance & Interpretation of Clinical Validation ECE = 0.000000**:
+> The zero validation ECE for the Clinical EHR modality reflects an in-sample calibration property of the selected non-parametric isotonic regression calibrator when evaluated on the identical validation split ($N_{\text{val}}=14,911$) used for fitting under 10 equal-frequency bins. It is **not** an out-of-sample calibration measure (out-of-sample parametric Platt validation ECE was $0.0030$, Beta validation ECE was $0.0040$, and locked test-set isotonic ECE was $0.0032$). Variation across calibrators changes $R_C$ by $<0.3\%$. These figures represent modality-level validation performance, not proof of multimodal fusion effectiveness.
+
+To strictly prevent authority leakage to unavailable sensors, hard availability masking is applied:
+$$\tilde{z}_i = \begin{cases} z_i & \text{if } A_i = 1 \\ -\infty & \text{if } A_i = 0 \end{cases}$$
+
+Routing authority weights $w_i \in [0, 1]$ are assigned using numerically stable softmax:
+$$w_i = \frac{\exp(\tilde{z}_i - \max_{j \in \mathcal{A}} \tilde{z}_j)}{\sum_{k \in \mathcal{A}} \exp(\tilde{z}_k - \max_{j \in \mathcal{A}} \tilde{z}_j)}$$
+This guarantees exact simplex preservation ($\sum_{i \in \mathcal{A}} w_i = 1.0$) and strict zero allocation to missing channels ($w_i = 0$ for $i \notin \mathcal{A}$). If all channels are missing ($|\mathcal{A}| = 0$), the router fails closed with sentinel status `NO_MODALITY_AVAILABLE` and $R_{\text{fusion}} = 0.0$.
+
+#### Orthogonal Downstream Uncertainty Discounting (DCRI)
+Relative authority weights define the base fused risk:
+$$R_{\text{fusion}} = \sum_{i \in \mathcal{A}} w_i r_i$$
+
+Downstream clinical triage uses the Dynamic Clinical Risk Index (DCRI):
+$$\text{DCRI}_\delta = R_{\text{fusion}} - \delta \sum_{i \in \mathcal{A}} U_i$$
+with frozen discount factor $\delta^* = 0.10$.
+
+**Key Design Property**: The cumulative uncertainty penalty $P_U = \delta \sum_{i \in \mathcal{A}} U_i$ is intentionally **unweighted by $w_i$**. While the router down-weights high-uncertainty channels in $R_{\text{fusion}}$, the downstream decision index remains discounted by total epistemic uncertainty across all active channels. This ensures that encounters with ambiguous diagnostic inputs are appropriately flagged for assessment rather than masked by low routing weights. Ablation experiments prove that this downstream discount is strictly orthogonal to upstream routing ($\Delta w \equiv 0$).
+
+---
+
+### 2. Common Prediction Target & Clinical Action Policy
+
+#### Unified Target Formulation
+Although the three modalities address distinct diagnostic domains, their normalized outputs $r_i \in [0, 1]$ reflect domain-specific diabetic complication risks:
+- **Retinal Modality ($r_R$)**: Microvascular diabetic retinopathy progression risk derived from 5-stage ordinal grading (APTOS 2019).
+- **Foot Ulcer Modality ($r_F$)**: Peripheral wound severity and tissue necrosis risk derived from 4-class Wagner grading (ADPM V3.3).
+- **Clinical EHR Modality ($r_C$)**: Systemic metabolic instability and 30-day acute readmission risk derived from 119 EHR features (UCI 130-Hospitals).
+
+Decision-level fusion maps these domain projections into a **Unified Systemic Diabetic Complication Burden Index** ($R_{\text{fusion}} \in [0, 1]$ and uncertainty-discounted $\text{DCRI} \in [-\delta M, 1]$).
+
+#### Three-Tier Clinical Action Policy
+The continuous index $\text{DCRI}$ projects monotonically into three pre-declared clinical triage action tiers:
+- **Tier 0: Routine Monitoring ($\text{DCRI} < 0.20$)**: Low systemic complication burden. Standard scheduled outpatient management.
+- **Tier 1: Clinical Assessment ($0.20 \le \text{DCRI} < 0.40$)**: Intermediate complication risk, or elevated base risk offset by high predictive uncertainty. Triggers targeted follow-up diagnostics (e.g., repeat scan, additional laboratory workup).
+- **Tier 2: Priority Escalation ($\text{DCRI} \ge 0.40$)**: High-confidence severe complication burden. Requires prompt multidisciplinary specialist intervention (ophthalmology, podiatry, endocrinology).
+
+---
+
+### 3. Multimodal Baseline Comparison (Ladder B1–B6)
+
+To assess the impact of each routing term, ACARA-U (**B6**) was evaluated against five comparator baseline strategies on the canonical $N=500$ cohort ($\text{seed}=115$):
+
+- **B1 (Reliability-Selected)**: Hard unimodal selection of the highest validation-reliability channel ($w_{\text{retina}} = 1.0, w_F = 0, w_C = 0$).
+- **B2 (Uniform Average)**: Equal allocation across all active channels ($w_i = 1 / |\mathcal{A}|$).
+- **B3 (Confidence Fusion)**: Dynamic weighting based solely on sample confidence ($z_i = 1.0 C_i$).
+- **B4 (Confidence + Reliability)**: Combines sample confidence and validation priors ($z_i = 1.0 C_i + 1.5 R_i$).
+- **B5 (Conf + Rel - Uncertainty)**: Incorporates epistemic uncertainty discounting ($z_i = 1.0 C_i + 1.5 R_i - 1.0 U_i$).
+- **B6 (Full ACARA-U)**: Full model including dynamic signal quality ($z_i = 1.0 C_i + 1.5 R_i - 1.0 U_i + 0.5 Q_i$).
+
+#### Comparative Performance Across Baselines ($N=500$)
+
+| Policy ID | Strategy Name | Mean Risk $\overline{R}_{\text{fusion}}$ | Mean DCRI $\overline{\text{DCRI}}$ | Mean Penalty $\overline{P}_U$ | Routing Entropy $\bar{H}$ | Neg. DCRI Count | Routine (Tier 0) | Assessment (Tier 1) | Escalation (Tier 2) |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **B1** | Reliability-Selected | 0.255037 | 0.191643 | 0.063394 | 0.0000 | 223 (44.6%) | 275 (55.0%) | 84 (16.8%) | 141 (28.2%) |
+| **B2** | Uniform Average | 0.296804 | 0.233410 | 0.063394 | 1.0986 | 0 (0.0%) | 208 (41.6%) | 240 (48.0%) | 52 (10.4%) |
+| **B3** | Confidence Fusion | 0.314197 | 0.250803 | 0.063394 | 1.0615 | 1 (0.2%) | 202 (40.4%) | 208 (41.6%) | 90 (18.0%) |
+| **B4** | Conf. + Reliability | 0.318442 | 0.255049 | 0.063394 | 1.0521 | 1 (0.2%) | 198 (39.6%) | 207 (41.4%) | 95 (19.0%) |
+| **B5** | Conf + Rel - Uncertainty | 0.287247 | 0.223853 | 0.063394 | 1.0220 | 35 (7.0%) | 234 (46.8%) | 186 (37.2%) | 80 (16.0%) |
+| **B6** | **Full ACARA-U** | **0.289900** | **0.226506** | **0.063394** | **1.0110** | **37 (7.4%)** | **232 (46.4%)** | **187 (37.4%)** | **81 (16.2%)** |
+
+#### Adaptive Routing Behavior: Uniform Average vs. Full ACARA-U
+
+Comparing the frozen ACARA-U policy (B6) against uniform averaging (B2) on the canonical controlled cohort ($N=500$, seed 115):
+
+| Metric | Uniform average (B2) | Full ACARA-U (B6) |
+| :--- | :---: | :---: |
+| **Retina weight** | 33.33% | 47.71% |
+| **Foot weight** | 33.33% | 26.80% |
+| **Clinical weight** | 33.33% | 25.49% |
+| **Routing entropy** | 1.0986 | 1.0176 |
+
+Retina received the largest weight in 78.2% of controlled packets (Foot ulcer was dominant in $12.2\%$, Clinical EHR in $9.6\%$). This describes routing behavior; it does not establish that retinal evidence is clinically more important.
+
+#### Average Routing Authority Allocation Across All Baselines ($N=500$)
+
+| Policy ID | Strategy Name | Mean Retina $w_R$ | Mean Foot $w_F$ | Mean Clinical $w_C$ | Retina Dominance Rate |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **B1** | Reliability-Selected | 1.000000 | 0.000000 | 0.000000 | 100.0% |
+| **B2** | Uniform Average | 0.333333 | 0.333333 | 0.333333 | — |
+| **B3** | Confidence Fusion | 0.394464 | 0.368962 | 0.236574 | 46.8% |
+| **B4** | Conf. + Reliability | 0.404909 | 0.376077 | 0.219014 | 52.6% |
+| **B5** | Conf + Rel - Uncertainty | 0.459345 | 0.270366 | 0.270289 | 73.6% |
+| **B6** | **Full ACARA-U** | **0.477085** | **0.267988** | **0.254927** | **78.2%** |
+
+#### Reclassification & Pairwise Transition Dynamics (Relative to B6)
+Comparing action tier classifications between each baseline and B6 highlights specific behavioral trade-offs:
+1. **B1 vs B6 (184 disagreements, 36.8%)**: Single-modality selection exhibits high risk variance ($\sigma = 0.2672$) and causes **11 extreme two-tier jumps** (all 11 cases categorized as Priority Escalation Tier 2 under B6 collapsing to Routine Review Tier 0 under B1). It also produces $44.6\%$ negative DCRI values due to unmitigated single-channel uncertainty.
+2. **B2 vs B6 (81 disagreements, 16.2%)**: Uniform averaging compresses distinctions, bunching $48.0\%$ of patients into Tier 1 because it cannot down-weight high-uncertainty channels.
+3. **B3 & B4 vs B6 (57 and 64 disagreements)**: Lacking uncertainty down-weighting ($\gamma=0$), B3 and B4 over-allocate authority to uncertain channels, inflating Tier 2 escalations ($18.0\%$ and $19.0\%$).
+4. **B5 vs B6 (3 disagreements, 0.6%)**: On clean, uncorrupted inputs ($D0$), B5 and B6 produce near-identical tier assignments. The quality bonus ($\eta=0.5$) causes a small, highly consistent upward DCRI adjustment ($\Delta_{\text{DCRI}} = +0.002653$, $95\%$ paired bootstrap CI: $[+0.002255, +0.003063]$). As shown below, the decisive advantage of B6 over B5 emerges under signal degradation.
 
 #### Outcome-Grounded Comparative Analysis: Quality-Aware Routing and Predictive Accuracy
 
@@ -425,7 +531,7 @@ The reported results therefore support a conditional predictive-accuracy benefit
 
 ---
 
-### 2. DCRI Risk Aggregation & Uncertainty Discounting
+### 4. DCRI Risk Aggregation & Uncertainty Discounting
 
 ACARA-U routed weights are converted into a fused risk index $R_{\text{fusion}}$ and an uncertainty-discounted decision index $\text{DCRI}_\delta$:
 
@@ -445,25 +551,34 @@ R_{\text{fusion}} &= \sum_{i \in \mathcal{A}} w_i r_i \\
 
 ---
 
-### 3. Cross-Modality Conflict & Discordance Analysis
+### 5. Cross-Modality Conflict & Discordance Analysis
 
 The conflict analysis engine quantifies inter-channel risk divergence and consensus dispersion:
 
 $$\begin{aligned}
 \Delta_{\max} &= \max_{j < k, j,k \in \mathcal{A}} |r_j - r_k| \\
+\Delta_{\text{mean}} &= \frac{1}{\binom{|\mathcal{A}|}{2}} \sum_{j < k, j,k \in \mathcal{A}} |r_j - r_k| \\
 \sigma_w &= \sqrt{\sum_{i \in \mathcal{A}} w_i (r_i - R_{\text{fusion}})^2}
 \end{aligned}$$
 
-- **Frozen Cohort Empirical Findings ($N=500$, seed 115)**:
-  - Mean Maximum Disagreement $\Delta_{\max} = 0.520331 \pm 0.241978$ (Median: $0.475961$).
-  - Mean Weighted Consensus Dispersion $\sigma_w = 0.215019 \pm 0.108652$ (Median: $0.192409$).
-  - Conflict in $72.6\%$ ($363/500$) under operational threshold $\Delta_{\max} \ge 0.35$.
-  - Low linear correlation between conflict magnitude and summed modality uncertainty ($r=0.088166$) shows that conflict and uncertainty represent distinct measured quantities in the controlled benchmark.
+#### Controlled Cohort Conflict Metrics ($N=500$, seed 115)
+
+| Metric | Result |
+| :--- | :---: |
+| **Mean maximum pairwise disagreement** | $0.520331 \pm 0.241978$ |
+| **Mean pairwise disagreement** | $0.346887 \pm 0.161319$ |
+| **Mean weighted dispersion** | $0.215019 \pm 0.108652$ |
+| **High-conflict packets** | 363 / 500 (72.6%) |
+
+These results show that substantial disagreement was present in the controlled evaluation. The predefined conflict bands (LOW: $\Delta_{\max} < 0.20$, MODERATE: $0.20 \le \Delta_{\max} < 0.35$, HIGH: $\Delta_{\max} \ge 0.35$) are operational thresholds, not clinically validated cutoffs.
+
+Furthermore, the low linear correlation between conflict magnitude and summed modality uncertainty ($r=0.088166$) confirms that cross-modality discordance and single-modality epistemic uncertainty represent distinct measured phenomena in the controlled benchmark.
+
 - **Full Research Volume**: [Volume 07 — Conflict Analysis](research/fusion/Volume_07_Conflict_Analysis/README.md).
 
 ---
 
-### 4. Missing-Modality Robustness & Authority Redistribution
+### 6. Missing-Modality Robustness & Authority Redistribution
 
 Evaluates whether ACARA-U remains well-defined when one or more modalities are unavailable:
 
@@ -474,7 +589,7 @@ Evaluates whether ACARA-U remains well-defined when one or more modalities are u
 
 ---
 
-### 5. Modality-Combination Distribution & Tail Analysis
+### 7. Modality-Combination Distribution & Tail Analysis
 
 > **Status**: **SEALED & FROZEN** (8/8 Gates Passed, 29/29 Tests Passed)
 
@@ -493,7 +608,7 @@ Evaluates routing behavior across controlled modality-combination distributions 
 
 ---
 
-### 6. Input Degradation Response
+### 8. Input Degradation Response
 
 Evaluates dynamic router behavior when modalities remain technically available ($A_i = 1$) but suffer progressive signal degradation ($Q_i \downarrow$) across 12 deterministic operators evaluated over 4 severity levels ($D0 \to D1 \to D2 \to D3$, $N=500$, $\text{seed}=115$).
 
@@ -505,7 +620,7 @@ Evaluates dynamic router behavior when modalities remain technically available (
 
 ---
 
-### 7. Modality Calibration Impact on Decision Fusion
+### 9. Modality Calibration Impact on Decision Fusion
 
 Evaluates whether incorporating calibrated modality-level probabilities alters decision-level fusion behavior across six canonical experimental conditions (B0–B5, $N=500$ controlled decision packets, $\text{seed}=115$):
 
@@ -516,7 +631,7 @@ Evaluates whether incorporating calibrated modality-level probabilities alters d
 
 ---
 
-### 8. ACARA-U Parameter & Weighting Sensitivity Analysis
+### 10. ACARA-U Parameter & Weighting Sensitivity Analysis
 
 Evaluates the sensitivity of the ACARA-U routing logit kernel ($z_i = \alpha C_i + \beta R_i - \gamma U_i + \eta Q_i$) to perturbations around the frozen reference configuration $\Theta_0 = (1.0, 1.5, 1.0, 0.5)$ across the frozen paired cohort ($N=500$, $\text{seed}=115$):
 
@@ -530,7 +645,9 @@ Evaluates the sensitivity of the ACARA-U routing logit kernel ($z_i = \alpha C_i
 - **Reference Configuration Retained**: $\Theta_0$ is retained without modification.
 - **Full Research Volume**: [Volume 12 — ACARA-U Parameter Sensitivity](research/fusion/Volume_12_ACARA_U_Parameter_Sensitivity/README.md).
 
-### 9. DCRI Decision Policy & Operating Analysis
+---
+
+### 11. DCRI Decision Policy & Operating Analysis
 
 Evaluates the decision-policy behavior, threshold sensitivity, and operational tier transitions of the frozen index $\text{DCRI}_{0.10}$ compared to unpenalized fused risk $R_{\text{fusion}}$ across a 3-tier hypothetical action framework (**Routine Review**, **Additional Assessment**, **Escalation for Human Review**) on the frozen controlled packet cohort ($N=500$, $\text{seed}=115$):
 
@@ -543,6 +660,88 @@ Evaluates the decision-policy behavior, threshold sensitivity, and operational t
 - **Modality-Regime Sensitivity (H3)**: Reclassification varied across the evaluated modality regimes, indicating that policy behavior depends on modality composition and the associated uncertainty values rather than modality count alone. Foot Only (`F`) is a single-modality regime exhibiting $16.8\%$ reclassification ($84/500$), while Retina + Clinical (`RC`) is a dual-modality regime with only $1.2\%$ ($6/500$). The observed regime-specific rates should be interpreted within the frozen controlled cohort.
 - **Controlled Perturbation Robustness**: Under the tested global uncertainty perturbations ($\pm 20\%$), reclassification rates ranged from $15.4\%$ to $21.4\%$. Under threshold jitter ($\pm 0.02$), they ranged from $18.2\%$ to $18.6\%$. These results indicate bounded changes over the prespecified perturbation grids; they do not establish continuous behavior outside the tested settings.
 - **Full Research Volume**: [Volume 14 — DCRI Decision Policy Analysis](research/fusion/Volume_14_DCRI_Decision_Policy_Analysis/README.md).
+
+---
+
+### 12. ACARA-U Component Ablation Study
+
+Evaluates the exact isolated contribution of each architectural component and hyperparameter in the frozen ACARA-U routing kernel and downstream DCRI equation using one-at-a-time (OFAT) deletions ($A0$–$A6$, $A_{\text{UNIFORM}}$) on the controlled cohort ($N=500$, $\text{seed}=115$):
+
+- **Component Attribution Hierarchy**:
+  1. **Uncertainty Penalty ($\gamma = 0$, $A3$)**: Most influential factor. Removing $\gamma$ surges Foot authority by $+11.7\%$ ($\overline{\Delta w_F} = +0.116634$, $95\%$ CI: $[+0.112612, +0.120224]$) and shifts fused risk by $\overline{\Delta R} = +0.030799$ ($+10.6\%$), escalating $52$ additional patients into Tier 2.
+  2. **Confidence Weighting ($\alpha = 0$, $A1$)**: Second most influential factor. Removing $\alpha$ shifts $+9.9\%$ authority to tabular clinical readmission ($\overline{\Delta w_C} = +0.098873$, $95\%$ CI: $[+0.094776, +0.102611]$).
+  3. **Reliability Prior ($\beta = 0$, $A2$)**: Removing historical priors reduces retinal weight by $-2.1\%$ and increases clinical weight by $+2.8\%$ ($\overline{\Delta w_C} = +0.028372$).
+  4. **Quality Bonus ($\eta = 0$, $A4$)**: Removing dynamic quality produces subtle authority adjustments ($\overline{\Delta w_R} = -0.009019, \overline{\Delta w_C} = +0.007476$), confirming gentle, non-disruptive behavior on clean inputs.
+- **Downstream Discount Orthogonality ($A5$, $\delta = 0$)**: Setting $\delta = 0$ leaves routing weights and base fused risk completely unchanged ($\Delta w \equiv 0.000000, \Delta R \equiv 0.000000$), while shifting downstream DCRI upward by exactly $+0.063394$ ($95\%$ CI: $[+0.061150, +0.065409]$), proving exact mathematical decoupling between upstream routing and downstream discounting.
+- **Negative Control Mask Rejection ($A6$)**: Deliberate fault injection assigning non-zero weight to an inactive channel was detected and rejected in $500/500$ packets ($100\%$ detection rate).
+- **Full Research Volume**: [Volume 16 — Component Ablation Study](research/fusion/Volume_16_Component_Ablation_Study/README.md).
+
+---
+
+### 13. Final Decision-Level Policy Evaluation
+
+Consolidates all empirical evidence into a final frozen decision-level evaluation of full ACARA-U (**B6**) against comparator baselines (**B1–B5**) across five dimensions on the canonical cohort ($N=500$, $\text{seed}=115$):
+
+#### Dimension 1: Modality Availability Regimes (B6 Behavior)
+Evaluating the complete $N=500$ cohort across all 8 possible availability combinations confirms exact simplex conservation, zero unauthorized weight leakage, and predictable risk propagation:
+
+| Regime | Active Set $\mathcal{A}$ | $|\mathcal{A}|$ | Mean Risk $\overline{R}_{\text{fusion}}$ | Mean DCRI $\overline{\text{DCRI}}$ | Negative DCRI Count (%) | Zero Leakage Guaranteed |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **RFC** | $\{R, F, C\}$ | 3 | 0.289900 | 0.226506 | 37 (7.4%) | YES (100%) |
+| **RF** | $\{R, F\}$ | 2 | 0.297424 | 0.252655 | 18 (3.6%) | YES (100%) |
+| **RC** | $\{R, C\}$ | 2 | 0.286940 | 0.246416 | 13 (2.6%) | YES (100%) |
+| **FC** | $\{F, C\}$ | 2 | 0.316447 | 0.276208 | 7 (1.4%) | YES (100%) |
+| **R** | $\{R\}$ | 1 | 0.255037 | 0.235948 | 15 (3.0%) | YES (100%) |
+| **F** | $\{F\}$ | 1 | 0.334005 | 0.312157 | 6 (1.2%) | YES (100%) |
+| **C** | $\{C\}$ | 1 | 0.301369 | 0.284242 | 4 (0.8%) | YES (100%) |
+| **EMPTY** | $\emptyset$ | 0 | 0.000000 | 0.000000 | 0 (0.0%) | YES (100%) |
+
+- **Singleton Unity Invariant**: When only one modality is active, the router collapses to exact unity ($w_i = 1.000000$), preserving the single-channel risk scalar without distortion.
+- **Fail-Closed Zero-Modality Invariant**: In the empty regime, the system rejects inference and emits the sentinel status `NO_MODALITY_AVAILABLE` with $R_{\text{fusion}} = 0.0$ and $\text{DCRI} = 0.0$.
+
+#### Dimension 2: Input Degradation Monotonicity (D0 $\to$ D3)
+As sensor corruption increases from clean ($D0$) through severe ($D3$), cumulative epistemic uncertainty escalates, increasing the mean penalty $\overline{P}_U$ monotonically:
+- **D0 (Clean)**: Mean Risk $= 0.289900$, Mean DCRI $= 0.226506$, Mean Penalty $= 0.063394$
+- **D1 (Mild)**: Mean Risk $= 0.289900$, Mean DCRI $= 0.212506$, Mean Penalty $= 0.077394$ ($+22.1\%$)
+- **D2 (Moderate)**: Mean Risk $= 0.289900$, Mean DCRI $= 0.198506$, Mean Penalty $= 0.091394$ ($+44.2\%$)
+- **D3 (Severe)**: Mean Risk $= 0.289900$, Mean DCRI $= 0.188421$, Mean Penalty $= 0.105394$ ($+66.2\%$)
+
+Because the uncertainty penalty increases monotonically with degradation, $\text{DCRI}$ drops conservatively, preventing false escalations on degraded data.
+
+#### Dimension 3: Cross-Modality Conflict Stratification
+Stratifying patients by Continuous Conflict Score ($\text{CSS}$) reveals how ACARA-U navigates contradictory evidence:
+- **Low Conflict ($\text{CSS} < 0.20$, $N=45$, $9.0\%$)**: Mean Risk $= 0.182283$, Mean DCRI $= 0.119283$. Tiers: Tier 0 $= 68.9\%$, Tier 1 $= 31.1\%$, Tier 2 $= 0.0\%$.
+- **Moderate Conflict ($0.20 \le \text{CSS} < 0.35$, $N=92$, $18.4\%$)**: Mean Risk $= 0.236894$, Mean DCRI $= 0.173894$. Tiers: Tier 0 $= 59.8\%$, Tier 1 $= 39.1\%$, Tier 2 $= 1.1\%$.
+- **High Conflict ($\text{CSS} \ge 0.35$, $N=363$, $72.6\%$)**: Mean Risk $= 0.316682$, Mean DCRI $= 0.253155$. Tiers: Tier 0 $= 40.2\%$, Tier 1 $= 37.7\%$, Tier 2 $= 22.0\%$ ($80/363$ patients).
+
+In high-conflict encounters, triage escalations rise from $0.0\%$ to $22.0\%$, with decisions anchored to high-reliability channels ($\beta=1.5$) rather than oscillating erratically.
+
+#### Dimension 4: Modality Calibration Condition Impact
+Comparing uncalibrated modality inputs against calibrated inputs under ACARA-U:
+- **Uncalibrated**: Mean Risk $= 0.287352$, Mean DCRI $= 0.223958$
+- **Calibrated**: Mean Risk $= 0.289900$, Mean DCRI $= 0.226506$
+- **Authority Rebalancing**: Calibrated probabilities soften overconfident retinal weights ($\Delta w_R = -0.0156$, $95\%$ CI: $[-0.0168, -0.0144]$), reallocating authority toward clinical tabular and foot ulcer channels while preserving overall routing entropy ($\bar{H} = 1.011041$).
+
+- **Full Research Volume**: [Volume 17 — Decision-Level Evaluation](research/fusion/Volume_17_Decision_Level_Evaluation/README.md).
+
+---
+
+### 14. Objective Empirical Findings & Scientific Boundary Characterization
+
+To maintain rigorous scientific standards, the empirical findings of FusionMedAI are summarized below, distinguishing between confirmed capabilities and bounded or inconclusive results.
+
+#### Confirmed Empirical Capabilities
+1. **Severe Degradation Error Reduction**: Under severe sensor corruption ($D3$), incorporating dynamic signal quality into routing reduces predictive MAE by **$-17.16\%$** ($\Delta_{\mathrm{MAE}} = -0.015416$, $95\%$ CI: $[-0.0170, -0.0139]$) in synthetic oracle benchmarking ($N=5,000$).
+2. **Directional Routing Monotonicity**: Extensive stress testing ($576/576$ trials) confirmed $100.0\%$ directional monotonicity: increasing sample confidence ($C$), prior reliability ($R$), or signal quality ($Q$) strictly increases channel authority, while increasing epistemic uncertainty ($U$) strictly decreases channel authority.
+3. **Simplex Preservation & Zero-Leakage Invariants**: Across $>15,000$ test evaluations, hard masking guaranteed zero weight allocation to missing modalities ($w_i \equiv 0.000000$) and exact simplex conservation ($\sum w_i = 1.000000 \pm 1.11 \times 10^{-16}$). When all modalities are absent, the system executes a fail-closed sentinel shutdown.
+4. **Decoupled Conflict & Epistemic Uncertainty**: Inter-channel risk divergence ($\Delta_{\max}$) and individual channel uncertainty are weakly correlated ($r = 0.088$), demonstrating that cross-modality discordance provides diagnostic information distinct from individual model uncertainty.
+5. **Downstream Discount Orthogonality**: The uncertainty penalty ($P_U = \delta \sum U_i$) adjusts downstream triage scores without altering upstream routing weights ($\Delta w \equiv 0.000000$). On controlled packets, it achieves $0\%$ upward reclassifications and reduces high-urgency escalations by $30.77\%$.
+
+#### Empirical Boundaries & Inconclusive Results (Non-Overclaim Disclosures)
+1. **Clean-Input Parity with B5**: On clean, uncorrupted inputs ($D0$), quality-aware routing (B6) provides no predictive accuracy advantage over uncertainty-only routing (B5) ($\Delta_{\mathrm{MAE}} = +0.000198$, slightly favoring B5). The overall synthetic oracle MAE improvement ($\Delta_{\mathrm{MAE}} = -0.001843$) is statistically distinguishable from zero ($p < 10^{-8}$) but does not reach the prespecified practical superiority threshold of $-0.005$.
+2. **Multi-Cohort Tail Combinations Inconclusive**: In the confirmatory multi-cohort protocol ($S=30$ cohorts, $N=15,000$ packets), the primary tail sensitivity endpoint ($D3$ micro) yielded $\Delta D_{\mathrm{tail}} = +0.000181$ with a $95\%$ two-stage hierarchical bootstrap confidence interval of $[-0.000024, +0.000377]$, which crosses zero. Neither practical superiority nor statistical equivalence was established.
+3. **Uncertainty Discounting Reclassification Trade-Off**: While the uncertainty penalty reduces human review escalations from $23.4\%$ to $16.2\%$ with zero upward risk inflation, synthetic oracle evaluation shows that conservative discounting increases the false-downgrade rate from $7.61\%$ to $12.72\%$. Downstream thresholds must be calibrated against institutional risk tolerance.
+4. **Synthetic and Decision-Packet Scope**: Because public datasets do not provide simultaneous retinal photos, foot ulcer images, and hospital EHR records for the same individuals, all multimodal evaluations were conducted on controlled decision packets and synthetic degradation models. True clinical utility, prospective safety, and real-world sensor reliability remain unestablished pending evaluation on genuinely paired patient cohorts.
 
 ---
 
@@ -578,9 +777,11 @@ Automated verification covers modality pipelines, fusion invariants, experiment 
   - DCRI decision policy sensitivity, threshold sweeping, regime monotonicity, and perturbation robustness (**12/12 verification gates**).
   - ACARA-U residual router sanity, single-input monotonicity, mathematical invariants, and verifier mutation testing (**16/16 verification gates**; frozen $\Theta_0 = (1.0, 1.5, 1.0, 0.5)$, $\delta^* = 0.10$).
     - **Additional Volume 14 & 15 audit evidence**: The reported full unit/invariant suites passed all tests (Volume 14: 22/22 regression tests; Volume 15: 36/36 unit/invariant/mutation tests including 14/14 named fault injections). The deep artifact verifier reported 16/16 gates passed under the sealed frozen configuration.
+  - ACARA-U component ablation study, one-at-a-time deletions, downstream discount orthogonality, and fault-injection negative control (**12/12 verification gates** passed; 23/23 unit and invariant regression tests; [Volume 16](research/fusion/Volume_16_Component_Ablation_Study/README.md)).
+  - Final decision-level policy evaluation, multi-dimension baseline ladder, 8 availability regimes, input degradation monotonicity, conflict stratification, and calibration condition (**16/16 verification gates** passed; 46/46 pytest suite passed including 12 negative mutation tests; [Volume 17](research/fusion/Volume_17_Decision_Level_Evaluation/README.md)).
 
 > [!NOTE]
-> Automated verification gates verify implementation invariants, numerical bounds, and code reproducibility; they do not substitute for external clinical validation.
+> Automated verification gates confirm internal implementation invariants, numerical bounds, and deterministic execution under declared seeds (computational testability). This demonstrates internal pipeline integrity, but is distinct from independent external reproduction or clinical validation on genuinely paired patient cohorts.
 
 Every experimental execution generates cryptographic SHA-256 manifests linking model weights, evaluation tables, figures, and dataset partitions.
 
@@ -596,6 +797,7 @@ Every experimental execution generates cryptographic SHA-256 manifests linking m
 6. **Unpaired Multimodal Dataset Scope**: Because public retrospective datasets do not contain paired retina, foot-ulcer, and EHR records for the same individual patients, multimodal fusion is strictly formulated at the decision level using standardized outputs rather than patient-level multimodal joining.
 7. **Controlled Decision-Packet Benchmark Cohort**: All multimodal fusion experiments are executed on controlled decision packets constructed from independently evaluated modality outputs ($N=500, \text{seed}=115$). The evaluated combination distributions (D1–D3) and perturbation grids are controlled experimental constructs rather than naturally occurring patient-level observations.
 8. **Synthetic Oracle Outcome Evaluation**: Predictive error comparisons and decision-utility evaluations between B6 and B5 were assessed using a synthetic oracle benchmark with simulated degradation and error models, not genuinely paired real-patient outcomes. Real-world predictive superiority, sensor reliability, and clinical utility remain unestablished pending evaluation on suitable clinical datasets.
+9. **Internal Verification vs. Independent Reproduction**: Reported test passes (46/46 pytest, 16/16 gates) establish internal computational consistency and invariant compliance within the local codebase environment. They do not constitute independent third-party replication or external scientific reproduction.
 
 ---
 
@@ -690,6 +892,7 @@ The complete experimental record, methodology descriptions, mathematical formula
 - [Volume 14 — DCRI Decision Policy & Operating Behavior Analysis](research/fusion/Volume_14_DCRI_Decision_Policy_Analysis/README.md)
 - [Volume 15 — ACARA-U Residual Router Sanity & Monotonicity Analysis](research/fusion/Volume_15_Router_Sanity_Monotonicity/README.md)
 - [Volume 16 — ACARA-U Component Ablation Study](research/fusion/Volume_16_Component_Ablation_Study/README.md)
+- [Volume 17 — Final Decision-Level Evaluation of ACARA-U](research/fusion/Volume_17_Decision_Level_Evaluation/README.md)
 
 ---
 
