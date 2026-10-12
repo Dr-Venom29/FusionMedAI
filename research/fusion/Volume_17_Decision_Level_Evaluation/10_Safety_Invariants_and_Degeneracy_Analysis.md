@@ -10,11 +10,11 @@ A robust clinical decision engine must satisfy rigorous mathematical invariants 
    $$w_k \equiv 0.000000 \quad \forall k \notin \mathcal{A}$$
    Ensures that unavailable sensors receive strictly zero routing weight and do not contribute to fused risk or uncertainty sums.
 3. **Finite Score Invariant**:
-   $$R_{\text{fusion}}, \text{DCRI}, P_U \in \mathbb{R} \quad (\text{strictly finite numbers: no NaN, no }+\infty\text{, no }-\infty)$$
+   $$R_{\mathrm{fusion}}, \mathrm{DCRI}, P_U \in \mathbb{R} \quad (\text{strictly finite numbers: no NaN, no }+\infty\text{, no }-\infty)$$
 4. **Fail-Closed EMPTY Degeneracy Contract**:
-   $$\mathcal{A} = \emptyset \implies w_i = 0.0 \quad \forall i, \quad R_{\text{fusion}} = 0.0, \quad P_U = 0.0, \quad \text{DCRI} = 0.0, \quad \text{status} = \text{NO\_MODALITY\_AVAILABLE}$$
+   $$\mathcal{A} = \emptyset \implies w_i = 0.0 \quad \forall i, \quad R_{\mathrm{fusion}} = 0.0, \quad P_U = 0.0, \quad \mathrm{DCRI} = 0.0, \quad \text{status} = \mathtt{NO\_MODALITY\_AVAILABLE}$$
 5. **Singleton Unity Invariance**:
-   $$|\mathcal{A}| = 1 \implies w_{\text{active}} \equiv 1.000000, \quad w_{\text{inactive}} \equiv 0.000000$$
+   $$|\mathcal{A}| = 1 \implies w_{\mathrm{active}} \equiv 1.000000, \quad w_{\mathrm{inactive}} \equiv 0.000000$$
 
 ## 2. Invariant Verification Results across Tested Populations
 Every invariant was audited by the independent verification suite (`verify_decision_evaluation_artifacts.py`). The exact populations, checked denominators, and verification results are detailed below:

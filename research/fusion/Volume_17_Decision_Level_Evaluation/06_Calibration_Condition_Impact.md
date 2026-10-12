@@ -26,7 +26,7 @@ Evaluating ACARA-U across the $N=500$ cohort (seed 115) under both conditions yi
 | **Negative DCRI Count** | 39 (7.8%) | 37 (7.4%) | -2 (-0.4%) | N/A | N/A |
 
 ### Invariance of Epistemic Uncertainty Penalties
-The mean uncertainty penalty remains identical ($\overline{P}_U = 0.063394$, paired difference $\Delta = 0.000000$). Probability calibration transforms the constituent probability logits via temperature and vector scaling, while the predictive uncertainty estimates $U_i$ produced by the constituent uncertainty quantification heads remain unchanged. Because the uncertainty penalty is solely a function of $U_i$ and the frozen discount parameter $\delta = 0.10$, the change in DCRI matches the change in fused risk exactly ($\Delta_{\text{DCRI}} = \Delta_{R_{\text{fusion}}} = +0.004615$).
+The mean uncertainty penalty remains identical ($\overline{P}_U = 0.063394$, paired difference $\Delta = 0.000000$). Probability calibration transforms the constituent probability logits via temperature and vector scaling, while the predictive uncertainty estimates $U_i$ produced by the constituent uncertainty quantification heads remain unchanged. Because the uncertainty penalty is solely a function of $U_i$ and the frozen discount parameter $\delta = 0.10$, the change in DCRI matches the change in fused risk exactly ($\Delta(\mathrm{DCRI}) = \Delta(R_{\mathrm{fusion}}) = +0.004615$).
 
 ## 3. Transition Matrix Between Calibration Conditions
 The $3 \times 3$ transition matrix maps Uncalibrated decisions (rows) to Calibrated decisions (columns) across the paired $N=500$ cohort:

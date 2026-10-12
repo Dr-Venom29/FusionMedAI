@@ -41,6 +41,6 @@ Under the frozen unweighted penalty formulation ($P_U = \delta^* \sum_{i \in \ma
 
 ### 3.3 Fail-Closed EMPTY Software Contract
 When no modalities are available ($\mathcal{A} = \emptyset$), standard softmax division is undefined. The engine enforces a defined software fallback:
-$$w_i = 0.0 \quad \forall i \in \{R, F, C\}, \quad R_{\text{fusion}} = 0.0, \quad P_U = 0.0, \quad \text{DCRI} = 0.0, \quad \text{Status} = \text{NO\_MODALITY\_AVAILABLE}$$
+$$w_i = 0.0 \quad \forall i \in \{R, F, C\}, \quad R_{\text{fusion}} = 0.0, \quad P_U = 0.0, \quad \text{DCRI} = 0.0, \quad \text{Status} = \mathtt{NO\_MODALITY\_AVAILABLE}$$
 
 This behavior verifies that the software pipeline avoids NaN generation or unhandled division exceptions. In operational deployment, downstream systems must ensure that encounters flagged with `NO_MODALITY_AVAILABLE` trigger manual clinical triage rather than being treated as verified routine cases.

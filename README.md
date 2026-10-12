@@ -699,28 +699,36 @@ Evaluating the complete $N=500$ cohort across all 8 possible availability combin
 - **Singleton Unity Invariant**: When only one modality is active, the router collapses to exact unity ($w_i = 1.000000$), preserving the single-channel risk scalar without distortion.
 - **Fail-Closed Zero-Modality Invariant**: In the empty regime, the system rejects inference and emits the sentinel status `NO_MODALITY_AVAILABLE` with $R_{\text{fusion}} = 0.0$ and $\text{DCRI} = 0.0$.
 
-#### Dimension 2: Input Degradation Monotonicity (D0 $\to$ D3)
-As sensor corruption increases from clean ($D0$) through severe ($D3$), cumulative epistemic uncertainty escalates, increasing the mean penalty $\overline{P}_U$ monotonically:
-- **D0 (Clean)**: Mean Risk $= 0.289900$, Mean DCRI $= 0.226506$, Mean Penalty $= 0.063394$
-- **D1 (Mild)**: Mean Risk $= 0.289900$, Mean DCRI $= 0.212506$, Mean Penalty $= 0.077394$ ($+22.1\%$)
-- **D2 (Moderate)**: Mean Risk $= 0.289900$, Mean DCRI $= 0.198506$, Mean Penalty $= 0.091394$ ($+44.2\%$)
-- **D3 (Severe)**: Mean Risk $= 0.289900$, Mean DCRI $= 0.188421$, Mean Penalty $= 0.105394$ ($+66.2\%$)
+#### Dimension 2: Input Degradation Response (D0 $\to$ D3)
+Evaluating ACARA-U across four systematic sensor degradation severities on the canonical cohort ($N=500$, seed 115):
 
-Because the uncertainty penalty increases monotonically with degradation, $\text{DCRI}$ drops conservatively, preventing false escalations on degraded data.
+| Severity Level | Mean Quality $\overline{Q}$ | Mean Risk $\overline{R}_{\text{fusion}}$ | Mean Penalty $\overline{P}_U$ | Mean DCRI $\overline{\text{DCRI}}$ | Routine (Tier 0) | Assessment (Tier 1) | Escalation (Tier 2) | Negative DCRI Count |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **D0 (Clean)** | 0.8142 | 0.289900 | 0.063394 | 0.226506 | 232 (46.4%) | 187 (37.4%) | 81 (16.2%) | 37 (7.4%) |
+| **D1 (Mild)** | 0.7289 | 0.283402 | 0.071391 | 0.212011 | 248 (49.6%) | 183 (36.6%) | 69 (13.8%) | 42 (8.4%) |
+| **D2 (Moderate)** | 0.5841 | 0.276985 | 0.083231 | 0.193754 | 263 (52.6%) | 178 (35.6%) | 59 (11.8%) | 69 (13.8%) |
+| **D3 (Severe)** | 0.3812 | 0.277318 | 0.101519 | 0.175799 | 280 (56.0%) | 165 (33.0%) | 55 (11.0%) | 100 (20.0%) |
+
+As degradation severity increases from D0 to D3, mean epistemic uncertainty increases, causing the subtracted penalty $\overline{P}_U$ to climb strictly monotonically from $0.063394$ to $0.101519$ ($+60.1\%$). Because the unweighted uncertainty penalty is subtracted from fused risk ($\text{DCRI} = R_{\text{fusion}} - P_U$), mean DCRI drops from $0.226506$ to $0.175799$. This causes Priority Escalations (Tier 2) to fall from $16.2\%$ to $11.0\%$, while Routine Review (Tier 0) rises from $46.4\%$ to $56.0\%$. In a clinical setting, this subtractive formulation creates an under-escalation dynamic under severe data quality compromise, indicating that clinical deployment requires explicit minimum risk floors or uncertainty-escalation overrides.
 
 #### Dimension 3: Cross-Modality Conflict Stratification
-Stratifying patients by Continuous Conflict Score ($\text{CSS}$) reveals how ACARA-U navigates contradictory evidence:
-- **Low Conflict ($\text{CSS} < 0.20$, $N=45$, $9.0\%$)**: Mean Risk $= 0.182283$, Mean DCRI $= 0.119283$. Tiers: Tier 0 $= 68.9\%$, Tier 1 $= 31.1\%$, Tier 2 $= 0.0\%$.
-- **Moderate Conflict ($0.20 \le \text{CSS} < 0.35$, $N=92$, $18.4\%$)**: Mean Risk $= 0.236894$, Mean DCRI $= 0.173894$. Tiers: Tier 0 $= 59.8\%$, Tier 1 $= 39.1\%$, Tier 2 $= 1.1\%$.
-- **High Conflict ($\text{CSS} \ge 0.35$, $N=363$, $72.6\%$)**: Mean Risk $= 0.316682$, Mean DCRI $= 0.253155$. Tiers: Tier 0 $= 40.2\%$, Tier 1 $= 37.7\%$, Tier 2 $= 22.0\%$ ($80/363$ patients).
+Stratifying the $N=500$ cohort by continuous discordance ($\text{CSS} = \Delta_{\max}$) shows how ACARA-U routes under contradictory evidence:
 
-In high-conflict encounters, triage escalations rise from $0.0\%$ to $22.0\%$, with decisions anchored to high-reliability channels ($\beta=1.5$) rather than oscillating erratically.
+| Conflict Stratum | Packet Count | Cohort % | Mean CSS $\overline{\Delta}_{\max}$ | Mean Weighted Spread $\overline{\sigma}_w$ | Mean Risk $\overline{R}_{\text{fusion}}$ | Mean DCRI $\overline{\text{DCRI}}$ | Routine (Tier 0) | Assessment (Tier 1) | Escalation (Tier 2) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **LOW** ($\Delta_{\max} < 0.20$) | 45 | 9.0% | 0.141305 | 0.059312 | 0.118513 | 0.056217 | 43 (95.6%) | 2 (4.4%) | 0 (0.0%) |
+| **MODERATE** ($0.20 \le \Delta_{\max} < 0.35$) | 92 | 18.4% | 0.288083 | 0.117979 | 0.187526 | 0.116403 | 74 (80.4%) | 17 (18.5%) | 1 (1.1%) |
+| **HIGH** ($\Delta_{\max} \ge 0.35$) | 363 | 72.6% | 0.626179 | 0.259545 | 0.337092 | 0.275521 | 115 (31.7%) | 168 (46.3%) | 80 (22.0%) |
+| **Total / Overall** | 500 | 100.0% | 0.520286 | 0.215570 | 0.289900 | 0.226506 | 232 (46.4%) | 187 (37.4%) | 81 (16.2%) |
+
+In high-conflict encounters, triage escalations scale strictly monotonically from $0.0\%$ in LOW conflict to $1.1\%$ in MODERATE and $22.0\%$ in HIGH conflict ($80/363$ patients), with predictions anchored to high-reliability channels ($\beta=1.5$).
 
 #### Dimension 4: Modality Calibration Condition Impact
-Comparing uncalibrated modality inputs against calibrated inputs under ACARA-U:
-- **Uncalibrated**: Mean Risk $= 0.287352$, Mean DCRI $= 0.223958$
+Evaluating the impact of modality probability calibration (uncalibrated raw probabilities vs. isotonic/scaling calibration) under ACARA-U ($N=500$):
+- **Uncalibrated**: Mean Risk $= 0.285285$, Mean DCRI $= 0.221891$
 - **Calibrated**: Mean Risk $= 0.289900$, Mean DCRI $= 0.226506$
-- **Authority Rebalancing**: Calibrated probabilities soften overconfident retinal weights ($\Delta w_R = -0.0156$, $95\%$ CI: $[-0.0168, -0.0144]$), reallocating authority toward clinical tabular and foot ulcer channels while preserving overall routing entropy ($\bar{H} = 1.011041$).
+- **Mean Shift**: $\Delta = +0.004615$ ($95\%$ CI: $[+0.003544, +0.005752]$); uncertainty penalty shift is $0.000000$.
+- **Reclassification Dynamics**: $484/500$ ($96.8\%$) maintain identical decision tiers; $16$ cases ($3.2\%$) are reclassified (12 upgrades to higher urgency, 4 downgrades). Calibrated probabilities soften overconfident retinal weights ($\Delta w_R = -0.0156$, $95\%$ CI: $[-0.0168, -0.0144]$), reallocating authority toward clinical tabular and foot ulcer channels while preserving overall routing entropy ($\bar{H} = 1.011041$).
 
 - **Full Research Volume**: [Volume 17 — Decision-Level Evaluation](research/fusion/Volume_17_Decision_Level_Evaluation/README.md).
 
