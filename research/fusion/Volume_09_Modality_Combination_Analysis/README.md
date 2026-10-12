@@ -11,9 +11,9 @@
   - **D1 (Balanced)**: $P(c) = 1/7 \approx 14.29\%$ per combination ($HTR = \text{N/A}$, no tail).
   - **D2 (Moderate Tail)**: RFC 35%, RF 25%, RC 15%, FC 10%, R 6%, F 5%, C 4% ($HTR = 4.00$).
   - **D3 (Strong Tail)**: RFC 50%, RF 25%, RC 10%, FC 8%, R 4%, F 2%, C 1% ($HTR = 10.71$).
-- **Simplex & Safety Verification**: $0$ routing invariant violations over 1,500 single-cohort trials and 15,000 multi-cohort trials; active weights strictly normalize to $1.000000$ and inactive channels receive $0.000000$.
+- **Simplex & Safety Verification**: $0$ routing invariant violations over 45,000 multi-cohort evaluations ($15,000$ per distribution) and 1,500 exploratory trials; active weights strictly normalize to $1.000000$ and inactive channels receive $0.000000$.
 - **Observed Point-Estimate Tail Sensitivity (Exploratory Seed 115)**: ACARA-U achieved the lowest point-estimate tail risk deviation ($D_{\text{tail}} = 0.1883$ in D2, $0.1876$ in D3) among evaluated soft-weighting baselines (B2 $0.1925/0.1945$, B3 $0.1959/0.1974$, B4 $0.1967/0.1973$, B5 $0.1889/0.1889$), with a small margin over B5 ($95\%$ CIs crossing zero).
-- **Multi-Cohort Confirmatory Evaluation ($S=30$ Cohorts, $N=15,000$ Packets)**: Evaluating 30 independent cohorts evaluated tail sensitivity across both micro and macro estimands:
+- **Multi-Cohort Confirmatory Evaluation ($S=30$ Cohorts, $N=15,000$ Packets per Distribution, $45,000$ Total Evaluations)**: Evaluating 30 independent cohorts evaluated tail sensitivity across both micro and macro estimands:
   - *Primary Endpoint (D3 Micro, Packet-Weighted)*: $\Delta D_{\text{tail}} = +0.000181$, $95\%$ Hierarchical Cluster CI: $[-0.000024, +0.000377]$ (crossing zero; $t=2.4194, p=0.022$).
   - *Sensitivity Endpoint (D3 Macro, Combination-Weighted)*: $\Delta D_{\text{tail}}^{\text{macro}} = +0.000123$, $95\%$ Hierarchical CI: $[-0.000093, +0.000344]$ (crossing zero; $t=1.4645, p=0.154$).
   - *Secondary Endpoint (D2 Micro)*: $\Delta D_{\text{tail}} = +0.000143$, $95\%$ CI: $[-0.000025, +0.000300]$ (crossing zero; $t=2.2105, p=0.035$).

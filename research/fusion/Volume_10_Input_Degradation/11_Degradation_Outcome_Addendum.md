@@ -41,7 +41,7 @@ An audit of the experimental chain ($\text{clean packet} \to \text{degraded inpu
 
 ![Degradation Outcome Forest Plot](./figures/outcome_mae_forest_plot.png)
 
-*Figure 1. Forest plot of paired prediction error differences ($\Delta_{\mathrm{MAE}} = \mathrm{MAE}_{\mathrm{B6}} - \mathrm{MAE}_{\mathrm{B5}}$) with 95% bootstrap confidence intervals across clean baseline reference, progressive degradation severities (D1–D3), and sensor fidelity failure modes ($N=5,000$ synthetic packets).*
+*Figure 1.* Forest plot of paired prediction error differences ($\Delta_{\text{MAE}} = \text{MAE}_{\text{B6}} - \text{MAE}_{\text{B5}}$) with 95% bootstrap confidence intervals across clean baseline reference, progressive degradation severities (D1–D3), and sensor fidelity failure modes ($N=5,000$ synthetic packets).
 
 ---
 

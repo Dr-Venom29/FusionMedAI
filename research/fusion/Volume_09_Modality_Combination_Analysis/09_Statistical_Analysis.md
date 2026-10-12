@@ -30,22 +30,29 @@ For each distribution and modality combination, $95\%$ empirical confidence inte
 ## 3. Pre-Specified Hypothesis Verification Outcomes
 
 ### Hypothesis H1: Simplex & Safety Invariant Preservation across Tiers
-- **Formal Statement**: $\forall c \in \mathcal{C}_{\text{active}}, \forall k, \sum_{i \in \mathcal{A}_c} w_i(k) = 1.000000$ and $w_{j \notin \mathcal{A}_c}(k) = 0.000000$.
-- **Observed Violation Rate**: $0 / 1,500$ evaluated decision packets across D1, D2, D3.
-- **Outcome**: **CONFIRMED** (Exact mathematical invariant preserved across all tiers).
+- **Formal Statement**:
+  $$\forall c \in \mathcal{C}_{\text{active}}, \forall k: \quad \sum_{i \in \mathcal{A}_c} w_i(k) = 1.000000 \quad \text{and} \quad w_{j \notin \mathcal{A}_c}(k) = 0.000000$$
+- **Observed Violation Rate**: $0 / 45,000$ confirmatory decision-packet evaluations across all 30 cohorts ($0 / 1,500$ in exploratory single cohort).
+- **Outcome**: **CONFIRMED** (Exact mathematical invariant preserved across all tiers with zero observed violations).
 
-### Hypothesis H2: Tail Risk Sensitivity Across Soft Baselines
-- **Formal Statement**: $D_{\text{tail}}^{\text{ACARA-U}} \le D_{\text{tail}}^{\text{B2}}, D_{\text{tail}}^{\text{B3}}, D_{\text{tail}}^{\text{B4}}, D_{\text{tail}}^{\text{B5}}$ under long-tailed distributions.
-- **Observed Point Estimates**:
+### Hypothesis H2: Tail Risk Sensitivity Across Soft Baselines & Multi-Cohort Evaluation
+- **Formal Statement**:
+  $$D_{\text{tail}}^{\text{ACARA-U}} \le D_{\text{tail}}^{\text{B2}}, D_{\text{tail}}^{\text{B3}}, D_{\text{tail}}^{\text{B4}}, D_{\text{tail}}^{\text{B5}} \quad \text{under long-tailed distributions}$$
+- **Exploratory Single-Cohort Point Estimates ($\text{seed}=115$)**:
   - D2: ACARA-U ($0.1883$) $<$ B2 ($0.1925$), B3 ($0.1959$), B4 ($0.1967$), B5 ($0.1889$).
   - D3: ACARA-U ($0.1876$) $<$ B2 ($0.1945$), B3 ($0.1974$), B4 ($0.1973$), B5 ($0.1889$).
-- **Paired Bootstrap Difference Against B5**:
-  - D2 paired difference: $+0.000597$ ($95\%$ CI: $[-0.000660, 0.001839]$).
-  - D3 paired difference: $+0.001239$ ($95\%$ CI: $[-0.000804, 0.003057]$).
-- **Outcome**: **SUPPORTED** (ACARA-U achieved the lowest point-estimate tail sensitivity across all evaluated soft-weighting baselines in D2 and D3; the margin over B5 is small and non-significant at the $\alpha=0.05$ level).
+  - Single-cohort paired differences against B5: D2 paired difference $+0.000597$ ($95\%$ CI: $[-0.000660, 0.001839]$); D3 paired difference $+0.001239$ ($95\%$ CI: $[-0.000804, 0.003057]$), both crossing zero.
+- **Confirmatory Multi-Cohort Evaluation ($S=30$ Cohorts, $N=15,000$ Packets per Distribution, $45,000$ Evaluations)**:
+  - D3 Primary (Micro): $\Delta = +0.000181$, $95\%$ Two-Stage Hierarchical Bootstrap CI: $[-0.000024, +0.000377]$ (crosses zero).
+  - D3 Sensitivity (Macro): $\Delta = +0.000123$, $95\%$ Hierarchical CI: $[-0.000093, +0.000344]$ (crosses zero).
+  - D2 Secondary (Micro): $\Delta = +0.000143$, $95\%$ Hierarchical CI: $[-0.000025, +0.000300]$ (crosses zero).
+- **Outcome**: **DIRECTIONALLY SUPPORTED IN SINGLE COHORT; INCONCLUSIVE IN CONFIRMATORY MULTI-COHORT**:
+  - In the exploratory single cohort, ACARA-U achieved the lowest point-estimate tail sensitivity among soft-weighting baselines, but the margin was small and not statistically distinguishable.
+  - In the confirmatory 30-cohort evaluation under the pre-declared hierarchical cluster bootstrap decision rule, the primary endpoint is `INCONCLUSIVE_NOT_STATISTICALLY_DISTINGUISHABLE`. The point estimates numerically favor B5, while neither practical superiority of B6 nor statistical equivalence is established.
 
 ### Hypothesis H3: Tail Dispersion Expansion via Modality Collapse
-- **Formal Statement**: $\Delta \sigma(R) = \sigma(R_{\text{tail}}) - \sigma(R_{\text{head}}) > 0$.
+- **Formal Statement**:
+  $$\Delta \sigma(R) = \sigma(R_{\text{tail}}) - \sigma(R_{\text{head}}) > 0$$
 - **Observed Values**:
   - D2: $\Delta \sigma(R) = 0.2508 - 0.1880 = +0.0628$.
   - D3: $\Delta \sigma(R) = 0.2784 - 0.1898 = +0.0885$.

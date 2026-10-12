@@ -26,11 +26,11 @@ The conceptual motivation arises from real-world clinical deployment where multi
 
 - **Hypothesis H1 (Simplex & Safety Invariant Preservation across Tiers)**:  
   *Prediction*: Routing authority across active channels satisfies $\sum_{i \in \mathcal{A}} w_i = 1.0$ and $w_{j \notin \mathcal{A}} = 0.0$ uniformly across head, middle, and tail combinations under all distribution regimes.  
-  *Status*: **Confirmed** (Mathematical invariant verified over 1,500 trials across D1, D2, D3).
+  *Status*: **Confirmed** (Mathematical invariant verified over 45,000 confirmatory evaluations across 30 cohorts, plus 1,500 exploratory trials across D1, D2, D3; 0 violations).
 
-- **Hypothesis H2 (Tail Risk Sensitivity Across Soft Baselines & Multi-Cohort Parity)**:  
+- **Hypothesis H2 (Tail Risk Sensitivity Across Soft Baselines & Multi-Cohort Evaluation)**:  
   *Prediction*: ACARA-U achieves lower observed point-estimate tail risk sensitivity $D_{\text{tail}}$ than soft-allocation baselines (B2 Uniform Average, B3 Confidence-Weighted, B4 Conf+Rel, B5 Conf+Rel-Uncertainty) under long-tailed distributions (D2 and D3).  
-  *Confirmatory Protocol ($S=30$ Cohorts, $N=15,000$ Packets)*: To resolve whether the single-cohort point-estimate difference between B6 and B5 is statistically distinguishable from zero, a pre-declared 30-cohort confirmatory protocol ($\text{seeds } 401\text{--}430$, $N=500$ each) was evaluated using a 2-stage hierarchical cluster bootstrap ($B=2,000$):
+  *Confirmatory Protocol ($S=30$ Cohorts, $N=15,000$ Packets per Distribution, $45,000$ Total Evaluations)*: To resolve whether the single-cohort point-estimate difference between B6 and B5 is statistically distinguishable from zero, a pre-declared 30-cohort confirmatory protocol ($\text{seeds } 401\text{--}430$, $N=500$ each) was evaluated using a 2-stage hierarchical cluster bootstrap ($B=2,000$):
     - *Primary Endpoint*: D3 Strong Long-Tail paired difference $\Delta D_{\text{tail}} = D_{\text{tail}}(\text{B6}) - D_{\text{tail}}(\text{B5})$. Primary estimand is packet-weighted micro-average ($N_{\text{tail}}=35$ per cohort); sensitivity estimand is combination-weighted macro-average across $\{R, F, C\}$.
     - *Secondary Endpoint*: D2 Moderate Head-Tail paired difference $\Delta D_{\text{tail}}$ ($N_{\text{tail}}=75$ per cohort).
     - *Pre-Declared Decision Rules*:
