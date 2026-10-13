@@ -69,11 +69,18 @@ To address the clinical hazard identified in Chapter 09—where unconstrained DC
    - If evidence is **ambiguous** and DCRI attempts a downward tier transition ($T_{\mathrm{DCRI}} < T_{\mathrm{base}}$), the transition is **blocked**, holding the case at its unpenalized fused risk tier ($T_{\mathrm{final}} = T_{\mathrm{base}}$).
    - Simultaneously, a mandatory diagnostic workflow flag `FLAG_REPEAT_EXAM_AMBIGUOUS_EVIDENCE` is emitted to route the patient for imaging re-acquisition or confirmatory laboratory testing.
    - If evidence is **clear** ($U_{\mathrm{sum}} < 0.30$ and $\min(Q) \ge 0.60$), DCRI downgrades are permitted.
-4. **Empirical Results on Frozen Cohort ($N=500$)**:
-   - **$89$ of $92$ attempted downgrades are blocked ($96.7\%$)**, almost completely eliminating false-downgrade risk from uncertainty penalties.
-   - Priority Escalations are preserved at **$114$ cases ($22.8\%$)**, compared to $81$ under unconstrained DCRI and $117$ under base fused risk.
-   - Only **$3$ cases ($0.6\%$)** are downgraded under clear evidence (from Tier 2 to Tier 1).
-   - **Repeat-Exam Workload Burden**: **$432 / 500$ encounters ($86.4\%$)** trigger the repeat-exam / ambiguous flag. This makes the operational cost explicit: eliminating false downgrades converts under-triage risk into a substantial diagnostic re-examination workload.
+4. **Empirical Results on Frozen Cohorts ($N=500$, Seed 115)**:
+   - **Primary Canonical Redesigned Cohort**:
+     - **$94$ of $96$ attempted downgrades are blocked ($97.9\%$)**, almost completely eliminating false-downgrade risk from uncertainty penalties.
+     - Priority Escalations are preserved at **$82$ cases ($16.4\%$)**, compared to $57$ under unconstrained DCRI and $83$ under base fused risk.
+     - Only **$2$ cases ($0.4\%$)** are downgraded under clear evidence.
+     - **Repeat-Exam Workload Burden**: **$432 / 500$ encounters ($86.4\%$)** trigger the repeat-exam / ambiguous flag.
+   - **Baseline Decision Cohort (Historical Opt-In)**:
+     - **$89$ of $92$ attempted downgrades are blocked ($96.7\%$)**.
+     - Priority Escalations are preserved at **$114$ cases ($22.8\%$)**, compared to $81$ under unconstrained DCRI and $117$ under base fused risk.
+     - Only **$3$ cases ($0.6\%$)** are downgraded under clear evidence.
+     - Repeat-exam flag rate is identically **$432 / 500$ ($86.4\%$)**.
+   - This makes the operational cost explicit: eliminating false downgrades converts under-triage risk into a substantial diagnostic re-examination workload.
 
 *Artifact Traceability*: Sealed in `experiments/fusion/dcri_policy_analysis/results/safeguarded_policy_results.json`.
 

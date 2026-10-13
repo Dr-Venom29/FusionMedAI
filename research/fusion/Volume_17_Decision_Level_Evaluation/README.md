@@ -1,5 +1,13 @@
 # Volume 17: Final Decision-Level Evaluation of ACARA-U
 
+> **Phase C11.17 Research Documentation & Final Decision Policy Evaluation Freeze Report**  
+> **Status:** 🟢 SEALED & VERIFIED  
+> - **Decision-Level Invariant Gates**: 16/16 Gates Passed  
+> - **Automated Pytest Suite**: 46/46 Tests Passed (including 12 negative mutation tests)  
+> - **Primary Evaluation Cohort**: Canonical Redesigned Cohort (`experiments/fusion/canonical_redesigned_rerun/01_canonical_redesigned_packet_manifest.json`, SHA-256 `cf877d74...`, $N=500$, Seed 115)  
+> - **Historical Baseline Cohort (Audited)**: Baseline Decision Cohort (`experiments/fusion/dcri/packet_manifest.json`, SHA-256 `1ff37fbe...`, $N=500$, Seed 115)  
+> - **Policy S Safeguard Integration**: Blocks $94/96$ ($97.9\%$) canonical ambiguous downgrades; $89/92$ ($96.7\%$) baseline downgrades; emits `FLAG_REPEAT_EXAM_AMBIGUOUS_EVIDENCE` across $432/500$ ($86.4\%$) cases  
+
 ## Executive Summary
 This volume documents the formal results, mathematical proofs, statistical validations, and safety invariant verifications for the final decision-level evaluation of the ACARA-U decision routing framework within FusionMedAI.
 
