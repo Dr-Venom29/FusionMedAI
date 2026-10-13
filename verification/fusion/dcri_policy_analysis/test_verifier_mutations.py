@@ -189,6 +189,56 @@ class TestVerifierMutations(unittest.TestCase):
             self.suite.verify_gate_12()
         self.assertIn("reclass wilson CI mismatch", str(ctx.exception))
 
+    def test_mutation_safeguard_blocked_downgrades_fails(self):
+        """Validates that mutating blocked_downgrades_count in safeguarded_policy_results.json causes Gate 12 to fail."""
+        safe_path = self.test_results_dir / "safeguarded_policy_results.json"
+        with open(safe_path, "r", encoding="utf-8") as f:
+            safe = json.load(f)
+
+        safe["safeguarded_evaluation"]["safeguard_metrics"]["blocked_downgrades_count"] += 1
+        with open(safe_path, "w", encoding="utf-8") as f:
+            json.dump(safe, f, indent=2)
+
+        self.update_manifest_for_file("safeguarded_policy_results.json")
+
+        with self.assertRaises(AssertionError) as ctx:
+            self.suite.verify_gate_12()
+        self.assertIn("blocked downgrades count mismatch", str(ctx.exception))
+
+    def test_mutation_safeguard_ambiguous_flags_fails(self):
+        """Validates that mutating ambiguous_flags_count in safeguarded_policy_results.json causes Gate 12 to fail."""
+        safe_path = self.test_results_dir / "safeguarded_policy_results.json"
+        with open(safe_path, "r", encoding="utf-8") as f:
+            safe = json.load(f)
+
+        safe["safeguarded_evaluation"]["safeguard_metrics"]["ambiguous_flags_count"] -= 10
+        with open(safe_path, "w", encoding="utf-8") as f:
+            json.dump(safe, f, indent=2)
+
+        self.update_manifest_for_file("safeguarded_policy_results.json")
+
+        with self.assertRaises(AssertionError) as ctx:
+            self.suite.verify_gate_12()
+        self.assertIn("ambiguous flags count mismatch", str(ctx.exception))
+
+    def test_mutation_safeguard_tier_counts_fails(self):
+        """Validates that mutating policy_s tier counts causes Gate 12 to fail."""
+        safe_path = self.test_results_dir / "safeguarded_policy_results.json"
+        with open(safe_path, "r", encoding="utf-8") as f:
+            safe = json.load(f)
+
+        # Perturb escalation tier count
+        safe["safeguarded_evaluation"]["policy_s_safeguarded_dcri"]["counts"]["escalation"] = 999
+        with open(safe_path, "w", encoding="utf-8") as f:
+            json.dump(safe, f, indent=2)
+
+        self.update_manifest_for_file("safeguarded_policy_results.json")
+
+        with self.assertRaises(AssertionError) as ctx:
+            self.suite.verify_gate_12()
+        self.assertIn("safeguard counts mismatch", str(ctx.exception))
+
 
 if __name__ == "__main__":
     unittest.main()
+

@@ -1,12 +1,16 @@
 # Volume 14 — DCRI Decision Policy Sensitivity & Operating Analysis
 
 > **Phase C11.14 Research Documentation & Policy Evaluation Freeze Report**  
-> **Status:** 🟢 SEALED & VERIFIED (12/12 Gates Passed on Original Policy Benchmark)  
+> **Status:** 🟢 SEALED & VERIFIED  
+> - **Baseline Decision Cohort**: 12/12 Gates Passed (Baseline Decision Cohort fully sealed and certified)  
+> - **Canonical Redesigned Cohort**: 5/5 Invariant Tests Passed (`verification/fusion/dcri_policy_analysis/test_canonical_safeguard.py`, Authoritative Default)  
+> - **Policy Test Discovery**: 39/39 Unit, Invariant, and Mutation Tests Passed  
 > **Frozen Parameter:** $\delta^* = 0.10$ (`D10`)  
 > **Nominal Policy Thresholds:** $\tau_1 = 0.20, \tau_2 = 0.40$  
-> **Original Evaluation Cohort:** Frozen C11 Controlled Multi-Source Cohort ($N=500$, Seed 115)  
+> **Primary Cohort Profile (Authoritative Default):** Canonical Redesigned Cohort (`experiments/fusion/canonical_redesigned_rerun/01_canonical_redesigned_packet_manifest.json`, SHA-256 `cf877d74e306...`, $N=500$, Seed 115)  
+> **Historical Baseline Cohort (Explicit Opt-In):** Baseline Decision Cohort (`experiments/fusion/dcri/packet_manifest.json`, SHA-256 `1ff37fbeeba3...`, $N=500$, Seed 115)  
 > **Router State:** Frozen Reference Configuration $\Theta_0 = (\alpha=1.0, \beta=1.5, \gamma=1.0, \eta=0.5)$  
-> **Outcome Evaluation Addendum:** $N=5,000$ Synthetic Oracle Packets across 10 Seeds (8/8 Outcome Gates Passed)
+> **Outcome Evaluation Addendum:** $N=5,000$ Synthetic Packets across 10 Seeds (8/8 Outcome Gates Passed)
 
 ---
 
@@ -35,6 +39,43 @@ Phase C11.14 investigates how the frozen uncertainty-discounted decision index (
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Policy B: Fused Risk $R_{\mathrm{fusion}}$ (Reference)** | $192$ ($38.4\%$) | $225$ ($45.0\%$) | $83$ ($16.6\%$) | — | — | — |
 | **Policy A: $\mathrm{DCRI}_{0.10}$ (Uncertainty-Discounted)** | **$262$ ($52.4\%$)** | **$181$ ($36.2\%$)** | **$57$ ($11.4\%$)** | **$96$ ($19.2\%$)** | **$96$ ($100\%$)** | **$0$ ($0\%$)** |
+
+### Cohort A: Baseline Decision Cohort ($N=500$, Seed 115, SHA-256 `1ff37fbeeba3...`)
+| Policy Condition | Routine Review (Tier 0: $< 0.20$) | Additional Assessment (Tier 1: $[0.20, 0.40)$) | Escalation (Tier 2: $\ge 0.40$) | Total Reclassified | Monotonic Downgrades | Upgrades | Blocked Downgrades | Repeat-Exam Flags |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Policy B: Fused Risk ($R_{\mathrm{fusion}}$ Reference)** | $176\ (35.2\%)$ | $207\ (41.4\%)$ | $117\ (23.4\%)$ | — | — | — | — | — |
+| **Policy A: $\mathrm{DCRI}_{0.10}$ (Unconstrained)** | **$232\ (46.4\%)$** | **$187\ (37.4\%)$** | **$81\ (16.2\%)$** | **$92\ (18.4\%)$** | **$92\ (100\%)$** | **$0\ (0.0\%)$** | — | — |
+| **Policy S: Safeguarded DCRI Gateway** | **$176\ (35.2\%)$** | **$210\ (42.0\%)$** | **$114\ (22.8\%)$** | **$3\ (0.6\%)$** | **$3\ (100\%)$** | **$0\ (0.0\%)$** | **$89 / 92\ (96.7\%)$** | **$432 / 500\ (86.4\%)$** |
+
+### Cohort B: Canonical Redesigned Cohort ($N=500$, Seed 115, SHA-256 `cf877d74e306...`)
+| Policy Condition | Routine Review (Tier 0: $< 0.20$) | Additional Assessment (Tier 1: $[0.20, 0.40)$) | Escalation (Tier 2: $\ge 0.40$) | Total Reclassified | Monotonic Downgrades | Upgrades | Blocked Downgrades | Repeat-Exam Flags |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Policy B: Fused Risk ($R_{\mathrm{fusion}}$ Reference)** | $192\ (38.4\%)$ | $225\ (45.0\%)$ | $83\ (16.6\%)$ | — | — | — | — | — |
+| **Policy A: $\mathrm{DCRI}_{0.10}$ (Unconstrained)** | **$262\ (52.4\%)$** | **$181\ (36.2\%)$** | **$57\ (11.4\%)$** | **$96\ (19.2\%)$** | **$96\ (100\%)$** | **$0\ (0.0\%)$** | — | — |
+| **Policy S: Safeguarded DCRI Gateway** | **$193\ (38.6\%)$** | **$225\ (45.0\%)$** | **$82\ (16.4\%)$** | **$2\ (0.4\%)$** | **$2\ (100\%)$** | **$0\ (0.0\%)$** | **$94 / 96\ (97.9\%)$** | **$432 / 500\ (86.4\%)$** |
+
+---
+
+## Decision-Policy Safeguard Gateway (Policy S)
+
+To address the clinical hazard identified in Chapter 09—where unconstrained DCRI uncertainty discounting causes a $67.1\%$ surge in false downgrades of high-risk cases ($7.61\% \to 12.72\%$)—we evaluate **Policy S (Safeguarded DCRI Gateway)** as a dedicated safety policy layer:
+
+1. **Decoupling Score Calculation from Policy Interpretation**:
+   The underlying mathematical definition of DCRI remains strictly unmodified ($\text{DCRI}_{0.10} = R_{\mathrm{fusion}} - 0.10 \sum U_i$). The safeguard operates purely at the decision-tier transition boundary.
+2. **Ambiguity Gating Criteria**:
+   An encounter is classified as ambiguous if either cumulative predictive uncertainty is elevated or any active sensor exhibits degraded data quality:
+   $$\text{Ambiguous}(\mathbf{x}) \iff \left(\sum_{i \in \mathcal{A}} U_i \ge 0.30\right) \lor \left(\min_{i \in \mathcal{A}} Q_i < 0.60\right)$$
+3. **Selective Downgrade Suppression & Escalation Preservation**:
+   - If evidence is **ambiguous** and DCRI attempts a downward tier transition ($T_{\mathrm{DCRI}} < T_{\mathrm{base}}$), the transition is **blocked**, holding the case at its unpenalized fused risk tier ($T_{\mathrm{final}} = T_{\mathrm{base}}$).
+   - Simultaneously, a mandatory diagnostic workflow flag `FLAG_REPEAT_EXAM_AMBIGUOUS_EVIDENCE` is emitted to route the patient for imaging re-acquisition or confirmatory laboratory testing.
+   - If evidence is **clear** ($U_{\mathrm{sum}} < 0.30$ and $\min(Q) \ge 0.60$), DCRI downgrades are permitted.
+4. **Empirical Results on Frozen Cohort ($N=500$)**:
+   - **$89$ of $92$ attempted downgrades are blocked ($96.7\%$)**, almost completely eliminating false-downgrade risk from uncertainty penalties.
+   - Priority Escalations are preserved at **$114$ cases ($22.8\%$)**, compared to $81$ under unconstrained DCRI and $117$ under base fused risk.
+   - Only **$3$ cases ($0.6\%$)** are downgraded under clear evidence (from Tier 2 to Tier 1).
+   - **Repeat-Exam Workload Burden**: **$432 / 500$ encounters ($86.4\%$)** trigger the repeat-exam / ambiguous flag. This makes the operational cost explicit: eliminating false downgrades converts under-triage risk into a substantial diagnostic re-examination workload.
+
+*Artifact Traceability*: Sealed in `experiments/fusion/dcri_policy_analysis/results/safeguarded_policy_results.json`.
 
 ---
 

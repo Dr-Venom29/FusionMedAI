@@ -1,8 +1,10 @@
 """
 FusionMedAI - Phase C11.14: Deep Verification Suite (12 Verification Gates)
-Performs independent re-execution, mathematical invariant verification,
+Certifies the Baseline Decision Cohort (experiments/fusion/dcri/packet_manifest.json, SHA-256 1ff37fbeeba3...)
+via independent re-execution, mathematical invariant verification,
 exhaustive field-by-field numerical reconciliation, and cryptographic certification.
 """
+
 
 import sys
 import json
@@ -77,7 +79,14 @@ class PolicyVerificationSuite:
     def __init__(self, repo_root: Path = REPO_ROOT):
         self.repo_root = repo_root
         self.results_dir = repo_root / "experiments" / "fusion" / "dcri_policy_analysis" / "results"
-        self.cohort = load_frozen_cohort(repo_root=self.repo_root, n_packets=N_PACKETS, seed=SEED)
+        self.manifest_path = repo_root / "experiments" / "fusion" / "dcri" / "packet_manifest.json"
+        self.cohort = load_frozen_cohort(
+            repo_root=self.repo_root,
+            n_packets=N_PACKETS,
+            seed=SEED,
+            manifest_path=self.manifest_path,
+            expected_sha256=self.EXPECTED_PACKET_MANIFEST_SHA256,
+        )
         self.evaluator = PolicyEvaluator(delta=DELTA_FROZEN)
 
     def assertEqual(self, a, b, msg: str = ""):
@@ -100,7 +109,7 @@ class PolicyVerificationSuite:
 
     def run_all_gates(self) -> bool:
         print("=" * 80)
-        print("PHASE C11.14: DCRI DECISION POLICY ANALYSIS — 12 DEEP VERIFICATION GATES")
+        print("PHASE C11.14: BASELINE DECISION COHORT — 12 DEEP VERIFICATION GATES")
         print("=" * 80)
         print()
 
@@ -116,7 +125,7 @@ class PolicyVerificationSuite:
             ("Gate 09 - Real Router EMPTY Regime Fail-Closed Contract", self.verify_gate_09),
             ("Gate 10 - Robustness Perturbation Stability & Perturbation Family Audit", self.verify_gate_10),
             ("Gate 11 - Full Paired Bootstrap & Wilson Statistical Audit (B=1000)", self.verify_gate_11),
-            ("Gate 12 - Exhaustive 5-Artifact Field Numerical & Cryptographic Manifest Certification", self.verify_gate_12),
+            ("Gate 12 - Exhaustive 6-Artifact Field Numerical & Cryptographic Manifest Certification", self.verify_gate_12),
         ]
 
         all_passed = True
@@ -131,12 +140,13 @@ class PolicyVerificationSuite:
         print()
         print("=" * 80)
         if all_passed:
-            print("PHASE C11.14 VERIFICATION SUMMARY: 12/12 GATES PASSED")
-            print(">>> [PASS] ALL 12 DEEP VERIFICATION GATES PASSED. C11.14 IS FULLY SEALED.")
+            print("PHASE C11.14 VERIFICATION SUMMARY: 12/12 GATES PASSED (BASELINE DECISION COHORT)")
+            print(">>> [PASS] ALL 12 DEEP VERIFICATION GATES PASSED. BASELINE DECISION COHORT IS FULLY SEALED.")
         else:
-            print("PHASE C11.14 VERIFICATION SUMMARY: GATE FAILURES DETECTED")
+            print("PHASE C11.14 VERIFICATION SUMMARY: GATE FAILURES DETECTED (BASELINE DECISION COHORT)")
         print("=" * 80)
         return all_passed
+
 
     def verify_gate_01(self):
         """Gate 01: Verify cohort provenance, size N=500, sequential IDs, and cryptographic digests."""
@@ -326,8 +336,9 @@ class PolicyVerificationSuite:
             raise ValueError(f"Expected 0.072 observed escalation reduction rate, got {esc_red['observed_rate']}")
 
     def verify_gate_12(self):
-        """Gate 12: Exhaustive 5-artifact field-by-field numerical reconciliation, schema check, and manifest hash certification."""
+        """Gate 12: Exhaustive 6-artifact field-by-field numerical reconciliation, schema check, and manifest hash certification."""
         manifest_path = self.results_dir / "freeze_manifest.json"
+
         if not manifest_path.is_file():
             raise FileNotFoundError(f"Manifest missing at {manifest_path}")
 
@@ -340,6 +351,7 @@ class PolicyVerificationSuite:
             "regime_results.json",
             "robustness_results.json",
             "statistical_results.json",
+            "safeguarded_policy_results.json",
         ]
 
         # 1. Cryptographic Checksum, Exact File Size & Manifest Metadata Validation
@@ -394,6 +406,12 @@ class PolicyVerificationSuite:
         nom_res = self.evaluator.evaluate_policies(states, TAU_1_DEFAULT, TAU_2_DEFAULT)
         stats_eval = PolicyStatisticalAnalyzer(n_bootstraps=1000, seed=115)
         recomputed_stat = stats_eval.compute_paired_statistics(states, nom_res.per_packet_details)
+
+        recomputed_safeguard = self.evaluator.evaluate_safeguarded_policy(
+            base_states=states,
+            tau_1=TAU_1_DEFAULT,
+            tau_2=TAU_2_DEFAULT,
+        )
 
         # 3. Exhaustive Field-by-Field Reconciliation against on-disk JSON
         # A. policy_config.json
@@ -734,6 +752,58 @@ class PolicyVerificationSuite:
         self.assertAlmostEqual(d_summary["escalation_reductions"]["bootstrap_mean_rate"], recomputed_stat["escalation_reductions"]["bootstrap_mean_rate"], 1e-6, "esc red boot mean mismatch")
         self.assertEqual(d_summary["escalation_reductions"]["bootstrap_95_ci"], recomputed_stat["escalation_reductions"]["bootstrap_95_ci"], "esc red boot CI mismatch")
         self.assertEqual(d_summary["escalation_reductions"]["wilson_95_ci"], recomputed_stat["escalation_reductions"]["wilson_95_ci"], "esc red wilson CI mismatch")
+
+        # F. safeguarded_policy_results.json
+        with open(self.results_dir / "safeguarded_policy_results.json", "r", encoding="utf-8") as f:
+            disk_safeguard = json.load(f)
+        self.assertEqual("safeguarded_evaluation" in disk_safeguard, True, "safeguard eval key missing")
+        se = disk_safeguard["safeguarded_evaluation"]
+        self.assertEqual(se["tau_1"], TAU_1_DEFAULT, "safeguard tau_1 mismatch")
+        self.assertEqual(se["tau_2"], TAU_2_DEFAULT, "safeguard tau_2 mismatch")
+        self.assertEqual(se["delta"], DELTA_FROZEN, "safeguard delta mismatch")
+        self.assertEqual(se["n_packets"], N_PACKETS, "safeguard n_packets mismatch")
+
+        # Independent reconciliation against in-memory recomputation
+        self.assertEqual(se["policy_b_base_risk"]["counts"], recomputed_safeguard.policy_b_counts, "base risk counts mismatch")
+        self.assertEqual(se["policy_a_unconstrained_dcri"]["counts"], recomputed_safeguard.policy_a_counts, "unconstrained dcri counts mismatch")
+        self.assertEqual(se["policy_s_safeguarded_dcri"]["counts"], recomputed_safeguard.policy_s_counts, "safeguard counts mismatch")
+
+        sm = se["safeguard_metrics"]
+        self.assertEqual(sm["attempted_downgrades_count"], recomputed_safeguard.attempted_downgrades_count, "attempted downgrades count mismatch")
+        self.assertEqual(sm["blocked_downgrades_count"], recomputed_safeguard.blocked_downgrades_count, "blocked downgrades count mismatch")
+        self.assertEqual(sm["permitted_downgrades_count"], recomputed_safeguard.permitted_downgrades_count, "permitted downgrades count mismatch")
+        self.assertEqual(sm["ambiguous_flags_count"], recomputed_safeguard.ambiguous_flags_count, "ambiguous flags count mismatch")
+        self.assertEqual(sm["reclass_count_s_vs_b"], recomputed_safeguard.reclass_count_s_vs_b, "reclass count s vs b mismatch")
+        self.assertEqual(sm["downgrades_s_vs_b"], recomputed_safeguard.downgrades_s_vs_b, "downgrades count s vs b mismatch")
+        self.assertAlmostEqual(sm["blocked_ratio_vs_attempted"], recomputed_safeguard.blocked_downgrades_count / recomputed_safeguard.attempted_downgrades_count, 1e-5, "blocked ratio mismatch")
+
+        # Exhaustive per-packet verification across all packets
+        for idx, packet_detail in enumerate(recomputed_safeguard.per_packet_details):
+            p_base = packet_detail["action_base"]
+            p_dcri = packet_detail["action_dcri"]
+            p_safe = packet_detail["action_safeguarded"]
+            is_amb = packet_detail["is_ambiguous"]
+            is_att = packet_detail["is_attempted_downgrade"]
+            is_blk = packet_detail["downgrade_blocked"]
+            p_flag = packet_detail["flag"]
+
+            # Invariant 1: Attempted downgrade definition
+            self.assertEqual(is_att, (p_dcri < p_base), f"Packet {idx} attempted downgrade inconsistency")
+
+            # Invariant 2: Downgrade blocking logic
+            if is_att and is_amb:
+                self.assertEqual(is_blk, True, f"Packet {idx} should have blocked downgrade")
+                self.assertEqual(p_safe, p_base, f"Packet {idx} tier should revert to base")
+                self.assertEqual(p_flag is not None, True, f"Packet {idx} should emit ambiguous flag")
+            elif is_att and not is_amb:
+                self.assertEqual(is_blk, False, f"Packet {idx} clear evidence should allow downgrade")
+                self.assertEqual(p_safe, p_dcri, f"Packet {idx} tier should match DCRI")
+            else:
+                self.assertEqual(is_blk, False, f"Packet {idx} non-downgrade should not block")
+                self.assertEqual(p_safe, p_dcri, f"Packet {idx} non-downgrade should match DCRI")
+
+            # Invariant 3: Monotonic non-inflation under Policy S
+            self.assertEqual(p_safe <= p_base, True, f"Packet {idx} inflated risk tier under Policy S: {p_safe} > {p_base}")
 
 
 if __name__ == "__main__":

@@ -39,6 +39,11 @@ The ablation protocol operates under strict pre-specified frozen parameters on t
 5. **Safety Gate Negative Control Rejection ($A6$):**
    Deliberate fault injection bypassing availability masking was detected in $500/500$ test packets ($100\%$ detection rate) and strictly rejected by the acceptance gate, demonstrating active verifier sensitivity against post-normalization leakage.
 
+6. **Decision-Tier Safeguard Extension (Policy S vs $A0$ vs $A5$):**
+   While $A5$ ($R_{\mathrm{fusion}}$) and $A0$ ($\mathrm{DCRI}_{0.10}$) test mathematical score ablations, the downstream Decision Safeguard Gateway (**Policy S**) tests a policy-layer ablation:
+   - Evaluated on identical $A0$ scores ($\Delta \mathrm{DCRI} \equiv 0.000000$), Policy S blocks **$89 / 92$ downgrades ($96.7\%$)** where evidence is ambiguous ($U_{\mathrm{sum}} \ge 0.30 \lor \min(Q) < 0.60$).
+   - This preserves $114 / 117$ escalations (comparable to $A5$'s $117$ escalations), demonstrating that under-triage prevention can be achieved at the policy boundary without eliminating uncertainty discounting ($A5$) from the research score.
+
 ---
 
 ## Chapter Directory

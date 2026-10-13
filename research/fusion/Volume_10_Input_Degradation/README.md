@@ -73,4 +73,16 @@ Across the frozen $N=500$ controlled decision cohort ($\text{seed}=115$):
 - **Authority Redistribution Conservation**: All authority surrendered by degraded modalities is exactly conserved and absorbed by active channels ($\sum_{j \ne i} \Delta w_j = -\Delta w_i$).
 - **Scientific Isolation of $Q_i$ (B6 vs B5)**: The paired comparison showed significantly greater authority attenuation under B6 than B5 ($-0.1697$ vs $-0.0388$, paired difference $D = -0.1309$, $95\%$ bootstrap CI: $[-0.1319, -0.1300]$, strictly excluding zero), supporting the incremental contribution of the quality term within the tested controlled degradation benchmark.
 - **Hard-Mask Invariance**: Degrading an unavailable modality channel ($A_i = 0$) results in exactly $\Delta w_{\text{active}} = 0.000000$ and $\Delta R_{\text{fusion}} = 0.000000$.
+- **Decision Safeguard under Degradation (Policy S Interaction)**: While ACARA-U attenuates authority on degraded channels, severe corruption ($D3$) inflates predictive uncertainty ($U \uparrow$) and depresses quality ($Q < 0.60$). Under unconstrained DCRI, this uncertainty spike creates a counter-therapeutic risk of score depression and under-triage. The Safeguard Gateway (Policy S) resolves this: when $\min(Q_i) < 0.60$, downward reclassification is strictly blocked, preserving base escalation while emitting `FLAG_REPEAT_EXAM_AMBIGUOUS_EVIDENCE` (`DEGRADED_QUALITY`) to mandate sensor re-acquisition.
+
+---
+
+## 4. Policy Safeguard & Degradation Interaction
+
+Under progressive signal corruption, the interaction between routing, uncertainty, and decision policy exhibits two distinct operational modes:
+
+| Operational Mode | Behavior Under Severe Degradation ($D3: Q < 0.60$) | Clinical Risk / Failure Mode | Safety Safeguard Status |
+| :--- | :--- | :--- | :--- |
+| **Unconstrained DCRI ($\mathrm{DCRI}_{0.10}$)** | Subtracts uncertainty penalty ($\delta \sum U_i$), lowering the numerical score | **Counter-therapeutic under-triage**: severely corrupted high-risk inputs risk falling below $\tau_2 = 0.40$ into routine monitoring. | ❌ Vulnerable to false downgrades |
+| **Safeguarded Gateway (Policy S)** | Detects $\min(Q_i) < 0.60$, suppresses downward reclassification ($T_{\mathrm{final}} = T_{\mathrm{base}}$), and emits repeat-exam flag | **Preserves specialist escalation** while ordering diagnostic sensor re-acquisition or manual inspection. | 🟢 Safe fail-closed triage |
 

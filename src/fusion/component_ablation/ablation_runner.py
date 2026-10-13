@@ -96,7 +96,13 @@ class ComponentAblationRunner:
         manifest_packets = manifest_data.get("sample_packets", [])
         manifest_packet_ids = [p["packet_id"] for p in manifest_packets]
 
-        cohort = load_frozen_cohort(self.repo_root, n_packets=N_PACKETS, seed=SEED)
+        cohort = load_frozen_cohort(
+            self.repo_root,
+            n_packets=N_PACKETS,
+            seed=SEED,
+            manifest_path=packet_manifest_path,
+            expected_sha256=manifest_sha,
+        )
         packet_ids = [p.packet_id for p in cohort]
         if len(cohort) != N_PACKETS:
             raise ValueError(f"Expected {N_PACKETS} packets, got {len(cohort)}")

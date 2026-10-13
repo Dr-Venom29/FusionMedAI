@@ -28,6 +28,13 @@ from .policy_config import (
     MODALITIES,
     FLOAT_TOLERANCE,
     RESIDUAL_TOLERANCE,
+    AMBIGUITY_U_SUM_THRESHOLD,
+    AMBIGUITY_MIN_QUALITY_THRESHOLD,
+    FLAG_REPEAT_EXAM_AMBIGUOUS_EVIDENCE,
+    REASON_CLEAR_EVIDENCE,
+    REASON_HIGH_UNCERTAINTY,
+    REASON_DEGRADED_QUALITY,
+    REASON_UNCERTAINTY_AND_QUALITY,
 )
 
 
@@ -63,6 +70,85 @@ def assign_action(score: float, tau_1: float, tau_2: float) -> int:
         return ACTION_ADDITIONAL_ASSESSMENT
     else:
         return ACTION_ESCALATION
+
+
+def detect_evidence_ambiguity(
+    u_sum: float,
+    qualities: Optional[Dict[str, float]] = None,
+    u_sum_threshold: float = AMBIGUITY_U_SUM_THRESHOLD,
+    min_quality_threshold: float = AMBIGUITY_MIN_QUALITY_THRESHOLD,
+) -> Tuple[bool, str]:
+    """
+    Evaluates evidence ambiguity based on cumulative uncertainty and modality signal qualities.
+
+    Boundary Semantics:
+        - High uncertainty: u_sum >= u_sum_threshold (inclusive: equality at u_sum_threshold is ambiguous).
+        - Degraded quality: q < min_quality_threshold (strict: equality at min_quality_threshold is acceptable).
+
+    Returns:
+        (is_ambiguous, reason_code)
+    """
+    if not math.isfinite(u_sum):
+        raise ValueError(f"u_sum must be a finite float, got: {u_sum}")
+    if not math.isfinite(u_sum_threshold) or not math.isfinite(min_quality_threshold):
+        raise ValueError(f"Ambiguity thresholds must be finite floats, got: u_sum_threshold={u_sum_threshold}, min_quality_threshold={min_quality_threshold}")
+
+    high_u = (u_sum >= u_sum_threshold)
+    degraded_q = False
+    if qualities:
+        for mod_name, q in qualities.items():
+            if not math.isfinite(q):
+                raise ValueError(f"Modality quality for {mod_name} must be a finite float, got: {q}")
+            if q < min_quality_threshold:
+                degraded_q = True
+                break
+
+    if high_u and degraded_q:
+        return True, REASON_UNCERTAINTY_AND_QUALITY
+    elif high_u:
+        return True, REASON_HIGH_UNCERTAINTY
+    elif degraded_q:
+        return True, REASON_DEGRADED_QUALITY
+    else:
+        return False, REASON_CLEAR_EVIDENCE
+
+
+
+def apply_safeguard_policy(
+    action_base: int,
+    action_dcri: int,
+    is_ambiguous: bool,
+    ambiguity_reason: str,
+) -> Tuple[int, bool, Optional[str], Optional[str]]:
+    """
+    Applies the decision-policy safeguard against uncertainty-induced downgrades.
+    
+    Rule:
+        - If is_ambiguous and action_dcri < action_base:
+            Block downgrade -> action_final = action_base
+            downgrade_blocked = True
+        - Else:
+            action_final = action_dcri
+            downgrade_blocked = False
+        - If is_ambiguous:
+            flag = FLAG_REPEAT_EXAM_AMBIGUOUS_EVIDENCE (preserved even if base tier is low)
+            
+    Returns:
+        (action_final, downgrade_blocked, flag, reason)
+    """
+    flag = FLAG_REPEAT_EXAM_AMBIGUOUS_EVIDENCE if is_ambiguous else None
+    
+    if is_ambiguous and (action_dcri < action_base):
+        action_final = action_base
+        downgrade_blocked = True
+        reason = f"BLOCKED_DOWNGRADE_{ambiguity_reason}"
+    else:
+        action_final = action_dcri
+        downgrade_blocked = False
+        reason = ambiguity_reason if is_ambiguous else REASON_CLEAR_EVIDENCE
+        
+    return action_final, downgrade_blocked, flag, reason
+
 
 
 class PolicyEvaluationResult:
@@ -174,6 +260,7 @@ class PolicyEvaluator:
             weights = {m: decision_output.weights.get(m, 0.0) for m in active_mods}
             risks = {}
             uncertainties = {}
+            qualities = {}
             r_fusion = 0.0
             u_sum = 0.0
 
@@ -181,9 +268,11 @@ class PolicyEvaluator:
                 rec = getattr(packet, m)
                 r_i = float(rec.risk)
                 u_i = float(rec.uncertainty)
+                q_i = float(rec.quality) if hasattr(rec, "quality") else 1.0
                 w_i = float(weights[m])
                 risks[m] = r_i
                 uncertainties[m] = u_i
+                qualities[m] = q_i
                 r_fusion += w_i * r_i
                 u_sum += u_i
 
@@ -208,6 +297,7 @@ class PolicyEvaluator:
                 "weights": weights,
                 "risks": risks,
                 "uncertainties": uncertainties,
+                "qualities": qualities,
                 "r_fusion": float(r_fusion),
                 "u_sum": float(u_sum),
                 "dcri": float(dcri),
@@ -302,3 +392,213 @@ class PolicyEvaluator:
             escalation_reduction_rate=round(escalation_reduction_count / n, 6),
             per_packet_details=per_packet_details,
         )
+
+    def evaluate_safeguarded_policy(
+        self,
+        base_states: List[Dict[str, Any]],
+        tau_1: float = TAU_1_DEFAULT,
+        tau_2: float = TAU_2_DEFAULT,
+        u_sum_threshold: float = AMBIGUITY_U_SUM_THRESHOLD,
+        min_quality_threshold: float = AMBIGUITY_MIN_QUALITY_THRESHOLD,
+    ) -> "SafeguardedPolicyEvaluationResult":
+        """
+        Evaluates the Safeguarded DCRI Policy (Policy S) alongside unconstrained DCRI (Policy A)
+        and base fused risk (Policy B).
+        
+        Under Policy S:
+            - If evidence is ambiguous (u_sum >= u_sum_threshold or min(quality) < min_quality_threshold):
+                Downgrade below base-risk tier is blocked: T_final = max(T_base, T_dcri) = T_base
+                downgrade_blocked = True
+                flag = REPEAT_EXAM_AMBIGUOUS_EVIDENCE
+            - Else:
+                T_final = T_dcri
+                downgrade_blocked = False
+                flag = None
+        """
+        n = len(base_states)
+        if n == 0:
+            raise ValueError("base_states list cannot be empty.")
+
+        policy_s_counts = {ACTION_KEYS[0]: 0, ACTION_KEYS[1]: 0, ACTION_KEYS[2]: 0}
+        policy_a_counts = {ACTION_KEYS[0]: 0, ACTION_KEYS[1]: 0, ACTION_KEYS[2]: 0}
+        policy_b_counts = {ACTION_KEYS[0]: 0, ACTION_KEYS[1]: 0, ACTION_KEYS[2]: 0}
+
+        attempted_downgrades_count = 0
+        blocked_downgrades_count = 0
+        permitted_downgrades_count = 0
+        ambiguous_flags_count = 0
+        reclass_count_s_vs_b = 0
+        downgrades_s_vs_b = 0
+
+        per_packet_details: List[Dict[str, Any]] = []
+
+        for item in base_states:
+            r_fusion = item["r_fusion"]
+            dcri = item["dcri"]
+            u_sum = item["u_sum"]
+            qualities = item.get("qualities", {})
+
+            action_b = assign_action(r_fusion, tau_1, tau_2)
+            action_a = assign_action(dcri, tau_1, tau_2)
+
+            is_ambiguous, ambiguity_reason = detect_evidence_ambiguity(
+                u_sum=u_sum,
+                qualities=qualities,
+                u_sum_threshold=u_sum_threshold,
+                min_quality_threshold=min_quality_threshold,
+            )
+
+            action_s, downgrade_blocked, flag, reason = apply_safeguard_policy(
+                action_base=action_b,
+                action_dcri=action_a,
+                is_ambiguous=is_ambiguous,
+                ambiguity_reason=ambiguity_reason,
+            )
+
+            policy_b_counts[ACTION_KEYS[action_b]] += 1
+            policy_a_counts[ACTION_KEYS[action_a]] += 1
+            policy_s_counts[ACTION_KEYS[action_s]] += 1
+
+            is_attempted_downgrade = (action_a < action_b)
+            if is_attempted_downgrade:
+                attempted_downgrades_count += 1
+                if downgrade_blocked:
+                    blocked_downgrades_count += 1
+                else:
+                    permitted_downgrades_count += 1
+
+            if flag is not None:
+                ambiguous_flags_count += 1
+
+            if action_s != action_b:
+                reclass_count_s_vs_b += 1
+                if action_s < action_b:
+                    downgrades_s_vs_b += 1
+
+            per_packet_details.append({
+                "packet_id": item["packet_id"],
+                "r_fusion": r_fusion,
+                "u_sum": u_sum,
+                "dcri": dcri,
+                "action_base": action_b,
+                "action_base_name": ACTION_NAMES[action_b],
+                "action_dcri": action_a,
+                "action_dcri_name": ACTION_NAMES[action_a],
+                "action_safeguarded": action_s,
+                "action_safeguarded_name": ACTION_NAMES[action_s],
+                "is_ambiguous": is_ambiguous,
+                "ambiguity_reason": ambiguity_reason,
+                "is_attempted_downgrade": is_attempted_downgrade,
+                "downgrade_blocked": downgrade_blocked,
+                "flag": flag,
+                "decision_reason": reason,
+            })
+
+        policy_s_pcts = {k: round(v / n * 100.0, 4) for k, v in policy_s_counts.items()}
+        policy_a_pcts = {k: round(v / n * 100.0, 4) for k, v in policy_a_counts.items()}
+        policy_b_pcts = {k: round(v / n * 100.0, 4) for k, v in policy_b_counts.items()}
+
+        return SafeguardedPolicyEvaluationResult(
+            tau_1=tau_1,
+            tau_2=tau_2,
+            delta=self.delta,
+            u_sum_threshold=u_sum_threshold,
+            min_quality_threshold=min_quality_threshold,
+            n_packets=n,
+            policy_b_counts=policy_b_counts,
+            policy_b_pcts=policy_b_pcts,
+            policy_a_counts=policy_a_counts,
+            policy_a_pcts=policy_a_pcts,
+            policy_s_counts=policy_s_counts,
+            policy_s_pcts=policy_s_pcts,
+            attempted_downgrades_count=attempted_downgrades_count,
+            blocked_downgrades_count=blocked_downgrades_count,
+            permitted_downgrades_count=permitted_downgrades_count,
+            ambiguous_flags_count=ambiguous_flags_count,
+            reclass_count_s_vs_b=reclass_count_s_vs_b,
+            downgrades_s_vs_b=downgrades_s_vs_b,
+            per_packet_details=per_packet_details,
+        )
+
+
+class SafeguardedPolicyEvaluationResult:
+    """Encapsulates results of safeguarded policy evaluation."""
+    def __init__(
+        self,
+        tau_1: float,
+        tau_2: float,
+        delta: float,
+        u_sum_threshold: float,
+        min_quality_threshold: float,
+        n_packets: int,
+        policy_b_counts: Dict[str, int],
+        policy_b_pcts: Dict[str, float],
+        policy_a_counts: Dict[str, int],
+        policy_a_pcts: Dict[str, float],
+        policy_s_counts: Dict[str, int],
+        policy_s_pcts: Dict[str, float],
+        attempted_downgrades_count: int,
+        blocked_downgrades_count: int,
+        permitted_downgrades_count: int,
+        ambiguous_flags_count: int,
+        reclass_count_s_vs_b: int,
+        downgrades_s_vs_b: int,
+        per_packet_details: List[Dict[str, Any]],
+    ):
+        self.tau_1 = tau_1
+        self.tau_2 = tau_2
+        self.delta = delta
+        self.u_sum_threshold = u_sum_threshold
+        self.min_quality_threshold = min_quality_threshold
+        self.n_packets = n_packets
+        self.policy_b_counts = policy_b_counts
+        self.policy_b_pcts = policy_b_pcts
+        self.policy_a_counts = policy_a_counts
+        self.policy_a_pcts = policy_a_pcts
+        self.policy_s_counts = policy_s_counts
+        self.policy_s_pcts = policy_s_pcts
+        self.attempted_downgrades_count = attempted_downgrades_count
+        self.blocked_downgrades_count = blocked_downgrades_count
+        self.permitted_downgrades_count = permitted_downgrades_count
+        self.ambiguous_flags_count = ambiguous_flags_count
+        self.reclass_count_s_vs_b = reclass_count_s_vs_b
+        self.downgrades_s_vs_b = downgrades_s_vs_b
+        self.per_packet_details = per_packet_details
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "tau_1": self.tau_1,
+            "tau_2": self.tau_2,
+            "delta": self.delta,
+            "u_sum_threshold": self.u_sum_threshold,
+            "min_quality_threshold": self.min_quality_threshold,
+            "n_packets": self.n_packets,
+            "policy_b_base_risk": {
+                "counts": self.policy_b_counts,
+                "percentages": self.policy_b_pcts,
+            },
+            "policy_a_unconstrained_dcri": {
+                "counts": self.policy_a_counts,
+                "percentages": self.policy_a_pcts,
+            },
+            "policy_s_safeguarded_dcri": {
+                "counts": self.policy_s_counts,
+                "percentages": self.policy_s_pcts,
+            },
+            "safeguard_metrics": {
+                "attempted_downgrades_count": self.attempted_downgrades_count,
+                "attempted_downgrades_rate": round(self.attempted_downgrades_count / self.n_packets, 6),
+                "blocked_downgrades_count": self.blocked_downgrades_count,
+                "blocked_downgrades_rate": round(self.blocked_downgrades_count / self.n_packets, 6),
+                "permitted_downgrades_count": self.permitted_downgrades_count,
+                "permitted_downgrades_rate": round(self.permitted_downgrades_count / self.n_packets, 6),
+                "blocked_ratio_vs_attempted": round(self.blocked_downgrades_count / self.attempted_downgrades_count, 6) if self.attempted_downgrades_count > 0 else 0.0,
+                "ambiguous_flags_count": self.ambiguous_flags_count,
+                "ambiguous_flags_rate": round(self.ambiguous_flags_count / self.n_packets, 6),
+                "reclass_count_s_vs_b": self.reclass_count_s_vs_b,
+                "reclass_rate_s_vs_b": round(self.reclass_count_s_vs_b / self.n_packets, 6),
+                "downgrades_s_vs_b": self.downgrades_s_vs_b,
+                "downgrades_rate_s_vs_b": round(self.downgrades_s_vs_b / self.n_packets, 6),
+            },
+        }
+

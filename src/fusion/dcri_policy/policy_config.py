@@ -68,3 +68,22 @@ MODALITIES: Tuple[str, ...] = ("retina", "foot", "clinical")
 FLOAT_TOLERANCE: float = 1e-12
 RESIDUAL_TOLERANCE: float = 1e-10
 MAX_THEORETICAL_M: int = 3
+
+# Phase C11.14: Safeguarded Policy Configuration (Repeat Exam / Ambiguous Evidence Gateway)
+# Ambiguity detection thresholds: pre-declared experimental operating thresholds selected for
+# stress-testing the safeguard within the synthetic evaluation suite (not clinically validated diagnostic cutoffs).
+# - AMBIGUITY_U_SUM_THRESHOLD = 0.30: Pre-declared experimental boundary separating moderate from severe
+#   epistemic uncertainty under the benchmark uncertainty scaling distribution.
+# - AMBIGUITY_MIN_QUALITY_THRESHOLD = 0.60: Pre-declared experimental sensor signal quality floor
+#   corresponding to severe synthetic D3 degradation.
+AMBIGUITY_U_SUM_THRESHOLD: float = 0.30       # Experimental cumulative uncertainty operating threshold
+AMBIGUITY_MIN_QUALITY_THRESHOLD: float = 0.60 # Experimental modality quality degradation operating threshold
+
+# Flag and Reason Codes
+FLAG_REPEAT_EXAM_AMBIGUOUS_EVIDENCE: str = "REPEAT_EXAM_AMBIGUOUS_EVIDENCE"
+REASON_CLEAR_EVIDENCE: str = "CLEAR_EVIDENCE"
+REASON_HIGH_UNCERTAINTY: str = "HIGH_UNCERTAINTY"
+REASON_DEGRADED_QUALITY: str = "DEGRADED_QUALITY"
+REASON_UNCERTAINTY_AND_QUALITY: str = "HIGH_UNCERTAINTY_AND_DEGRADED_QUALITY"
+
+

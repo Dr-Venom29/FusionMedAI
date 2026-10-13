@@ -49,6 +49,14 @@ Through a multi-tiered selection hierarchy enforcing mathematical invariants, be
 
 ---
 
+## Decoupling $\delta$ Selection from Policy Safeguards
+
+While synthetic oracle evaluations (Volume 14 Addendum) demonstrate that uncertainty discounting increases false downgrades from $7.61\%$ to $12.72\%$ under unconstrained triage policies, **$\delta^* = 0.10$ remains the scientifically selected parameter**:
+- **Mathematical Integrity**: Lowering $\delta \to 0$ eliminates uncertainty discounting entirely, sacrificing the non-inflationary conservative property on low-risk cases with noisy inputs.
+- **Layer Decoupling**: Rather than manipulating $\delta$ to compensate for downstream triage errors, the architecture introduces the **Decision Safeguard Gateway (Policy S)** at the policy layer. Policy S preserves $\delta^* = 0.10$ as the research index while suppressing downgrades whenever evidence is ambiguous ($U_{\mathrm{sum}} \ge 0.30 \lor \min(Q) < 0.60$).
+
+---
+
 ## Volume Documentation Index
 
 - [Chapter 01 — Scientific Protocol & Research Hypotheses](01_Protocol.md)
@@ -58,3 +66,4 @@ Through a multi-tiered selection hierarchy enforcing mathematical invariants, be
 - [Chapter 05 — Selection Hierarchy & Rationale](05_Selection_Rationale.md)
 - [Chapter 06 — Methodological Boundaries & Limitations](06_Limitations.md)
 - [Chapter 07 — Freeze Report & Verification Audit](07_Freeze_Report.md)
+

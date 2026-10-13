@@ -17,11 +17,11 @@ To benchmark how decision-level uncertainty discounting alters hypothetical down
 
 ## 2. Policy Family Formulations
 
-We compare two explicit policy families applied to the frozen cohort:
+We compare three explicit policy configurations applied to the evaluated cohort:
 
-### Policy A: DCRI Policy ($\delta^* = 0.10$)
+### Policy A: Unconstrained DCRI Policy ($\delta^* = 0.10$)
 
-Assigns actions based on the uncertainty-discounted decision index:
+Assigns actions based directly on the uncertainty-discounted decision index:
 
 $$
 \text{Action}_{\text{DCRI}} = f(\text{DCRI}_{0.10}; \tau_1, \tau_2), \quad \text{where } \text{DCRI}_{0.10} = R_{\text{fusion}} - 0.10 \sum_{i \in \mathcal{A}} U_i
@@ -36,6 +36,28 @@ Assigns actions based directly on the unpenalized weighted fused risk:
 $$
 \text{Action}_{\text{Fused}} = f(R_{\text{fusion}}; \tau_1, \tau_2), \quad \text{where } R_{\text{fusion}} = \sum_{i \in \mathcal{A}} w_i r_i
 $$
+
+### Policy S: Safeguarded DCRI Gateway Policy (Ambiguity & Repeat-Exam Protocol)
+
+Decouples the numerical research index from the action tier assignment by imposing a safety gateway:
+
+$$
+\text{Action}_{\text{Safeguarded}} = \begin{cases}
+\text{Action}_{\text{Fused}}, & \text{if } \text{Ambiguous}(\mathbf{x}) \text{ and } \text{Action}_{\text{DCRI}} < \text{Action}_{\text{Fused}} \\
+\text{Action}_{\text{DCRI}}, & \text{otherwise}
+\end{cases}
+$$
+
+where the ambiguity condition is defined over pre-declared experimental operating thresholds:
+
+$$
+\text{Ambiguous}(\mathbf{x}) \iff \left(\sum_{i \in \mathcal{A}} U_i \ge 0.30\right) \lor \left(\min_{i \in \mathcal{A}} Q_i < 0.60\right)
+$$
+
+- **Safeguard Invariant**: When evidence meets the predefined ambiguity criteria, Policy S prevents the DCRI-derived action tier from falling below the unpenalized fused-risk reference tier. When evidence does not meet those criteria, the DCRI-derived tier is retained. Ambiguous evidence also triggers a repeat-examination flag.
+- **Flag Generation**: When $\text{Ambiguous}(\mathbf{x})$ is true, the gateway emits `REPEAT_EXAM_AMBIGUOUS_EVIDENCE` (defined by the constant `FLAG_REPEAT_EXAM_AMBIGUOUS_EVIDENCE`) along with audit reason codes (`HIGH_UNCERTAINTY`, `DEGRADED_QUALITY`, or `HIGH_UNCERTAINTY_AND_DEGRADED_QUALITY`).
+- **Operating Threshold Status**: Thresholds $U_{\mathrm{sum}} = 0.30$ and $\min(Q) = 0.60$ are pre-declared experimental operating points selected to stress-test safety gating within the synthetic benchmark suite, not clinically validated diagnostic cutoffs.
+
 
 ---
 

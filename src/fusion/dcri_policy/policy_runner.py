@@ -1,6 +1,6 @@
 """
 FusionMedAI - Phase C11.14: DCRI Decision Policy Analysis Runner
-Orchestrates execution of the decision policy analysis, exports 5 JSON artifacts,
+Orchestrates execution of the decision policy analysis, exports 6 JSON artifacts,
 and generates cryptographic SHA-256 freeze manifest.
 """
 
@@ -50,6 +50,14 @@ def compute_sha256_file(filepath: Path) -> str:
 class PolicyAnalysisExperimentRunner:
     """
     Executes Phase C11.14 Decision Policy Sensitivity and Operating-Behavior Analysis.
+    
+    Cohort Paths:
+        - Authoritative Canonical Redesigned Cohort: Default manifest path
+          `experiments/fusion/canonical_redesigned_rerun/01_canonical_redesigned_packet_manifest.json`
+          (SHA-256 cf877d74e306...). Loaded by default via `cohort_loader.load_frozen_cohort()`.
+          Evaluated via `run_canonical_safeguard()` or when manifest_path is default.
+        - Historical Baseline Decision Cohort: Manifest path `experiments/fusion/dcri/packet_manifest.json`
+          (SHA-256 1ff37fbeeba3...). Preserved for historical comparison; requires explicit opt-in.
     """
 
     def __init__(
@@ -58,22 +66,26 @@ class PolicyAnalysisExperimentRunner:
         output_dir: Optional[Path] = None,
         seed: int = SEED,
         n_bootstraps: int = N_BOOTSTRAPS,
+        manifest_path: Optional[Path] = None,
     ):
         self.repo_root = repo_root or Path(__file__).resolve().parents[3]
         self.seed = seed
         self.n_bootstraps = n_bootstraps
         self.output_dir = output_dir or (self.repo_root / "experiments" / "fusion" / "dcri_policy_analysis" / "results")
         self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.manifest_path = manifest_path
 
     def run_all(self) -> Dict[str, Any]:
         """
-        Executes the entire Phase C11.14 experiment pipeline.
+        Executes the entire Phase C11.14 experiment pipeline on the baseline decision cohort.
         """
         # 1. Load frozen cohort
+
         cohort = load_frozen_cohort(
             repo_root=self.repo_root,
             n_packets=N_PACKETS,
             seed=self.seed,
+            manifest_path=self.manifest_path,
         )
 
         # 2. Base state evaluation
@@ -121,6 +133,19 @@ class PolicyAnalysisExperimentRunner:
             base_states=base_states,
             per_packet_details=primary_eval.per_packet_details,
         )
+
+        # 7.5 Safeguarded Policy Evaluation
+        safeguarded_eval = evaluator.evaluate_safeguarded_policy(
+            base_states=base_states,
+            tau_1=TAU_1_DEFAULT,
+            tau_2=TAU_2_DEFAULT,
+        )
+
+        safeguarded_artifact = {
+            "phase": "C11.14",
+            "experiment_title": "DCRI Decision Policy Safeguard: Ambiguity Gateway and Repeat-Exam Policy",
+            "safeguarded_evaluation": safeguarded_eval.to_dict(),
+        }
 
         # 8. Construct Output Artifacts Dictionaries
         config_artifact = {
@@ -193,6 +218,7 @@ class PolicyAnalysisExperimentRunner:
             "regime_results.json": self.output_dir / "regime_results.json",
             "robustness_results.json": self.output_dir / "robustness_results.json",
             "statistical_results.json": self.output_dir / "statistical_results.json",
+            "safeguarded_policy_results.json": self.output_dir / "safeguarded_policy_results.json",
         }
 
         with open(artifact_files["policy_config.json"], "w", encoding="utf-8") as f:
@@ -209,6 +235,9 @@ class PolicyAnalysisExperimentRunner:
 
         with open(artifact_files["statistical_results.json"], "w", encoding="utf-8") as f:
             json.dump(statistical_artifact, f, indent=2)
+
+        with open(artifact_files["safeguarded_policy_results.json"], "w", encoding="utf-8") as f:
+            json.dump(safeguarded_artifact, f, indent=2)
 
         # 10. Generate Freeze Manifest with SHA-256 Hashes
         manifest: Dict[str, Any] = {
@@ -234,10 +263,46 @@ class PolicyAnalysisExperimentRunner:
             "manifest": manifest,
             "output_dir": str(self.output_dir),
             "primary_eval": primary_eval.to_dict(),
+            "safeguarded_eval": safeguarded_eval.to_dict(),
         }
+
+    def run_canonical_safeguard(self) -> Dict[str, Any]:
+        """
+        Executes Policy S Safeguard evaluation on the Canonical Redesigned Cohort
+        (01_canonical_redesigned_packet_manifest.json), exporting canonical_safeguarded_policy_results.json.
+        """
+        canonical_manifest_path = (
+            self.repo_root / "experiments" / "fusion" / "canonical_redesigned_rerun" / "01_canonical_redesigned_packet_manifest.json"
+        )
+        cohort = load_frozen_cohort(
+            repo_root=self.repo_root,
+            n_packets=N_PACKETS,
+            seed=self.seed,
+            manifest_path=canonical_manifest_path,
+        )
+        evaluator = PolicyEvaluator(delta=DELTA_FROZEN)
+        base_states = evaluator.precompute_packet_base_state(cohort)
+        safeguarded_eval = evaluator.evaluate_safeguarded_policy(
+            base_states=base_states,
+            tau_1=TAU_1_DEFAULT,
+            tau_2=TAU_2_DEFAULT,
+        )
+        canonical_artifact = {
+            "phase": "C11_CANONICAL_RERUN",
+            "cohort_source": "01_canonical_redesigned_packet_manifest.json",
+            "manifest_sha256": compute_sha256_file(canonical_manifest_path),
+            "experiment_title": "Canonical Redesigned Cohort Policy S Safeguarded Evaluation",
+            "safeguarded_evaluation": safeguarded_eval.to_dict(),
+        }
+        out_path = self.repo_root / "experiments" / "fusion" / "canonical_redesigned_rerun" / "canonical_safeguarded_policy_results.json"
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(canonical_artifact, f, indent=2)
+        return canonical_artifact
 
 
 if __name__ == "__main__":
     runner = PolicyAnalysisExperimentRunner()
     result = runner.run_all()
     print(f"Phase C11.14 execution complete. Manifest created with {len(result['manifest']['artifacts'])} artifacts.")
+    canonical_res = runner.run_canonical_safeguard()
+    print(f"Canonical Redesigned Cohort Policy S evaluation complete. Exported canonical_safeguarded_policy_results.json.")

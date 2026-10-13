@@ -135,7 +135,13 @@ class DecisionEvaluationRunner:
         validate_evaluation_config()
         print(f"  Upstream configuration verified (manifest size={UPSTREAM_PACKET_MANIFEST_SIZE_BYTES} bytes, SHA-256 confirmed).")
 
-        cohort = load_frozen_cohort(self.repo_root, n_packets=N_PACKETS, seed=DATA_SEED)
+        cohort = load_frozen_cohort(
+            self.repo_root,
+            n_packets=N_PACKETS,
+            seed=DATA_SEED,
+            manifest_path=UPSTREAM_PACKET_MANIFEST,
+            expected_sha256=UPSTREAM_PACKET_MANIFEST_SHA256,
+        )
         if len(cohort) != N_PACKETS:
             raise ValueError(f"Expected {N_PACKETS} packets, got {len(cohort)}")
         print(f"  Loaded {len(cohort)} packets (seed={DATA_SEED}) successfully.")
