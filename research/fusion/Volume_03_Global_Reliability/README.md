@@ -4,7 +4,9 @@
 
 This volume formalizes and documents the computation and freezing of the empirical **Global Modality Reliability** prior ($R_i \in [0.0, 1.0]$) for each modality in **FusionMedAI**:
 
-$$R_i = \frac{1}{2} \cdot \left[ \text{AUC}_i + (1 - \text{ECE}_i) \right]$$
+$$
+R_i = \frac{1}{2} \cdot \left[ \text{AUC}_i + (1 - \text{ECE}_i) \right]
+$$
 
 Reliability represents an immutable, modality-level prior grounded strictly in frozen validation split evidence. It balances historical discriminative capacity (50%) and probability calibration fidelity (50%) before dynamic multimodal routing begins in ACARA-U (Phase C11.4).
 
@@ -30,4 +32,10 @@ Reliability represents an immutable, modality-level prior grounded strictly in f
 | **Foot ($F$)** | EfficientNet-B3 + Vector Scaling ($N_{\text{val}}=1006$) | **0.884435** | **0.039903** | **0.960097** | **0.922266** |
 | **Clinical ($C$)** | CatBoost HPO + Isotonic Calibration ($N_{\text{val}}=14911$) | **0.650764** | **0.000000** | **1.000000** | **0.825382** |
 
-*Note: All quantities are frozen constants derived exclusively from validation data and are immutable throughout subsequent router parameter tuning.*
+*Note: All quantities are frozen constants derived exclusively from validation data and passed through `RetinaAdapter`, `FootAdapter`, and `ClinicalAdapter` into `EvidenceOrchestrator` and `ACARAUv2Router`.*
+
+### Validation vs. Locked Test Calibration Split Provenance (Clinical Modality)
+- **CatBoost HPO Training Split**: `datasets/clinical/processed/splits/train.csv` ($N_{\text{train}} = 70,118$ rows / $69,519$ preprocessed encounters).
+- **Isotonic Calibrator Fitting & Validation Evaluation Split**: `datasets/clinical/processed/splits/val.csv` ($N_{\text{val}} = 14,911$ encounters). Because non-parametric Isotonic Regression is fitted and evaluated on `val.csv`, $\text{ECE}_{\text{val}} = 0.000000$ ($2.48 \times 10^{-15}$) is an in-sample validation calibration measurement, yielding $R_C = \frac{0.650764 + (1 - 0.000000)}{2} = 0.825382$. Evaluating 5-fold stratified cross-fitting of Isotonic Regression strictly inside `val.csv` yields out-of-fold $\text{ECE}_{\text{val,5-fold OOF}} = 0.006229$ ($R_{C,\text{OOF}} = 0.822268$, $\Delta R_C = -0.003114$).
+- **Locked Test Split**: `datasets/clinical/processed/splits/test.csv` ($N_{\text{test}} = 14,913$ encounters, strictly isolated from router parameterization) exhibits raw test $\text{ECE}_{\text{test}} = 0.003198$ and isotonic test $\text{ECE}_{\text{test}} = 0.006179$.
+

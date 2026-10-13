@@ -40,7 +40,9 @@ classDiagram
 
 To ensure complete methodological parity across all modalities, $R_i$ is **not** an ad-hoc choice between metrics. It is formally frozen as a composite index evaluated on each modality's frozen validation split:
 
-$$R_i = \frac{1}{2} \cdot \left[ \text{AUC}_i + (1 - \text{ECE}_i) \right] \quad \in [0.0, 1.0]$$
+$$
+R_i = \frac{1}{2} \cdot \left[ \text{AUC}_i + (1 - \text{ECE}_i) \right] \quad \in [0.0, 1.0]
+$$
 
 Where:
 - $\text{AUC}_i \in [0.5, 1.0]$ is the validation Area Under the ROC Curve (macro one-vs-rest for multi-class Retina and Foot; binary AUC for Clinical).
@@ -82,13 +84,25 @@ flowchart TD
 
 ### Deterministic Risk Projection Formulas:
 1. **Retina Modality ($K=5$ classes: No DR, Mild, Moderate, Severe, PDR)**:
-   $$r_{\text{retina}} = \sum_{k=0}^4 \left(\frac{k}{4}\right) \cdot p_k$$
+
+   $$
+   r_{\text{retina}} = \sum_{k=0}^4 \left(\frac{k}{4}\right) \cdot p_k
+   $$
+
    *Note: This is an ordinal severity transformation into $[0, 1]$, not a direct clinical binary outcome probability.*
 2. **Foot Modality ($K=4$ classes: Wagner Grade 0, 1, 2, 3+)**:
-   $$r_{\text{foot}} = \sum_{k=0}^3 \left(\frac{k}{3}\right) \cdot p_k$$
+
+   $$
+   r_{\text{foot}} = \sum_{k=0}^3 \left(\frac{k}{3}\right) \cdot p_k
+   $$
+
    *Note: This represents an ulcer progression severity transformation into $[0, 1]$.*
 3. **Clinical Modality ($K=2$ classes: No Readmission vs 30-Day Readmission)**:
-   $$r_{\text{clinical}} = P(Y = 1 \mid x) = p_1$$
+
+   $$
+   r_{\text{clinical}} = P(Y = 1 \mid x) = p_1
+   $$
+
    *Note: This directly represents the calibrated binary event probability.*
 
 ---
@@ -140,13 +154,94 @@ flowchart TD
 - **Backbone**: CatBoost HPO model trained on 119 preprocessed features from UCI Diabetes 130-US.
 - **Calibration**: Post-hoc Isotonic Calibration.
 - **Uncertainty Estimator**: Bootstrap CatBoost Ensemble variance across $B=20$ resampled models, normalized to $U_{\text{clinical}} \in [0, 1]$.
-- **Confidence Estimator**: Inverted probability distance $C_{\text{clinical}} = 1.0 - 2 \cdot |\hat{p} - 0.5| \in [0, 1]$.
+- **Confidence Estimator**: Decision-boundary margin $C_{\text{clinical}} = 2 \cdot \lvert\hat{p} - 0.5\rvert = \lvert p_1 - p_0\rvert \in [0, 1]$ via `ClinicalAdapter`.
+  - *Confidence Semantics & Limitations*: For a binary classifier, distance from the decision boundary ($0.5$) measures how decisively the model assigns the encounter away from maximum classification ambivalence ($p=0.5 \implies C=0.0$; $p \in \{0, 1\} \implies C=1.0$). However, because base readmission prevalence is low ($\sim 11\%$), an encounter with low predicted readmission risk ($p_1 = 0.05$) yields high confidence ($C = 0.90$). This reflects high classifier certainty that the event will not occur, rather than high certainty of pathology. Furthermore, margin confidence is distinct from epistemic uncertainty: a model can predict $p_1 = 0.05$ with high boundary margin while having substantial ensemble variance ($U_{\text{clinical}}$). The router therefore separates $C_i$ (margin certainty) from $U_i$ (predictive dispersion).
 - **Quality Estimator**: Non-missing laboratory and medication feature completeness ratio $\frac{N_{\text{valid}}}{119} \in [0, 1]$.
 
 ---
 
-## 6. Contract Validation & Ingestion Rules
+## 6. Heterogeneous Evidence Orchestration & Contract Architecture
 
-1. **Strict Range Invariants**: $r_i, C_i, U_i, Q_i, R_i \in [0.0, 1.0]$ are asserted at contract creation.
-2. **Missing State Invariant**: If $A_i = \text{False}$, the payload enforces $w_i = 0$ via $\tilde{z}_i = -\infty$.
-3. **Immutability**: All modality output instances are strictly immutable (`frozen=True`) to guarantee zero state mutation during multi-pass benchmark sweeps.
+Each constituent model operates on a strictly distinct target space, loss formulation, and clinical prediction horizon, ingested via `RetinaAdapter`, `FootAdapter`, and `ClinicalAdapter` into `EvidenceOrchestrator`:
+
+| Dimension | Retinal Fundus Model (`RetinaAdapter`) | Foot Ulcer Model (`FootAdapter`) | Structured Clinical EHR Model (`ClinicalAdapter`) |
+| :--- | :--- | :--- | :--- |
+| **Task Identifier** | `diabetic_retinopathy_severity` | `wagner_wound_grade` | `hospital_readmission_30d` |
+| **Prediction Target** | Diabetic Retinopathy severity grade ($5$ classes: $\{0,1,2,3,4\}$) | Wagner ulcer classification grade ($4$ classes: $\{0,1,2,3\}$) | 30-day all-cause hospital readmission ($2$ classes: $\{0,1\}$) |
+| **Prediction Horizon** | Current image assessment (point-in-time) | Current wound assessment (point-in-time) | 30 days post-discharge |
+| **Confidence Formula ($C_i$)** | Top-2 class margin $p_{(5)} - p_{(4)} \in [0, 1]$ | Maximum class probability $\max_k p_k \in [0, 1]$ | Decision-boundary margin $2\lvert p_1 - 0.5\rvert = \lvert p_1 - p_0\rvert \in [0, 1]$ |
+| **What it CANNOT establish** | 30-day readmission; systemic metabolic risk | 30-day readmission; retinal disease stage | Retinal microvascular status; wound Wagner grade |
+
+### 6.1 End-to-End Orchestration Pipeline (`Adapter -> EvidenceOrchestrator -> Router -> DCRI`)
+
+```mermaid
+flowchart TD
+    subgraph Inputs["Multimodal Clinical Inputs"]
+        R_IN["Retinal Image"]
+        F_IN["Foot Ulcer Image"]
+        C_IN["Structured EHR Features"]
+    end
+
+    subgraph Adapters["Modality Adapters"]
+        R_ADP["RetinaAdapter<br/>(diabetic_retinopathy_severity)"]
+        F_ADP["FootAdapter<br/>(wagner_wound_grade)"]
+        C_ADP["ClinicalAdapter<br/>(hospital_readmission_30d)"]
+    end
+
+    subgraph Orchestration["EvidenceOrchestrator"]
+        REPORT["EvidenceReport<br/>- predictions: tuple[ModalityPrediction, ...]<br/>- routing: RoutingResult (w_R, w_F, w_C, H(w))<br/>- common_target_prediction: None<br/>- status: SUCCESS / NO_MODALITY_AVAILABLE"]
+        RFI["ResearchFusionIndex (Benchmark Layer)<br/>- r_fusion & DCRI via ACARAUv2Router + DCRIEngine<br/>- is_calibrated_clinical_probability: False<br/>- authorized_for_clinical_action: False"]
+    end
+
+    R_IN --> R_ADP --> REPORT
+    F_IN --> F_ADP --> REPORT
+    C_IN --> C_ADP --> REPORT
+    R_ADP & F_ADP & C_ADP --> RFI
+```
+
+### 6.2 Semantic & Benchmark Data Contracts
+
+```python
+@dataclass(frozen=True)
+class TargetDefinition:
+    name: str                      # "diabetic_retinopathy_severity", "wagner_wound_grade", "hospital_readmission_30d"
+    type: str                      # "ordinal_multiclass" or "binary_outcome"
+    horizon: str                   # "current_assessment" or "30_days"
+    label_space: Tuple[Union[int, str], ...]
+
+@dataclass(frozen=True)
+class ModalityPrediction:
+    modality: str                  # "retina", "foot", "clinical"
+    task_id: str
+    target: TargetDefinition
+    prediction: Mapping[str, Any]  # Deeply frozen MappingProxyType
+    uncertainty: Mapping[str, Any] # Deeply frozen MappingProxyType
+    quality: float                 # Signal quality in [0.0, 1.0]
+    available: bool                # Presence indicator
+    reliability: float             # Validation-anchored reliability in [0.0, 1.0]
+    model_version: str             # Frozen checkpoint version
+    legacy_projected_scalar: Optional[float] = None
+
+@dataclass(frozen=True)
+class RoutingResult:
+    weights: Mapping[str, float]   # Simplex-constrained routing authority weights w_i
+    active_modalities: Tuple[str, ...]
+    routing_policy_version: str    # "acarau_v2.0"
+    purpose: str = "computational_attention_allocation"
+    entropy: float = 0.0           # Exact Shannon routing entropy H(w) = -sum w_i ln w_i
+
+@dataclass(frozen=True)
+class EvidenceReport:
+    patient_id: str
+    predictions: Tuple[ModalityPrediction, ...]
+    routing: RoutingResult
+    status: str = "SUCCESS"        # "SUCCESS" or "NO_MODALITY_AVAILABLE"
+    common_target_prediction: Optional[Dict[str, Any]] = None
+```
+
+### 6.3 Contract Validation & Governance Invariants
+
+1. **Strict Range & Target Invariants**: $r_i, C_i, U_i, Q_i, R_i \in [0.0, 1.0]$ and explicit `TargetDefinition` identity are asserted at contract creation; attempting to aggregate heterogeneous targets into a single clinical outcome raises `CrossTargetAggregationError`.
+2. **Missing State & 5-Map Inactive Zeroing Invariant**: If $A_i = \text{False}$, the router enforces $w_i = 0$ via $\tilde{z}_i = -\infty$, and `DCRIResult` enforces zero values across all 5 channel maps (`modality_weights`, `modality_risks`, `modality_uncertainties`, `weighted_risk_contributions`, `uncertainty_penalty_contributions`) for inactive modalities; an empty modality set returns `NO_MODALITY_AVAILABLE`.
+3. **Deep Immutability**: All `ModalityOutput`, `ModalityPrediction`, `RoutingResult`, `EvidenceReport`, and `DCRIResult` instances are strictly immutable (`frozen=True` with recursive `MappingProxyType` wrapping).
+

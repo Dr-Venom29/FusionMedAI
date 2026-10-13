@@ -6,10 +6,10 @@
 | :--- | :--- |
 | **Phase ID** | **C11.0 — Research Protocol Freeze (Final Freeze v1.1a)** |
 | **Framework** | FusionMedAI Multimodal Fusion Engine |
-| **Architecture** | **ACARA-U v2** (*Adaptive Calibrated Architecture for Risk Assessment under Uncertainty*) |
+| **Architecture** | **Heterogeneous Evidence Orchestration & ACARA-U v2** (`RetinaAdapter` / `FootAdapter` / `ClinicalAdapter` $\to$ `EvidenceOrchestrator` $\to$ `ACARAUv2Router` $\to$ `DCRIEngine`) |
 | **Input Modalities** | Retina (APTOS-2019 / EfficientNet-B3), Foot (ADPM / EfficientNet-B3), Clinical (UCI 130-US / CatBoost) |
-| **Downstream Aggregations** | Routing Weights $w_i$, Fused Risk $R_{\text{fusion}} \in [0, 1]$, Derived Clinical Risk Index $DCRI \in [-\delta M, 1]$ |
-| **Methodological Boundary** | Decision-level multimodal risk aggregation & robustness benchmarking under dataset disjointness |
+| **Primary Orchestration Outputs** | Structured `EvidenceReport` (`predictions`, `RoutingResult` $w_i$, `common_target_prediction = None`) & Experimental `ResearchFusionIndex` ($R_{\text{fusion}} \in [0, 1]$, $DCRI \in [-\delta M, 1]$) |
+| **Methodological Boundary** | Heterogeneous clinical evidence orchestration & decision-level robustness benchmarking under dataset disjointness |
 | **Protocol Status** | **FROZEN & IMMUTABLE (Final Freeze v1.1a)** prior to fusion execution |
 
 ---
@@ -46,21 +46,25 @@ flowchart TD
 ## 3. Core Protocol Decrees & Final Freeze Highlights
 
 ### 3.1 Input Contract Invariance & Disambiguation
-All three modalities emit identical 8-tuple contracts:
+All three modalities are ingested through dedicated adapters (`RetinaAdapter`, `FootAdapter`, `ClinicalAdapter`) into `EvidenceOrchestrator`, emitting both native semantic `ModalityPrediction` contracts (preserving each modality's `TargetDefinition` and label space) and standardized 8-tuple channel contracts:
+
 $$\langle \text{risk},\; \text{calibrated}\_\text{probability},\; \text{confidence},\; \text{uncertainty},\; \text{quality},\; \text{availability},\; \text{reliability},\; \text{model}\_\text{version} \rangle$$
-- `calibrated_probability` represents the full class posterior distribution vector.
+
+- `calibrated_probability` represents the full class posterior distribution vector over each modality's native clinical target (`diabetic_retinopathy_severity`, `wagner_wound_grade`, `hospital_readmission_30d`).
+
 - `risk` represents the documented scalar risk projection $r_i \in [0, 1]$.
+- `confidence` represents the normalized decision margin $C_i \in [0, 1]$ ($p_{(5)} - p_{(4)}$ for Retina, $\max_k p_k$ for Foot, and $2\lvert p_1 - 0.5\rvert = \lvert p_1 - p_0\rvert$ for Clinical).
 - `reliability` ($R_i$) is frozen as $R_i = \frac{1}{2}(\text{AUC}_i + (1 - \text{ECE}_i))$.
 
-### 3.2 Real Frozen Architectures Reflected
-The contracts consume outputs from the actual frozen modules:
+### 3.2 Real Frozen Architectures & Integrated Orchestration Flow
+The contracts consume outputs from the actual frozen modules via `RetinaAdapter`, `FootAdapter`, and `ClinicalAdapter` into `EvidenceOrchestrator` $\to$ `ACARAUv2Router` $\to$ `DCRIEngine`:
 - **Retina**: EfficientNet-B3 + Temperature Scaling + MC Dropout ($N=25$).
 - **Foot**: EfficientNet-B3 + Vector Scaling (`FootVectorScaler`) + MC Dropout ($N=10$, Option B).
 - **Clinical**: CatBoost HPO ($D=119$) + Isotonic Calibration + Bootstrap Ensemble ($B=20$).
 
-### 3.3 Separation of Risk Aggregation ($R_{\text{fusion}}$) and Decision Index ($DCRI$)
-- $R_{\text{fusion}} = \sum w_i r_i \in [0, 1]$ is a mathematically bounded risk scalar across heterogeneous modality projections.
-- $DCRI = R_{\text{fusion}} - \delta \sum U_i \in [-\delta M, 1]$ is a derived conservative decision/triage index.
+### 3.3 Separation of Structured Evidence Reporting (`EvidenceReport`) and Experimental Indices (`ResearchFusionIndex`)
+- Active clinical orchestration (`EvidenceOrchestrator.orchestrate_evidence()`) preserves all three native `ModalityPrediction` payloads separately inside an immutable `EvidenceReport` with `common_target_prediction = None` and simplex routing authority weights $w_i \in [0, 1]$ (`RoutingResult`).
+- $R_{\text{fusion}} = \sum w_i r_i \in [0, 1]$ and $DCRI = R_{\text{fusion}} - \delta \sum U_i \in [-\delta M, 1]$ are computed as controlled benchmark indices inside `ResearchFusionIndex(is_calibrated_clinical_probability=False, authorized_for_clinical_action=False)`.
 - Probabilistic evaluation on $R_{\text{fusion}}$ is permitted only when evaluated against an explicitly constructed, labeled synthetic benchmark target.
 
 ### 3.4 Pure Behavioral Validation Tuning (No Synthetic Target Tuning)
@@ -82,7 +86,8 @@ Baseline B1 is formally defined as the **Reliability-Selected Unimodal Baseline*
 | :--- | :--- | :--- |
 | [`01_Protocol_Overview.md`](./01_Protocol_Overview.md) | Scope & Governance | Actual frozen backbones, 19-phase sequence, Two-Tier evaluation governance |
 | [`02_Mathematical_Formulation.md`](./02_Mathematical_Formulation.md) | Router & Metric Mathematics | Hard masking ($A_i=0 \implies w_i=0$), normalized $U_i$ and $C_i$, $R_{\text{fusion}}$ vs $DCRI$ |
-| [`03_Input_Output_Contracts.md`](./03_Input_Output_Contracts.md) | Contract Specifications | `calibrated_probability` vs scalar `risk`, $R_i = \frac{1}{2}(\text{AUC}_i + 1 - \text{ECE}_i)$ |
+| [`03_Input_Output_Contracts.md`](./03_Input_Output_Contracts.md) | Contract Specifications | `ModalityPrediction`, `EvidenceReport`, `calibrated_probability` vs scalar `risk`, $R_i = \frac{1}{2}(\text{AUC}_i + 1 - \text{ECE}_i)$ |
 | [`04_Experimental_Ladder_Baselines.md`](./04_Experimental_Ladder_Baselines.md) | Baselines & Modality Configurations | B1-B6 ladder, reliability-selected unimodal B1, 7 operational subsets |
 | [`05_Methodological_Boundaries.md`](./05_Methodological_Boundaries.md) | Ground Truth & Disjointness | Two-tier evaluation, prohibition of composite patient ground truth & voting ground truth |
 | [`06_Split_Hygiene_and_Tuning.md`](./06_Split_Hygiene_and_Tuning.md) | Hyperparameter Hygiene | Pure behavioral validation tuning ($\mathcal{L}_{\text{degrade}}$, volatility, monotonicity), zero synthetic target tuning |
+

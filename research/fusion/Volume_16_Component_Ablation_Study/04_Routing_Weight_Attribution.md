@@ -49,7 +49,8 @@ Ablating dynamic confidence produces the second largest redistribution:
 Ablating the historical reliability prior causes moderate reallocation:
 - Clinical tabular gains $+0.028372$ ($95\%$ CI: $[+0.028033, +0.028698]$).
 - Retina loses $-0.020532$, and foot loses $-0.007840$.
-- **Mechanism:** The frozen reliability priors explicitly favor retina ($0.85$) and foot ($0.80$) over clinical ($0.75$). Setting $\beta=0$ removes this permanent baseline bias, moderately boosting clinical weight.
+- **Mechanism:** The frozen reliability priors favor retina ($0.929956$) and foot ($0.922266$) over clinical ($0.825382$). Setting $\beta=0$ removes this baseline prior weighting, moderately boosting clinical weight.
+
 
 ### 3.4 Input Signal Quality ($A4, \eta=0$)
 Ablating the quality bonus has minimal effect:

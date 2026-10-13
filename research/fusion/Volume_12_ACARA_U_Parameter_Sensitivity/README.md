@@ -4,7 +4,9 @@
 
 Volume 12 provides a comprehensive sensitivity characterization of the ACARA-U dynamic multimodal router weighting coefficients $\Theta = (\alpha, \beta, \gamma, \eta)$ around the frozen reference configuration:
 
-$$\Theta_0 = (\alpha=1.00, \beta=1.50, \gamma=1.00, \eta=0.50)$$
+$$
+\Theta_0 = (\alpha=1.00, \beta=1.50, \gamma=1.00, \eta=0.50)
+$$
 
 Evaluated across $N=500$ paired controlled decision packets under 23 pre-specified configuration evaluations representing 19 unique coefficient vectors (One-Factor-At-A-Time sweeps + combined factorial levels), this volume demonstrates that ACARA-U occupies a **tested, entropy-rich, and non-degenerate neighborhood** of the hyperparameter space.
 
@@ -27,10 +29,11 @@ Evaluated across $N=500$ paired controlled decision packets under 23 pre-specifi
 
 ## Primary Empirical Findings
 
-1. **Local Stability**: Across all tested $\pm 50\%$ coefficient perturbations, mean routing entropy remains high ($\bar{H} \in [0.9633, 1.0460]\text{ nats}$), preventing routing collapse or single-channel monopolization.
-2. **Sensitivity Hierarchy**:
-   - **Uncertainty Penalty ($\gamma$)** is the most responsive term ($|S_\gamma^{\text{norm}}(w_F)| = 0.3810$).
-   - **Confidence ($\alpha$)** provides strong dynamic per-case adaptation ($|S_\alpha^{\text{norm}}(w_C)| = 0.3639$).
-   - **Reliability ($\beta$)** provides steady validation anchoring ($|S_\beta^{\text{norm}}(w_C)| = 0.1148$).
-   - **Quality ($\eta$)** introduces gentle, non-disruptive bonus modulation ($|S_\eta^{\text{norm}}(w_C)| = 0.0311$).
+1. **Local Stability**: Across all 23 tested $\pm 50\%$ coefficient perturbations on the $N=500$ packets ingested via `RetinaAdapter`, `FootAdapter`, and `ClinicalAdapter` into `EvidenceOrchestrator` and `ACARAUv2Router`, mean routing entropy remains high ($\bar{H} \in [1.0044, 1.0670]\text{ nats}$, with reference $\bar{H}(\Theta_0) = 1.038987\text{ nats}$ and mean weights $(\bar{w}_R, \bar{w}_F, \bar{w}_C) = (0.427135, 0.223079, 0.349785)$), preventing routing collapse or single-channel monopolization.
+2. **Sensitivity Hierarchy (Normalized Aggregate Euclidean Slopes)**:
+   - **Uncertainty Penalty ($\gamma$)** is the most responsive term ($S_\gamma^{\text{agg,norm}} = 0.424245$, linear norm $0.108461$).
+   - **Reliability ($\beta$)** provides steady validation anchoring ($S_\beta^{\text{agg,norm}} = 0.121334$, linear norm $0.028654$).
+   - **Confidence ($\alpha$)** provides dynamic per-case adaptation ($S_\alpha^{\text{agg,norm}} = 0.053949$, linear norm $0.015007$).
+   - **Quality ($\eta$)** introduces gentle, non-disruptive bonus modulation ($S_\eta^{\text{agg,norm}} = 0.034830$, linear norm $0.026745$).
 3. **Reference Retained**: The frozen reference configuration $\Theta_0 = (1.0, 1.5, 1.0, 0.5)$ is retained without modification for Phase C11.13.
+

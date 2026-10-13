@@ -24,16 +24,17 @@ def test_uncertainty_monotonicity_fixed_router_weights():
     delta = 0.20
 
     # Fixed mock router result (holding weights constant)
+    import math
     fixed_router_res = RouterResult(
         weights={"retina": 0.50, "foot": 0.30, "clinical": 0.20},
         logits={"retina": 1.0, "foot": 0.5, "clinical": 0.2},
         masked_logits={"retina": 1.0, "foot": 0.5, "clinical": 0.2},
         availability={"retina": True, "foot": True, "clinical": True},
-        coefficients={},
+        coefficients={"alpha": 1.0, "beta": 1.0, "gamma": 1.0, "eta": 1.0},
         active_modalities=["retina", "foot", "clinical"],
         num_active=3,
         normalization_sum=1.0,
-        routing_entropy=1.0,
+        routing_entropy=-(0.50 * math.log(0.50) + 0.30 * math.log(0.30) + 0.20 * math.log(0.20)),
         dominant_modality="retina",
         status="SUCCESS",
         router_version="test_v1.0",

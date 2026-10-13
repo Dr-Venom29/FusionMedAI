@@ -11,31 +11,31 @@ This evaluation consolidates experimental evidence across the entire multimodal 
 5. **Dimension E**: Calibration condition impact (Calibrated vs Uncalibrated inputs).
 
 ## Key Metric Summary Across Evaluated Baselines ($N=500$)
-| Policy ID | Strategy Name | Mean Risk $\overline{R}_{\text{fusion}}$ | Mean DCRI $\overline{\text{DCRI}}$ | Mean Penalty $\overline{P}_U$ | Routine (Tier 0) | Assessment (Tier 1) | Escalation (Tier 2) | Negative DCRI Count |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **B1** | Reliability-Selected | 0.255037 | 0.191643 | 0.063394 | 275 (55.0%) | 84 (16.8%) | 141 (28.2%) | 223 (44.6%) |
-| **B2** | Uniform Average | 0.296804 | 0.233410 | 0.063394 | 208 (41.6%) | 240 (48.0%) | 52 (10.4%) | 0 (0.0%) |
-| **B3** | Confidence Fusion | 0.314197 | 0.250803 | 0.063394 | 202 (40.4%) | 208 (41.6%) | 90 (18.0%) | 1 (0.2%) |
-| **B4** | Confidence + Reliability | 0.318442 | 0.255049 | 0.063394 | 198 (39.6%) | 207 (41.4%) | 95 (19.0%) | 1 (0.2%) |
-| **B5** | Conf + Rel - Uncertainty | 0.287247 | 0.223853 | 0.063394 | 234 (46.8%) | 186 (37.2%) | 80 (16.0%) | 35 (7.0%) |
-| **B6** | **Full ACARA-U** | **0.289900** | **0.226506** | **0.063394** | **232 (46.4%)** | **187 (37.4%)** | **81 (16.2%)** | **37 (7.4%)** |
+| Policy ID | Strategy Name | Mean Risk $\overline{R}_{\text{fusion}}$ | Mean DCRI $\overline{\text{DCRI}}$ | Mean Penalty $\overline{P}_U$ | Routing Entropy $\overline{H}$ | Routine (Tier 0) | Assessment (Tier 1) | Escalation (Tier 2) | Negative DCRI Count |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **B1** | Reliability-Selected | 0.255037 | 0.191643 | 0.063394 | 0.000000 | 275 (55.0%) | 84 (16.8%) | 141 (28.2%) | 223 (44.6%) |
+| **B2** | Uniform Average | 0.296804 | 0.233410 | 0.063394 | 1.098612 | 208 (41.6%) | 240 (48.0%) | 52 (10.4%) | 0 (0.0%) |
+| **B3** | Confidence Fusion | 0.282063 | 0.218670 | 0.063394 | 1.084120 | 239 (47.8%) | 206 (41.2%) | 55 (11.0%) | 0 (0.0%) |
+| **B4** | Confidence + Reliability | 0.287679 | 0.224286 | 0.063394 | 1.084262 | 230 (46.0%) | 208 (41.6%) | 62 (12.4%) | 0 (0.0%) |
+| **B5** | Conf + Rel - Uncertainty | 0.257236 | 0.193843 | 0.063394 | 1.040305 | 269 (53.8%) | 178 (35.6%) | 53 (10.6%) | 36 (7.2%) |
+| **B6** | **Full ACARA-U** | **0.261017** | **0.197624** | **0.063394** | **1.038987** | **262 (52.4%)** | **181 (36.2%)** | **57 (11.4%)** | **38 (7.6%)** |
 
 ## Core Evaluation Figures
 
 ### Figure 1: Baseline Decision Action Tier Distributions
-Comparison of decision tier proportions across all six baseline routing policies on the canonical evaluation cohort ($N=500$). B1 exhibits bimodal polarization with high Tier 2 escalations ($28.2\%$) and high negative DCRI ($44.6\%$). B2 collapses discernment into Tier 1 ($48.0\%$). B6 provides balanced triage ($46.4\%$ Tier 0, $37.4\%$ Tier 1, $16.2\%$ Tier 2).
+Comparison of decision tier proportions across all six baseline routing policies on the canonical evaluation cohort ($N=500$). B1 exhibits bimodal polarization with high Tier 2 escalations ($28.2\%$) and high negative DCRI ($44.6\%$). B2 collapses discernment into Tier 1 ($48.0\%$). B6 provides balanced triage ($52.4\%$ Tier 0, $36.2\%$ Tier 1, $11.4\%$ Tier 2).
 
 ![Figure 1: Baseline Decision Tier Distributions](figures/figure_01_baseline_tier_distributions.png)
 
 ### Figure 2: Response Under Input Degradation
-Impact of sensor degradation severities ($D0 \to D3$) on mean DCRI and Tier 2 escalation rates for ACARA-U (B6). While the router attenuates degraded modalities, unconstrained subtraction of epistemic uncertainty drives mean DCRI down from $0.226506$ to $0.175799$ and reduces human escalation from $16.2\%$ to $11.0\%$.
+Impact of sensor degradation severities ($D0 \to D3$) on mean DCRI and Tier 2 escalation rates for ACARA-U (B6). While the router attenuates degraded modalities, unconstrained subtraction of epistemic uncertainty drives mean DCRI down from $0.197624$ to $0.146913$.
 
 ![Figure 2: DCRI and Tier 2 Escalation Across Degradation](figures/figure_02_degradation_dcri_and_escalation.png)
 
 ## Scope and Methodological Boundaries
-1. **Algorithmic Evaluation on Standardized Decision Packets**: All reported results characterize algorithmic routing mechanics on standardized synthetic multimodal decision packets ($N=500$, seed 115). Public medical datasets do not provide simultaneous retinal fundus, foot-ulcer, and EHR observations for the same physical patients.
+1. **Heterogeneous Evidence Orchestration (`EvidenceReport`) vs. Synthetic Benchmark (`ResearchFusionIndex`)**: The production orchestration layer (`RetinaAdapter` / `FootAdapter` / `ClinicalAdapter` $\to$ `EvidenceOrchestrator` $\to$ `ACARAUv2Router`) emits an `EvidenceReport` preserving the three task-specific clinical targets separately alongside attention/review-priority weights $w_i$. The scalar `ResearchFusionIndex` ($R_{\text{fusion}}, \text{DCRI}_\delta$) is evaluated strictly as a synthetic multi-source benchmark construct (`is_calibrated_clinical_probability = False`).
 2. **Computational Verification vs Clinical Validation**: The 16/16 verification gates and 46/46 automated tests establish mathematical invariant compliance, checksum verification, and exact numerical reproduction within this repository. They do not constitute prospective clinical validation or regulatory clearance.
-3. **Under-Escalation Safety Nuance Under Degradation**: As degradation severity escalates from D0 to D3, mean epistemic uncertainty increases, causing the subtracted penalty $P_U$ to increase ($0.063394 \to 0.101519$). Because DCRI subtracts uncertainty ($\text{DCRI} = R_{\text{fusion}} - P_U$), mean DCRI decreases ($0.226506 \to 0.175799$) and Tier 2 human escalation drops from $16.2\%$ to $11.0\%$, while routine review (Tier 0) increases from $46.4\%$ to $56.0\%$. This demonstrates that unconstrained uncertainty subtraction can induce counter-therapeutic under-escalation when signal corruption is severe, highlighting the need for minimum risk floors or uncertainty-escalation overrides in clinical deployment.
+3. **Under-Escalation Safety Nuance Under Degradation**: As degradation severity escalates from D0 to D3, mean epistemic uncertainty increases, causing the subtracted penalty $P_U$ to increase ($0.063394 \to 0.101519$). Because DCRI subtracts uncertainty ($\text{DCRI} = R_{\text{fusion}} - P_U$), mean DCRI decreases ($0.197624 \to 0.146913$). This demonstrates that unconstrained uncertainty subtraction can induce counter-therapeutic under-escalation when signal corruption is severe, highlighting the need for minimum risk floors or uncertainty-escalation overrides in clinical deployment.
 
 ## Structure of this Research Volume
 - [01_Decision_Evaluation_Protocol.md](01_Decision_Evaluation_Protocol.md): Pre-declared evaluation contracts, frozen parameters, and non-tuning boundaries.

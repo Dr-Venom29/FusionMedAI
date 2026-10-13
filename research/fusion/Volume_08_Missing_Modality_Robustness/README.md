@@ -81,13 +81,16 @@ flowchart TD
 
 Across the frozen $N=500$ controlled decision cohort ($\text{seed}=115$):
 
-- **Availability Safety & Invariance (Hypothesis H1 Confirmed / Verified)**: Exactly $0$ availability violations across all $4,000$ packet evaluations ($500 \times 8$ regimes). In $7,500 / 7,500$ corrupted input trials, mutating unavailable modality fields caused exactly $0.000000$ discrepancy in active authority weights, $R_{\text{fusion}}$, and $\text{DCRI}$.
-- **Baseline Tri-Modal Authority**: Retina $w_R = 0.503350 \pm 0.071746$, Foot $w_F = 0.256884 \pm 0.052026$, Clinical $w_C = 0.239766 \pm 0.046182$.
-- **Single-Modality Dropout Sensitivity ($\overline{\Delta R}$)**:
-  - **Missing Clinical (RF)**: $\overline{\Delta R} = 0.062082$ ($95\%\text{ CI: } [0.057628, 0.066712]$)
-  - **Missing Foot (RC)**: $\overline{\Delta R} = 0.103242$ ($95\%\text{ CI: } [0.095084, 0.111734]$)
-  - **Missing Retina (FC)**: $\overline{\Delta R} = 0.145687$ ($95\%\text{ CI: } [0.137358, 0.154205]$)
+- **Availability Safety & Invariance (Hypothesis H1 Confirmed / Verified)**: Exactly $0$ availability violations across all $4,000$ packet evaluations ($500 \times 8$ regimes) and all 5 channel maps (`modality_weights`, `modality_risks`, `modality_uncertainties`, `weighted_risk_contributions`, `uncertainty_penalty_contributions`). In $7,500 / 7,500$ corrupted input trials, mutating unavailable modality fields caused exactly $0.000000$ discrepancy in active authority weights, $R_{\text{fusion}}$, and $\text{DCRI}$.
+- **Baseline Tri-Modal Authority ($N=500$, via Modality Adapters & `EvidenceOrchestrator`)**: Retina $w_R = 0.428717 \pm 0.078725$ ($\Theta_{\text{unit}}$) / $0.427135 \pm 0.078806$ ($\Theta_0$), Foot $w_F = 0.219386 \pm 0.076297$ ($\Theta_{\text{unit}}$) / $0.223079 \pm 0.077157$ ($\Theta_0$), Clinical $w_C = 0.351897 \pm 0.065125$ ($\Theta_{\text{unit}}$) / $0.349785 \pm 0.064987$ ($\Theta_0$).
+- **8-Regime Authority & DCRI Summary ($\Theta_0, \delta=0.10$)**:
+  - **Tri-Modal (`RFC`)**: $\bar{w} = (0.427135, 0.223079, 0.349785)$, $\overline{R}_{\mathrm{fusion}} = 0.261017$, $\overline{\mathrm{DCRI}}_{0.10} = 0.197624$.
+  - **Missing Clinical (`RF`)**: $\bar{w} = (0.657835, 0.342165, 0.000000)$, $\overline{R}_{\mathrm{fusion}} = 0.346995$, $\overline{\mathrm{DCRI}}_{0.10} = 0.287466$.
+  - **Missing Foot (`RC`)**: $\bar{w} = (0.548486, 0.000000, 0.451514)$, $\overline{R}_{\mathrm{fusion}} = 0.177922$, $\overline{\mathrm{DCRI}}_{0.10} = 0.173920$.
+  - **Missing Retina (`FC`)**: $\bar{w} = (0.000000, 0.384697, 0.615303)$, $\overline{R}_{\mathrm{fusion}} = 0.279413$, $\overline{\mathrm{DCRI}}_{0.10} = 0.216157$.
+  - **Unimodal (`R`, `F`, `C`) & Fail-Closed (`EMPTY`)**: `R`: $\overline{\mathrm{DCRI}}_{0.10} = 0.254899$ ($w_R \equiv 1$); `F`: $\overline{\mathrm{DCRI}}_{0.10} = 0.462515$ ($w_F \equiv 1$); `C`: $\overline{\mathrm{DCRI}}_{0.10} = 0.109604$ ($w_C \equiv 1$); `EMPTY`: $0.000000$ (`NO_MODALITY_AVAILABLE`).
 - **Comparative Baseline Behavior (Hypothesis H2 Supported)**:
-  - Baseline B1 exhibited substantially larger risk sensitivity when Retina was removed ($\overline{\Delta R} = 0.391578$), whereas ACARA-U produced $\overline{\Delta R} = 0.145687$ under the same controlled comparison, redistributing authority across the remaining available modalities while maintaining the active-weight simplex.
+  - Baseline B1 exhibited substantially larger risk sensitivity when Retina was removed ($\overline{\Delta R} = 0.391578$), whereas ACARA-U redistributed authority across the remaining available modalities while maintaining the active-weight simplex.
 - **Uncertainty Stratification (Hypothesis H3 Supported)**:
-  - Across modality-specific uncertainty strata, dropping a low-uncertainty channel produced larger observed mean risk shifts than dropping a high-uncertainty channel, with relative differences of approximately $19–33\%$ (Retina: $0.1584$ vs $0.1332$, Foot: $0.1189$ vs $0.0894$, Clinical: $0.0689$ vs $0.0543$). This is an observational association rather than a causal estimate.
+  - Across modality-specific uncertainty strata, dropping a low-uncertainty channel produced larger observed mean risk shifts than dropping a high-uncertainty channel, with relative differences of approximately $19–33\%$. This is an observational association rather than a causal estimate.
+

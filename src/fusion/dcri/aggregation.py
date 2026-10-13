@@ -1,7 +1,13 @@
 """
-FusionMedAI - Phase C11.6: Fused Risk Aggregation Engine
-Computes weighted modality risk contributions K_i = w_i * r_i and aggregated risk R_fusion = sum_i K_i.
-Strictly defensive with full parameter bounds checking.
+FusionMedAI - Historical Controlled Research Risk Aggregation Module
+Computes weighted modality risk contributions K_i = w_i * r_i and aggregated index R_fusion = sum_i K_i.
+
+WARNING - SCIENTIFIC SEMANTICS & CLINICAL ISOLATION:
+This calculation represents a weighted average of heterogeneous ordinal and binary diagnostic projections
+(diabetic retinopathy severity, Wagner foot ulcer grade, 30-day hospital readmission).
+It is retained strictly for historical controlled research benchmark reproduction (Phases C11.1–C11.17).
+It DOES NOT measure unified patient risk, a common clinical probability, or validated triage acuity.
+Active clinical workflows must consume the structured EvidenceReport instead.
 """
 
 from typing import Dict, List, Tuple

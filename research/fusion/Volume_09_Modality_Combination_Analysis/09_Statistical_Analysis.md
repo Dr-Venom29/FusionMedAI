@@ -32,6 +32,7 @@ For each distribution and modality combination, $95\%$ empirical confidence inte
 ### Hypothesis H1: Simplex & Safety Invariant Preservation across Tiers
 
 **Formal Statement:**
+
 $$
 \forall c \in \mathcal{C}_{\mathrm{active}}, \forall k: \quad \sum_{i \in \mathcal{A}_c} w_i(k) = 1.000000 \quad \text{and} \quad w_{j \notin \mathcal{A}_c}(k) = 0.000000
 $$
@@ -42,6 +43,7 @@ $$
 ### Hypothesis H2: Tail Risk Sensitivity Across Soft Baselines & Multi-Cohort Evaluation
 
 **Formal Statement:**
+
 $$
 D_{\mathrm{tail}}^{\mathrm{ACARA-U}} \le D_{\mathrm{tail}}^{\mathrm{B2}}, D_{\mathrm{tail}}^{\mathrm{B3}}, D_{\mathrm{tail}}^{\mathrm{B4}}, D_{\mathrm{tail}}^{\mathrm{B5}} \quad \text{under long-tailed distributions}
 $$
@@ -61,6 +63,7 @@ $$
 ### Hypothesis H3: Tail Dispersion Expansion via Modality Collapse
 
 **Formal Statement:**
+
 $$
 \Delta \sigma(R) = \sigma(R_{\mathrm{tail}}) - \sigma(R_{\mathrm{head}}) > 0
 $$

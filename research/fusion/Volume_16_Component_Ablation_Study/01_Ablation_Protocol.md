@@ -25,10 +25,11 @@ For each channel $i \in \{\text{retina}, \text{foot}, \text{clinical}\}$, the ra
 $$z_i = \alpha C_i + \beta R_i - \gamma U_i + \eta Q_i$$
 
 where:
-- $C_i \in [0, 1]$ represents modality confidence (e.g., maximum softmax probability or calibrated decision confidence).
-- $R_i \in [0, 1]$ represents global model reliability (empirically frozen priors: $R_{\text{retina}}=0.85, R_{\text{foot}}=0.80, R_{\text{clinical}}=0.75$).
+- $C_i \in [0, 1]$ represents modality confidence (e.g., maximum softmax probability, top-2 margin, or decision-boundary margin).
+- $R_i \in [0, 1]$ represents global model reliability (empirically frozen priors: $R_{\text{retina}}=0.929956, R_{\text{foot}}=0.922266, R_{\text{clinical}}=0.825382$).
 - $U_i \in [0, 1]$ represents epistemic predictive uncertainty.
 - $Q_i \in [0, 1]$ represents input signal quality.
+
 
 ### 2.2 Availability Masking & Softmax Normalization
 Availability masking enforces that unavailable modalities cannot influence routing weights:

@@ -217,9 +217,11 @@ def run_c11_6_verification() -> bool:
         for m in ["retina", "foot", "clinical"]:
             if m not in mods:
                 assert res_cfg.modality_weights[m] == 0.0
+                assert res_cfg.modality_risks[m] == 0.0
+                assert res_cfg.modality_uncertainties[m] == 0.0
                 assert res_cfg.weighted_risk_contributions[m] == 0.0
                 assert res_cfg.uncertainty_penalty_contributions[m] == 0.0
-    print("  -> PASS: All 7 modality configurations evaluate with strict hard availability masking.")
+    print("  -> PASS: All 7 modality configurations evaluate with strict hard availability masking across all 5 maps.")
     passed_gates += 1
 
     # -------------------------------------------------------------------------
@@ -310,6 +312,14 @@ def run_c11_6_verification() -> bool:
             data = json.load(f)
             assert len(data) > 0, f"Empty artifact file: {fpath}"
 
+    # Verify serialized sanity_cases.json records conform to strict DCRIResult construction invariants
+    sanity_data = json.loads((exp_dir / "sanity_cases.json").read_text(encoding="utf-8"))
+    for case_key in ["Case_A_Identical_Modalities", "Case_E_Single_Modality_Unimodal", "Case_F_Zero_Modality_Rejection"]:
+        rec = dict(sanity_data[case_key])
+        rec.pop("interpretation_disclaimer", None)
+        dcri_obj = DCRIResult(**rec)
+        dcri_obj.validate_strict_invariants()
+
     # Check Volume 06 Markdown Documents
     required_docs = [
         "README.md",
@@ -328,7 +338,7 @@ def run_c11_6_verification() -> bool:
         content = dpath.read_text(encoding="utf-8")
         assert len(content) > 200, f"Document {dpath} is unexpectedly short or empty."
 
-    print("  -> PASS: All 10 experiment artifacts and 9 Volume 06 documents verified.")
+    print("  -> PASS: All 10 experiment artifacts (including DCRIResult schema validation) and 9 Volume 06 documents verified.")
     passed_gates += 1
 
     print("\n" + "=" * 85)

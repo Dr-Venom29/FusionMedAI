@@ -88,9 +88,10 @@ class DCRIEngine:
             router_input = packet.to_router_input()
             router_result = self.router.route(router_input)
 
+        active_set = set(active_modalities)
         weights = {m: float(router_result.weights.get(m, 0.0)) for m in ["retina", "foot", "clinical"]}
-        risks = {m: float(packet.records[m].risk) for m in ["retina", "foot", "clinical"]}
-        uncertainties = {m: float(packet.records[m].uncertainty) for m in ["retina", "foot", "clinical"]}
+        risks = {m: (float(packet.records[m].risk) if m in active_set else 0.0) for m in ["retina", "foot", "clinical"]}
+        uncertainties = {m: (float(packet.records[m].uncertainty) if m in active_set else 0.0) for m in ["retina", "foot", "clinical"]}
 
         # 3. Weighted Risk Contributions & Aggregation: K_i = w_i * r_i, R_fusion = sum K_i
         weighted_contributions = compute_weighted_risk_contributions(

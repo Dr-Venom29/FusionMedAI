@@ -9,25 +9,30 @@ Across the frozen cohort of $N=500$ controlled decision packets ($\text{seed}=11
    - **Diabetic Foot Ulcer**: Mean severe quality loss of **$67.14\%$** ($\overline{\Delta Q_F} = -0.6194$) across 4 operators.
    - **Structured Clinical EHR**: Mean severe quality loss of **$64.71\%$** ($\overline{\Delta Q_C} = -0.6471$) across 4 operators.
 
-2. **Routing Authority Attenuation (Severe D3)**:
-   - **Retinal Fundus**: Mean relative authority reduction ($\text{RAR}$) of **$35.18\%$** ($\overline{\Delta w_R} = -0.1739$).
-   - **Diabetic Foot Ulcer**: Mean relative authority reduction ($\text{RAR}$) of **$50.46\%$** ($\overline{\Delta w_F} = -0.1276$).
-   - **Structured Clinical EHR**: Mean relative authority reduction ($\text{RAR}$) of **$39.16\%$** ($\overline{\Delta w_C} = -0.0930$).
+2. **Routing Authority Attenuation (Severe D3 across 12 Operators)**:
+   - **Retinal Fundus (`D-R1`–`D-R4`)**: Mean relative authority reduction ($\text{RAR}$) of **$38.48\%$** (range $31.23\%\text{--}46.23\%$, $\overline{\Delta w_R} = -0.1628$).
+   - **Diabetic Foot Ulcer (`D-F1`–`D-F4`)**: Mean relative authority reduction ($\text{RAR}$) of **$51.72\%$** (range $46.00\%\text{--}57.53\%$, $\overline{\Delta w_F} = -0.1120$).
+   - **Structured Clinical EHR (`D-C1`, `D-C2`, `D-C4` masking/omission)**: Mean relative authority reduction ($\text{RAR}$) of **$36.70\%$** (range $35.31\%\text{--}37.68\%$, $\overline{\Delta w_C} = -0.1276$; value perturbation `D-C3`: $\text{RAR} = 9.59\%, \overline{\Delta w_C} = -0.0332$).
 
 3. **Packet-Level Monotonicity**:
    - **Quality Degradation Monotonicity**: **$100.0\%$** of decision packets satisfy $Q^{(0)} \ge Q^{(1)} \ge Q^{(2)} \ge Q^{(3)}$.
-   - **Routing Authority Monotonicity**: **$100.0\%$** of decision packets satisfy $w^{(0)} \ge w^{(1)} \ge w^{(2)} \ge w^{(3)}$.
+   - **Routing Authority Monotonicity**: **$100.0\%$** of decision packets satisfy $w^{(0)} \ge w^{(1)} \ge w^{(2)} \ge w^{(3)}$ across all 12 operators.
 
 4. **Scientific Quality Isolation (B6 vs B5)**:
    - The paired comparison showed significantly greater authority attenuation under B6 than B5 under severe degradation ($-0.1697$ vs $-0.0388$, paired difference $D = -0.1309$, $95\%$ bootstrap CI: $[-0.1319, -0.1300]$, strictly excluding zero), supporting the incremental contribution of the quality term within the tested controlled degradation benchmark.
 
-
-
 ---
 
-## 2. Multi-Modality Cross-Degradation Scoreboard (Severe D3)
+## 2. Multi-Modality Cross-Degradation Scoreboard & Simultaneous `D0–D3` Trajectory (`B6`, $\Theta_0, \delta=0.10$)
 
-| Scenario | Degraded Modalities | Mean Fused Risk Shift ($\overline{\Delta R}$) | Mean DCRI Shift ($\overline{\Delta \text{DCRI}}$) | Mean Routing Entropy ($H$) | Weighted Conflict ($\overline{\sigma_w}$) |
+| Degradation Severity Level | Mean $\overline{R}_{\mathrm{fusion}}$ | Mean $\overline{\mathrm{DCRI}}_{0.10}$ | Tier-2 Escalation Rate ($\mathrm{DCRI}_{0.10} \ge 0.40$) |
+| :--- | :---: | :---: | :---: |
+| **`D0` (Clean Baseline)** | $0.261017$ | $0.197624$ | $11.4\%$ ($57/500$) |
+| **`D1` (Mild Degradation)** | $0.252024$ | $0.180634$ | $8.0\%$ ($40/500$) |
+| **`D2` (Moderate Degradation)** | $0.246663$ | $0.163432$ | $6.6\%$ ($33/500$) |
+| **`D3` (Severe Degradation)** | $0.248432$ | $0.146913$ | $5.8\%$ ($29/500$) |
+
+| Single / Pairwise / Tri-Modal Severe (`D3`) Scenario | Degraded Modalities | Mean Fused Risk Shift ($\overline{\Delta R}$) | Mean DCRI Shift ($\overline{\Delta \text{DCRI}}$) | Mean Routing Entropy ($H$) | Weighted Conflict ($\overline{\sigma_w}$) |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | **`R_degraded`** | Retina | $0.0494 \pm 0.0322$ | $0.0466 \pm 0.0360$ | $1.0700$ | $0.2264$ |
 | **`F_degraded`** | Foot | $0.0567 \pm 0.0505$ | $0.0787 \pm 0.0570$ | $0.8933$ | $0.1849$ |
@@ -41,6 +46,6 @@ Across the frozen cohort of $N=500$ controlled decision packets ($\text{seed}=11
 
 ## 3. Key Observations & Invariant Safety
 
-1. **Graceful Multi-Modality Handling**: When all three modalities degrade simultaneously (`RFC_degraded`), the router maintains balanced relative weights ($H \approx 0.9952$) while the additive uncertainty penalty in DCRI correctly reflects increased epistemic burden ($\overline{\Delta \text{DCRI}} = 0.0981$).
+1. **Graceful Multi-Modality Handling**: When all three modalities degrade simultaneously (`RFC_degraded`), the router maintains balanced relative weights while the additive uncertainty penalty in DCRI monotonically reduces $\overline{\mathrm{DCRI}}_{0.10}$ from $0.197624 \to 0.146913$.
 2. **Hard-Mask Safety**: Unavailable channels ($A_i = 0$) receive strictly $w_i = 0.000000$ and zero-leakage perturbation invariance is mathematically certified.
 

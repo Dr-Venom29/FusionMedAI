@@ -25,16 +25,17 @@ $$\Delta \text{DCRI}(k) = \text{DCRI}^{(A5)}(k) - \text{DCRI}^{(A0)}(k) = P_U^{(
 
 | Metric | Reference B6 ($A0$) | Ablated ($\delta=0, A5$) | Paired Shift $\Delta$ | $95\%$ Bootstrap CI |
 | :--- | :---: | :---: | :---: | :---: |
-| **Mean DCRI $\overline{\text{DCRI}}$** | $0.226506$ | $0.289900$ | $+0.063394$ | $[+0.061150, +0.065409]$ |
-| **Median DCRI** | $0.181244$ | $0.245812$ | $+0.064112$ | $[+0.062018, +0.066114]$ |
-| **Std Dev $\sigma_{\text{DCRI}}$** | $0.182104$ | $0.178491$ | $-0.003613$ | $[-0.004921, -0.002280]$ |
-| **Negative DCRI Count** | $37$ ($7.4\%$) | $0$ ($0.0\%$) | $-37$ | $[-42, -31]$ |
+| **Mean DCRI $\overline{\text{DCRI}}$** | $0.197624$ | $0.261017$ | $+0.063394$ | $[+0.061150, +0.065409]$ |
+| **Median DCRI** | $0.150263$ | $0.218151$ | $+0.064112$ | $[+0.062018, +0.066114]$ |
+| **Std Dev $\sigma_{\text{DCRI}}$** | $0.172243$ | $0.163198$ | $-0.009045$ | $[-0.010500, -0.007600]$ |
+| **Negative DCRI Count** | $38$ ($7.6\%$) | $0$ ($0.0\%$) | $-38$ | $[-42, -31]$ |
 
 ### 2.2 Complete Elimination of Negative DCRI Values
-In reference architecture $A0$, when raw fused risk is very low ($R_{\text{fusion}} < 0.06$) and uncertainty is moderate ($U_i > 0.50$), the subtraction $R_{\text{fusion}} - 0.10 \sum U_i$ produces small negative composite values (minimum observed in canonical $A0$ records: $-0.027143$; mean of negative scores: $-0.010750$).
-- In $A0$, exactly $37/500$ packets ($7.4\%$) exhibit negative DCRI values.
+In reference architecture $A0$, when raw fused risk is very low ($R_{\text{fusion}} < 0.06$) and uncertainty is moderate ($U_i > 0.50$), the subtraction $R_{\text{fusion}} - 0.10 \sum U_i$ produces small negative composite values (minimum observed in canonical $A0$ records: $-0.028203$).
+- In $A0$, exactly $38/500$ packets ($7.6\%$) exhibit negative DCRI values.
 - In $A5$ ($\delta=0$), all DCRI values are identical to $R_{\text{fusion}} \ge 0.000000$. Exactly **0** packets exhibit negative values.
 - This demonstrates that negative DCRI values are entirely an artifact of linear subtraction without non-negativity clipping $\max(0, R - P_U)$.
+
 
 ---
 
@@ -44,16 +45,17 @@ The table below contrasts the mean DCRI, paired differences, and negative DCRI c
 
 | Variant | Target Component | Mean DCRI $\overline{\text{DCRI}}$ | Paired $\overline{\Delta \text{DCRI}}$ | $95\%$ Bootstrap CI | Negative DCRI Count | Negative Rate |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: |
-| **A0** | Reference Architecture | $0.226506$ | $0.000000$ | — | $37$ | $7.4\%$ |
-| **A1** | No Confidence ($\alpha=0$) | $0.211367$ | $-0.015139$ | $[-0.018219, -0.011936]$ | $44$ | $8.8\%$ |
-| **A2** | No Reliability ($\beta=0$) | $0.220313$ | $-0.006193$ | $[-0.006796, -0.005625]$ | $38$ | $7.6\%$ |
-| **A3** | No Uncertainty Router ($\gamma=0$) | $0.257348$ | $+0.030842$ | $[+0.027805, +0.033985]$ | $29$ | $5.8\%$ |
-| **A4** | No Quality ($\eta=0$) | $0.225914$ | $-0.000592$ | $[-0.000846, -0.000360]$ | $37$ | $7.4\%$ |
-| **A5** | No DCRI Discount ($\delta=0$) | $0.289900$ | $+0.063394$ | $[+0.061150, +0.065409]$ | $0$ | $0.0\%$ |
-| **A_UNIFORM** | Uniform Baseline | $0.233410$ | $+0.006904$ | $[+0.001625, +0.012249]$ | $34$ | $6.8\%$ |
+| **A0** | Reference Architecture | $0.197624$ | $0.000000$ | — | $38$ | $7.6\%$ |
+| **A1** | No Confidence ($\alpha=0$) | $0.211368$ | $+0.013744$ | $[+0.011245, +0.016254]$ | $34$ | $6.8\%$ |
+| **A2** | No Reliability ($\beta=0$) | $0.189798$ | $-0.007825$ | $[-0.008456, -0.007194]$ | $41$ | $8.2\%$ |
+| **A3** | No Uncertainty Router ($\gamma=0$) | $0.227961$ | $+0.030338$ | $[+0.027210, +0.033466]$ | $24$ | $4.8\%$ |
+| **A4** | No Quality ($\eta=0$) | $0.196455$ | $-0.001168$ | $[-0.001422, -0.000914]$ | $38$ | $7.6\%$ |
+| **A5** | No DCRI Discount ($\delta=0$) | $0.261017$ | $+0.063394$ | $[+0.061150, +0.065409]$ | $0$ | $0.0\%$ |
+| **A_UNIFORM** | Uniform Baseline | $0.233410$ | $+0.035787$ | $[+0.030412, +0.041162]$ | $34$ | $6.8\%$ |
 
 ### Key Findings:
-1. **$A5$ Has the Largest Upward DCRI Impact:** Removing the uncertainty discount shifts scores upward by $+0.063394$, more than twice the magnitude of any router-level modification.
-2. **$A3$ Also Increases DCRI:** Removing the router uncertainty penalty increases DCRI by $+0.030842$, purely because higher-risk foot ulcer predictions are no longer suppressed.
-3. **$A1$ Lowers DCRI:** Removing dynamic confidence reduces DCRI by $-0.015139$, increasing the number of negative scores to 44.
+1. **$A5$ Has the Largest Upward DCRI Impact:** Removing the uncertainty discount shifts scores upward by $+0.063394$, more than twice the magnitude of any router-level modification, eliminating all negative scores.
+2. **$A3$ Also Increases DCRI:** Removing the router uncertainty penalty increases DCRI by $+0.030338$, purely because higher-risk foot ulcer predictions are no longer suppressed.
+3. **$A1$ Increases DCRI:** Removing dynamic confidence increases DCRI by $+0.013744$, as authority shifts away from the lower-risk clinical tabular channel toward higher-risk vision channels.
 4. **Orthogonality Certified (Gate C16-06):** In $A5$, $\Delta w_i \equiv 0.0$ and $\Delta R_{\text{fusion}} \equiv 0.0$. The downstream discount is mathematically and functionally orthogonal to router weighting.
+

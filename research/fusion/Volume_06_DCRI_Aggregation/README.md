@@ -7,25 +7,35 @@
 
 ## Executive Overview
 
-Volume 06 establishes the mathematical and behavioral properties of the **Decision-Critical Risk Index (DCRI)** aggregation layer. Operating downstream of the ACARA-U dynamic routing engine (Phase C11.4 / C11.5), Phase C11.6 converts modality authority weights $w_i$, scalar risk projections $r_i$, and predictive uncertainties $U_i$ into a continuous fused risk index $R_{\text{fusion}}$ and an uncertainty-discounted decision metric $\text{DCRI}_\delta$.
+Volume 06 establishes the mathematical and behavioral properties of the **Decision-Critical Risk Index (DCRI)** aggregation layer (`DCRIEngine` and `ResearchFusionIndex`). Operating downstream of `RetinaAdapter`, `FootAdapter`, and `ClinicalAdapter` $\to$ `EvidenceOrchestrator` $\to$ `ACARAUv2Router`, Phase C11.6 preserves native modality predictions inside `EvidenceReport` (`common_target_prediction = None`) while converting modality authority weights $w_i$, scalar risk projections $r_i$, and predictive uncertainties $U_i$ into a continuous research fusion index $R_{\text{fusion}}$ and an uncertainty-discounted benchmark metric $\text{DCRI}_\delta$ inside `ResearchFusionIndex(is_calibrated_clinical_probability=False, authorized_for_clinical_action=False)`.
 
 ### Core Mathematical Equations
 
-$$\boxed{R_{\text{fusion}} = \sum_{i \in \mathcal{A}} w_i r_i = \sum_{i \in \mathcal{A}} K_i}$$
+$$
+\boxed{R_{\text{fusion}} = \sum_{i \in \mathcal{A}} w_i r_i = \sum_{i \in \mathcal{A}} K_i}
+$$
 
-$$\boxed{U_{\text{sum}} = \sum_{i \in \mathcal{A}} U_i, \quad U_{\text{mean}} = \frac{1}{|\mathcal{A}|} \sum_{i \in \mathcal{A}} U_i}$$
+$$
+\boxed{U_{\text{sum}} = \sum_{i \in \mathcal{A}} U_i, \quad U_{\text{mean}} = \frac{1}{\lvert \mathcal{A} \rvert} \sum_{i \in \mathcal{A}} U_i}
+$$
 
-$$\boxed{P_U(\delta) = \delta \sum_{i \in \mathcal{A}} U_i = \delta U_{\text{sum}}}$$
+$$
+\boxed{P_U(\delta) = \delta \sum_{i \in \mathcal{A}} U_i = \delta U_{\text{sum}}}
+$$
 
-$$\boxed{\text{DCRI}_\delta = R_{\text{fusion}} - P_U(\delta) = \sum_{i \in \mathcal{A}} w_i r_i - \delta \sum_{i \in \mathcal{A}} U_i}$$
+$$
+\boxed{\text{DCRI}_\delta = R_{\text{fusion}} - P_U(\delta) = \sum_{i \in \mathcal{A}} w_i r_i - \delta \sum_{i \in \mathcal{A}} U_i}
+$$
 
 ```text
-               C11.5 Frozen Packets (N=500, seed=115)
+   Modality Adapters (RetinaAdapter / FootAdapter / ClinicalAdapter)
                              │
                              ▼
-                    ┌─────────────────┐
-                    │ ACARA-U Router  │
-                    └────────┬────────┘
+            ┌─────────────────────────────────┐
+            │ EvidenceOrchestrator (N=500)    │
+            │  • EvidenceReport (Native Preds)│
+            │  • ACARAUv2Router (weights wi)  │
+            └────────────────┬────────────────┘
                              │
                              ▼
                         weights wi
@@ -48,7 +58,7 @@ $$\boxed{\text{DCRI}_\delta = R_{\text{fusion}} - P_U(\delta) = \sum_{i \in \mat
                         P_U = δ Σ Ui
                              │
                              ▼
-                    DCRI = R_fusion - P_U
+            ResearchFusionIndex: DCRI = R_fusion - P_U
 ```
 
 ---
@@ -70,7 +80,9 @@ $$\boxed{\text{DCRI}_\delta = R_{\text{fusion}} - P_U(\delta) = \sum_{i \in \mat
 
 ## Key Findings & Boundaries
 
-1. **Non-Clamping Policy**: DCRI is strictly maintained in $[-\delta M, 1]$ without artificial truncation to $[0, 1]$. In the frozen $N=500$ cohort, the observed minimum at $\delta=0.20$ was $-0.125243$ ($24.6\%$ negative rate) due to low baseline risk and high uncertainty burden.
-2. **Double-Use of Uncertainty**: Uncertainty modulates routing weights $w_i$ (relative authority modulation) and applies an absolute additive discount $P_U$ (epistemic risk reduction).
-3. **Delta Sensitivity**: Empirical shift exactly matches theoretical sensitivity slope $\frac{\partial \overline{\text{DCRI}}}{\partial \delta} = -\overline{U_{\text{sum}}} = -0.633936$.
-4. **No Premature Delta Selection**: Final parameter optimization is deferred to Phase C11.12.
+1. **Non-Clamping Policy**: DCRI is strictly maintained in $[-\delta M, 1]$ without artificial truncation to $[0, 1]$. In the $N=500$ cohort, $\overline{\mathrm{DCRI}}_{0.10} = 0.196229$ ($39$ negative packets, $7.8\%$ under $\Theta_{\text{unit}}$) and $\overline{\mathrm{DCRI}}_{0.10} = 0.197624$ ($38$ negative packets, $7.6\%$ under $\Theta_0$), while at $\delta=0.20$ $\overline{\mathrm{DCRI}}_{0.20} = 0.132835$ ($128$ negative packets, $25.6\%$ under $\Theta_{\text{unit}}$) and $0.134230$ ($127$ negative packets, $25.4\%$ under $\Theta_0$).
+2. **5-Map Inactive Zeroing Invariant**: `DCRIEngine.evaluate_packet()` and `DCRIResult.__post_init__` enforce exact $0.0$ entries across all 5 channel maps (`modality_weights`, `modality_risks`, `modality_uncertainties`, `weighted_risk_contributions`, `uncertainty_penalty_contributions`) for inactive modalities.
+3. **Double-Use of Uncertainty**: Uncertainty modulates routing weights $w_i$ (relative authority modulation) and applies an absolute additive discount $P_U$ (epistemic risk reduction).
+4. **Delta Sensitivity**: Empirical shift exactly matches theoretical sensitivity slope $\frac{\partial \overline{\text{DCRI}}}{\partial \delta} = -\overline{U_{\text{sum}}} = -0.633936$.
+5. **No Premature Delta Selection**: Final parameter optimization is deferred to Phase C11.13.
+

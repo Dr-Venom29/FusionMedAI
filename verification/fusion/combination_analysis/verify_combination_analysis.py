@@ -291,14 +291,24 @@ def run_all_verification_gates(repo_root: Path = Path(".")) -> Dict[str, Any]:
     gate_results.append(("Gate 19", "Full Cohort Deep Structural Reproducibility", g19_pass, "Identical multi-channel features and risks upon fresh reload"))
 
     # --------------------------------------------------------------------------
-    # Gate 20: Sealed research artifacts (16/16) and cryptographic manifest
+    # Gate 20: Sealed research artifacts and cryptographic manifest
     # --------------------------------------------------------------------------
     manifest_path = artifacts_dir / "freeze_manifest.json"
     g20_pass = False
     if manifest_path.is_file():
         with open(manifest_path, "r", encoding="utf-8") as f:
             manifest_data = json.load(f)
-        if len(manifest_data) == 16:
+        if "files" in manifest_data and isinstance(manifest_data["files"], dict):
+            m_checks = []
+            for fname, meta in manifest_data["files"].items():
+                fpath = artifacts_dir / fname
+                expected_hash = meta.get("sha256")
+                if fpath.is_file() and compute_file_sha256(fpath) == expected_hash:
+                    m_checks.append(True)
+                else:
+                    m_checks.append(False)
+            g20_pass = len(m_checks) > 0 and all(m_checks)
+        elif len(manifest_data) == 16:
             m_checks = []
             for fname, expected_hash in manifest_data.items():
                 fpath = artifacts_dir / fname
@@ -308,7 +318,7 @@ def run_all_verification_gates(repo_root: Path = Path(".")) -> Dict[str, Any]:
                     m_checks.append(False)
             g20_pass = all(m_checks)
 
-    gate_results.append(("Gate 20", "Cryptographic Manifest Certification (16/16)", g20_pass, "All 16 artifact SHA-256 hashes certified on disk"))
+    gate_results.append(("Gate 20", "Cryptographic Manifest Certification", g20_pass, "All manifest artifact SHA-256 hashes certified on disk"))
 
     # Print Report Table
     print("\nVerification Gate Results Summary:")

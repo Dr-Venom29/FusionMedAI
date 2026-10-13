@@ -22,8 +22,11 @@ class RetinaAdapter:
     to produce a verified ModalityOutput 8-tuple.
     """
 
+    from src.fusion.reliability.global_reliability import FROZEN_RETINA_RELIABILITY
     DEFAULT_VERSION = "retina_efficientnet_b3_v1.0"
-    DEFAULT_RELIABILITY = 0.885  # Placeholder prior to Phase C11.3 Global Reliability anchor
+    DEFAULT_RELIABILITY = FROZEN_RETINA_RELIABILITY
+    THEORETICAL_MAX_VARIANCE = 0.16
+    VARIANCE_FLOAT_TOLERANCE = 1e-6
 
     def __init__(
         self,
@@ -31,8 +34,10 @@ class RetinaAdapter:
         frozen_reliability: float = DEFAULT_RELIABILITY,
         model_version: str = DEFAULT_VERSION,
     ):
+        if not isinstance(frozen_reliability, (int, float)) or isinstance(frozen_reliability, bool) or not np.isfinite(frozen_reliability) or not (0.0 <= frozen_reliability <= 1.0):
+            raise ValueError(f"frozen_reliability must be a finite float in [0.0, 1.0], got {frozen_reliability!r}")
         self.retina_module = retina_module
-        self.frozen_reliability = float(np.clip(frozen_reliability, 0.0, 1.0))
+        self.frozen_reliability = float(frozen_reliability)
         self.model_version = model_version
 
     def adapt_prediction_dict(
@@ -46,13 +51,18 @@ class RetinaAdapter:
 
         Args:
             pred_dict: Output dictionary from RetinaModule.predict(). If None, returns unavailable.
-            quality: Optional image quality metric in [0.0, 1.0]. Defaults to 1.0 if not provided.
+            quality: Optional image quality metric in [0.0, 1.0].
             reliability: Optional override for frozen reliability.
 
         Returns:
             ModalityOutput: Immutable 8-tuple contract.
         """
-        rel = reliability if reliability is not None else self.frozen_reliability
+        if reliability is not None:
+            if not isinstance(reliability, (int, float)) or isinstance(reliability, bool) or not np.isfinite(reliability) or not (0.0 <= reliability <= 1.0):
+                raise ModalityContractValidationError(f"reliability override must be a finite float in [0.0, 1.0], got {reliability!r}")
+            rel = float(reliability)
+        else:
+            rel = self.frozen_reliability
 
         if pred_dict is None:
             return ModalityOutput.unavailable(
@@ -61,15 +71,14 @@ class RetinaAdapter:
             )
 
         calib_probs = pred_dict.get("calib_probabilities")
-        if calib_probs is None or len(calib_probs) != 5:
-            raise ModalityContractValidationError(
-                f"Retina prediction dict must contain 5-class 'calib_probabilities', got {calib_probs}"
-            )
+        from src.fusion.contracts.evidence_report import validate_probability_vector
+        try:
+            validate_probability_vector(calib_probs, 5)
+        except Exception as e:
+            raise ModalityContractValidationError(f"Invalid raw calib_probabilities: {e}") from e
 
-        # Normalize probability sum to exactly 1.0 within tolerance
-        probs_np = np.asarray(calib_probs, dtype=np.float64)
-        probs_np = probs_np / np.sum(probs_np)
-        norm_probs = [float(p) for p in probs_np]
+        norm_probs = [float(p) for p in calib_probs]
+        probs_np = np.asarray(norm_probs, dtype=np.float64)
 
         # Deterministic Risk Projection: r_R = sum_{k=0}^4 (k/4) * p_k
         risk = project_retina_risk(norm_probs)
@@ -78,13 +87,38 @@ class RetinaAdapter:
         sorted_probs = np.sort(probs_np)
         confidence = float(np.clip(sorted_probs[-1] - sorted_probs[-2], 0.0, 1.0))
 
-        # Uncertainty: Normalized predictive variance from MC Dropout passes
-        mc_var = pred_dict.get("mc_predictive_variance", 0.0)
-        # Scaled to [0, 1] interval based on theoretical max variance for 5 classes
-        norm_unc = float(np.clip(mc_var / 0.16, 0.0, 1.0)) if mc_var > 0 else 0.0
+        # Uncertainty: Normalized predictive variance from MC Dropout passes.
+        # In RetinaModule.predict() (src/retina/retina_module.py:184), mc_predictive_variance is defined as
+        # float(np.mean(np.var(mc_probs, axis=0))) for 5-class probability vectors on the simplex.
+        # Since sum_k E[P_k^2] <= 1 and sum_k (E[P_k])^2 >= 1/5 = 0.20 by Cauchy-Schwarz,
+        # sum_k Var(P_k) <= 0.80, so the mean across 5 classes is strictly bounded by 0.80 / 5 = 0.16.
+        # Values in (0.16, 0.16 + 1e-6] are accepted to accommodate IEEE-754 floating-point rounding and clipped to 1.0;
+        # values strictly exceeding 0.16 + 1e-6 are rejected as invalid upstream metrics.
+        if "mc_predictive_variance" not in pred_dict or pred_dict["mc_predictive_variance"] is None:
+            raise ModalityContractValidationError(
+                "Retina prediction dict must contain 'mc_predictive_variance' for uncertainty estimation."
+            )
+        mc_var = pred_dict["mc_predictive_variance"]
+        if (
+            not isinstance(mc_var, (int, float))
+            or isinstance(mc_var, bool)
+            or not np.isfinite(mc_var)
+            or mc_var < 0.0
+            or mc_var > self.THEORETICAL_MAX_VARIANCE + self.VARIANCE_FLOAT_TOLERANCE
+        ):
+            raise ModalityContractValidationError(
+                f"'mc_predictive_variance' must be a finite float in [0.0, 0.16] "
+                f"(theoretical upper bound for 5-class simplex mean variance ± 1e-6 float tolerance), got {mc_var!r}."
+            )
+        norm_unc = float(np.clip(mc_var / self.THEORETICAL_MAX_VARIANCE, 0.0, 1.0))
 
-        # Quality: If not specified, default to high quality for valid processed inputs
-        q_val = float(np.clip(quality if quality is not None else 1.0, 0.0, 1.0))
+        # Quality: If not specified, default to neutral 0.5 fallback
+        if quality is not None:
+            if not isinstance(quality, (int, float)) or isinstance(quality, bool) or not np.isfinite(quality) or not (0.0 <= quality <= 1.0):
+                raise ModalityContractValidationError(f"quality must be a finite float in [0.0, 1.0], got {quality!r}")
+            q_val = float(quality)
+        else:
+            q_val = 0.5
 
         return ModalityOutput(
             risk=risk,
@@ -95,6 +129,102 @@ class RetinaAdapter:
             availability=True,
             reliability=rel,
             model_version=self.model_version,
+        )
+
+    def adapt_to_semantic_prediction(
+        self,
+        pred_dict: Optional[Dict[str, Any]],
+        quality: Optional[float] = None,
+        reliability: Optional[float] = None,
+    ):
+        """
+        Adapts Retina diagnostic output into the semantic ModalityPrediction schema.
+        """
+        from src.fusion.contracts.evidence_report import ModalityPrediction, RETINA_TARGET
+        from src.fusion.reliability.global_reliability import FROZEN_RETINA_RELIABILITY
+
+        if reliability is not None:
+            if not isinstance(reliability, (int, float)) or isinstance(reliability, bool) or not np.isfinite(reliability) or not (0.0 <= reliability <= 1.0):
+                raise ModalityContractValidationError(f"reliability override must be a finite float in [0.0, 1.0], got {reliability!r}")
+            rel = float(reliability)
+        else:
+            rel = self.frozen_reliability if self.frozen_reliability is not None else FROZEN_RETINA_RELIABILITY
+
+        if pred_dict is None:
+            return ModalityPrediction(
+                modality="retina",
+                task_id=RETINA_TARGET.name,
+                target=RETINA_TARGET,
+                prediction={"class": None, "probabilities": [], "calibration_method": "temperature_scaling"},
+                uncertainty={"method": "mc_dropout_predictive_variance", "value": 1.0, "interpretation": "unavailable"},
+                quality=0.0,
+                available=False,
+                reliability=rel,
+                model_version=self.model_version,
+                legacy_projected_scalar=0.0,
+            )
+
+        calib_probs = pred_dict.get("calib_probabilities")
+        from src.fusion.contracts.evidence_report import validate_probability_vector
+        try:
+            validate_probability_vector(calib_probs, 5)
+        except Exception as e:
+            raise ModalityContractValidationError(f"Invalid raw calib_probabilities: {e}") from e
+
+        norm_probs = [float(p) for p in calib_probs]
+        probs_np = np.asarray(norm_probs, dtype=np.float64)
+        risk = project_retina_risk(norm_probs)
+        pred_class = int(np.argmax(probs_np))
+
+        if "mc_predictive_variance" not in pred_dict or pred_dict["mc_predictive_variance"] is None:
+            raise ModalityContractValidationError(
+                "Retina prediction dict must contain 'mc_predictive_variance' for uncertainty estimation."
+            )
+        mc_var = pred_dict["mc_predictive_variance"]
+        if (
+            not isinstance(mc_var, (int, float))
+            or isinstance(mc_var, bool)
+            or not np.isfinite(mc_var)
+            or mc_var < 0.0
+            or mc_var > self.THEORETICAL_MAX_VARIANCE + self.VARIANCE_FLOAT_TOLERANCE
+        ):
+            raise ModalityContractValidationError(
+                f"'mc_predictive_variance' must be a finite float in [0.0, 0.16] "
+                f"(theoretical upper bound for 5-class simplex mean variance ± 1e-6 float tolerance), got {mc_var!r}."
+            )
+        norm_unc = float(np.clip(mc_var / self.THEORETICAL_MAX_VARIANCE, 0.0, 1.0))
+
+        if quality is not None:
+            if not isinstance(quality, (int, float)) or isinstance(quality, bool) or not np.isfinite(quality) or not (0.0 <= quality <= 1.0):
+                raise ModalityContractValidationError(f"quality must be a finite float in [0.0, 1.0], got {quality!r}")
+            q_val = float(quality)
+            q_prov = "measured"
+        else:
+            q_val = 0.5  # Neutral fallback for unmeasured image quality
+            q_prov = "unmeasured_neutral_fallback"
+
+        return ModalityPrediction(
+            modality="retina",
+            task_id=RETINA_TARGET.name,
+            target=RETINA_TARGET,
+            prediction={
+                "class": pred_class,
+                "probabilities": norm_probs,
+                "calibration_method": "temperature_scaling",
+                "quality_provenance": q_prov,
+            },
+            uncertainty={
+                "method": "mc_dropout_predictive_variance",
+                "value": norm_unc,
+                "raw_metric": float(mc_var),
+                "normalization_scale": 0.16,
+                "interpretation": "epistemic_retinal_feature_uncertainty",
+            },
+            quality=q_val,
+            available=True,
+            reliability=rel,
+            model_version=self.model_version,
+            legacy_projected_scalar=risk,
         )
 
     def adapt_image(

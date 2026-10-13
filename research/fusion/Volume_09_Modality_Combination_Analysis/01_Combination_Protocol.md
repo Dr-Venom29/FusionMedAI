@@ -13,7 +13,7 @@ The conceptual motivation arises from real-world clinical deployment where multi
 ## 2. Seven Pre-Specified Research Questions
 
 1. **RQ1 (Combination Routing Invariant)**: Does ACARA-U assign valid routing weights ($\sum_{i \in \mathcal{A}} w_i = 1.0, w_i \ge 0, w_{j \notin \mathcal{A}} = 0$) regardless of whether a modality combination belongs to the head, middle, or tail of the frequency distribution?
-2. **RQ2 (Tail Risk Sensitivity)**: How does the decision-level risk sensitivity metric $D_{\text{tail}} = \mathbb{E}_{\text{tail}}[|R_{\text{fusion}} - R_{\text{fusion}}^{\text{RFC}}|]$ behave under moderate (D2) versus strong (D3) head-tail skew?
+2. **RQ2 (Tail Risk Sensitivity)**: How does the decision-level risk sensitivity metric $D_{\text{tail}} = \mathbb{E}_{\text{tail}}[\lvert R_{\text{fusion}} - R_{\text{fusion}}^{\text{RFC}} \rvert]$ behave under moderate (D2) versus strong (D3) head-tail skew?
 3. **RQ3 (Entropy & Authority Concentration)**: Does routing entropy $H(w)$ decrease systematically from head tri-modal packets to tail unimodal packets where authority necessarily collapses ($H=0$)?
 4. **RQ4 (Uncertainty & DCRI Scaling)**: Does the additive uncertainty penalty $\delta U_{\text{sum}}$ in DCRI scale with available modality cardinality along nested channel ladders across all frequency tiers?
 5. **RQ5 (Comparative Baseline Tail Robustness)**: How does ACARA-U compare against baseline fusion architectures (B1–B5) in tail risk shift $D_{\text{tail}}$ and dispersion $\sigma(R_{\text{tail}})$?
@@ -45,7 +45,11 @@ The conceptual motivation arises from real-world clinical deployment where multi
 
 - **Hypothesis H3 (Tail Dispersion Expansion via Modality Collapse)**:  
   **Prediction**: Tail combinations exhibit increased risk standard deviation relative to the head:
-  $$\Delta \sigma(R) = \sigma(R_{\mathrm{tail}}) - \sigma(R_{\mathrm{head}}) > 0$$
+
+  $$
+  \Delta \sigma(R) = \sigma(R_{\mathrm{tail}}) - \sigma(R_{\mathrm{head}}) > 0
+  $$
+
   consistent with the reduced modality cardinality and resulting loss of multi-modal aggregation.  
   **Status**: **Supported descriptively** — Tail tiers exhibited higher observed risk dispersion than head tiers in both D2 ($\Delta \sigma = +0.0628$) and D3 ($\Delta \sigma = +0.0885$). The present analysis does not establish statistical significance of the dispersion difference.
 
