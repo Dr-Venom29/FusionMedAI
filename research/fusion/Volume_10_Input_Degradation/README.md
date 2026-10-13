@@ -65,10 +65,12 @@ flowchart TD
 Across the frozen $N=500$ controlled decision cohort ($\text{seed}=115$):
 
 - **Experiment A (Quality Detection)**: Quality engines detect progressive degradation monotonically ($100.0\%$ packet monotonicity rate), producing a mean severe quality drop of $62.63\%$ (Retina), $67.14\%$ (Foot), and $64.71\%$ (Clinical) at Severe D3.
-- **Experiment B (Routing Response)**: ACARA-U systematically attenuates degraded channel authority by mean severe $\overline{\Delta w_R} = -0.1739$, $\overline{\Delta w_F} = -0.1276$, and $\overline{\Delta w_C} = -0.0930$, achieving a **$35.2\%\text{--}50.5\%$ relative authority reduction**.
+- **Experiment B (Routing Response)**: Across all 12 degradation operators (`D-R1`–`D-R4`, `D-F1`–`D-F4`, `D-C1`–`D-C4`), ACARA-U achieves a **$100.0\%$ ($1.000$) packet-level routing monotonicity rate**, attenuating degraded channel authority by:
+  - **Retina (`D-R1`–`D-R4`)**: Severe (`D3`) relative authority reduction $\text{RAR} \in [31.23\%, 46.23\%]$ ($\overline{\Delta w_R} \in [-0.1958, -0.1319]$).
+  - **Foot (`D-F1`–`D-F4`)**: Severe (`D3`) relative authority reduction $\text{RAR} \in [46.00\%, 57.53\%]$ ($\overline{\Delta w_F} \in [-0.1248, -0.0994]$).
+  - **Clinical (`D-C1`, `D-C2`, `D-C4`)**: Severe (`D3`) relative authority reduction $\text{RAR} \in [35.31\%, 37.68\%]$ ($\overline{\Delta w_C} \in [-0.1310, -0.1227]$; value perturbation `D-C3`: $\text{RAR} = 9.59\%, \overline{\Delta w_C} = -0.0332$).
+- **Simultaneous Multi-Modality Degradation Trajectory (`D0 -> D3`, `B6`, $\delta=0.10$)**: Mean $\overline{\mathrm{DCRI}}_{0.10}$ decays monotonically from $0.197624$ (`D0`, Tier-2 rate $11.4\%$) $\to 0.180634$ (`D1`, Tier-2 rate $8.0\%$) $\to 0.163432$ (`D2`, Tier-2 rate $6.6\%$) $\to 0.146913$ (`D3`, Tier-2 rate $5.8\%$).
 - **Authority Redistribution Conservation**: All authority surrendered by degraded modalities is exactly conserved and absorbed by active channels ($\sum_{j \ne i} \Delta w_j = -\Delta w_i$).
 - **Scientific Isolation of $Q_i$ (B6 vs B5)**: The paired comparison showed significantly greater authority attenuation under B6 than B5 ($-0.1697$ vs $-0.0388$, paired difference $D = -0.1309$, $95\%$ bootstrap CI: $[-0.1319, -0.1300]$, strictly excluding zero), supporting the incremental contribution of the quality term within the tested controlled degradation benchmark.
 - **Hard-Mask Invariance**: Degrading an unavailable modality channel ($A_i = 0$) results in exactly $\Delta w_{\text{active}} = 0.000000$ and $\Delta R_{\text{fusion}} = 0.000000$.
-
-
 

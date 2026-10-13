@@ -13,13 +13,13 @@ This analysis confirms that the ACARA-U routing engine satisfies all theoretical
 ## Key Research Findings
 
 1. **Strict Monotonic Response Across Multi-Modality Regimes:**
-   In all multi-modality active sets ($|\mathcal{A}| \ge 2$), increasing confidence ($C_i$), reliability ($R_i$), or quality ($Q_i$) strictly increases channel decision weight $w_i$, while increasing predictive uncertainty ($U_i$) strictly decreases $w_i$ (100% pass across 576 trials).
+   In all multi-modality active sets ($\lvert \mathcal{A} \rvert \ge 2$), increasing confidence ($C_i$), reliability ($R_i$), or quality ($Q_i$) strictly increases channel decision weight $w_i$, while increasing predictive uncertainty ($U_i$) strictly decreases $w_i$ (100% pass across 576 trials).
 
 2. **Single-Modality Unity Invariance ($w_i \equiv 1.0$):**
    In single-modality regimes (`R`, `F`, `C`), $w_i \equiv 1.000000$ remains invariant under all input perturbations, as required by softmax normalization over a singleton active set. Downstream DCRI discounting provides conservative compensation.
 
 3. **Machine-Precision Simplex & Invariant Conservation:**
-   The router preserves the probability simplex ($\sum w_i = 1.000000$) with a maximum deviation of $1.11 \times 10^{-16}$, enforces hard availability masking ($A_j=0 \implies w_j=0.000000$), satisfies softmax shift invariance ($\Delta w \le 7.11 \times 10^{-15}$ across logit offsets $[-500, 500]$ and $\Delta w \le 1.11 \times 10^{-16}$ in uniform confidence route shift), and achieves order independence in the reference normalization kernel across all 6 channel permutations.
+   The router preserves the probability simplex ($\sum w_i = 1.000000$) with a maximum deviation of $1.11 \times 10^{-16}$, enforces hard availability masking ($A_j=0 \implies w_j=0.000000$), verifies exact Shannon routing entropy $H(w) = -\sum_{i \in \mathcal{A}, w_i > 0} w_i \ln w_i$ in `RouterResult` and `RoutingResult`, enforces 5-map inactive zeroing in `DCRIResult` (`weights`, `modality_risks`, `modality_uncertainties`, `weighted_risk_contributions`, `uncertainty_penalty_contributions`), satisfies softmax shift invariance ($\Delta w \le 7.11 \times 10^{-15}$ across logit offsets $[-500, 500]$ and $\Delta w \le 1.11 \times 10^{-16}$ in uniform confidence route shift), and achieves order independence in the reference normalization kernel across all 6 channel permutations.
 
 4. **Fail-Closed Degenerate Handling & Robust Validation:**
    Encountering an empty modality set ($A = \emptyset$) safely triggers `NO_MODALITY_AVAILABLE` with zero weight allocation and zero active modalities. All 19 invalid-input test cases (NaN, Inf, out-of-range scalars, reliability mismatches, invalid coefficients) are strictly rejected with precise concrete exceptions (`RouterContractValidationError` and `RouterCoefficientError`, subclasses of `ValueError`).

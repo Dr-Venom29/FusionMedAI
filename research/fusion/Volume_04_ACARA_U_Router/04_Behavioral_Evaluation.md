@@ -58,3 +58,15 @@ To verify router mechanics without circular synthetic clinical targets, the rout
 - **Reliability Ordering**: Identical inputs order weights as $w_R (0.354) > w_F (0.348) > w_C (0.297)$ matching frozen historical priors $R_R > R_F > R_C$.
 - **Uncertainty Penalty Monotonicity**: Evaluated across finite step increments $U \in [0.1, 0.5, 0.9] \implies w_R \in [0.443, 0.315, 0.203]$ strictly descending ($U_i \uparrow \implies w_i \downarrow$).
 - **Quality Monotonicity**: Evaluated across finite step increments $Q \in [0.1, 0.5, 0.9] \implies w_R \in [0.203, 0.315, 0.443]$ strictly ascending ($Q_i \uparrow \implies w_i \uparrow$).
+
+---
+
+## 4. Cohort-Level Routing Distribution ($N = 500$ Packets via Modality Adapters & `EvidenceOrchestrator`)
+
+Across the $N = 500$ controlled decision packets ingested through `RetinaAdapter`, `FootAdapter`, and `ClinicalAdapter` into `EvidenceOrchestrator` and `ACARAUv2Router`:
+
+| Router Parameterization | Mean $\bar{w}_R \pm \text{SD}$ | Mean $\bar{w}_F \pm \text{SD}$ | Mean $\bar{w}_C \pm \text{SD}$ | Mean Entropy $\bar{H}(w) \pm \text{SD}$ (nats) | Dominant Modality Counts $(R, F, C)$ |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **$\Theta_{\text{unit}} = (1.0, 1.0, 1.0, 1.0)$** | $0.428717 \pm 0.078725$ | $0.219386 \pm 0.076297$ | $0.351897 \pm 0.065125$ | $1.037108 \pm 0.041478$ | $(367, 23, 110)$ ($73.4\%, 4.6\%, 22.0\%$) |
+| **$\Theta_0 = (1.0, 1.5, 1.0, 0.5)$** | $0.427135 \pm 0.078806$ | $0.223079 \pm 0.077157$ | $0.349785 \pm 0.064987$ | $1.038987 \pm 0.040595$ | $(366, 24, 110)$ ($73.2\%, 4.8\%, 22.0\%$) |
+

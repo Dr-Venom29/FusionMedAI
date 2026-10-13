@@ -38,9 +38,10 @@ $$z_i^{(A1)} = 1.5 R_i - 1.0 U_i + 0.5 Q_i$$
 Evaluates the degree to which encounter-specific model confidence drives weight reallocation relative to static reliability priors.
 
 ### 2.3 Variant A2: No Reliability Contribution
-Removes global historical reliability priors ($R_{\text{retina}}=0.85, R_{\text{foot}}=0.80, R_{\text{clinical}}=0.75$):
+Removes global historical reliability priors ($R_{\text{retina}}=0.929956, R_{\text{foot}}=0.922266, R_{\text{clinical}}=0.825382$):
 $$z_i^{(A2)} = 1.0 C_i - 1.0 U_i + 0.5 Q_i$$
 Tests whether the router relies excessively on pre-computed validation accuracy versus dynamic case-level signals.
+
 
 ### 2.4 Variant A3: No Router Uncertainty Penalty
 Eliminates the predictive uncertainty penalty $-\gamma U_i$ from router logit generation:

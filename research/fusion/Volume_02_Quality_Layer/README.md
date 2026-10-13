@@ -4,7 +4,7 @@
 
 This volume contains the scientific and technical specifications for the **FusionMedAI Quality & Availability Ingestion Layer** (Phase C11.2).
 
-The quality layer enforces strict separation between input fidelity and downstream predictive inference. It transforms raw, unprocessed inputs from all three clinical modalities into deterministic $(A_i, Q_i)$ tuples before entering the ACARA-U decision fusion architecture.
+The quality layer enforces strict separation between input fidelity and downstream predictive inference. It transforms raw, unprocessed inputs from all three clinical modalities into deterministic $(A_i, Q_i)$ tuples that are ingested by `RetinaAdapter`, `FootAdapter`, and `ClinicalAdapter` into `EvidenceOrchestrator` before entering the ACARA-U v2 routing kernel.
 
 ---
 
@@ -18,6 +18,8 @@ The quality layer enforces strict separation between input fidelity and downstre
 
 ## Modality Quality Summary
 
-- **Retina ($Q_R$)**: $\frac{1}{2}(Q_{\text{sharp}} + Q_{\text{illum}})$ via Laplacian variance and dynamic range luminance penalties.
-- **Foot ($Q_F$)**: $\frac{1}{2}(Q_{\text{CNR}} + Q_{\text{boundary}})$ via unsupervised Otsu contrast and Sobel gradient-magnitude boundary clarity.
-- **Clinical ($Q_C$)**: Feature completeness ratio $\frac{N_{\text{valid}}}{119}$ (raw encounters are transformed through the frozen 119-D `ClinicalPreprocessor` before completeness evaluation).
+- **Retina ($Q_R$)**: $\frac{1}{2}(Q_{\text{sharp}} + Q_{\text{illum}})$ via Laplacian variance and dynamic range luminance penalties (`RetinaAdapter`, cohort mean $\bar{Q}_R = 0.768986$).
+- **Foot ($Q_F$)**: $\frac{1}{2}(Q_{\text{CNR}} + Q_{\text{boundary}})$ via unsupervised Otsu contrast and Sobel gradient-magnitude boundary clarity (`FootAdapter`, cohort mean $\bar{Q}_F = 0.708265$).
+- **Clinical ($Q_C$)**: Feature completeness ratio $\frac{N_{\text{valid}}}{119}$ evaluated after transformation through the frozen 119-D `ClinicalPreprocessor` (`ClinicalAdapter`, cohort mean $\bar{Q}_C = 0.858804$).
+- **Unmeasured Quality Fallback**: When raw quality is unmeasured (`quality=None`), the modality adapters assign a neutral $Q_i = 0.5$ fallback and explicitly record `"quality_is_measured": False` in `ModalityPrediction` provenance metadata.
+

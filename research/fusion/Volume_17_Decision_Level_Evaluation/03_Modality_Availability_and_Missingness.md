@@ -29,8 +29,11 @@ Evaluating the paired $N=500$ cohort across all eight regimes yields:
 ## 3. Mathematical Implications & Structural Limitations
 
 ### 3.1 Unimodal Singleton Invariance
-When only a single modality channel is available ($|\mathcal{A}| = 1$), the active logit is $z_i$, while all inactive channels are hard-masked with $-\infty$. Under the masked softmax function:
-$$w_i = \frac{\exp(z_i)}{\exp(z_i)} \equiv 1.000000, \quad \forall j \notin \mathcal{A}: w_j \equiv 0.000000$$
+When only a single modality channel is available ($\lvert\mathcal{A}\rvert = 1$), the active logit is $z_i$, while all inactive channels are hard-masked with $-\infty$. Under the masked softmax function:
+
+$$
+w_i = \frac{\exp(z_i)}{\exp(z_i)} \equiv 1.000000, \quad \forall j \notin \mathcal{A}: w_j \equiv 0.000000
+$$
 
 Under this formulation, the router weight for the available channel collapses mathematically to unity regardless of the dynamic coefficients $(\alpha, \beta, \gamma, \eta)$. Fused risk equals the single active channel's risk ($R_{\text{fusion}} = r_i$), and the uncertainty penalty equals that channel's discounted uncertainty ($P_U = \delta^* U_i$). The resulting score is therefore entirely dependent on the single available sensor's prediction and calibration.
 
@@ -41,6 +44,9 @@ Under the frozen unweighted penalty formulation ($P_U = \delta^* \sum_{i \in \ma
 
 ### 3.3 Fail-Closed EMPTY Software Contract
 When no modalities are available ($\mathcal{A} = \emptyset$), standard softmax division is undefined. The engine enforces a defined software fallback:
-$$w_i = 0.0 \quad \forall i \in \{R, F, C\}, \quad R_{\text{fusion}} = 0.0, \quad P_U = 0.0, \quad \text{DCRI} = 0.0, \quad \text{Status} = \mathtt{NO\_MODALITY\_AVAILABLE}$$
+
+$$
+w_i = 0.0 \quad \forall i \in \{R, F, C\}, \quad R_{\text{fusion}} = 0.0, \quad P_U = 0.0, \quad \text{DCRI} = 0.0, \quad \text{Status} = \mathtt{NO\_MODALITY\_AVAILABLE}
+$$
 
 This behavior verifies that the software pipeline avoids NaN generation or unhandled division exceptions. In operational deployment, downstream systems must ensure that encounters flagged with `NO_MODALITY_AVAILABLE` trigger manual clinical triage rather than being treated as verified routine cases.

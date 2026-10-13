@@ -73,7 +73,8 @@ Across the frozen $N=500$ controlled decision cohort ($\text{seed}=115$):
 
 - **Maximum Pairwise Disagreement ($\Delta_{\max}$)**: Mean $\Delta_{\max} = 0.520331 \pm 0.241978$ (Median: $0.475961$, Range: $[0.029269, 0.991898]$, IQR: $0.366567$).
 - **Mean Pairwise Disagreement ($\Delta_{\text{mean}}$)**: Mean $\Delta_{\text{mean}} = 0.346887 \pm 0.161319$ (Median: $0.317307$).
-- **Weighted Consensus Standard Deviation ($\sigma_w$)**: Mean $\sigma_w = 0.215019 \pm 0.108652$ (Median: $0.192409$).
+- **Weighted Consensus Standard Deviation ($\sigma_w$)**: Mean $\sigma_w = 0.214306$ ($\Theta_{\text{unit}}$) / $0.214882$ ($\Theta_0$).
+- **Mean Routing Entropy ($H(w)$)**: Mean $H(w) = 1.037108\text{ nats}$ ($\Theta_{\text{unit}}$) / $1.038987\text{ nats}$ ($\Theta_0$).
 - **Operational Severity Distribution**:
   - **LOW** ($\Delta_{\max} < 0.20$): $45\text{ packets}$ ($9.0\%$)
   - **MODERATE** ($0.20 \le \Delta_{\max} < 0.35$): $92\text{ packets}$ ($18.4\%$)
@@ -82,4 +83,5 @@ Across the frozen $N=500$ controlled decision cohort ($\text{seed}=115$):
   - **Retina ↔ Foot**: $237\text{ packets}$ ($47.4\%$)
   - **Foot ↔ Clinical**: $135\text{ packets}$ ($27.0\%$)
   - **Retina ↔ Clinical**: $128\text{ packets}$ ($25.6\%$)
-- **Authority Alignment**: Retina ($R_R=0.929956$) was allocated greater authority than Clinical ($R_C=0.825382$) in $98.0\%$ of cases and greater authority than Foot ($R_F=0.922266$) in $93.2\%$ of cases.
+- **Authority Alignment**: Across the $N=500$ packets ingested via `RetinaAdapter`, `FootAdapter`, and `ClinicalAdapter` into `EvidenceOrchestrator` and `ACARAUv2Router`, Retina ($R_R=0.929956$) receives mean authority $\bar{w}_R = 0.428717$ ($\Theta_{\text{unit}}$) / $0.427135$ ($\Theta_0$), Clinical ($R_C=0.825382$) receives $\bar{w}_C = 0.351897 / 0.349785$, and Foot ($R_F=0.922266$) receives $\bar{w}_F = 0.219386 / 0.223079$.
+

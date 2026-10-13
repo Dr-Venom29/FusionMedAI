@@ -22,10 +22,10 @@ Phase C11.14 investigates how the frozen uncertainty-discounted decision index (
 
 ## Key Empirical Findings
 
-1. **Reclassification Rate & Non-Inflationary Invariant**: At standard operating thresholds ($\tau_1=0.20, \tau_2=0.40$), $\text{DCRI}_{0.10}$ reclassifies **$18.4\%$** ($92/500$ packets, $95\%$ Wilson CI: $[15.25\%, 22.03\%]$) into a lower action tier. Zero packets ($0.0\%$) are upgraded, confirming the strict monotonic non-inflationary invariant of additive uncertainty discounting.
-2. **Escalation Workload Attenuation**: High-priority escalation review is reduced from **$23.4\%$** ($117/500$ packets) under unpenalized fused risk to **$16.2\%$** ($81/500$ packets) under $\text{DCRI}_{0.10}$—a **$30.77\%$ relative reduction** (36 packets reclassified from Escalation to Additional Assessment; 7.2 percentage points of the cohort).
-3. **Modality-Dependent Reclassification**: Reclassification rates depend on modality composition and aggregate observed uncertainty rather than modality cardinality alone. Single-modality encounters with very low predictive uncertainty (`R` with $U\approx 0.0014$, `C` with $U\approx 0.0386$) exhibit $0.0\%$ reclassification, and dual-modality `RC` exhibits only $1.2\%$ ($6/500$). In contrast, single-modality `F` exhibits $16.8\%$ ($84/500$), and high-uncertainty dual/triple combinations (`RF`, `FC`, `RFC`) exhibit reclassification rates between $18.4\%$ and $32.2\%$.
-4. **Perturbation Robustness**: Under $\pm 20\%$ global uncertainty scaling, reclassification rates increase monotonically across the tested grid ($15.4\%\text{--}21.4\%$). Under $\pm 0.02$ threshold boundary jitter, reclassification rates remain tightly bounded ($18.2\%\text{--}18.6\%$), without threshold bifurcation or invariant collapse.
+1. **Reclassification Rate & Non-Inflationary Invariant**: At standard operating thresholds ($\tau_1=0.20, \tau_2=0.40$), $\text{DCRI}_{0.10}$ reclassifies **$19.2\%$** ($96/500$ packets) into a lower action tier. Zero packets ($0.0\%$) are upgraded, confirming the strict monotonic non-inflationary invariant of additive uncertainty discounting.
+2. **Escalation Workload Attenuation**: High-priority escalation review is reduced from **$16.6\%$** ($83/500$ packets) under unpenalized fused risk to **$11.4\%$** ($57/500$ packets) under $\text{DCRI}_{0.10}$—a **$31.33\%$ relative reduction** (26 packets reclassified from Escalation to Additional Assessment; $5.2$ percentage points of the cohort).
+3. **Modality-Dependent Reclassification**: Reclassification rates depend on modality composition and aggregate observed uncertainty rather than modality cardinality alone. Single-modality encounters with very low predictive uncertainty (`R` with $U\approx 0.0014$, `C` with $U\approx 0.0386$) exhibit $0.0\%$ reclassification, and dual-modality `RC` exhibits only $1.2\%$ ($6/500$). In contrast, single-modality `F` exhibits $16.8\%$ ($84/500$), and high-uncertainty dual/triple combinations (`RF`, `FC`, `RFC`) exhibit reclassification rates between $19.2\%$ and $32.2\%$.
+4. **Perturbation Robustness**: Under $\pm 20\%$ global uncertainty scaling, reclassification rates increase monotonically across the tested grid. Under $\pm 0.02$ threshold boundary jitter, reclassification rates remain tightly bounded, without threshold bifurcation or invariant collapse.
 
 ---
 
@@ -33,8 +33,8 @@ Phase C11.14 investigates how the frozen uncertainty-discounted decision index (
 
 | Policy Condition | Routine Review (Tier 0: $< 0.20$) | Additional Assessment (Tier 1: $[0.20, 0.40)$) | Escalation (Tier 2: $\ge 0.40$) | Total Reclassified | Monotonic Downgrades | Upgrades |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Policy B: Fused Risk $R_{\mathrm{fusion}}$ (Reference)** | $176$ ($35.2\%$) | $207$ ($41.4\%$) | $117$ ($23.4\%$) | — | — | — |
-| **Policy A: $\mathrm{DCRI}_{0.10}$ (Uncertainty-Discounted)** | **$232$ ($46.4\%$)** | **$187$ ($37.4\%$)** | **$81$ ($16.2\%$)** | **$92$ ($18.4\%$)** | **$92$ ($100\%$)** | **$0$ ($0\%$)** |
+| **Policy B: Fused Risk $R_{\mathrm{fusion}}$ (Reference)** | $192$ ($38.4\%$) | $225$ ($45.0\%$) | $83$ ($16.6\%$) | — | — | — |
+| **Policy A: $\mathrm{DCRI}_{0.10}$ (Uncertainty-Discounted)** | **$262$ ($52.4\%$)** | **$181$ ($36.2\%$)** | **$57$ ($11.4\%$)** | **$96$ ($19.2\%$)** | **$96$ ($100\%$)** | **$0$ ($0\%$)** |
 
 ---
 

@@ -53,40 +53,54 @@ flowchart TD
 
 ### 3.1 Retina Fundus Image Quality ($Q_R$)
 Aggregates high-frequency spatial sharpness and illumination adequacy:
+
 $$Q_R = \frac{Q_{\text{sharp}} + Q_{\text{illum}}}{2} \in [0.0, 1.0]$$
 
 - **Sharpness ($Q_{\text{sharp}}$)**:
+
   $$S_{\text{raw}} = \text{Var}(\nabla^2 I_{\text{gray}})$$
+
   $$Q_{\text{sharp}} = \text{clip}\left(\frac{S_{\text{raw}} - S_{\text{low}}}{S_{\text{high}} - S_{\text{low}}}, 0.0, 1.0\right)$$
+
   Frozen training bounds: $S_{\text{low}} = 4.0$, $S_{\text{high}} = 55.0$.
 
 - **Illumination Adequacy ($Q_{\text{illum}}$)**:
   Mean intensity $\mu_I$ and dynamic range $\sigma_I$:
+
   $$Q_{\text{mean}} = \begin{cases}
   \text{clip}\left(\frac{\mu_I - 10.0}{35.0 - 10.0}, 0.0, 1.0\right) & \text{if } \mu_I < 35.0 \\
   1.0 & \text{if } 35.0 \le \mu_I \le 95.0 \\
   \text{clip}\left(\frac{140.0 - \mu_I}{140.0 - 95.0}, 0.0, 1.0\right) & \text{if } \mu_I > 95.0
   \end{cases}$$
+
   $$Q_{\text{contrast}} = \text{clip}\left(\frac{\sigma_I}{20.0}, 0.0, 1.0\right)$$
+
   $$Q_{\text{illum}} = Q_{\text{mean}} \cdot Q_{\text{contrast}}$$
 
 ### 3.2 Diabetic Foot Ulcer Image Quality ($Q_F$)
 Aggregates unsupervised tissue contrast-to-noise ratio and boundary edge clarity:
+
 $$Q_F = \frac{Q_{\text{CNR}} + Q_{\text{boundary}}}{2} \in [0.0, 1.0]$$
 
 - **Unsupervised Otsu CNR ($Q_{\text{CNR}}$)**:
   Partitions image into foreground and background via Otsu thresholding without ground-truth masks:
-  $$\text{CNR}_{\text{raw}} = \frac{|\mu_{\text{fg}} - \mu_{\text{bg}}|}{\sigma_{\text{bg}} + \epsilon}$$
+
+  $$\text{CNR}_{\text{raw}} = \frac{\lvert\mu_{\text{fg}} - \mu_{\text{bg}}\rvert}{\sigma_{\text{bg}} + \epsilon}$$
+
   $$Q_{\text{CNR}} = \text{clip}\left(\frac{\text{CNR}_{\text{raw}} - 1.8}{13.0 - 1.8}, 0.0, 1.0\right)$$
 
 - **Boundary / Edge Clarity ($Q_{\text{boundary}}$)**:
   Sobel mean gradient magnitude:
+
   $$B_{\text{raw}} = \frac{1}{HW} \sum \sqrt{G_x^2 + G_y^2}$$
+
   $$Q_{\text{boundary}} = \text{clip}\left(\frac{B_{\text{raw}} - 15.0}{60.0 - 15.0}, 0.0, 1.0\right)$$
 
 ### 3.3 Clinical EHR Record Completeness ($Q_C$)
 Measures non-missing feature completeness across the 119-dimensional frozen schema (raw encounters are mapped through the frozen `ClinicalPreprocessor` before completeness evaluation):
+
 $$Q_C = \frac{N_{\text{valid}}}{119} \in [0.0, 1.0]$$
+
 
 Where $N_{\text{valid}} = \sum_{j=1}^{119} \mathbb{I}(\text{feature}_j \text{ is finite and non-missing})$.
 
@@ -103,3 +117,5 @@ Where $N_{\text{valid}} = \sum_{j=1}^{119} \mathbb{I}(\text{feature}_j \text{ is
 | Schema mismatch / parse error | Clinical | `False` | `0.0` | `PREPROCESSING_FAILURE` |
 | Valid input with noise/blur | Retina / Foot | `True` | $\in [0.0, 1.0]$ | Degraded signal preserved |
 | Valid tabular with missing fields | Clinical | `True` | $\in (0.0, 1.0)$ | Partially complete record |
+| Unmeasured quality (`quality=None`) | All Adapters | `True` | `0.5` | Neutral fallback with `"quality_is_measured": False` in `ModalityPrediction` |
+

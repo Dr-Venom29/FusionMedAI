@@ -13,6 +13,20 @@ from src.fusion.contracts.retina_adapter import RetinaAdapter
 from src.fusion.contracts.foot_adapter import FootAdapter
 from src.fusion.contracts.clinical_adapter import ClinicalAdapter
 
+from src.fusion.contracts.evidence_report import (
+    TargetDefinition,
+    ModalityPrediction,
+    RoutingResult,
+    EvidenceReport,
+    ResearchFusionIndex,
+    SemanticContractError,
+    CrossTargetAggregationError,
+    RETINA_TARGET,
+    FOOT_TARGET,
+    CLINICAL_TARGET,
+)
+from src.fusion.contracts.evidence_orchestrator import EvidenceOrchestrator
+
 __all__ = [
     "ModalityOutput",
     "ModalityContractValidationError",
@@ -22,4 +36,15 @@ __all__ = [
     "RetinaAdapter",
     "FootAdapter",
     "ClinicalAdapter",
+    "TargetDefinition",
+    "ModalityPrediction",
+    "RoutingResult",
+    "EvidenceReport",
+    "ResearchFusionIndex",
+    "SemanticContractError",
+    "CrossTargetAggregationError",
+    "RETINA_TARGET",
+    "FOOT_TARGET",
+    "CLINICAL_TARGET",
+    "EvidenceOrchestrator",
 ]

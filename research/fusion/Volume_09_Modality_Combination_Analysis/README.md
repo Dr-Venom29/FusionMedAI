@@ -12,7 +12,7 @@
   - **D2 (Moderate Tail)**: RFC 35%, RF 25%, RC 15%, FC 10%, R 6%, F 5%, C 4% ($HTR = 4.00$).
   - **D3 (Strong Tail)**: RFC 50%, RF 25%, RC 10%, FC 8%, R 4%, F 2%, C 1% ($HTR = 10.71$).
 - **Simplex & Safety Verification**: $0$ routing invariant violations over 45,000 multi-cohort evaluations ($15,000$ per distribution) and 1,500 exploratory trials; active weights strictly normalize to $1.000000$ and inactive channels receive $0.000000$.
-- **Observed Point-Estimate Tail Sensitivity (Exploratory Seed 115)**: ACARA-U achieved the lowest point-estimate tail risk deviation ($D_{\text{tail}} = 0.1883$ in D2, $0.1876$ in D3) among evaluated soft-weighting baselines (B2 $0.1925/0.1945$, B3 $0.1959/0.1974$, B4 $0.1967/0.1973$, B5 $0.1889/0.1889$), with a small margin over B5 ($95\%$ CIs crossing zero).
+- **Observed Point-Estimate Tail Sensitivity (Seed 115)**: Unimodal tail combinations (`R`, `F`, `C`) have singleton weight $w_i \equiv 1.0$ (`Tail` $\overline{\mathrm{DCRI}}_{0.20} = 0.230514$ in D2 and $0.220414$ in D3), while `Head` (`RFC`, `RF`) yields $\overline{\mathrm{DCRI}}_{0.20} = 0.177358$ in D2 and $0.175115$ in D3 ($D_{\text{tail}} = 0.1885 \pm 0.1413$ in D2, $0.1876 \pm 0.1551$ in D3).
 - **Multi-Cohort Confirmatory Evaluation ($S=30$ Cohorts, $N=15,000$ Packets per Distribution, $45,000$ Total Evaluations)**: Evaluating 30 independent cohorts evaluated tail sensitivity across both micro and macro estimands:
   - *Primary Endpoint (D3 Micro, Packet-Weighted)*: $\Delta D_{\text{tail}} = +0.000181$, $95\%$ Hierarchical Cluster CI: $[-0.000024, +0.000377]$ (crossing zero; $t=2.4194, p=0.022$).
   - *Sensitivity Endpoint (D3 Macro, Combination-Weighted)*: $\Delta D_{\text{tail}}^{\text{macro}} = +0.000123$, $95\%$ Hierarchical CI: $[-0.000093, +0.000344]$ (crossing zero; $t=1.4645, p=0.154$).
@@ -36,3 +36,4 @@
 9. [**09_Statistical_Analysis.md**](09_Statistical_Analysis.md): 1,000-resample bootstrap confidence intervals ($95\%$ CI), hypothesis evaluation outcomes.
 10. [**10_Results.md**](10_Results.md): Comprehensive summary tables, key empirical findings, cross-distribution stability.
 11. [**11_Freeze_Report.md**](11_Freeze_Report.md): 8/8 verification gates, cryptographic SHA-256 manifest certification, freeze sign-off.
+

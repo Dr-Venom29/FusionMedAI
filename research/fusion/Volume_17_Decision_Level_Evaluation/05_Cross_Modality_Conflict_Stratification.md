@@ -8,13 +8,21 @@ The conflict metrics in this chapter are evaluated exclusively across the comple
 
 For an encounter with active modality set $\mathcal{A} = \{R, F, C\}$, the discordance metrics are defined as:
 1. **Maximum Pairwise Disagreement ($\Delta_{\max}$)**:
-   $$\Delta_{\max} = \max_{i, j \in \mathcal{A}, i < j} |r_i - r_j|$$
+
+   $$\Delta_{\max} = \max_{i, j \in \mathcal{A}, i < j} \lvert r_i - r_j \rvert$$
+
 2. **Mean Pairwise Disagreement ($\Delta_{\text{mean}}$)**:
-   $$\Delta_{\text{mean}} = \frac{2}{|\mathcal{A}|(|\mathcal{A}| - 1)} \sum_{i < j \in \mathcal{A}} |r_i - r_j|$$
+
+   $$\Delta_{\text{mean}} = \frac{2}{\lvert\mathcal{A}\rvert(\lvert\mathcal{A}\rvert - 1)} \sum_{i < j \in \mathcal{A}} \lvert r_i - r_j \rvert$$
+
 3. **Weighted Consensus Variance ($\sigma_w$)**:
+
    $$\sigma_w = \sqrt{\sum_{i \in \mathcal{A}} w_i (r_i - R_{\text{fusion}})^2}$$
+
 4. **Conflict Severity Score (CSS)**:
+
    $$\text{CSS} \equiv \Delta_{\max}$$
+
 
 ### 1.1 Conflict Strata Definitions
 Encounter packets are partitioned into three operational conflict strata based on CSS:

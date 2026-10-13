@@ -138,7 +138,7 @@ def run_c11_00_verification():
     doc4 = read_doc("04_Experimental_Ladder_Baselines.md")
     
     b1_ok = ("Reliability-Selected Unimodal Baseline" in doc4 or "Reliability-selected" in doc4) and r"i^* = \arg\max_{i \in \mathcal{A}} R_i" in doc4
-    b2_ok = "Uniform Average Fusion" in doc4 and r"w_i = \frac{1}{|\mathcal{A}|}" in doc4
+    b2_ok = "Uniform Average Fusion" in doc4 and (r"w_i = \frac{1}{|\mathcal{A}|}" in doc4 or r"w_i = \frac{1}{\vert\mathcal{A}\vert}" in doc4)
     b3_ok = "Confidence Fusion" in doc4 and r"z_i = \alpha C_i" in doc4
     b4_ok = "Confidence + Reliability" in doc4 and r"z_i = \alpha C_i + \beta R_i" in doc4
     b5_ok = "Confidence + Rel + Uncertainty" in doc4 and r"z_i = \alpha C_i + \beta R_i - \gamma U_i" in doc4

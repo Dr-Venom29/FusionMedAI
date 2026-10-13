@@ -34,36 +34,35 @@ The table below details the paired fused risk shifts across the $N=500$ cohort:
 
 | Variant | Target Component | Reference Mean $\overline{R}$ | Ablated Mean $\overline{R}$ | Paired Difference $\overline{\Delta R}$ | Paired Bootstrap $95\%$ CI | Statistical Significance |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: |
-| **A0** | Reference Architecture | $0.289900$ | $0.289900$ | $0.000000$ | — | Reference |
-| **A1** | No Confidence ($\alpha=0$) | $0.289900$ | $0.274761$ | $-0.015139$ | $[-0.018219, -0.011936]$ | Significant ($p < 0.001$) |
-| **A2** | No Reliability ($\beta=0$) | $0.289900$ | $0.283707$ | $-0.006193$ | $[-0.006796, -0.005625]$ | Significant ($p < 0.001$) |
-| **A3** | No Uncertainty ($\gamma=0$) | $0.289900$ | $0.320742$ | $+0.030842$ | $[+0.027805, +0.033985]$ | Significant ($p < 0.001$) |
-| **A4** | No Quality ($\eta=0$) | $0.289900$ | $0.289308$ | $-0.000592$ | $[-0.000846, -0.000360]$ | Significant ($p < 0.001$) |
-| **A5** | No DCRI Discount ($\delta=0$) | $0.289900$ | $0.289900$ | $+0.000000$ | $[+0.000000, +0.000000]$ | Invariant ($p = 1.0$) |
-| **A_UNIFORM** | Uniform Baseline | $0.289900$ | $0.296804$ | $+0.006904$ | $[+0.001625, +0.012249]$ | Significant ($p = 0.008$) |
+| **A0** | Reference Architecture | $0.261017$ | $0.261017$ | $0.000000$ | — | Reference |
+| **A1** | No Confidence ($\alpha=0$) | $0.261017$ | $0.274761$ | $+0.013744$ | $[+0.011245, +0.016254]$ | Significant ($p < 0.001$) |
+| **A2** | No Reliability ($\beta=0$) | $0.261017$ | $0.253192$ | $-0.007825$ | $[-0.008456, -0.007194]$ | Significant ($p < 0.001$) |
+| **A3** | No Uncertainty ($\gamma=0$) | $0.261017$ | $0.291355$ | $+0.030338$ | $[+0.027210, +0.033466]$ | Significant ($p < 0.001$) |
+| **A4** | No Quality ($\eta=0$) | $0.261017$ | $0.259849$ | $-0.001168$ | $[-0.001422, -0.000914]$ | Significant ($p < 0.001$) |
+| **A5** | No DCRI Discount ($\delta=0$) | $0.261017$ | $0.261017$ | $+0.000000$ | $[+0.000000, +0.000000]$ | Invariant ($p = 1.0$) |
+| **A_UNIFORM** | Uniform Baseline | $0.261017$ | $0.296804$ | $+0.035787$ | $[+0.030412, +0.041162]$ | Significant ($p < 0.001$) |
 
 ---
 
 ## 3. Analysis of Risk Propagation Drivers
 
-### 3.1 Variant A3: Strongest Risk Inflation ($+0.030842$)
+### 3.1 Variant A3: Strongest Risk Inflation ($+0.030338$)
 Eliminating the router uncertainty penalty causes the largest positive shift in fused risk across all variants:
-- **Underlying Dynamics:** The foot ulcer model is trained on severe diabetic lesion pathology and tends to predict higher risk scores ($\overline{r_{\text{foot}}} = 0.384$) than the retinal screening model ($\overline{r_{\text{retina}}} = 0.246$) or clinical tabular model ($\overline{r_{\text{clinical}}} = 0.278$).
-- In $A0$, the foot ulcer channel is penalized due to high epistemic uncertainty ($\overline{U_{\text{foot}}} \approx 0.42$).
-- In $A3$, removing $-\gamma U_i$ unleashes foot ulcer weight by $+0.116634$. Because $r_{\text{foot}}$ is higher than the cohort average, this substantial weight reallocation directly inflates fused risk by $+0.030842$.
+- **Underlying Dynamics:** The foot ulcer model is trained on severe diabetic lesion pathology and tends to predict higher risk scores ($\overline{r_{\text{foot}}} = 0.4996$) than the retinal screening model ($\overline{r_{\text{retina}}} = 0.2714$) or clinical tabular model ($\overline{r_{\text{clinical}}} = 0.1194$).
+- In $A0$, the foot ulcer channel is penalized due to high epistemic uncertainty ($\overline{U_{\text{foot}}} \approx 0.3712$).
+- In $A3$, removing $-\gamma U_i$ unleashes foot ulcer weight from $0.223079 \to 0.328396$ ($+0.105317$). Because $r_{\text{foot}}$ is substantially higher than the cohort average, this weight reallocation directly inflates fused risk by $+0.030338$ ($0.261017 \to 0.291355$).
 
-### 3.2 Variant A1: Risk Reduction from Tabular Reallocation ($-0.015139$)
-Removing confidence produces a notable decrease in fused risk:
-- **Underlying Dynamics:** In $A0$, high confidence spikes are most frequent on retina images with detected pathology. In $A1$, setting $\alpha=0$ shifts $+0.098873$ weight into clinical tabular data, which tends to predict lower, more moderate risk scores on these encounters.
-- As a consequence, fused risk decreases by $-0.015139$.
+### 3.2 Variant A1: Risk Inflation from Confidence Ablation ($+0.013744$)
+Removing dynamic confidence increases fused risk:
+- **Underlying Dynamics:** In $A0$, high decision-boundary confidence ($C_i = \lvert p_1 - p_0 \rvert$) frequently stabilizes the low-risk clinical tabular channel ($r_{\text{clinical}} \approx 0.1194$). In $A1$, setting $\alpha=0$ removes confidence-based weighting, redistributing weight away from clinical tabular ($w_{\text{clinical}}$ drops from $0.3498$ to $0.3369$) and boosting higher-risk channels ($w_{\text{retina}}$ rises to $0.4301$, $w_{\text{foot}}$ rises to $0.2330$), increasing mean fused risk by $+0.013744$ ($0.261017 \to 0.274761$).
 
-### 3.3 Variant A2: Modest Risk Moderation ($-0.006193$)
+### 3.3 Variant A2: Modest Risk Moderation ($-0.007825$)
 Removing reliability priors moderately deflates fused risk:
-- **Underlying Dynamics:** $A0$ weights vision models higher than tabular models ($0.85, 0.80$ vs $0.75$). In $A2$, leveling the reliability prior transfers weight toward tabular data ($\Delta w_{\text{clinical}} = +0.028372$), generating a modest downward drift in fused risk.
+- **Underlying Dynamics:** $A0$ assigns higher frozen reliability priors to vision channels ($R_R = 0.929956, R_F = 0.922266$) than clinical tabular ($R_C = 0.825382$). In $A2$, removing $\beta R_i$ transfers weight toward clinical tabular data ($\Delta w_{\text{clinical}} = +0.0348$), generating a modest downward drift in fused risk ($0.261017 \to 0.253192$).
 
-### 3.4 Variant A4: Negligible Shift ($-0.000592$)
-The quality bonus produces negligible fused risk displacement:
-- The $95\%$ bootstrap CI $[-0.000846, -0.000360]$ excludes zero, confirming statistical detection, but the practical effect size is near zero ($< 0.001$).
+### 3.4 Variant A4: Negligible Shift ($-0.001168$)
+The quality bonus produces minor fused risk displacement:
+- The paired difference is small ($\Delta R = -0.001168$, $95\%$ bootstrap CI $[-0.001422, -0.000914]$), confirming statistical detection with minimal practical effect size under standard benchmark inputs.
 
 ### 3.5 Variant A5: Invariant Decoupling
 Because A5 only modifies the downstream DCRI formulation, fused risk propagation is exactly zero for all 500 packets:

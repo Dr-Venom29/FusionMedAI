@@ -30,9 +30,25 @@ $$q_m = \text{Quantile}\left( \text{confidences}, \frac{m}{M} \right), \quad m \
 ### 2.2 Mathematical Formula
 For multi-class models, confidence is defined as $\hat{p} = \max_k P(Y=k \mid x)$ and accuracy is $\mathbb{I}(\hat{y} = y)$. For binary models, confidence is $p_1$ and accuracy is $y$.
 
-$$\text{ECE} = \sum_{m=1}^{10} \frac{|B_m|}{N} \cdot \left| \text{acc}(B_m) - \text{conf}(B_m) \right|$$
+$$\text{ECE} = \sum_{m=1}^{10} \frac{\lvert B_m \rvert}{N} \cdot \left\lvert \text{acc}(B_m) - \text{conf}(B_m) \right\rvert$$
 
 Where:
-- $|B_m|$ is the number of samples falling in quantile bin $m$.
-- $\text{acc}(B_m) = \frac{1}{|B_m|} \sum_{i \in B_m} \text{acc}_i$ is the empirical empirical accuracy in bin $m$.
-- $\text{conf}(B_m) = \frac{1}{|B_m|} \sum_{i \in B_m} \text{conf}_i$ is the average predicted confidence in bin $m$.
+- $\lvert B_m \rvert$ is the number of samples falling in quantile bin $m$.
+- $\text{acc}(B_m) = \frac{1}{\lvert B_m \rvert} \sum_{i \in B_m} \text{acc}_i$ is the empirical empirical accuracy in bin $m$.
+- $\text{conf}(B_m) = \frac{1}{\lvert B_m \rvert} \sum_{i \in B_m} \text{conf}_i$ is the average predicted confidence in bin $m$.
+
+
+---
+
+## 3. Clinical Calibration Split Provenance (`val.csv` vs. Locked `test.csv`)
+
+For the Clinical modality (`CatBoost_HPO`), post-hoc calibrators are fitted on `datasets/clinical/processed/splits/val.csv` ($N_{\text{val}} = 14,911$) while `datasets/clinical/processed/splits/test.csv` ($N_{\text{test}} = 14,913$) remains strictly locked:
+
+| Clinical Calibration Method | Validation ROC-AUC ($N=14,911$) | Validation ECE ($10$-bin eq-freq) | Validation Brier | Locked Test ROC-AUC ($N=14,913$) | Locked Test ECE | Locked Test Brier |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Raw CatBoost** | $0.650231$ | $0.004802$ | $0.099026$ | $0.649503$ | $0.003198$ | $0.095340$ |
+| **Platt Scaling** | $0.650231$ | $0.003028$ | $0.099019$ | $0.649503$ | $0.005411$ | $0.095358$ |
+| **Isotonic Regression (Selected)** | $0.653780$ (binned) / $0.650764$ (raw) | $0.000000$ (in-sample) | $0.098606$ | $0.647526$ | $0.006179$ | $0.095553$ |
+| **Beta Calibration** | $0.650231$ | $0.004001$ | $0.099037$ | $0.649503$ | $0.006230$ | $0.095348$ |
+| **5-Fold Cross-Fitted Isotonic on `val.csv`** | $0.650764$ | $0.006229$ (out-of-fold) | — | *(Test split untouched)* | *(Test split untouched)* | — |
+

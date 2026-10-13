@@ -97,4 +97,4 @@ R_{\mathrm{fusion}}^{\mathrm{base}} = 0.470946 \to R_{\mathrm{fusion}}^{\mathrm{
 $$
 
 ### 4.3 Key Takeaway
-An increase in modality weight $w_i$ increases fused risk if $r_i > R_{\mathrm{other}}$, but decreases fused risk if $r_i < R_{\mathrm{other}}$. Router weight monotonicity is thus mathematically decoupled from fused risk directionality.
+An increase in modality weight $w_i$ increases fused risk if $r_i > R_{\mathrm{other}}$, but decreases fused risk if $r_i < R_{\mathrm{other}}$. Router weight monotonicity is thus mathematically decoupled from fused risk directionality. Furthermore, `RouterResult` and `RoutingResult` enforce exact Shannon routing entropy $H(w) = -\sum_{i \in \mathcal{A}, w_i > 0} w_i \ln w_i$, and `DCRIResult` enforces strict zeroing across all 5 channel maps for inactive modalities.

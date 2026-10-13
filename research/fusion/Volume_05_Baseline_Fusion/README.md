@@ -4,7 +4,9 @@
 
 This volume presents the comprehensive empirical and comparative evaluation of the **ACARA-U Multimodal Decision Fusion Architecture** against a rigorous 6-tier baseline ladder in **FusionMedAI**:
 
-$$\mathcal{B} = \{ \text{B1, B2, B3, B4, B5, B6} \}$$
+$$
+\mathcal{B} = \{ \text{B1, B2, B3, B4, B5, B6} \}
+$$
 
 Phase C11.5 investigates the question:
 
@@ -64,7 +66,8 @@ Evaluation is conducted over $N=500$ deterministic `CONTROLLED_DECISION_PACKET`s
 
 ## Key Findings Snapshot ($N=500$ Controlled Cohort)
 
-1. **Unimodal Insensitivity (B1)**: B1 is structurally insensitive to instance-level confidence, uncertainty, and quality because its selection rule depends solely on frozen historical modality reliability ($H(w) = 0.0000$), assigning $100.0\%$ weight to Retina across all tri-modal packets.
-2. **Context-Insensitive Equal Weights (B2)**: Static $33.3\%$ per modality ($H(w) = 1.0986 = \ln 3$), treating all active channels equally regardless of individual certainty, predictive dispersion, or quality signals.
-3. **Incremental Authority Realignment (B3 $\to$ B6)**: Dynamic authority balancing (Retina $47.7\%$, Foot $26.8\%$, Clinical $25.5\%$, mean $H(w) = 1.0176$), prioritizing reliable inputs while penalizing high predictive uncertainty and incorporating modality-specific input quality into routing authority.
+1. **Unimodal Insensitivity (B1)**: B1 is structurally insensitive to instance-level confidence, uncertainty, and quality because its selection rule depends solely on frozen historical modality reliability ($H(w) = 0.0000$), assigning $100.0\%$ weight to Retina across all tri-modal packets ($\overline{R}_{\mathrm{fusion}} = 0.255037$).
+2. **Context-Insensitive Equal Weights (B2)**: Static $33.3\%$ per modality ($H(w) = 1.0986 = \ln 3$, $\overline{R}_{\mathrm{fusion}} = 0.296804$), treating all active channels equally regardless of individual certainty, predictive dispersion, or quality signals.
+3. **Incremental Authority Realignment (B3 $\to$ B6)**: Dynamic authority balancing via `RetinaAdapter`, `FootAdapter`, and `ClinicalAdapter` $\to$ `EvidenceOrchestrator` $\to$ `ACARAUv2Router` allocates mean weights of Retina $42.87\%$, Foot $21.94\%$, and Clinical $35.19\%$ (mean $H(w) = 1.0371$, $\overline{R}_{\mathrm{fusion}} = 0.259623$ under $\Theta_{\text{unit}}$; $\bar{w}_R = 42.71\%, \bar{w}_F = 22.31\%, \bar{w}_C = 34.98\%, \bar{H}(w) = 1.0390, \overline{R}_{\mathrm{fusion}} = 0.261017$ under $\Theta_0$), prioritizing reliable inputs while penalizing high predictive uncertainty and incorporating modality-specific input quality into routing authority.
 4. **Graceful Sub-Network Fallback**: Under all single- and bi-modal dropouts, B6 redistributes $100\%$ weight across remaining valid modalities with strict conservation $\sum_{i \in \mathcal{A}} w_i = 1.0$.
+
